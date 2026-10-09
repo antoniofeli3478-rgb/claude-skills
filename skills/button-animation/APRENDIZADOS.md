@@ -18,3 +18,9 @@ Adendos datados. O mais novo fica embaixo. A skill original continua no `SKILL.m
 - O `SKILL.md` foi atualizado para o Motion 14 (instalação, imports, molas com `visualDuration` e `bounce`, boas práticas oficiais e recursos novos).
 - O `assets/compose.tsx` agora importa de `motion/react`, e o erro da quebra de linha foi corrigido: `{"\n"}` voltou a ser um texto válido.
 - Os dois componentes (`compose.tsx` e `compose-demo.tsx`) foram testados no TypeScript estrito com `motion@14.0.0` e React 18, e passam sem erros.
+
+## 09/10/2026: receitas usadas em vídeo (Rotina v2, Remotion)
+
+- **Anel de gradiente girando (receita 2):** um `conic-gradient` girando atrás do botão "BAIXE AGORA", com `rotate = quadro × 6°`. Acelera no golpe final.
+- **Toque (receita 1):** escala 1 → 0,94 → 1 com uma mola no quadro da palavra "agora", mais uma ondulação (círculo crescendo e sumindo).
+- **Botão deslizante "Fixa | Pontual":** a mola do destaque deslizante, convertida para o Remotion como `spring({stiffness: 650, damping: 40, mass: 0.5})`. Desliza em ~8 quadros, sem passar do ponto.

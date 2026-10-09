@@ -70,6 +70,6 @@ Na camada gratuita, o conteúdo enviado é usado para melhorar os produtos do Go
   - tags no texto;
   - o modelo `gemini-2.5-pro-preview-tts`, que é pago.
 - **Vozes:** testar outras, como Sadachbia ("animada") e Algenib ("rouca").
-- **Roteiro completo:** gerar as 13 falas com a voz escolhida pelo usuário e alinhar as palavras com WhisperX (`align_wx.py` da rodada 2).
-- **Música:** testar o Lyria (`lyria-3.5` / `lyria-3-clip-preview`) para a trilha, com BPM definido.
+- ~~**Roteiro completo**~~ Feito em 09/10/2026 com a Leda (Rotina v2): veja `skills/voz-pt-br/APRENDIZADOS.md`.
+- ~~**Música:** testar o Lyria~~ Testado em 09/10/2026: a cota grátis é 0 pedidos por dia nos três modelos Lyria, então é preciso um plano pago. Detalhes em `skills/trilha-e-mixagem/APRENDIZADOS.md`.
 - **Comparação:** fazer o A/B com Kokoro, ElevenLabs v4 e Azure usando as mesmas falas.
