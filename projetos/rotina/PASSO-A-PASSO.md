@@ -16,6 +16,7 @@ Este arquivo guarda só o que foi feito, como foi feito e onde estão as habilid
 | Para quê | Habilidade | Caminho |
 |---|---|---|
 | Passo a passo completo do tipo de vídeo deste projeto | combo-video-explicativo | `skills/combo-video-explicativo/SKILL.md` |
+| Roteiro da narração (copy que convence, sem cara de IA) | combo-copy-humanizada | `skills/combo-copy-humanizada/SKILL.md` |
 | Vídeo em Remotion, regras de motion, 3D | remotion-video | `skills/remotion-video/SKILL.md` (+ `APRENDIZADOS.md`) |
 | Narração pt-BR e legendas sincronizadas | voz-pt-br | `skills/voz-pt-br/SKILL.md` (+ `APRENDIZADOS.md`) |
 | Música, efeitos e mixagem | trilha-e-mixagem | `skills/trilha-e-mixagem/SKILL.md` (+ `APRENDIZADOS.md`) |
@@ -42,6 +43,27 @@ Este arquivo guarda só o que foi feito, como foi feito e onde estão as habilid
    - **Movimento:** celular 3D com frente e verso (giro de 360° entre seções), zoom no que é narrado, toques com ondulação, selos e cartões saltando em 3D, e legendas palavra por palavra.
    - Saída: `rotina-video/rotina-explainer.mp4`.
 3. **Remotion atualizado** de 4.0.250 para **4.0.534**. Testado: tipos OK e quadros iguais aos de antes.
+4. **Promo v2 de 30 s** (composição `RotinaV2`, 1080×1920, 900 quadros, visual novo do zero). Saída: `rotina-video/rotina-v2.mp4`.
+   - **Roteiro:** versão 2 aprovada (combo `combo-copy-humanizada`), 13 falas, com o fecho "Baixe o Rotina agora. Link na bio.". Texto em `audio/v2/falas-v2.txt`.
+   - **Voz:** Gemini `gemini-3.8-flash-tts`, voz **Leda**, o roteiro inteiro num pedido só (52 s em velocidade normal).
+     - Acelerada **1,6x** com `atempo` (a 1,5x a fala sozinha passava de 31 s). O `atempo` manteve 97% de acerto na transcrição; o `rubberband` caiu para 93–94%.
+     - Pausas apertadas por código (`audio/v2/compose_vo.py`): 0,15–0,26 s entre falas. A voz termina aos 29,3 s.
+     - Palavras alinhadas com WhisperX na faixa final: `src/v2/voz.json` (tempo de cada palavra) manda em todo o vídeo.
+   - **Trilha original** em código (`audio/v2/trilha_v2.py`, numpy + pedalboard), 120 BPM, travada na grade do vídeo: batidas nos quadros 10 + 15k, virada no quadro 160 ("Com o app Rotina"), seções em 340, 580 e 790, pausa em 820–850 e golpe final em 880. O Lyria não foi usado porque a cota grátis dele é zero.
+   - **Efeitos sonoros:** 117 efeitos (`src/v2/sons.ts`), cada um preso a uma palavra ou movimento, sintetizados e mixados por `audio/v2/mixar_v2.py`.
+     - Música e efeitos abaixam sob a voz (sidechain). Resultado: −13,9 LUFS e a voz de 12 a 21 dB acima do fundo em todas as falas.
+   - **Visual "papel e tinta":** fundo papel claro, tinta preta e o vermelho do app. Fontes Anton, Instrument Serif (itálico) e Inter Tight, todas de licença livre (OFL), em `public/fonts/v2`.
+     - **Gancho:** planilha frenética; as células viram a manchete; a planilha é espremida num celular; tudo desmorona em "sob controle?".
+     - **Revelação:** o ponto vermelho do "?" abre o vermelho com a marca nova (laço + check) e "você tem.".
+     - **Celular 3D de verdade** (React Three Fiber): sai da marca girando. As telas do app aparecem nele, sincronizadas palavra por palavra.
+     - **Seções:** Hábitos (papel), Treino (tinta preta, giro rápido do celular) e Financeiro (papel, celular capotando). Cartões saem da tela do celular e as palavras-chave entram no tempo da fala.
+     - **Fechamento:** o celular voa para dentro da tela e cai no cartão vermelho final com o botão "BAIXE AGORA" e "LINK NA BIO".
+   - **Como foi montado** (camadas, cada uma renderizada à parte):
+     1. `V2Tela`: as telas do app em 1080×2340, como sequência JPEG (`public/v2/tela`, cerca de 1,5 min).
+     2. `V2Celular`: o celular 3D com fundo transparente, como sequência PNG (`public/v2/celular`, cerca de 1 s por quadro, 11 min).
+     3. `RotinaV2`: o 2D por cima e por baixo, mais o áudio final (render completo em cerca de 3 min).
+   - O `src/v2/rig.ts` dá a posição do celular em cada quadro, e o 3D e o 2D usam a mesma conta. Assim os cartões saem exatamente da tela do celular.
+   - **Conferido:** transcrição automática do áudio final com 97,8% de acerto, e 48 quadros revisados num rascunho em meia resolução antes do render final.
 
 ## Comandos (dentro de `rotina-video/`)
 
@@ -52,6 +74,20 @@ npx remotion render src/index.ts RotinaExplainer out/rotina-explainer.mp4 --code
   --browser-executable=/opt/pw-browsers/chromium_headless_shell-1194/chrome-linux/headless_shell
 bash audio/mix.sh audio/music.wav                     # refazer a mixagem (gere a música antes com make_music.py)
 ```
+
+**Promo v2 (30 s).** Rode dentro de `rotina-video/`. Use o mesmo `--browser-executable` acima, aqui abreviado como `$BR`. As pastas `public/v2/tela` e `public/v2/celular` não vão para o Git: gere de novo com:
+
+```bash
+npx remotion render src/index.ts V2Tela public/v2/tela --sequence --image-format=jpeg --jpeg-quality=90 --frames=182-850 --browser-executable=$BR
+npx remotion render src/index.ts V2Celular public/v2/celular --sequence --image-format=png --frames=182-846 --concurrency=1 --gl=swangle --browser-executable=$BR
+npx esbuild audio/v2/exportar_sons.ts --bundle --platform=node --outfile=out/exportar_sons.js && node out/exportar_sons.js > audio/v2/sons.json
+python -I audio/v2/mixar_v2.py                          # efeitos + voz + trilha -> public/v2/rotina-v2-mix.wav
+npx remotion render src/index.ts RotinaV2 out/v2-rascunho.mp4 --scale=0.5 --browser-executable=$BR      # rascunho (~1 min)
+npx remotion render src/index.ts RotinaV2 out/rotina-v2.mp4 --crf=17 --audio-codec=aac --audio-bitrate=256k --browser-executable=$BR
+```
+
+- **Python:** venv com numpy, scipy, soundfile e pedalboard. Para regenerar a trilha: `python -I audio/v2/trilha_v2.py saida.wav audio/v2/trilha-v2_eventos.json`.
+- **Se mudar o `rig.ts`:** renderize de novo só os quadros afetados do `V2Celular` (`--frames=a-b` numa pasta temporária, depois copie para `public/v2/celular`).
 
 ## Aprendizados deste projeto
 
@@ -64,17 +100,24 @@ bash audio/mix.sh audio/music.wav                     # refazer a mixagem (gere 
 - **O `wordAt()`** erra cerca de 0,2 s. Para legendas exatas, use o alinhamento com WhisperX (notas de voz), que erra cerca de 17 ms.
 - **Licença de voz:** a voz edge-tts não tem licença para anúncio pago. As opções testadas estão na seção seguinte.
 
+### Aprendizados da v2 (09/10/2026)
+
+- **A voz decide a duração.** Com 139 palavras, 30 s só cabem com a voz em ~1,6x e pausas curtas. Para a voz ficar mais calma, o roteiro precisa ter menos palavras: umas 100 para 30 s a 1,3x.
+- **O pedido "30 s" e o pedido "1,5x" brigaram.** Foi priorizado o tempo total, porque a velocidade veio com "se puder". Avise o usuário dessas escolhas.
+- **Grade da música = grade do vídeo.** Com a música feita em código, a virada, as trocas de seção e o golpe final caem no quadro exato da fala, porque a música é gerada a partir dos tempos da voz.
+- **Camadas separadas economizam tempo.** Mudar o 2D não exige renderizar de novo o 3D. Uma mudança no `rig.ts` só exige renderizar de novo os quadros afetados (13 quadros = 20 s).
+- **Revisão barata:** um rascunho em meia resolução (72 s) e folhas com 12 quadros cada encontraram 5 problemas antes do render final: texto saindo da tela, sobreposições e um cartão rápido demais.
+- **Medir a voz contra o fundo:** a primeira mixagem deixou a chamada final só 3 dB acima da música e dos efeitos. Uma versão só com o fundo (`VOICE_DB=-120`) mostrou isso, e o ajuste levou a 12 dB ou mais em todas as falas.
+
 ## Próximo vídeo: plano
 
-1. **Voz:** o usuário escolhe nas amostras (`research_notes/Motion design 3D e voz IA/samples/`):
-   - Gemini: Puck, Fenrir, Orus ou Charon;
-   - Kokoro: pm_alex ou pm_santa.
-2. Gerar as 13 falas com a voz escolhida e alinhar as palavras com WhisperX.
-3. **Aplicar as regras premium** da skill `remotion-video`:
-   - molas `{stiffness: 380, damping: 31}`;
-   - nada parado;
-   - eventos sobrepostos de 4 a 12 quadros;
-   - transições que nascem de um elemento da cena.
-4. **Planos-herói em 3D de verdade:** `@remotion/three` com `--gl=swangle`, telas em sequência JPEG e a correção do quadro 0 (ver `3d_round2.md`).
-5. **Música com licença para anúncio pago,** ou Lyria/ElevenLabs Music. Efeitos sonoros no quadro exato, mix em −14 LUFS.
-6. Storyboard em imagens aprovado pelo usuário antes do render final.
+1. **Ouvir e avaliar a v2** (o Claude não ouve). Pontos para o usuário decidir:
+   - a velocidade da voz (1,6x);
+   - o volume da trilha sob a voz;
+   - o estilo da trilha feita em código.
+2. **Licença:**
+   - a voz Gemini segue os termos do Google (no plano grátis, o Google usa o conteúdo);
+   - a trilha e os efeitos são originais, gerados por código, e podem ir para anúncio.
+   - Confirme os termos antes de impulsionar.
+3. **Música licenciada ou Lyria pago:** se a trilha em código ainda soar "básica", use uma faixa com licença para anúncio pago e mantenha a grade da música nos tempos da voz.
+4. **Versões menores:** reaproveitar as camadas para cortes de 15 s (gancho + uma seção + CTA), trocando só o `voz.json` e a lista de seções.

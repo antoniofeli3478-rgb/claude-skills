@@ -42,3 +42,23 @@ O Claude não ouve áudio, então esta é a referência para escolher a voz:
 | **Zephyr** | calma e direta | institucional, instruções e passo a passo |
 
 As outras (Despina, Autonoe, Pulcherrima e Aoede) não foram destacadas. As três acima são as favoritas.
+
+## 09/10/2026: narração completa do Rotina v2 (Leda, 1,6x)
+
+- **Chave que parou:** uma chave `AQ.` do AI Studio que funcionava começou a responder HTTP 401 `ACCESS_TOKEN_TYPE_UNSUPPORTED`. A outra chave seguiu funcionando.
+  - Teste a chave antes com `GET /v1beta/models?pageSize=1` (header `x-goog-api-key`).
+- **Aviso sobre o `gemini_tts.py`:** quando a API dá erro, o script deixa um arquivo `.wav` vazio, porque abre o arquivo antes de chamar a API. Apague o arquivo vazio antes de tentar de novo. (Uma correção no script é proposta de mudança da skill.)
+- **Roteiro inteiro num pedido:** 13 falas, 139 palavras, saíram em 52,0 s (Leda). A transcrição automática (large-v3-turbo) confirmou o texto com 97% de acerto.
+- **Acelerar sem perder clareza:**
+  - O `atempo` do ffmpeg a 1,6x manteve 97,1% de acerto, igual à voz original.
+  - O `rubberband` (várias configurações) caiu para 93,5–94,2% e trocou palavras ("deload" virou "download").
+  - Use `atempo` para fala.
+- **Encaixar no tempo:** a 1,5x, só a fala já passava de 31 s.
+  - Para 30 s, foi preciso 1,6x e apertar as pausas por código (`compose_vo.py` na branch `rotina-video`):
+    - 0,15–0,26 s entre falas;
+    - 0,13 s entre frases da mesma fala;
+    - no máximo 0,10 s nas vírgulas.
+  - O corte é feito no silêncio, medido pela energia (−42 dB), com fade de 6 ms.
+- **Alinhamento:** o WhisperX alinhou o arquivo de 32 s num segmento só, sem problemas. O tempo calculado pelas pausas e o alinhamento direto da faixa final diferiram 4 ms na mediana.
+- **"bio" virou "Bill"** na transcrição do modelo grande. É só a pronúncia brasileira normal ("bíu"); o modelo pequeno e o modelo grande com o roteiro como dica ouviram "bio".
+- **Conferir a mixagem final:** a transcrição do áudio final, com voz, trilha e efeitos, deu 97,8% de acerto. É um bom teste de que a música não está cobrindo a voz.
