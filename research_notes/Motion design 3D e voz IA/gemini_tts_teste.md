@@ -52,6 +52,13 @@ O usuário prefere voz feminina. Mesmo trecho (linhas 01–03), modelo `gemini-3
 - **Gênero das vozes:** foi atribuído pela lista do Google, sem conferir de ouvido. Quem confirma é o usuário.
 - **Nome dos arquivos:** sempre `<modelo>_<voz>_<trecho>.mp3`, a pedido do usuário. As amostras antigas foram renomeadas para esse padrão.
 
+## Avaliação de ouvido do usuário (09/10/2026)
+
+- Leda: animada.
+- Laomedeia: sensata.
+- Zephyr: calma e direta.
+- Usos recomendados: `skills/voz-pt-br/APRENDIZADOS.md`.
+
 ## Termos
 
 Na camada gratuita, o conteúdo enviado é usado para melhorar os produtos do Google. Na camada paga, não.

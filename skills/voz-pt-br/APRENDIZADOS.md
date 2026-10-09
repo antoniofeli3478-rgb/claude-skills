@@ -30,3 +30,15 @@ Adendos datados. O mais novo fica embaixo. A skill original continua no `SKILL.m
   - A cota grátis é **por conta ou projeto e por modelo**. Uma segunda chave, de outra conta, ganha mais 10 pedidos por dia em cada modelo.
   - Pedidos seguidos esbarram num limite por minuto (HTTP 429 depois de ~5) e às vezes em HTTP 503 por demanda alta. Espere 20–30 s entre os pedidos e tente de novo uma vez.
 - **Chaves:** guarde em `/root/.config/rotina/gemini.key` e `gemini2.key`, com permissão 600 e **nunca no repositório**. Passe a chave com `GEMINI_API_KEY=$(cat ...)`.
+
+## 09/10/2026: avaliação de ouvido do usuário (vozes femininas, `gemini-3.8-flash-tts`)
+
+O Claude não ouve áudio, então esta é a referência para escolher a voz:
+
+| Voz | Como o usuário ouviu | Melhor uso |
+|---|---|---|
+| **Leda** | animada | anúncio e Reels com energia: gancho e chamada para ação |
+| **Laomedeia** | sensata | explicação e tutorial, quando o tom precisa passar confiança |
+| **Zephyr** | calma e direta | institucional, instruções e passo a passo |
+
+As outras (Despina, Autonoe, Pulcherrima e Aoede) não foram destacadas. As três acima são as favoritas.
