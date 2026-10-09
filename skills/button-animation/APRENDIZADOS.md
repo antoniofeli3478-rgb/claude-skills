@@ -8,3 +8,7 @@ Adendos datados. O mais novo fica embaixo. A skill original continua no `SKILL.m
 - **Teste:** os assets desta skill (`compose.tsx` e `compose-demo.tsx`) passam no TypeScript estrito com Motion 14 e React 18, só trocando o import.
 - **Bug no `assets/compose.tsx`:** o `{"\n"}` da linha ~369 virou uma quebra de linha real, herdada do `GRADIENT-BUTTON.txt` original, e o arquivo não compila. A correção é `{"\n"}`. Ela entra na atualização da skill, se o usuário aprovar.
 - **Skill oficial:** existe a `/motion` (MIT), instalada com `npx motion-ai`, mais o MCP grátis `https://mcp.motion.dev`. Ela é útil como consulta de boas práticas e da documentação atualizada.
+
+## 09/10/2026: skill oficial do Motion adicionada
+
+- A skill oficial do Motion está em `skills/motion-oficial/`. Para animar com Motion, leia primeiro o `best-practices/` dela e depois as receitas desta skill.

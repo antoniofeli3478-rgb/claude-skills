@@ -7,6 +7,8 @@ description: Animation patterns for buttons and interactive UI (framer-motion + 
 
 Animation recipes taken from a polished `Compose` message box (`assets/compose.tsx`, demo in `assets/compose-demo.tsx`). The source file was saved as `GRADIENT-BUTTON.txt`, but it is really a full composer (textarea with `@mentions` and `/commands`). The reusable value is its motion design, listed below.
 
+**See also:** the official Motion skill (regras oficiais, imports e documentação do Motion 14) is in `skills/motion-oficial/SKILL.md`. Read it first when animating with Motion.
+
 Dependencies: `framer-motion`, Tailwind CSS. Components go in `components/ui` (shadcn layout), TypeScript.
 
 ## Recipes

@@ -102,6 +102,10 @@
 - **Resultado:** os componentes `skills/button-animation/assets/compose.tsx`, `compose-demo.tsx` e `skills/thumbnail-carousel/assets/thumbnail-carousel.tsx` passam na checagem só trocando `"framer-motion"` por `"motion/react"`. O `next/image` foi simulado com uma declaração de tipo.
 - **Bug encontrado no `compose.tsx`:** ele já vinha do `GRADIENT-BUTTON.txt` original. O `{"\n"}` virou uma quebra de linha de verdade dentro da string, o que impede a compilação. A correção é voltar para `{"\n"}`.
 
+## Feito depois
+
+- A skill oficial foi adicionada em `skills/motion-oficial/` (09/10/2026, com aprovação do usuário), como cópia fiel do pacote `motion-ai` 14.1.0.
+
 ## PENDENTE / NÃO PESQUISADO
 
 - **Página de upgrade do React:** ler a `react-upgrade-guide` completa no motion.dev, que segundo a skill oficial deve ser lida inteira e seguida na ordem.
