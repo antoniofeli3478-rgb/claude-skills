@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
+import { motion, AnimatePresence, useReducedMotion } from "motion/react";
 
 export type ComposeMention = {
   id: string;
@@ -366,8 +366,7 @@ export function Compose({
                 </span>
               );
             })}
-            {"
-"}
+            {"\n"}
           </div>
 
           <textarea

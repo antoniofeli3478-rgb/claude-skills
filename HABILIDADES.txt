@@ -10,8 +10,8 @@ Para tarefas que juntam várias skills, veja primeiro a seção COMBOS: ela já 
 --------------------------------
 remotion-video | vídeos em React/Remotion: promo e explicativo de app, legendas animadas, celular 3D, voz, música, regras de motion premium | skills/remotion-video/SKILL.md
 motion-video | vídeo de motion design em canvas (sem Remotion), estilo premium tech, iPhone realista, cards 3D, sons sintetizados, estilo novo a partir de vídeo de referência | skills/motion-video/.claude/skills/motion-video/SKILL.md (motor: skills/motion-video/motion-studio/; como rodar aqui: skills/motion-video/APRENDIZADOS.md)
-button-animation | animar botões e componentes de interface (hover, clique, anel gradiente, molas) em React/Tailwind | skills/button-animation/SKILL.md
-thumbnail-carousel | carrossel de imagens com miniaturas para site/app em React/Next.js | skills/thumbnail-carousel/SKILL.md
+button-animation | animar botões e componentes de interface com Motion 14 (hover, clique, anel gradiente, molas) em React/Tailwind | skills/button-animation/SKILL.md
+thumbnail-carousel | carrossel de imagens com miniaturas para site/app em React/Next.js (Motion 14) | skills/thumbnail-carousel/SKILL.md
 ui-ux-pro-max | design de interface: paleta, fontes, estilo visual (indica como instalar o projeto externo) | skills/ui-ux-pro-max/SKILL.md
 motion-oficial | animação com Motion 14 (antigo Framer Motion): regras oficiais, imports, molas, como consultar a documentação (skill oficial MIT, intacta) | skills/motion-oficial/SKILL.md (leia best-practices/index.md; origem em ORIGEM.md)
 voz-pt-br | narração em português (Gemini TTS, Kokoro local, edge só rascunho), licença da voz, legendas sincronizadas palavra a palavra (WhisperX) | skills/voz-pt-br/SKILL.md (scripts em skills/voz-pt-br/scripts/)
