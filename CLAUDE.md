@@ -42,6 +42,7 @@ Este repositório existe para o Claude usar e ir melhorando. Ele guarda as habil
   - Escreva a proposta no scratchpad, envie com SendUserFile e resuma o que mudou.
 - **Conhecimento pode ser atualizado livremente.** Anotações de pesquisa, relatórios, passo a passo de projetos e documentação podem ser criados e atualizados sem perguntar. Ficam em `research_notes/`, `reports/`, `projetos/` e nos READMEs.
 - **Salve sempre:** faça commit e push do trabalho aos poucos, porque o container da nuvem é temporário.
+- **Nome de arquivos de mídia gerada** (voz, música): `<modelo>_<voz-ou-estilo>_<trecho>.<ext>`, por exemplo `gemini-3.8-flash-tts_Zephyr_abertura.mp3`.
 - **Chaves de API** (ex.: Google AI Studio) **nunca** vão para o repositório. Guarde no container em `/root/.config/rotina/` e peça de novo ao usuário quando o container for novo.
 
 ## Estrutura

@@ -29,7 +29,28 @@ Chave fornecida pelo usuário. Ela fica guardada só no container, em `/root/.co
   | Charon | informativa | 14,8 s |
 
   A transcrição automática (faster-whisper small) confirmou o texto correto nas 4. "Excel" saiu bem pronunciado. A voz edge-tts atual faz as mesmas linhas em cerca de 11 s.
-- **Amostras:** `samples/gemini_<Voz>_abertura.mp3`, normalizadas em −16 LUFS.
+- **Amostras:** `samples/<modelo>_<Voz>_abertura.mp3`, normalizadas em −16 LUFS.
+
+## Vozes femininas (09/10/2026, segunda chave de outra conta Google)
+
+O usuário prefere voz feminina. Mesmo trecho (linhas 01–03), modelo `gemini-3.8-flash-tts`, só o roteiro:
+
+| Voz | Estilo (Google) | Duração |
+|---|---|---|
+| Zephyr | brilhante | 13,0 s |
+| Despina | suave | 13,6 s |
+| Autonoe | brilhante | 13,7 s |
+| Pulcherrima | direta | 13,8 s |
+| Leda | jovem | 13,9 s |
+| Aoede | leve | 13,9 s |
+| Laomedeia | animada | 15,5 s |
+
+- A mesma voz (Zephyr) em outros modelos: `gemini-3.1-flash-tts-preview` com 15,5 s e `gemini-2.5-flash-preview-tts` com 13,0 s. O 2.5 trocou "quanto" por "quando" na transcrição automática.
+- **Kore falhou.** O primeiro erro foi HTTP 429 depois de 5 pedidos seguidos, provavelmente um limite por minuto. Na nova tentativa, deu HTTP 503 ("high demand"). Para não esbarrar nisso, espere uns 20–30 s entre os pedidos.
+- **Cotas:** cada conta ou projeto do Google tem a sua cota de 10 pedidos por dia por modelo. Por isso a segunda chave funcionou com a primeira esgotada.
+- A transcrição automática confirmou o texto certo nas 9 amostras geradas.
+- **Gênero das vozes:** foi atribuído pela lista do Google, sem conferir de ouvido. Quem confirma é o usuário.
+- **Nome dos arquivos:** sempre `<modelo>_<voz>_<trecho>.mp3`, a pedido do usuário. As amostras antigas foram renomeadas para esse padrão.
 
 ## Termos
 
