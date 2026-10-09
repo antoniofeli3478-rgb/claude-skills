@@ -20,3 +20,13 @@ Adendos datados. O mais novo fica embaixo. A skill original continua no `SKILL.m
 - **Chatterbox pt-BR** (MIT): cerca de 15 min de CPU por 60 s de fala. Só tem voz oficial feminina e põe marca d'água no áudio.
 - **WhisperX alinhando o roteiro conhecido** é muito melhor que transcrever: 17 ms de erro mediano, contra 57–78 ms dos modelos Whisper.
 - **Detalhes e números completos:** `research_notes/Motion design 3D e voz IA/voice_round2.md` e `gemini_tts_teste.md`.
+
+## 09/10/2026: vozes femininas do Gemini e nome dos arquivos
+
+- **Preferência do usuário:** voz **feminina**.
+- **Testadas** no `gemini-3.8-flash-tts`, todas com o texto certo segundo a transcrição: Zephyr, Despina, Autonoe, Pulcherrima, Leda, Aoede e Laomedeia. As amostras ficam em `research_notes/Motion design 3D e voz IA/samples/`.
+- **Regra do usuário para os arquivos:** sempre `<modelo>_<voz>_<trecho>.<ext>`, por exemplo `gemini-3.8-flash-tts_Zephyr_abertura.mp3`.
+- **Cota e limites:**
+  - A cota grátis é **por conta ou projeto e por modelo**. Uma segunda chave, de outra conta, ganha mais 10 pedidos por dia em cada modelo.
+  - Pedidos seguidos esbarram num limite por minuto (HTTP 429 depois de ~5) e às vezes em HTTP 503 por demanda alta. Espere 20–30 s entre os pedidos e tente de novo uma vez.
+- **Chaves:** guarde em `/root/.config/rotina/gemini.key` e `gemini2.key`, com permissão 600 e **nunca no repositório**. Passe a chave com `GEMINI_API_KEY=$(cat ...)`.
