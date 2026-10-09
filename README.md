@@ -14,7 +14,7 @@ Cada pasta tem o `SKILL.md` (a skill original) e, quando houver, o `APRENDIZADOS
 | `trilha-e-mixagem` | Música, efeitos sonoros, ducking e −14 LUFS | `skills/trilha-e-mixagem/` |
 | `combo-video-explicativo` | **Combo:** remotion-video, voz-pt-br e trilha-e-mixagem juntas, com passo a passo | `skills/combo-video-explicativo/` |
 | `button-animation` | Animações de botões e de UI, mais o componente Compose | `skills/button-animation/` |
-| `thumbnail-carousel` | Carrossel com miniaturas (framer-motion) | `skills/thumbnail-carousel/` |
+| `thumbnail-carousel` | Carrossel com miniaturas (Motion 14, antigo Framer Motion) | `skills/thumbnail-carousel/` |
 | `ui-ux-pro-max` | Como instalar e usar a skill externa de design de UI/UX | `skills/ui-ux-pro-max/` |
 
 ## Projetos (`projetos/`)

@@ -12,8 +12,9 @@ Adendos datados. O mais novo fica embaixo. Os arquivos oficiais ficam intactos.
 - **Servidor de documentação** (grátis, sem conta):
   - Endereço: `https://mcp.motion.dev`.
   - O instalador oficial registra o endereço como servidor HTTP chamado `motion`.
-  - Comando equivalente no Claude Code: `claude mcp add --transport http motion https://mcp.motion.dev`. **Ainda não foi testado neste container.**
-  - Ferramentas: `search-motion-docs` (busca na documentação e nos exemplos) e `generate-css-easing` (molas e quiques em CSS).
+  - Comando equivalente no Claude Code: `claude mcp add --transport http motion https://mcp.motion.dev`. Ele ainda não foi registrado de forma permanente neste repositório.
+  - **Testado em 09/10/2026, por chamadas diretas (JSON-RPC sobre HTTP):** o servidor responde deste container, não precisa de sessão e expõe **só uma ferramenta, `search-motion-docs`**. Uma busca por `whileTap` (React) devolveu links de documentação e exemplos, e avisou o que é do Motion+ (pago).
+  - A ferramenta `generate-css-easing`, citada nos textos da skill, **não apareceu** na lista deste servidor. Ela deve vir de outro lugar (o plugin ou o `motion-ai`). Para gerar molas em CSS, use `css-spring/index.md` como guia.
 - **Sem o servidor:** a pasta `best-practices/` funciona sozinha, e o `https://motion.dev/llms.txt` indexa toda a documentação.
 - **Partes pagas (Motion+):**
   - código-fonte dos exemplos e do Motion UI;

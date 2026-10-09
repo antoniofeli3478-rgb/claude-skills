@@ -106,9 +106,12 @@
 
 - A skill oficial foi adicionada em `skills/motion-oficial/` (09/10/2026, com aprovação do usuário), como cópia fiel do pacote `motion-ai` 14.1.0.
 
+- As atualizações das skills `button-animation` (com a correção do `compose.tsx`) e `thumbnail-carousel` foram aplicadas em 09/10/2026, com aprovação do usuário.
+- O servidor `https://mcp.motion.dev` foi testado: responde daqui, sem sessão, com uma só ferramenta (`search-motion-docs`).
+
 ## PENDENTE / NÃO PESQUISADO
 
 - **Página de upgrade do React:** ler a `react-upgrade-guide` completa no motion.dev, que segundo a skill oficial deve ser lida inteira e seguida na ordem.
 - **14.1.0:** testar quando sair no npm.
-- **MCP oficial:** testar `https://mcp.motion.dev` a partir do Claude Code (`claude mcp add`).
+- **MCP oficial:** registrar no Claude Code (`claude mcp add`) e testar como ferramenta nativa. A chamada direta já funciona.
 - **Partes pagas:** avaliar se vale a pena para o usuário (auditoria e editor).

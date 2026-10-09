@@ -12,3 +12,9 @@ Adendos datados. O mais novo fica embaixo. A skill original continua no `SKILL.m
 ## 09/10/2026: skill oficial do Motion adicionada
 
 - A skill oficial do Motion está em `skills/motion-oficial/`. Para animar com Motion, leia primeiro o `best-practices/` dela e depois as receitas desta skill.
+
+## 09/10/2026: atualização aplicada (aprovada pelo usuário)
+
+- O `SKILL.md` foi atualizado para o Motion 14 (instalação, imports, molas com `visualDuration` e `bounce`, boas práticas oficiais e recursos novos).
+- O `assets/compose.tsx` agora importa de `motion/react`, e o erro da quebra de linha foi corrigido: `{"\n"}` voltou a ser um texto válido.
+- Os dois componentes (`compose.tsx` e `compose-demo.tsx`) foram testados no TypeScript estrito com `motion@14.0.0` e React 18, e passam sem erros.

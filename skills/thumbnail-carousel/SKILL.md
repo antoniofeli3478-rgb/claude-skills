@@ -1,6 +1,6 @@
 ---
 name: thumbnail-carousel
-description: Reusable image carousel composition with drag-to-swipe, auto-advance, spring scaling of the active slide and a clickable thumbnail strip (React + Next.js + Tailwind + framer-motion). Use when a project needs a gallery, hero slider, portfolio/product showcase or image carousel.
+description: Reusable image carousel composition with drag-to-swipe, auto-advance, spring scaling of the active slide and a clickable thumbnail strip (React + Next.js + Tailwind + Motion 14, formerly Framer Motion). Use when a project needs a gallery, hero slider, portfolio/product showcase or image carousel.
 ---
 
 # Thumbnail Carousel
@@ -15,7 +15,7 @@ Files:
 
 - shadcn-style structure, Tailwind CSS, TypeScript. If missing, set up with the shadcn CLI (`npx shadcn@latest init`) / install Tailwind.
 - Components live in `components/ui`. Keep that path: shadcn imports (`@/components/ui/...`) and the CLI assume it.
-- Dependencies: `npm install framer-motion` and **Next.js** (`next/image`). Not on Next? Replace `Image` with `<img className="absolute inset-0 h-full w-full object-cover">`.
+- Dependencies: `npm install motion` (the new name of Framer Motion; imports come from `motion/react`, never `framer-motion`) and **Next.js** (`next/image`). Not on Next? Replace `Image` with `<img className="absolute inset-0 h-full w-full object-cover">`.
 
 ## Integrating
 
