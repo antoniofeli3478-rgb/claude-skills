@@ -10,8 +10,11 @@ Cada pasta tem o `SKILL.md` (a skill original) e, quando houver, o `APRENDIZADOS
 |---|---|---|
 | `remotion-video` | Vídeos com Remotion (React): promos e explicativos de app, legendas, 3D, voz, música e regras de motion premium | `skills/remotion-video/` |
 | `motion-video` | Kit de motion design em canvas (sem Remotion), com iPhone realista, cards 3D e sons sintetizados | `skills/motion-video/` (veja o `APRENDIZADOS.md` dela) |
+| `copywriting` | Escrever texto que convence e converte, com a lista de frases de IA a evitar (skill de terceiros, MIT) | `skills/copywriting/` |
+| `humanizer` | Tirar o jeito de IA de um texto, com detecção, nota e 5 vozes (skill de terceiros, MIT) | `skills/humanizer/` |
 | `voz-pt-br` | Narração em português (Gemini, Kokoro), licença da voz e legendas sincronizadas | `skills/voz-pt-br/` |
 | `trilha-e-mixagem` | Música, efeitos sonoros, ducking e −14 LUFS | `skills/trilha-e-mixagem/` |
+| `combo-copy-humanizada` | **Combo:** copywriting e depois humanizer, em português do Brasil | `skills/combo-copy-humanizada/` |
 | `combo-video-explicativo` | **Combo:** remotion-video, voz-pt-br e trilha-e-mixagem juntas, com passo a passo | `skills/combo-video-explicativo/` |
 | `button-animation` | Animações de botões e de UI, mais o componente Compose | `skills/button-animation/` |
 | `thumbnail-carousel` | Carrossel com miniaturas (Motion 14, antigo Framer Motion) | `skills/thumbnail-carousel/` |

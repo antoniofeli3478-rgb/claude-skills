@@ -14,11 +14,14 @@ button-animation | animar botões e componentes de interface com Motion 14 (hove
 thumbnail-carousel | carrossel de imagens com miniaturas para site/app em React/Next.js (Motion 14) | skills/thumbnail-carousel/SKILL.md
 ui-ux-pro-max | design de interface: paleta, fontes, estilo visual (indica como instalar o projeto externo) | skills/ui-ux-pro-max/SKILL.md
 motion-oficial | animação com Motion 14 (antigo Framer Motion): regras oficiais, imports, molas, como consultar a documentação (skill oficial MIT, intacta) | skills/motion-oficial/SKILL.md (leia best-practices/index.md; origem em ORIGEM.md)
+copywriting | escrever e melhorar texto que convence e converte: páginas, anúncios, títulos, CTAs, legendas, roteiros; lista de frases com cara de IA a evitar (skill de terceiros, MIT, intacta) | skills/copywriting/SKILL.md (lê references/ai-tells.md e copy-frameworks.md só se precisar; origem em ORIGEM.md)
+humanizer | tirar o jeito de IA de um texto (detectar padrões, reescrever em 5 vozes, nota 0 a 100); usar DEPOIS da copywriting (skill de terceiros, MIT, intacta) | skills/humanizer/SKILL.md (padrões em references/patterns.md; origem em ORIGEM.md)
 voz-pt-br | narração em português (Gemini TTS, Kokoro local, edge só rascunho), licença da voz, legendas sincronizadas palavra a palavra (WhisperX) | skills/voz-pt-br/SKILL.md (scripts em skills/voz-pt-br/scripts/)
 trilha-e-mixagem | música (licença para anúncio, trilha por código, Lyria), efeitos sonoros no quadro exato, ducking e −14 LUFS | skills/trilha-e-mixagem/SKILL.md (scripts em skills/trilha-e-mixagem/scripts/)
 
 1b) COMBOS (skills que funcionam juntas, com passo a passo pronto)
 -----------------------------------------------------------------
+combo-copy-humanizada | texto que convence e não parece de IA, em português do Brasil: primeiro copywriting, depois humanizer; também serve para roteiro de narração de vídeo | skills/combo-copy-humanizada/SKILL.md
 combo-video-explicativo | vídeo explicativo/promo de app com narração, música, legendas e motion premium (usa remotion-video + voz-pt-br + trilha-e-mixagem; opcionais motion-video, ui-ux-pro-max) | skills/combo-video-explicativo/SKILL.md
 
 2) CONHECIMENTO E RECURSOS (ler só se a tarefa precisar)

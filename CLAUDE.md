@@ -50,7 +50,7 @@ Este repositório existe para o Claude usar e ir melhorando. Ele guarda as habil
 | Caminho | O que é |
 |---|---|
 | `HABILIDADES.txt` | Índice rápido de tudo: habilidades, conhecimento, projetos e conectores |
-| `skills/` | Uma pasta por habilidade: `remotion-video`, `motion-video` (kit com motor), `voz-pt-br`, `trilha-e-mixagem`, `button-animation`, `thumbnail-carousel`, `ui-ux-pro-max`, e combos (`combo-video-explicativo`) |
+| `skills/` | Uma pasta por habilidade: `remotion-video`, `motion-video` (kit com motor), `voz-pt-br`, `trilha-e-mixagem`, `button-animation`, `thumbnail-carousel`, `ui-ux-pro-max`, `copywriting`, `humanizer`, e combos (`combo-video-explicativo`, `combo-copy-humanizada`) |
 | `projetos/<nome>/PASSO-A-PASSO.md` | Passo a passo de cada projeto, com os caminhos das habilidades usadas |
 | `research_notes/<tema>/` | Anotações brutas da pesquisa (a maioria em inglês) e amostras de voz |
 | `reports/` | Relatórios finais de pesquisa, em português |
