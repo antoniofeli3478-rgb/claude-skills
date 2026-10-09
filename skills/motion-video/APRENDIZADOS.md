@@ -1,4 +1,8 @@
-# motion-video (kit enviado pelo usuário)
+# Aprendizados: motion-video
+
+Adendos datados; o mais novo fica embaixo. O kit original (`.claude/skills/motion-video/SKILL.md`, `motion-studio/`, `LEIA-ME`) continua sem alterações.
+
+## 09/10/2026: primeiro uso neste container
 
 Kit completo e sem alterações: a skill fica em `.claude/skills/motion-video/SKILL.md` e o motor em `motion-studio/`. O guia do autor está em `LEIA-ME.txt` e no PDF.
 
