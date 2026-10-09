@@ -4,10 +4,15 @@ Base de conhecimento e habilidades (skills) do Claude para os projetos do Daniel
 
 ## Habilidades (`skills/`, uma pasta por habilidade)
 
+Cada pasta tem o `SKILL.md` (a skill original) e, quando houver, o `APRENDIZADOS.md` com os adendos do que foi aprendido usando a skill. As pastas `combo-*` juntam várias skills com um passo a passo pronto.
+
 | Habilidade | O que faz | Onde está |
 |---|---|---|
 | `remotion-video` | Vídeos com Remotion (React): promos e explicativos de app, legendas, 3D, voz, música e regras de motion premium | `skills/remotion-video/` |
-| `motion-video` | Kit de motion design em canvas (sem Remotion), com iPhone realista, cards 3D e sons sintetizados | `skills/motion-video/` (veja o `README.md` dela) |
+| `motion-video` | Kit de motion design em canvas (sem Remotion), com iPhone realista, cards 3D e sons sintetizados | `skills/motion-video/` (veja o `APRENDIZADOS.md` dela) |
+| `voz-pt-br` | Narração em português (Gemini, Kokoro), licença da voz e legendas sincronizadas | `skills/voz-pt-br/` |
+| `trilha-e-mixagem` | Música, efeitos sonoros, ducking e −14 LUFS | `skills/trilha-e-mixagem/` |
+| `combo-video-explicativo` | **Combo:** remotion-video, voz-pt-br e trilha-e-mixagem juntas, com passo a passo | `skills/combo-video-explicativo/` |
 | `button-animation` | Animações de botões e de UI, mais o componente Compose | `skills/button-animation/` |
 | `thumbnail-carousel` | Carrossel com miniaturas (framer-motion) | `skills/thumbnail-carousel/` |
 | `ui-ux-pro-max` | Como instalar e usar a skill externa de design de UI/UX | `skills/ui-ux-pro-max/` |

@@ -15,7 +15,10 @@ Este arquivo guarda só o que foi feito, como foi feito e onde estão as habilid
 
 | Para quê | Habilidade | Caminho |
 |---|---|---|
-| Vídeo em Remotion, regras de motion, 3D, voz, música, legendas | remotion-video | `skills/remotion-video/SKILL.md` |
+| Passo a passo completo do tipo de vídeo deste projeto | combo-video-explicativo | `skills/combo-video-explicativo/SKILL.md` |
+| Vídeo em Remotion, regras de motion, 3D | remotion-video | `skills/remotion-video/SKILL.md` (+ `APRENDIZADOS.md`) |
+| Narração pt-BR e legendas sincronizadas | voz-pt-br | `skills/voz-pt-br/SKILL.md` (+ `APRENDIZADOS.md`) |
+| Música, efeitos e mixagem | trilha-e-mixagem | `skills/trilha-e-mixagem/SKILL.md` (+ `APRENDIZADOS.md`) |
 | Estilo premium em canvas (alternativa ao Remotion) | motion-video | `skills/motion-video/.claude/skills/motion-video/SKILL.md` |
 | Animações de botões e de UI nas telas | button-animation | `skills/button-animation/SKILL.md` |
 | Paleta, fontes e estilo | ui-ux-pro-max | `skills/ui-ux-pro-max/SKILL.md` |
