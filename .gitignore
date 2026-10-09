@@ -1,0 +1,6 @@
+# motion-video kit (motor)
+skills/motion-video/motion-studio/node_modules/
+skills/motion-video/motion-studio/.venv/
+skills/motion-video/motion-studio/projects/*/out/
+# código de projetos não fica na main (fica na branch ou repositório do projeto)
+rotina-video/
