@@ -31,3 +31,13 @@ PUPPETEER_EXECUTABLE_PATH=/tmp/chrome-nosandbox.sh bash tools/render.sh exemplo 
   - saída acelerando com blur;
   - transições que nascem de um elemento.
 - O verificador `check.py` não se aplica ao Remotion. A revisão foi feita com folhas de quadros do rascunho.
+
+## 10/10/2026: regras de composição do editor (valem para este kit também)
+
+O Daniel, que é editor de motion, passou 4 regras depois de ver o Rotina v2. Elas valem para qualquer motor:
+- nada de texto sobre texto, nem logo sobre texto;
+- nenhuma máscara cortando a animação no meio da tela;
+- o elemento principal (o celular) fica por cima do texto, que fica entre o fundo e o celular;
+- o texto entra de fora do quadro ou de trás do celular.
+
+Detalhes e como implementar: `skills/remotion-video/APRENDIZADOS.md`, adendo de 10/10/2026.

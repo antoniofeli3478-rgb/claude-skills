@@ -64,6 +64,26 @@ Este arquivo guarda só o que foi feito, como foi feito e onde estão as habilid
      3. `RotinaV2`: o 2D por cima e por baixo, mais o áudio final (render completo em cerca de 3 min).
    - O `src/v2/rig.ts` dá a posição do celular em cada quadro, e o 3D e o 2D usam a mesma conta. Assim os cartões saem exatamente da tela do celular.
    - **Conferido:** transcrição automática do áudio final com 97,8% de acerto, e 48 quadros revisados num rascunho em meia resolução antes do render final.
+5. **v2.1 (10/10/2026): correções pedidas pelo usuário, que é editor de motion.** Saída: `rotina-video/rotina-v2.1.mp4`.
+   - **As 4 regras dele** (detalhes em `skills/remotion-video/APRENDIZADOS.md`, adendo de 10/10/2026):
+     1. nada de texto sobre texto, nem logo sobre texto;
+     2. nenhum recorte (máscara) cortando a animação no meio da tela;
+     3. o celular fica por cima do texto, e o texto fica entre o fundo e o celular;
+     4. o texto entra de fora do quadro ou de trás do celular.
+   - **O que mudou no código** (`src/v2`):
+     - `parts.tsx` ganhou `Entra` (da borda para dentro), `Atras` (sai de trás do celular) e `PalavraDividida` (metades do título vindo das duas bordas, sem se cruzar). O antigo `Slam`, revelação por máscara, saiu.
+     - Todos os textos e cartões ficam abaixo da camada do celular e param em áreas livres.
+     - **Gancho:** em vez de recortar a planilha até o celular, a câmera se afasta. A planilha com os adesivos já era a tela do celular, e a moldura entra pelas bordas do quadro.
+     - "TUDO SOB CONTROLE?" sai pela esquerda quando o ponto do "?" vira o fundo vermelho.
+     - **Fechamento:** "um app só." sobe de trás do celular.
+     - Os efeitos sonoros foram movidos para os quadros de pouso das novas entradas. A voz ficou de 12,7 a 21,5 dB acima do fundo.
+   - **Camada 3D:** só os quadros afetados foram renderizados de novo (786–846 pela nova pose final e 474–567 pelo atraso do movimento para Séries).
+   - **Revisão:** primeiro com o celular em silhueta, depois dois rascunhos com o 3D. O segundo rascunho ainda achou 5 falhas, todas corrigidas antes do render final:
+     - o recorte no gancho;
+     - "TUDO SOB CONTROLE?" sumindo de repente;
+     - o calendário entrando sobre o título;
+     - o DELOAD coberto pelo celular antes de ser lido;
+     - um chip que ficava só 3 quadros na tela.
 
 ## Comandos (dentro de `rotina-video/`)
 

@@ -30,3 +30,40 @@ Adendos datados. O mais novo fica embaixo. A skill (`SKILL.md`) já incorpora a 
 - **Cuidados:**
   - O `public/` é copiado em cada bundle. Pastas grandes de quadros deixam o bundle lento; deixe essas pastas fora do Git e gere de novo pelo código.
   - Um `pgrep -f "remotion render"` encontra o próprio comando do shell. Confira a contagem de arquivos em vez disso.
+
+## 10/10/2026: regras de composição de um editor de motion (revisão do Daniel no v2)
+
+O Daniel é editor de vídeo profissional (motion). Ele revisou o v2 do Rotina e passou 4 regras. Valem para **qualquer** vídeo, com qualquer ferramenta, e têm prioridade sobre efeitos "bonitos":
+
+1. **Nada de texto sobre texto, nem logo sobre texto.** Duas camadas de letra uma em cima da outra ficam ilegíveis e a animação perde a graça.
+   - A frase anterior precisa sair, ou ficar em outra área do quadro, antes da próxima entrar.
+   - Vale também durante o movimento: as metades de um título não podem se cruzar no meio do caminho.
+2. **Nada de recorte no meio da tela.** Um pop-up que "nasce" de uma máscara (`overflow: hidden`, `clipPath`, wipe) mostra uma linha de corte quando o recorte fica no meio do quadro, e parece colado por cima.
+   - A animação inteira tem de caber na própria camada: nenhuma borda do shape pode ser cortada durante o movimento. No After Effects, isso equivale a deixar a pré-composição maior que o movimento.
+   - Blur também corta: use filtro SVG com `filterUnits="userSpaceOnUse"` e uma região bem maior que o quadro.
+   - Recorte só é aceitável quando a borda dele é uma borda real da cena, como a tela do celular ou a borda do vídeo.
+3. **O elemento principal fica por cima do texto.** Ordem das camadas: fundo (wallpaper), depois textos e cartões, depois o celular. O texto fica **entre** o fundo e o celular, nunca na frente do celular.
+4. **O texto entra de um lugar que explique a entrada:**
+   - de fora do quadro, da borda para dentro (por exemplo, da esquerda para a direita);
+   - ou de trás do celular, saindo naturalmente.
+   - Nunca "brotar" do nada no meio da tela, porque aí parece uma composição separada.
+
+**Como ficou no código** (branch `rotina-video`, `src/v2/parts.tsx`):
+
+- **`Entra`:** uma mola traz o elemento de totalmente fora do quadro até a posição final, e a saída leva de volta para fora. O blur direcional acompanha a velocidade.
+  - Mola `{stiffness: 300, damping: 26}`: pousa 7 quadros depois do início.
+- **`Atras`:** o elemento começa escondido dentro da silhueta do celular (calculada pelo rig, com margem) e desliza para fora pelo lado.
+  - Mola `{170, 20}`: pousa em 9 quadros.
+- **`PalavraDividida`:** um título com as duas metades vindo das bordas opostas.
+  - A mola é criticamente amortecida, `{320, 38}`, sem passar do ponto. Com a mola comum, as metades passaram uma por cima da outra, que é exatamente o erro da regra 1.
+- **Posição final fora do celular:** cada texto e cartão para numa área livre, conferida com o rig quadro a quadro, então o celular nunca cobre o que é para ler.
+- **Conferência barata:** um rascunho com o celular desenhado como silhueta (prop `silhueta` do `RotinaV2`) e folhas de quadros a cada 10 quadros mostram sobreposições e cortes antes de renderizar o 3D.
+- **Afastamento de câmera no lugar de recorte:** para "colocar" uma imagem de tela cheia dentro do celular, trate a imagem como a tela do celular desde o começo e afaste a câmera.
+  - Use um zoom em escala logarítmica (`Z = Z0^(1-k)`) com curva suave, para a velocidade parecer constante.
+  - A moldura do celular entra pelas bordas do quadro, e o recorte coincide sempre com a borda da tela. Nunca aparece uma linha de corte solta.
+- **`Atras` precisa esconder a caixa inteira:** prenda o ponto de partida dentro da silhueta do celular nos dois eixos. Se o celular ainda estiver se movendo, um cartão alto pode começar acima do topo do celular, ou seja, à vista.
+- **O celular não pode cobrir um texto antes de ele ser lido.** No v2, o celular subia e cobria o "DELOAD" no quadro em que ele pousava. A correção foi segurar o movimento do celular por 8 quadros e tirar as palavras de cima para baixo.
+- **Tempo mínimo de leitura:** confira o quadro de pouso e o de saída de cada texto. Um chip ficava só 3 quadros parado, porque entrava tarde e saía junto com os outros.
+- **Sons junto com as entradas:**
+  - um swish que começa 1 quadro antes da entrada, para o pico cair na velocidade máxima da mola;
+  - o som de impacto no quadro de pouso: +7 para `Entra`, +9 para `Atras`, +8 quando as metades do título se encontram.
