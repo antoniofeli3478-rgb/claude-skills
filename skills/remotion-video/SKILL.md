@@ -17,6 +17,7 @@ A pesquisa por trás dos números desta skill (out/2026, com fontes) está em `r
 4. Os quadros começam em 0. Dentro de uma `<Sequence>`, `useCurrentFrame()` recomeça do 0.
 5. **Versão:** use o Remotion **4.0.534** (out/2026) ou mais novo, e mantenha o `remotion` e todos os pacotes `@remotion/*` na **mesma versão exata** (`npm install --save-exact`). A 4.0.250 não tem a maioria das transições e renderiza cenas de `@remotion/three` cerca de 20 vezes mais devagar.
 6. **Skills oficiais:** num projeto novo, rode `npx remotion skills add` para instalar as skills do próprio Remotion (molas, transições, efeitos, 3D). O antigo MCP do Remotion está obsoleto.
+7. **As regras de composição do editor são obrigatórias** em todo vídeo e animação (seção "Regras de composição do editor", abaixo).
 
 ## Esqueleto do projeto
 
@@ -133,6 +134,51 @@ Vêm da pesquisa e do kit `motion-video` deste repositório (`skills/motion-vide
 7. **Proíba os padrões.**
    - Evite texto centralizado com tudo entrando em fade, e evite a mola padrão.
    - Escolha a fonte com intenção: os criadores pesquisados dizem que a fonte é o que mais "entrega" um vídeo genérico.
+
+## Regras de composição do editor (obrigatórias)
+
+O Daniel é editor de motion profissional. Ele revisou o promo v2 do Rotina e definiu 4 regras. Elas valem para **todo** vídeo e animação, com qualquer ferramenta, e vêm antes de qualquer efeito. Histórico e detalhes: `APRENDIZADOS.md`, adendo de 10/10/2026.
+
+1. **Nada de texto sobre texto, nem logo sobre texto.**
+   - Duas camadas de letra uma em cima da outra ficam ilegíveis.
+   - A frase anterior sai, ou fica em outra área do quadro, antes de a próxima entrar.
+   - Vale também durante o movimento: as metades de um título não podem se cruzar no caminho. Use uma mola que não passa do ponto (amortecimento crítico).
+2. **Nenhum recorte no meio da tela.**
+   - Nada de pop-up "nascendo" de uma máscara (`overflow: hidden`, `clipPath`, wipe) com a borda do recorte no meio do quadro. A linha de corte aparece, e o elemento parece colado por cima.
+   - A animação inteira tem de caber na própria camada. No After Effects, isso equivale a deixar a pré-composição maior que o movimento.
+   - Blur também corta: use filtro SVG com `filterUnits="userSpaceOnUse"` e uma região maior que o quadro.
+   - Recorte só é aceitável quando a borda dele é uma borda real da cena, como a tela do celular ou a borda do vídeo.
+3. **O elemento principal fica por cima do texto.**
+   - Ordem das camadas: fundo (wallpaper), depois textos e cartões, depois o celular.
+   - O celular pode passar na frente de um texto, mas nunca antes de o texto ser lido.
+4. **Todo texto entra de um lugar que explique a entrada:**
+   - de fora do quadro, da borda para dentro (por exemplo, da esquerda para a direita);
+   - ou de trás do celular, saindo naturalmente.
+   - Nunca "brotar" do nada no meio da tela, porque aí parece uma composição separada.
+
+**Como fazer** (código pronto na branch `rotina-video`, arquivo `rotina-video/src/v2/parts.tsx`):
+
+- **`Entra`:** uma mola traz o elemento de totalmente fora do quadro até a posição final, e a saída o leva de volta para fora. O blur direcional acompanha a velocidade.
+  - Mola `{stiffness: 300, damping: 26}`: pousa em 7 quadros.
+- **`Atras`:** o elemento começa escondido dentro da silhueta do celular, nos dois eixos, e desliza para fora. Renderize-o abaixo da camada do celular.
+  - Mola `{170, 20}`: pousa em 9 quadros.
+- **`PalavraDividida`:** um título com as duas metades vindo das bordas opostas.
+  - Mola `{320, 38}`, sem passar do ponto.
+- **Pôr uma imagem de tela cheia dentro do celular:** use um afastamento de câmera, nunca um recorte.
+  - A imagem já é a tela do celular desde o começo.
+  - O zoom é logarítmico, com curva suave.
+  - A moldura do celular entra pelas bordas do quadro.
+- **Tempo de leitura:** confira o quadro de pouso e o de saída de cada texto. Ele deve ficar parado por pelo menos uns 8–10 quadros.
+- **Sons:** um swish começa 1 quadro antes da entrada. O impacto cai no quadro de pouso.
+
+**Revisão antes do render final:**
+
+- Faça um rascunho em meia resolução, ou com o celular desenhado como silhueta, e folhas de quadros a cada 6 quadros.
+- Em cada folha, procure as 4 falhas:
+  - texto sobre texto;
+  - linha de corte;
+  - texto na frente do celular;
+  - texto que surge do nada.
 
 ## Componentes de UI para vídeo
 

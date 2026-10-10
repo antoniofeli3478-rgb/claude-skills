@@ -1,6 +1,6 @@
 # Aprendizados: remotion-video
 
-Adendos datados. O mais novo fica embaixo. A skill (`SKILL.md`) já incorpora a pesquisa até 09/10/2026, com aprovação do usuário. Novidades entram aqui primeiro.
+Adendos datados. O mais novo fica embaixo. A skill (`SKILL.md`) já incorpora a pesquisa até 09/10/2026 e as regras de composição do editor (10/10/2026), com aprovação do usuário. Novidades entram aqui primeiro.
 
 ## 09/10/2026: atualização para 4.0.534 e rotina de testes
 
