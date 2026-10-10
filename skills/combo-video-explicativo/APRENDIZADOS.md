@@ -21,3 +21,18 @@ Ordem que funcionou, do zero ao vídeo final, numa sessão (passo a passo comple
 - **Duração × velocidade:** quando o pedido traz as duas, calcule antes a duração da fala para ver se cabem juntas. Se não couberem, diga ao usuário qual foi a escolha.
 - **Ajudantes em paralelo** (subagentes) gastam a mesma cota da sessão. Um ajudante parou no meio por limite de uso, e o trabalho dele se perdeu. Peça que salvem arquivos parciais, ou faça a tarefa no agente principal.
 - **Tempo de render** (4 CPUs): telas ~1,5 min, celular 3D ~11 min, rascunho 72 s e final 3 min. A sessão inteira leva umas 3–4 horas de trabalho.
+
+## 10/10/2026: revisão de composição antes do render final
+
+- **Na revisão das folhas de quadros, confira as 4 regras do editor:**
+  - texto sobre texto;
+  - recorte no meio da tela;
+  - texto na frente do celular;
+  - texto que surge do nada.
+  - Elas estão em `skills/remotion-video/APRENDIZADOS.md`, adendo de 10/10/2026.
+- **Ordem que funcionou para corrigir o v2:**
+  - reescrever as entradas (`Entra`, `Atras`, `PalavraDividida`);
+  - conferir com o celular em silhueta, sem esperar o 3D;
+  - renderizar de novo só a camada 3D afetada;
+  - mover os efeitos sonoros para os novos quadros de pouso;
+  - medir a voz contra o fundo outra vez, porque sons em lugares novos mudam a mixagem.
