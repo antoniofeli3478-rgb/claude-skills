@@ -1,8 +1,8 @@
 # claude-skills
 
-Base de conhecimento e habilidades (skills) do Claude para os projetos do Daniel. O índice rápido de tudo está em **`HABILIDADES.txt`**: uma linha por item, com o caminho.
+Base de conhecimento e habilidades (skills) do Claude para os projetos do Daniel. O índice rápido de tudo está em **`guia/HABILIDADES.txt`**: uma linha por item, com o caminho.
 
-**Antes de usar, leia o [`LEIA-ANTES-DE-USAR.md`](LEIA-ANTES-DE-USAR.md)**, o manual de utilização do repositório.
+**Antes de usar, leia o [`guia/LEIA-ANTES-DE-USAR.md`](guia/LEIA-ANTES-DE-USAR.md)**, o manual de utilização do repositório.
 
 ## Habilidades (`skills/<categoria>/<nome>/`: video, audio, design, texto, ferramentas-de-skills e combos)
 
@@ -35,4 +35,4 @@ Cada projeto tem só um `PASSO-A-PASSO.md`: o que foi feito, como, e os caminhos
 - `research_notes/`: anotações brutas e amostras de voz.
 - `CLAUDE.md`: regras de trabalho do Claude neste repositório.
 
-Para usar uma skill em outro projeto no Claude Code, copie a pasta dela para `~/.claude/skills/` (vale para todos os projetos) ou para `<projeto>/.claude/skills/`. Os arquivos originais (`.txt` e o link) continuam na raiz.
+Para usar uma skill em outro projeto no Claude Code, copie a pasta dela para `~/.claude/skills/` (vale para todos os projetos) ou para `<projeto>/.claude/skills/`. Os arquivos originais que deram origem a algumas skills (`.txt` e o link) ficam na pasta `original/` de cada skill. Na raiz ficam só `CLAUDE.md` e `README.md`; o índice e o manual estão em `guia/`.

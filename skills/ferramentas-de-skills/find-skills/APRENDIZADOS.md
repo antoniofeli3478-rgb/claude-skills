@@ -6,9 +6,9 @@ Adendos datados. O mais novo fica embaixo. O arquivo oficial (`SKILL.md`) fica i
 
 - **Para que serve:** o "caçador de skills". Antes de fazer algo do zero, procurar se já existe uma skill pronta no catálogo público https://skills.sh (ranking por número de instalações) com o programa `npx skills`.
 - **REGRAS NOSSAS (valem mais que o texto original da skill):**
-  1. **Procure primeiro no nosso índice** (`HABILIDADES.txt`). Só vá ao catálogo se nada servir.
+  1. **Procure primeiro no nosso índice** (`guia/HABILIDADES.txt`). Só vá ao catálogo se nada servir.
   2. **Nunca instale direto no assistente.** O original manda rodar `npx skills add ... -g -y`; aqui **não**. Mostre ao Daniel o nome, o que faz, o autor, as instalações e o link, e peça aprovação.
-  3. **Depois de aprovada,** a skill entra no repositório pela receita "Instalar uma skill de terceiros" do `LEIA-ANTES-DE-USAR.md`: na pasta da categoria certa, sem alterar o original, com `LICENSE`, `ORIGEM.md`, `APRENDIZADOS.md` e linha no índice.
+  3. **Depois de aprovada,** a skill entra no repositório pela receita "Instalar uma skill de terceiros" do `guia/LEIA-ANTES-DE-USAR.md`: na pasta da categoria certa, sem alterar o original, com `LICENSE`, `ORIGEM.md`, `APRENDIZADOS.md` e linha no índice.
   4. **Leia a skill inteira antes de recomendar.** Número de instalações não é garantia: uma skill é um texto que a IA obedece.
 - **Comandos testados no container (11/10/2026), todos funcionam:**
   ```bash

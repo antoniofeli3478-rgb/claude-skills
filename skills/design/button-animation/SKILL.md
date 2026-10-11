@@ -5,7 +5,7 @@ description: Padrões de animação para botões e interfaces interativas com Mo
 
 # Animação de botões e interfaces
 
-Receitas tiradas de uma caixa de mensagem bem acabada (`Compose`): o componente está em `assets/compose.tsx` e a demo em `assets/compose-demo.tsx`. O arquivo original foi salvo como `GRADIENT-BUTTON.txt`, mas é um compositor completo, com `@menções` e `/comandos`. O que vale reaproveitar é o design de movimento, listado abaixo. Os aprendizados novos ficam em `APRENDIZADOS.md`.
+Receitas tiradas de uma caixa de mensagem bem acabada (`Compose`): o componente está em `assets/compose.tsx` e a demo em `assets/compose-demo.tsx`. O arquivo original foi salvo como `skills/design/button-animation/original/GRADIENT-BUTTON.txt`, mas é um compositor completo, com `@menções` e `/comandos`. O que vale reaproveitar é o design de movimento, listado abaixo. Os aprendizados novos ficam em `APRENDIZADOS.md`.
 
 ## Versão e instalação (out/2026)
 

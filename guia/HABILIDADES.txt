@@ -1,6 +1,6 @@
 HABILIDADES DO CLAUDE: ÍNDICE RÁPIDO
 ====================================
-Manual de utilização do repositório (como adicionar e mudar skills, projetos e aprendizados): LEIA-ANTES-DE-USAR.md
+Manual de utilização do repositório (como adicionar e mudar skills, projetos e aprendizados): guia/LEIA-ANTES-DE-USAR.md
 Regra para o Claude: leia SÓ este arquivo, escolha a habilidade e abra apenas o caminho indicado.
 Não percorra o repositório inteiro. Atualize este índice sempre que uma habilidade for criada, mudada ou removida.
 Formato: NOME | quando usar | caminho
@@ -52,7 +52,7 @@ notas: kit motion-video e dicas (Google AI Studio) | research_notes/Motion desig
 notas: Framer Motion / Motion 14 (versão atual, novidades, skill e MCP oficiais, teste de compatibilidade) | research_notes/Framer Motion 2026/notas.md
 amostras de voz (Kokoro, Piper, Chatterbox, Gemini, edge) e legendas alinhadas | research_notes/Motion design 3D e voz IA/samples/
 regras do repositório e do ambiente | CLAUDE.md
-manual de utilização do repositório (pastas, arquivos, receitas, GitHub, aprovação) | LEIA-ANTES-DE-USAR.md
+manual de utilização do repositório (pastas, arquivos, receitas, GitHub, aprovação) | guia/LEIA-ANTES-DE-USAR.md
 
 2b) PROJETOS (cada um tem só um PASSO-A-PASSO com o que foi feito e os caminhos das habilidades)
 --------------------------------------------------------------------------------------------------
