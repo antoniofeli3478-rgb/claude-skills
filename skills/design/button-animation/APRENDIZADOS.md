@@ -24,3 +24,10 @@ Adendos datados. O mais novo fica embaixo. A skill original continua no `SKILL.m
 - **Anel de gradiente girando (receita 2):** um `conic-gradient` girando atrás do botão "BAIXE AGORA", com `rotate = quadro × 6°`. Acelera no golpe final.
 - **Toque (receita 1):** escala 1 → 0,94 → 1 com uma mola no quadro da palavra "agora", mais uma ondulação (círculo crescendo e sumindo).
 - **Botão deslizante "Fixa | Pontual":** a mola do destaque deslizante, convertida para o Remotion como `spring({stiffness: 650, damping: 40, mass: 0.5})`. Desliza em ~8 quadros, sem passar do ponto.
+
+## 11/10/2026: skill reescrita (caça de skills, aprovada pelo Daniel)
+
+- O `SKILL.md` foi reescrito com as pesquisas da caça de skills (Emil Kowalski, Jakub Krehel, Vercel, Magic UI, Motion Primitives, Animata e Material 3). Fontes e licenças em `ORIGEM.md` e `LICENCAS-TERCEIROS.txt`.
+- Corrigidos: `transition-all` na receita principal e o botão desligado encolhendo no toque. Padrão novo: toque sem quique (bounce 0); quique só em app divertido.
+- Novos componentes testados (`tsc --strict`, motion 14): `assets/status-button.tsx` e `assets/hold-to-confirm.tsx`.
+- Pesquisas e transcrição completas: `research_notes/Caça de skills 2026-10/button-animation/`.

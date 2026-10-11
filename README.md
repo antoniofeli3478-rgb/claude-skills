@@ -18,10 +18,13 @@ Cada pasta tem o `SKILL.md` (a skill original) e, quando houver, o `APRENDIZADOS
 | `trilha-e-mixagem` | Música, efeitos sonoros, ducking e −14 LUFS | `skills/audio/trilha-e-mixagem/` |
 | `combo-copy-humanizada` | **Combo:** copywriting e depois humanizer, em português do Brasil | `skills/combos/combo-copy-humanizada/` |
 | `combo-video-explicativo` | **Combo:** remotion-video, voz-pt-br e trilha-e-mixagem juntas, com passo a passo | `skills/combos/combo-video-explicativo/` |
-| `button-animation` | Animações de botões e de UI, mais o componente Compose | `skills/design/button-animation/` |
+| `button-animation` | Botões e micro-interações premium (todos os estados, receitas, componentes prontos) | `skills/design/button-animation/` |
 | `thumbnail-carousel` | Carrossel com miniaturas (Motion 14, antigo Framer Motion) | `skills/design/thumbnail-carousel/` |
 | `find-skills` | Caçador de skills: procura skills prontas no catálogo skills.sh (skill de terceiros, MIT) | `skills/ferramentas-de-skills/find-skills/` |
-| `ui-ux-pro-max` | Como instalar e usar a skill externa de design de UI/UX | `skills/design/ui-ux-pro-max/` |
+| `ui-ux-pro-max` | Design de telas e sites premium/minimalistas com DESIGN.md | `skills/design/ui-ux-pro-max/` |
+| `estilos-premium` | Biblioteca de estilos de marcas premium (fichas DESIGN.md MIT) | `skills/design/estilos-premium/` |
+| `motion-oficial` | Animação de interface: quando e como animar, curvas, molas, acessibilidade | `skills/design/motion-oficial/` |
+| `blender-ia` | 3D realista no Blender escrito pelo Claude, com fundo transparente para os vídeos | `skills/video/blender-ia/` |
 
 ## Projetos (`projetos/`)
 

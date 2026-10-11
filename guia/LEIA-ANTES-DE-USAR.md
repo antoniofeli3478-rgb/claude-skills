@@ -63,16 +63,18 @@ claude-skills/
 ├── skills/                            AS HABILIDADES, por categoria
 │   ├── video/
 │   │   ├── remotion-video/            SKILL.md, APRENDIZADOS.md, references/
-│   │   └── motion-video/              SKILL.md (entrada), APRENDIZADOS.md, LEIA-ME.txt, guia em PDF,
-│   │                                  .claude/skills/motion-video/SKILL.md (original), motion-studio/ (motor)
+│   │   ├── motion-video/              SKILL.md (entrada), APRENDIZADOS.md, LEIA-ME.txt, guia em PDF,
+│   │   │                              .claude/skills/motion-video/SKILL.md (original), motion-studio/ (motor)
+│   │   └── blender-ia/                SKILL.md, APRENDIZADOS.md, ORIGEM.md, scripts/ (bpy, GPL), assets/CamadaBlender.tsx
 │   ├── audio/
 │   │   ├── voz-pt-br/                 SKILL.md, APRENDIZADOS.md, scripts/
 │   │   └── trilha-e-mixagem/          SKILL.md, APRENDIZADOS.md, scripts/
 │   ├── design/
-│   │   ├── motion-oficial/            SKILL.md, APRENDIZADOS.md, ORIGEM.md + pastas originais (terceiros)
-│   │   ├── button-animation/          SKILL.md, APRENDIZADOS.md, assets/, original/GRADIENT-BUTTON.txt
+│   │   ├── motion-oficial/            SKILL.md, APRENDIZADOS.md, ORIGEM.md, LICENSES/, references/, agents/
+│   │   ├── button-animation/          SKILL.md, APRENDIZADOS.md, ORIGEM.md, LICENCAS-TERCEIROS.txt, assets/, original/
 │   │   ├── thumbnail-carousel/        SKILL.md, APRENDIZADOS.md, assets/, original/thumbnail-carousel.txt
-│   │   └── ui-ux-pro-max/             SKILL.md, original/ux-ui-disign-link
+│   │   ├── ui-ux-pro-max/             SKILL.md, APRENDIZADOS.md, ORIGEM.md, references/ (modelo-DESIGN.md único), original/
+│   │   └── estilos-premium/           SKILL.md, APRENDIZADOS.md, ORIGEM.md, references/ (resenha, índice, marcas/ MIT), assets/
 │   ├── texto/
 │   │   ├── copywriting/               SKILL.md, APRENDIZADOS.md, ORIGEM.md, LICENSE, references/, evals/ (terceiros)
 │   │   └── humanizer/                 SKILL.md, APRENDIZADOS.md, ORIGEM.md, LICENSE, README.md, references/, evals/ (terceiros)
@@ -120,9 +122,9 @@ Outras branches:
 
 | Categoria | Para quê | Skills hoje |
 |---|---|---|
-| `skills/video/` | fazer vídeos | `remotion-video`, `motion-video` |
+| `skills/video/` | fazer vídeos | `remotion-video`, `motion-video`, `blender-ia` |
 | `skills/audio/` | voz, música e som | `voz-pt-br`, `trilha-e-mixagem` |
-| `skills/design/` | animação e interface de sites e apps | `motion-oficial`, `button-animation`, `thumbnail-carousel`, `ui-ux-pro-max` |
+| `skills/design/` | animação e interface de sites e apps | `motion-oficial`, `button-animation`, `thumbnail-carousel`, `ui-ux-pro-max`, `estilos-premium` |
 | `skills/texto/` | escrita | `copywriting`, `humanizer` |
 | `skills/ferramentas-de-skills/` | achar, instalar e manter skills | `find-skills` |
 | `skills/combos/` | várias skills juntas, com passo a passo | `combo-copy-humanizada`, `combo-video-explicativo` |
@@ -140,7 +142,7 @@ Outras branches:
   ```bash
   npx -y skills@1.7.2 add <caminho-do-repositório> --list
   ```
-  Em 11/10/2026 ele achava **13 skills**.
+  Em 11/10/2026 (fim do dia) ele achava **15 skills**.
 - **O que nunca fica na `main`:** código de projeto, áudios, vídeos, quadros renderizados, chaves.
 - **O que nunca fica numa branch de projeto:** cópias de skills. Lá entram só código e mídia do projeto.
 - Confira sempre o `guia/HABILIDADES.txt`, que é a fonte certa do que existe.
