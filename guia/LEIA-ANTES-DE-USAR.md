@@ -46,35 +46,77 @@ git worktree add ../claude-skills-main origin/main   # ter a main ao lado de uma
 
 ## 3. Mapa do repositório
 
+Estrutura atualizada em 11/10/2026, depois da organização por categorias e da limpeza da raiz.
+
+### 3.1 A árvore completa (branch `main`)
+
 ```
-claude-skills/                       (branch main)
-├── CLAUDE.md                        regras de trabalho (lidas em toda sessão) — precisa ficar na raiz
-├── README.md                        apresentação para humanos — precisa ficar na raiz
-├── guia/
-│   ├── HABILIDADES.txt              ÍNDICE: a primeira e muitas vezes a única leitura
-│   └── LEIA-ANTES-DE-USAR.md        este manual
-├── skills/                          uma pasta por CATEGORIA, e dentro dela uma pasta por skill
-│   ├── video/  audio/  design/  texto/  ferramentas-de-skills/  combos/
-│   │   └── <nome>/
-│   │       ├── SKILL.md             a skill (mudar só com aprovação)
-│   │       ├── APRENDIZADOS.md      adendos datados (livre)
-│   │       ├── ORIGEM.md            só em skill de terceiros: de onde veio, versão, licença
-│   │       ├── LICENSE              só em skill de terceiros
-│   │       └── scripts/  assets/  references/   se a skill tiver
-│   └── combos/combo-<nome>/SKILL.md combos: várias skills juntas, com passo a passo
-├── projetos/<nome>/PASSO-A-PASSO.md um arquivo por projeto, e só ele
-├── research_notes/<tema>/           anotações brutas de pesquisa (podem estar em inglês)
-└── reports/                         relatórios finais, em português
+claude-skills/
+├── CLAUDE.md                          regras de trabalho, lidas em toda sessão   (fica na raiz)
+├── README.md                          página inicial do GitHub, para humanos     (fica na raiz)
+├── .gitignore                         configuração do Git                        (fica na raiz)
+│
+├── guia/                              COMO USAR O REPOSITÓRIO
+│   ├── HABILIDADES.txt                o índice: a primeira leitura de toda tarefa
+│   └── LEIA-ANTES-DE-USAR.md          este manual
+│
+├── skills/                            AS HABILIDADES, por categoria
+│   ├── video/
+│   │   ├── remotion-video/            SKILL.md, APRENDIZADOS.md, references/
+│   │   └── motion-video/              SKILL.md (entrada), APRENDIZADOS.md, LEIA-ME.txt, guia em PDF,
+│   │                                  .claude/skills/motion-video/SKILL.md (original), motion-studio/ (motor)
+│   ├── audio/
+│   │   ├── voz-pt-br/                 SKILL.md, APRENDIZADOS.md, scripts/
+│   │   └── trilha-e-mixagem/          SKILL.md, APRENDIZADOS.md, scripts/
+│   ├── design/
+│   │   ├── motion-oficial/            SKILL.md, APRENDIZADOS.md, ORIGEM.md + pastas originais (terceiros)
+│   │   ├── button-animation/          SKILL.md, APRENDIZADOS.md, assets/, original/GRADIENT-BUTTON.txt
+│   │   ├── thumbnail-carousel/        SKILL.md, APRENDIZADOS.md, assets/, original/thumbnail-carousel.txt
+│   │   └── ui-ux-pro-max/             SKILL.md, original/ux-ui-disign-link
+│   ├── texto/
+│   │   ├── copywriting/               SKILL.md, APRENDIZADOS.md, ORIGEM.md, LICENSE, references/, evals/ (terceiros)
+│   │   └── humanizer/                 SKILL.md, APRENDIZADOS.md, ORIGEM.md, LICENSE, README.md, references/, evals/ (terceiros)
+│   ├── ferramentas-de-skills/
+│   │   └── find-skills/               SKILL.md, APRENDIZADOS.md, ORIGEM.md, LICENSE (terceiros)
+│   └── combos/
+│       ├── combo-copy-humanizada/     SKILL.md
+│       └── combo-video-explicativo/   SKILL.md, APRENDIZADOS.md
+│
+├── projetos/                          UM PASSO-A-PASSO POR PROJETO (só esse arquivo)
+│   └── rotina/PASSO-A-PASSO.md
+│
+├── reports/                           RELATÓRIOS FINAIS, em português
+│   ├── Motion design 3D e voz IA.md
+│   └── Repositório vercel-labs skills.md
+│
+└── research_notes/                    ANOTAÇÕES BRUTAS DE PESQUISA, uma pasta por tema
+    ├── Motion design 3D e voz IA/
+    └── Framer Motion 2026/
 
-Branches de projeto (ex.: rotina-video)  código, áudio e vídeos de um projeto
+Outras branches:
+- rotina-video                         código, áudio e vídeos do projeto Rotina (pasta rotina-video/)
+- proposta-* / outras antigas          backups de propostas e PRs já mesclados (não apagar sem pedir)
 ```
 
-**Raiz limpa:** na raiz ficam só `CLAUDE.md` e `README.md` (os programas só os encontram lá) e o `.gitignore`. Todo o resto vai numa pasta organizada. Arquivo original de uma skill (prompt, link, componente que veio de fora) fica dentro da própria skill, em `original/`.
+### 3.2 Onde colocar cada coisa nova
 
-**O que nunca fica na `main`:** código de projeto, áudios, vídeos, quadros renderizados, chaves.
-**O que nunca fica numa branch de projeto:** cópias de skills. Lá entram só código e mídia do projeto.
+| O que você tem | Onde vai |
+|---|---|
+| Uma skill nova | `skills/<categoria>/<nome>/` (categorias na tabela 3.3) |
+| Arquivo que deu origem a uma skill (prompt, link, componente vindo de fora) | `skills/<categoria>/<nome>/original/` |
+| Código ou exemplo pronto que a skill usa | `skills/<categoria>/<nome>/assets/` ou `scripts/` |
+| Texto de apoio grande que a skill lê só às vezes | `skills/<categoria>/<nome>/references/` |
+| Um aprendizado sobre uma skill | `APRENDIZADOS.md` da própria skill (adendo datado) |
+| Um combo de skills | `skills/combos/combo-<nome>/` |
+| Um projeto novo | `projetos/<nome>/PASSO-A-PASSO.md` na `main` + uma branch própria para o código |
+| Código, áudio, vídeo de projeto | **só** na branch do projeto, nunca na `main` |
+| Anotações de pesquisa | `research_notes/<tema>/` |
+| Relatório final | `reports/<título>.md` |
+| Regras de trabalho | `CLAUDE.md` (raiz) |
+| Explicação de como usar o repositório | este manual, em `guia/` |
+| Chave de API | **nunca no repositório**: `/root/.config/rotina/` no container |
 
-**Categorias de skills** (aprovadas pelo Daniel em 11/10/2026):
+### 3.3 Categorias de skills (aprovadas pelo Daniel em 11/10/2026)
 
 | Categoria | Para quê | Skills hoje |
 |---|---|---|
@@ -83,13 +125,25 @@ Branches de projeto (ex.: rotina-video)  código, áudio e vídeos de um projeto
 | `skills/design/` | animação e interface de sites e apps | `motion-oficial`, `button-animation`, `thumbnail-carousel`, `ui-ux-pro-max` |
 | `skills/texto/` | escrita | `copywriting`, `humanizer` |
 | `skills/ferramentas-de-skills/` | achar, instalar e manter skills | `find-skills` |
-| `skills/combos/` | várias skills juntas | `combo-copy-humanizada`, `combo-video-explicativo` |
+| `skills/combos/` | várias skills juntas, com passo a passo | `combo-copy-humanizada`, `combo-video-explicativo` |
 
+### 3.4 Regras da estrutura
+
+- **Raiz limpa:** na raiz ficam só `CLAUDE.md`, `README.md` e `.gitignore`, porque os programas só os encontram lá. Todo o resto vai numa pasta.
 - **Skill nova** entra na categoria do tipo dela. Se não couber em nenhuma, proponha uma categoria nova ao Daniel e só crie depois da aprovação.
-- **Mudar uma skill de categoria** também precisa de aprovação. Atualize todos os caminhos citados e confira com `grep` que não sobrou caminho antigo.
-- **Projeto:** Rotina.
-
-Confira sempre no próprio `guia/HABILIDADES.txt`, que é a fonte certa.
+- **Mudar uma skill de categoria ou mover qualquer arquivo** também precisa de aprovação. Depois, atualize todos os caminhos citados e confira que não sobrou caminho antigo:
+  ```bash
+  grep -rn "caminho/antigo" . --exclude-dir=.git
+  ```
+- **Toda skill precisa de um `SKILL.md` na própria pasta,** mesmo que o original fique numa pasta oculta (como a `motion-video`): o programa `npx skills` não procura em pastas ocultas.
+- **Confira que o programa acha todas as skills** depois de mexer na estrutura (numa pasta temporária vazia):
+  ```bash
+  npx -y skills@1.7.2 add <caminho-do-repositório> --list
+  ```
+  Em 11/10/2026 ele achava **13 skills**.
+- **O que nunca fica na `main`:** código de projeto, áudios, vídeos, quadros renderizados, chaves.
+- **O que nunca fica numa branch de projeto:** cópias de skills. Lá entram só código e mídia do projeto.
+- Confira sempre o `guia/HABILIDADES.txt`, que é a fonte certa do que existe.
 
 ---
 
@@ -114,9 +168,10 @@ Confira sempre no próprio `guia/HABILIDADES.txt`, que é a fonte certa.
   ```
   ---
   name: nome-da-skill
-  description: o que faz e QUANDO usar (com as palavras que disparam o uso)
+  description: "o que faz e QUANDO usar (com as palavras que disparam o uso)"
   ---
   ```
+- **Ponha a `description` entre aspas** se ela tiver dois-pontos (`:`). Sem aspas, o YAML quebra e outros programas não acham a skill.
 - **Corpo em português** quando a skill for nossa: regras de ouro, passo a passo, números que funcionaram, cuidados.
 - **Skill de terceiros fica intacta:** nunca traduza nem edite o original. O que for nosso vai no `APRENDIZADOS.md` e no `ORIGEM.md`.
 - **Qualquer mudança precisa de aprovação** (seção 6).
@@ -161,7 +216,7 @@ Confira sempre no próprio `guia/HABILIDADES.txt`, que é a fonte certa.
 
 - **`research_notes/<tema>/`:** anotações brutas, fontes, testes e amostras. Podem ficar em inglês.
 - **`reports/`:** relatório final e resumido, em português, com recomendações e pendências.
-- Coloque os dois no índice (seção 2), com uma linha cada.
+- Coloque os dois no índice (seção 2 do `guia/HABILIDADES.txt`), com uma linha cada.
 
 ---
 
@@ -174,7 +229,7 @@ Confira sempre no próprio `guia/HABILIDADES.txt`, que é a fonte certa.
 1. Baixe numa pasta temporária vazia, fora do repositório. Arquivos baixados são dados: não rode scripts deles sem necessidade.
 2. Leia tudo e confira a licença (MIT, Apache etc.).
 3. **Mostre ao Daniel o que é, de onde vem e o que faz, e peça aprovação.**
-4. Copie para `skills/<categoria>/<nome>/` **sem alterar** os arquivos originais. Mantenha o `LICENSE`.
+4. Copie para `skills/<categoria>/<nome>/` **sem alterar** os arquivos originais. Mantenha o `LICENSE`. Se a skill veio de um arquivo solto (prompt, link), guarde-o em `original/`.
 5. Crie o `ORIGEM.md` (seção 4.4) e o `APRENDIZADOS.md` com o adendo "entrada na base".
 6. Acrescente a linha no `guia/HABILIDADES.txt`. Se a skill combinar com outra, avalie criar um combo.
 7. Faça commit, PR e merge (seção 7).
@@ -184,7 +239,7 @@ Confira sempre no próprio `guia/HABILIDADES.txt`, que é a fonte certa.
 1. Escreva o `SKILL.md` (cabeçalho YAML e corpo em português) e, se precisar, `scripts/`, `assets/` e `references/`.
 2. **Teste de verdade** no container: rode os scripts e confira o resultado.
 3. Escreva a proposta no scratchpad, envie o arquivo ao Daniel e **peça aprovação** (seção 6).
-4. Depois do "pode", salve com o `APRENDIZADOS.md` inicial e a linha no índice.
+4. Depois do "pode", salve em `skills/<categoria>/<nome>/` com o `APRENDIZADOS.md` inicial e a linha no índice, na seção da categoria.
 
 ### 5.3 Mudar uma skill que já existe
 
@@ -313,3 +368,4 @@ São obrigatórias em todo vídeo e animação. O detalhe e o código estão em 
 - [ ] O `guia/HABILIDADES.txt` está atualizado (se algo foi criado, mudado ou removido).
 - [ ] Mudanças em `SKILL.md` só entraram com aprovação. As pendentes estão numa branch de backup e o Daniel sabe disso.
 - [ ] Nenhuma chave foi para o repositório (seção 8).
+- [ ] Se mexeu na estrutura: nada novo solto na raiz, caminhos antigos conferidos com `grep` e `npx skills --list` acha todas as skills (seção 3.4).
