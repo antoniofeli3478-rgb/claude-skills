@@ -1,6 +1,6 @@
 ---
 name: remotion-video
-description: Cria vídeos programáticos com Remotion (React renderizado quadro a quadro): promos de app, vídeos explicativos, motion graphics, legendas cinéticas, celular em 3D, narração e música. Use quando o usuário pedir para fazer, editar ou animar um vídeo, motion graphics, abertura/encerramento, vídeo explicativo, Reels, "vídeo com React/Remotion", ou ao trabalhar num projeto que tenha remotion no package.json.
+description: "Cria vídeos programáticos com Remotion (React renderizado quadro a quadro): promos de app, vídeos explicativos, motion graphics, legendas cinéticas, celular em 3D, narração e música. Use quando o usuário pedir para fazer, editar ou animar um vídeo, motion graphics, abertura/encerramento, vídeo explicativo, Reels, \"vídeo com React/Remotion\", ou ao trabalhar num projeto que tenha remotion no package.json."
 ---
 
 # Vídeo com Remotion

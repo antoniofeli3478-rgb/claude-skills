@@ -41,3 +41,7 @@ O Daniel, que é editor de motion, passou 4 regras depois de ver o Rotina v2. El
 - o texto entra de fora do quadro ou de trás do celular.
 
 Detalhes e como implementar: `skills/video/remotion-video/APRENDIZADOS.md`, adendo de 10/10/2026.
+
+## 11/10/2026: SKILL.md de entrada
+
+- Foi criado `skills/video/motion-video/SKILL.md`, que só aponta para o original em `.claude/skills/motion-video/SKILL.md`. Sem ele, o programa `npx skills` não achava a skill (não procura em pastas ocultas). O original continua intacto.

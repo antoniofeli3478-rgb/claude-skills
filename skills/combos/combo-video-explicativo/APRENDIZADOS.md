@@ -36,3 +36,7 @@ Ordem que funcionou, do zero ao vídeo final, numa sessão (passo a passo comple
   - renderizar de novo só a camada 3D afetada;
   - mover os efeitos sonoros para os novos quadros de pouso;
   - medir a voz contra o fundo outra vez, porque sons em lugares novos mudam a mixagem.
+
+## 11/10/2026: proposta aprovada e salva no SKILL.md
+
+- O Daniel aprovou a proposta com os aprendizados do Rotina v2. O `SKILL.md` agora incorpora tudo até 11/10/2026, já com os caminhos das pastas por categoria.

@@ -30,3 +30,7 @@ Adendos datados. O mais novo fica embaixo.
   - **Resultado:** 12,2 dB no mínimo e 14,8 dB na mediana.
 - **Efeitos no início de palavra mascaram a palavra:** um "slam" forte no mesmo quadro do início da fala cobre a consoante. Deixe esses efeitos 3–4 dB mais baixos que os efeitos das pausas.
 - **Lista de efeitos no código do vídeo:** os efeitos ficam em `src/v2/sons.ts`, calculados pelas mesmas palavras (`W(fala, palavra)`) que movem a animação. São exportados para JSON e sintetizados em Python. Se a voz mudar, os efeitos acompanham.
+
+## 11/10/2026: proposta aprovada e salva no SKILL.md
+
+- O Daniel aprovou a proposta com os aprendizados do Rotina v2. O `SKILL.md` agora incorpora tudo até 11/10/2026, já com os caminhos das pastas por categoria.
