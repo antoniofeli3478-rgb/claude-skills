@@ -6,12 +6,12 @@ Adendos datados; o mais novo fica embaixo. O kit original (`.claude/skills/motio
 
 Kit completo e sem alterações: a skill fica em `.claude/skills/motion-video/SKILL.md` e o motor em `motion-studio/`. O guia do autor está em `LEIA-ME.txt` e no PDF.
 
-**Como usar a partir deste repositório:** trate **esta pasta** (`skills/motion-video/`) como a raiz do kit. Os comandos da skill rodam de dentro de `skills/motion-video/motion-studio/`.
+**Como usar a partir deste repositório:** trate **esta pasta** (`skills/video/motion-video/`) como a raiz do kit. Os comandos da skill rodam de dentro de `skills/video/motion-video/motion-studio/`.
 
 Neste container (Linux, root, sem GPU), já foi testado:
 
 ```bash
-cd skills/motion-video/motion-studio
+cd skills/video/motion-video/motion-studio
 python3 -m venv .venv && .venv/bin/pip install -q numpy scipy
 PUPPETEER_SKIP_DOWNLOAD=1 npm install --no-fund --no-audit
 printf '#!/bin/sh\nexec /opt/pw-browsers/chromium-1194/chrome-linux/chrome --no-sandbox "$@"\n' > /tmp/chrome-nosandbox.sh && chmod +x /tmp/chrome-nosandbox.sh
@@ -40,4 +40,4 @@ O Daniel, que é editor de motion, passou 4 regras depois de ver o Rotina v2. El
 - o elemento principal (o celular) fica por cima do texto, que fica entre o fundo e o celular;
 - o texto entra de fora do quadro ou de trás do celular.
 
-Detalhes e como implementar: `skills/remotion-video/APRENDIZADOS.md`, adendo de 10/10/2026.
+Detalhes e como implementar: `skills/video/remotion-video/APRENDIZADOS.md`, adendo de 10/10/2026.

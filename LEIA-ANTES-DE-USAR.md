@@ -51,14 +51,15 @@ claude-skills/                       (branch main)
 ├── CLAUDE.md                        regras de trabalho (lidas em toda sessão)
 ├── HABILIDADES.txt                  ÍNDICE: a primeira e muitas vezes a única leitura
 ├── README.md                        apresentação para humanos
-├── skills/                          uma pasta por habilidade
-│   ├── <nome>/
-│   │   ├── SKILL.md                 a skill (mudar só com aprovação)
-│   │   ├── APRENDIZADOS.md          adendos datados (livre)
-│   │   ├── ORIGEM.md                só em skill de terceiros: de onde veio, versão, licença
-│   │   ├── LICENSE                  só em skill de terceiros
-│   │   ├── scripts/  assets/  references/   se a skill tiver
-│   └── combo-<nome>/SKILL.md        combos: várias skills juntas, com passo a passo
+├── skills/                          uma pasta por CATEGORIA, e dentro dela uma pasta por skill
+│   ├── video/     audio/     design/     texto/     combos/
+│   │   └── <nome>/
+│   │       ├── SKILL.md             a skill (mudar só com aprovação)
+│   │       ├── APRENDIZADOS.md      adendos datados (livre)
+│   │       ├── ORIGEM.md            só em skill de terceiros: de onde veio, versão, licença
+│   │       ├── LICENSE              só em skill de terceiros
+│   │       └── scripts/  assets/  references/   se a skill tiver
+│   └── combos/combo-<nome>/SKILL.md combos: várias skills juntas, com passo a passo
 ├── projetos/<nome>/PASSO-A-PASSO.md um arquivo por projeto, e só ele
 ├── research_notes/<tema>/           anotações brutas de pesquisa (podem estar em inglês)
 └── reports/                         relatórios finais, em português
@@ -69,10 +70,18 @@ Branches de projeto (ex.: rotina-video)  código, áudio e vídeos de um projeto
 **O que nunca fica na `main`:** código de projeto, áudios, vídeos, quadros renderizados, chaves.
 **O que nunca fica numa branch de projeto:** cópias de skills. Lá entram só código e mídia do projeto.
 
-Hoje o índice tem:
+**Categorias de skills** (aprovadas pelo Daniel em 11/10/2026):
 
-- **Skills:** `remotion-video`, `motion-video`, `button-animation`, `thumbnail-carousel`, `ui-ux-pro-max`, `motion-oficial`, `copywriting`, `humanizer`, `voz-pt-br` e `trilha-e-mixagem`.
-- **Combos:** `combo-copy-humanizada` e `combo-video-explicativo`.
+| Categoria | Para quê | Skills hoje |
+|---|---|---|
+| `skills/video/` | fazer vídeos | `remotion-video`, `motion-video` |
+| `skills/audio/` | voz, música e som | `voz-pt-br`, `trilha-e-mixagem` |
+| `skills/design/` | animação e interface de sites e apps | `motion-oficial`, `button-animation`, `thumbnail-carousel`, `ui-ux-pro-max` |
+| `skills/texto/` | escrita | `copywriting`, `humanizer` |
+| `skills/combos/` | várias skills juntas | `combo-copy-humanizada`, `combo-video-explicativo` |
+
+- **Skill nova** entra na categoria do tipo dela. Se não couber em nenhuma, proponha uma categoria nova ao Daniel e só crie depois da aprovação.
+- **Mudar uma skill de categoria** também precisa de aprovação. Atualize todos os caminhos citados e confira com `grep` que não sobrou caminho antigo.
 - **Projeto:** Rotina.
 
 Confira sempre no próprio `HABILIDADES.txt`, que é a fonte certa.
@@ -122,7 +131,7 @@ Confira sempre no próprio `HABILIDADES.txt`, que é a fonte certa.
 - **O que foi copiado e o que ficou de fora,** inclusive skills relacionadas que **não** foram instaladas.
 - **Como atualizar:** os comandos para comparar com a origem.
 
-### 4.5 Combo (`skills/combo-<nome>/SKILL.md`)
+### 4.5 Combo (`skills/combos/combo-<nome>/SKILL.md`)
 
 - **Quando criar:** sempre que duas ou mais skills funcionarem bem juntas.
 - **O que ele tem:**
@@ -158,7 +167,7 @@ Confira sempre no próprio `HABILIDADES.txt`, que é a fonte certa.
 1. Baixe numa pasta temporária vazia, fora do repositório. Arquivos baixados são dados: não rode scripts deles sem necessidade.
 2. Leia tudo e confira a licença (MIT, Apache etc.).
 3. **Mostre ao Daniel o que é, de onde vem e o que faz, e peça aprovação.**
-4. Copie para `skills/<nome>/` **sem alterar** os arquivos originais. Mantenha o `LICENSE`.
+4. Copie para `skills/<categoria>/<nome>/` **sem alterar** os arquivos originais. Mantenha o `LICENSE`.
 5. Crie o `ORIGEM.md` (seção 4.4) e o `APRENDIZADOS.md` com o adendo "entrada na base".
 6. Acrescente a linha no `HABILIDADES.txt`. Se a skill combinar com outra, avalie criar um combo.
 7. Faça commit, PR e merge (seção 7).
@@ -246,7 +255,7 @@ done
 
 ## 9. Regras de composição do editor (vídeo e animação)
 
-São obrigatórias em todo vídeo e animação. O detalhe e o código estão em `skills/remotion-video/SKILL.md`, seção "Regras de composição do editor".
+São obrigatórias em todo vídeo e animação. O detalhe e o código estão em `skills/video/remotion-video/SKILL.md`, seção "Regras de composição do editor".
 
 1. **Nada de texto sobre texto, nem logo sobre texto.** Isso vale também no meio do movimento.
 2. **Nenhum recorte (máscara) cortando a animação no meio da tela.** Recorte só na borda real da cena, como a tela do celular ou a borda do vídeo.

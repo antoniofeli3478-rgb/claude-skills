@@ -11,10 +11,10 @@ Este combo **não repete** o conteúdo das skills: ele diz a ordem, o que ajusta
 
 | Passo | Skill | Caminho |
 |---|---|---|
-| 1. Escrever | copywriting | `skills/copywriting/SKILL.md` (referências em `skills/copywriting/references/`) |
-| 2. Humanizar | humanizer | `skills/humanizer/SKILL.md` (padrões em `skills/humanizer/references/patterns.md`) |
-| Se for roteiro de vídeo | combo-video-explicativo | `skills/combo-video-explicativo/SKILL.md` |
-| Se o texto virar voz | voz-pt-br | `skills/voz-pt-br/SKILL.md` |
+| 1. Escrever | copywriting | `skills/texto/copywriting/SKILL.md` (referências em `skills/texto/copywriting/references/`) |
+| 2. Humanizar | humanizer | `skills/texto/humanizer/SKILL.md` (padrões em `skills/texto/humanizer/references/patterns.md`) |
+| Se for roteiro de vídeo | combo-video-explicativo | `skills/combos/combo-video-explicativo/SKILL.md` |
+| Se o texto virar voz | voz-pt-br | `skills/audio/voz-pt-br/SKILL.md` |
 
 ## Passo a passo
 
@@ -46,7 +46,7 @@ Este combo **não repete** o conteúdo das skills: ele diz a ordem, o que ajusta
    - **A CTA continua única, clara e no fim?** Os truques de "tangente", "começar no meio do pensamento" e "terminar sem fechar" são para ensaios e posts, **não** para CTA nem para título de conversão.
    - **Não trocou um tique por outro?** Trocar por sinônimo cria tiques novos. Conserte a partir dos fatos.
 6. **Entregar** o texto final, com um resumo curto do que mudou (antes e depois dos trechos principais) e os `[NEED: ...]` que ainda faltam. Peça a aprovação do usuário.
-7. **Salvar o aprendizado:** acrescente o que descobriu em `skills/copywriting/APRENDIZADOS.md`, em `skills/humanizer/APRENDIZADOS.md` e no "Histórico" deste combo.
+7. **Salvar o aprendizado:** acrescente o que descobriu em `skills/texto/copywriting/APRENDIZADOS.md`, em `skills/texto/humanizer/APRENDIZADOS.md` e no "Histórico" deste combo.
 
 ## Português do Brasil: o que procurar
 
@@ -65,7 +65,7 @@ As duas skills foram escritas para inglês. A **estrutura** dos tiques de IA val
   - três itens por reflexo;
   - parágrafo que sempre termina num resumo.
 - **Pontuação:** travessão (—) em texto curto.
-- **Anglicismos do público** ("app", "deload", "PIX") ficam, porque é assim que o usuário fala. Só a sua pronúncia na voz precisa de cuidado (veja `skills/voz-pt-br/SKILL.md`).
+- **Anglicismos do público** ("app", "deload", "PIX") ficam, porque é assim que o usuário fala. Só a sua pronúncia na voz precisa de cuidado (veja `skills/audio/voz-pt-br/SKILL.md`).
 
 ## Se o texto for um roteiro de vídeo (narração)
 

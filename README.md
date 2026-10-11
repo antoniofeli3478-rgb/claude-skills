@@ -4,23 +4,23 @@ Base de conhecimento e habilidades (skills) do Claude para os projetos do Daniel
 
 **Antes de usar, leia o [`LEIA-ANTES-DE-USAR.md`](LEIA-ANTES-DE-USAR.md)**, o manual de utilização do repositório.
 
-## Habilidades (`skills/`, uma pasta por habilidade)
+## Habilidades (`skills/<categoria>/<nome>/`: video, audio, design, texto e combos)
 
 Cada pasta tem o `SKILL.md` (a skill original) e, quando houver, o `APRENDIZADOS.md` com os adendos do que foi aprendido usando a skill. As pastas `combo-*` juntam várias skills com um passo a passo pronto.
 
 | Habilidade | O que faz | Onde está |
 |---|---|---|
-| `remotion-video` | Vídeos com Remotion (React): promos e explicativos de app, legendas, 3D, voz, música e regras de motion premium | `skills/remotion-video/` |
-| `motion-video` | Kit de motion design em canvas (sem Remotion), com iPhone realista, cards 3D e sons sintetizados | `skills/motion-video/` (veja o `APRENDIZADOS.md` dela) |
-| `copywriting` | Escrever texto que convence e converte, com a lista de frases de IA a evitar (skill de terceiros, MIT) | `skills/copywriting/` |
-| `humanizer` | Tirar o jeito de IA de um texto, com detecção, nota e 5 vozes (skill de terceiros, MIT) | `skills/humanizer/` |
-| `voz-pt-br` | Narração em português (Gemini, Kokoro), licença da voz e legendas sincronizadas | `skills/voz-pt-br/` |
-| `trilha-e-mixagem` | Música, efeitos sonoros, ducking e −14 LUFS | `skills/trilha-e-mixagem/` |
-| `combo-copy-humanizada` | **Combo:** copywriting e depois humanizer, em português do Brasil | `skills/combo-copy-humanizada/` |
-| `combo-video-explicativo` | **Combo:** remotion-video, voz-pt-br e trilha-e-mixagem juntas, com passo a passo | `skills/combo-video-explicativo/` |
-| `button-animation` | Animações de botões e de UI, mais o componente Compose | `skills/button-animation/` |
-| `thumbnail-carousel` | Carrossel com miniaturas (Motion 14, antigo Framer Motion) | `skills/thumbnail-carousel/` |
-| `ui-ux-pro-max` | Como instalar e usar a skill externa de design de UI/UX | `skills/ui-ux-pro-max/` |
+| `remotion-video` | Vídeos com Remotion (React): promos e explicativos de app, legendas, 3D, voz, música e regras de motion premium | `skills/video/remotion-video/` |
+| `motion-video` | Kit de motion design em canvas (sem Remotion), com iPhone realista, cards 3D e sons sintetizados | `skills/video/motion-video/` (veja o `APRENDIZADOS.md` dela) |
+| `copywriting` | Escrever texto que convence e converte, com a lista de frases de IA a evitar (skill de terceiros, MIT) | `skills/texto/copywriting/` |
+| `humanizer` | Tirar o jeito de IA de um texto, com detecção, nota e 5 vozes (skill de terceiros, MIT) | `skills/texto/humanizer/` |
+| `voz-pt-br` | Narração em português (Gemini, Kokoro), licença da voz e legendas sincronizadas | `skills/audio/voz-pt-br/` |
+| `trilha-e-mixagem` | Música, efeitos sonoros, ducking e −14 LUFS | `skills/audio/trilha-e-mixagem/` |
+| `combo-copy-humanizada` | **Combo:** copywriting e depois humanizer, em português do Brasil | `skills/combos/combo-copy-humanizada/` |
+| `combo-video-explicativo` | **Combo:** remotion-video, voz-pt-br e trilha-e-mixagem juntas, com passo a passo | `skills/combos/combo-video-explicativo/` |
+| `button-animation` | Animações de botões e de UI, mais o componente Compose | `skills/design/button-animation/` |
+| `thumbnail-carousel` | Carrossel com miniaturas (Motion 14, antigo Framer Motion) | `skills/design/thumbnail-carousel/` |
+| `ui-ux-pro-max` | Como instalar e usar a skill externa de design de UI/UX | `skills/design/ui-ux-pro-max/` |
 
 ## Projetos (`projetos/`)
 

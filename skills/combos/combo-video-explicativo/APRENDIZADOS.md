@@ -4,7 +4,7 @@ Adendos datados. O mais novo fica embaixo.
 
 ## 09/10/2026: roteiro com copy
 
-- **Para escrever ou melhorar o roteiro** (passo 2 do combo), use o combo `skills/combo-copy-humanizada/SKILL.md` (copywriting e depois humanizer). Ele já traz a seção de roteiro de narração: escrever para o ouvido, uma fala por momento e fechar o texto **antes** de gerar a voz.
+- **Para escrever ou melhorar o roteiro** (passo 2 do combo), use o combo `skills/combos/combo-copy-humanizada/SKILL.md` (copywriting e depois humanizer). Ele já traz a seção de roteiro de narração: escrever para o ouvido, uma fala por momento e fechar o texto **antes** de gerar a voz.
 - Isto é um aviso. O `SKILL.md` deste combo só muda com a aprovação do usuário, e a inclusão desse passo fica como proposta.
 
 ## 09/10/2026: promo v2 do Rotina (30 s, visual novo, celular 3D)
@@ -29,7 +29,7 @@ Ordem que funcionou, do zero ao vídeo final, numa sessão (passo a passo comple
   - recorte no meio da tela;
   - texto na frente do celular;
   - texto que surge do nada.
-  - Elas estão em `skills/remotion-video/APRENDIZADOS.md`, adendo de 10/10/2026.
+  - Elas estão em `skills/video/remotion-video/APRENDIZADOS.md`, adendo de 10/10/2026.
 - **Ordem que funcionou para corrigir o v2:**
   - reescrever as entradas (`Entra`, `Atras`, `PalavraDividida`);
   - conferir com o celular em silhueta, sem esperar o 3D;

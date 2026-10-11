@@ -11,7 +11,7 @@ Adendos datados. O mais novo fica embaixo. A skill original continua no `SKILL.m
 
 ## 09/10/2026: skill oficial do Motion adicionada
 
-- A skill oficial do Motion está em `skills/motion-oficial/`. Para animar com Motion, leia primeiro o `best-practices/` dela e depois as receitas desta skill.
+- A skill oficial do Motion está em `skills/design/motion-oficial/`. Para animar com Motion, leia primeiro o `best-practices/` dela e depois as receitas desta skill.
 
 ## 09/10/2026: atualização aplicada (aprovada pelo usuário)
 

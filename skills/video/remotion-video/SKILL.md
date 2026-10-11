@@ -117,7 +117,7 @@ Para atrasar uma mola, use `frame: frame - quadrosDeAtraso`.
 
 ## Regras de movimento que separam o "premium" do "simples"
 
-Vêm da pesquisa e do kit `motion-video` deste repositório (`skills/motion-video/`).
+Vêm da pesquisa e do kit `motion-video` deste repositório (`skills/video/motion-video/`).
 
 1. **Nada parado.**
    - Toda cena tem um empurrão lento de câmera (escala de 1,00 para 1,05–1,12).
@@ -304,7 +304,7 @@ Medido neste container (4 CPUs, sem GPU, out/2026):
 
 ## Reaproveitando outras skills
 
-- **`motion-video`** (`skills/motion-video/`, skill em `.claude/skills/motion-video/SKILL.md` e motor em `motion-studio/` dentro dessa pasta): um motor de motion em canvas, sem Remotion.
+- **`motion-video`** (`skills/video/motion-video/`, skill em `.claude/skills/motion-video/SKILL.md` e motor em `motion-studio/` dentro dessa pasta): um motor de motion em canvas, sem Remotion.
   - Traz um iPhone realista, cards de UI em 3D, efeitos sonoros sintetizados e um verificador de elementos parados.
   - As regras de movimento dele valem aqui também.
   - Use-o nos estilos que ele já cobre, ou leve as ideias dele para o Remotion.

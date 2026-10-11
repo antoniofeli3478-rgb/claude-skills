@@ -15,14 +15,14 @@ Este arquivo guarda só o que foi feito, como foi feito e onde estão as habilid
 
 | Para quê | Habilidade | Caminho |
 |---|---|---|
-| Passo a passo completo do tipo de vídeo deste projeto | combo-video-explicativo | `skills/combo-video-explicativo/SKILL.md` |
-| Roteiro da narração (copy que convence, sem cara de IA) | combo-copy-humanizada | `skills/combo-copy-humanizada/SKILL.md` |
-| Vídeo em Remotion, regras de motion, 3D | remotion-video | `skills/remotion-video/SKILL.md` (+ `APRENDIZADOS.md`) |
-| Narração pt-BR e legendas sincronizadas | voz-pt-br | `skills/voz-pt-br/SKILL.md` (+ `APRENDIZADOS.md`) |
-| Música, efeitos e mixagem | trilha-e-mixagem | `skills/trilha-e-mixagem/SKILL.md` (+ `APRENDIZADOS.md`) |
-| Estilo premium em canvas (alternativa ao Remotion) | motion-video | `skills/motion-video/.claude/skills/motion-video/SKILL.md` |
-| Animações de botões e de UI nas telas | button-animation | `skills/button-animation/SKILL.md` |
-| Paleta, fontes e estilo | ui-ux-pro-max | `skills/ui-ux-pro-max/SKILL.md` |
+| Passo a passo completo do tipo de vídeo deste projeto | combo-video-explicativo | `skills/combos/combo-video-explicativo/SKILL.md` |
+| Roteiro da narração (copy que convence, sem cara de IA) | combo-copy-humanizada | `skills/combos/combo-copy-humanizada/SKILL.md` |
+| Vídeo em Remotion, regras de motion, 3D | remotion-video | `skills/video/remotion-video/SKILL.md` (+ `APRENDIZADOS.md`) |
+| Narração pt-BR e legendas sincronizadas | voz-pt-br | `skills/audio/voz-pt-br/SKILL.md` (+ `APRENDIZADOS.md`) |
+| Música, efeitos e mixagem | trilha-e-mixagem | `skills/audio/trilha-e-mixagem/SKILL.md` (+ `APRENDIZADOS.md`) |
+| Estilo premium em canvas (alternativa ao Remotion) | motion-video | `skills/video/motion-video/.claude/skills/motion-video/SKILL.md` |
+| Animações de botões e de UI nas telas | button-animation | `skills/design/button-animation/SKILL.md` |
+| Paleta, fontes e estilo | ui-ux-pro-max | `skills/design/ui-ux-pro-max/SKILL.md` |
 | Pesquisa completa (o que funciona, números, pendências) | relatório | `reports/Motion design 3D e voz IA.md` |
 | Voz Gemini (como chamar a API) | notas | `research_notes/Motion design 3D e voz IA/gemini_tts_teste.md` |
 | Vozes locais e legendas sincronizadas | notas | `research_notes/Motion design 3D e voz IA/voice_round2.md` |
@@ -65,7 +65,7 @@ Este arquivo guarda só o que foi feito, como foi feito e onde estão as habilid
    - O `src/v2/rig.ts` dá a posição do celular em cada quadro, e o 3D e o 2D usam a mesma conta. Assim os cartões saem exatamente da tela do celular.
    - **Conferido:** transcrição automática do áudio final com 97,8% de acerto, e 48 quadros revisados num rascunho em meia resolução antes do render final.
 5. **v2.1 (10/10/2026): correções pedidas pelo usuário, que é editor de motion.** Saída: `rotina-video/rotina-v2.1.mp4`.
-   - **As 4 regras dele** (detalhes em `skills/remotion-video/APRENDIZADOS.md`, adendo de 10/10/2026):
+   - **As 4 regras dele** (detalhes em `skills/video/remotion-video/APRENDIZADOS.md`, adendo de 10/10/2026):
      1. nada de texto sobre texto, nem logo sobre texto;
      2. nenhum recorte (máscara) cortando a animação no meio da tela;
      3. o celular fica por cima do texto, e o texto fica entre o fundo e o celular;

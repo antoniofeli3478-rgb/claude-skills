@@ -13,11 +13,11 @@ Este repositório existe para o Claude usar e ir melhorando. Ele guarda as habil
 
 ## Como organizar
 
-- **Habilidades** ficam em `skills/<nome>/`, uma pasta por habilidade, na branch `main`. Cada pasta tem:
+- **Habilidades** ficam em `skills/<categoria>/<nome>/`, na branch `main`. Categorias: `video`, `audio`, `design`, `texto` e `combos` (categoria nova só com aprovação). Cada pasta de skill tem:
   - `SKILL.md`: a skill original. Para mudá-la, é preciso **aprovação** do usuário.
   - `APRENDIZADOS.md`: **adendos datados**, com o mais novo embaixo, sobre o que foi aprendido usando a skill. Pode ser atualizado **livremente**, sempre que algo novo for aprendido.
   - `scripts/` e `assets/`, se a skill tiver.
-- **Combos:** quando duas ou mais skills funcionarem bem juntas (por exemplo, vídeo + copy), crie `skills/combo-<nome>/SKILL.md` com:
+- **Combos:** quando duas ou mais skills funcionarem bem juntas (por exemplo, vídeo + copy), crie `skills/combos/combo-<nome>/SKILL.md` com:
   - os **links (caminhos)** das skills usadas;
   - o passo a passo com os pontos de aprovação;
   - os avisos aprendidos ao combiná-las.
@@ -49,7 +49,7 @@ Este repositório existe para o Claude usar e ir melhorando. Ele guarda as habil
   2. nenhum recorte (máscara) cortando a animação no meio da tela;
   3. o elemento principal (o celular) fica por cima do texto;
   4. o texto entra de fora do quadro ou de trás do elemento principal.
-  - Detalhes e como fazer: `skills/remotion-video/SKILL.md`, seção "Regras de composição do editor".
+  - Detalhes e como fazer: `skills/video/remotion-video/SKILL.md`, seção "Regras de composição do editor".
 - **Nome de arquivos de mídia gerada** (voz, música): `<modelo>_<voz-ou-estilo>_<trecho>.<ext>`, por exemplo `gemini-3.8-flash-tts_Zephyr_abertura.mp3`.
 - **Chaves de API** (ex.: Google AI Studio) **nunca** vão para o repositório. Guarde no container em `/root/.config/rotina/` e peça de novo ao usuário quando o container for novo.
 
@@ -68,6 +68,6 @@ Este repositório existe para o Claude usar e ir melhorando. Ele guarda as habil
 - **Remotion:** versão 4.0.534. Mantenha todos os pacotes `@remotion/*` na mesma versão exata.
   - Renderize com `--browser-executable=/opt/pw-browsers/chromium_headless_shell-1194/chrome-linux/headless_shell`.
   - Para 3D, acrescente `--gl=swangle`.
-- **Kit motion-video:** veja `skills/motion-video/APRENDIZADOS.md`. Ele precisa de um script que roda o Chrome com `--no-sandbox`, porque o container roda como root.
+- **Kit motion-video:** veja `skills/video/motion-video/APRENDIZADOS.md`. Ele precisa de um script que roda o Chrome com `--no-sandbox`, porque o container roda como root.
 - **Proxy:** o HTTPS de saída passa por um proxy que intercepta TLS, então ferramentas em Python podem precisar do certificado em `/root/.ccr/ca-bundle.crt`.
 - **Desempenho:** a máquina tem só 4 CPUs. Evite rodar vários renders ao mesmo tempo, porque eles disputam a CPU e podem travar.
