@@ -13,7 +13,7 @@ Este repositório existe para o Claude usar e ir melhorando. Ele guarda as habil
 
 ## Como organizar
 
-- **Habilidades** ficam em `skills/<categoria>/<nome>/`, na branch `main`. Categorias: `video`, `audio`, `design`, `texto` e `combos` (categoria nova só com aprovação). Cada pasta de skill tem:
+- **Habilidades** ficam em `skills/<categoria>/<nome>/`, na branch `main`. Categorias: `video`, `audio`, `design`, `texto`, `ferramentas-de-skills` e `combos` (categoria nova só com aprovação). Cada pasta de skill tem:
   - `SKILL.md`: a skill original. Para mudá-la, é preciso **aprovação** do usuário.
   - `APRENDIZADOS.md`: **adendos datados**, com o mais novo embaixo, sobre o que foi aprendido usando a skill. Pode ser atualizado **livremente**, sempre que algo novo for aprendido.
   - `scripts/` e `assets/`, se a skill tiver.

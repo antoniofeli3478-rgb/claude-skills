@@ -67,3 +67,8 @@ O Daniel é editor de vídeo profissional (motion). Ele revisou o v2 do Rotina e
 - **Sons junto com as entradas:**
   - um swish que começa 1 quadro antes da entrada, para o pico cair na velocidade máxima da mola;
   - o som de impacto no quadro de pouso: +7 para `Entra`, +9 para `Atras`, +8 quando as metades do título se encontram.
+
+## 11/10/2026: proposta aprovada e salva no SKILL.md
+
+- O Daniel aprovou a proposta com os aprendizados do Rotina v2. O `SKILL.md` agora incorpora tudo até 11/10/2026, já com os caminhos das pastas por categoria.
+- A `description` do cabeçalho foi posta entre aspas: os dois-pontos no meio quebravam o YAML e o programa `npx skills` não achava a skill.

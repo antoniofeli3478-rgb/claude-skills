@@ -25,6 +25,9 @@ button-animation | animar botões e componentes de interface com Motion 14 (hove
 thumbnail-carousel | carrossel de imagens com miniaturas para site/app em React/Next.js (Motion 14) | skills/design/thumbnail-carousel/SKILL.md
 ui-ux-pro-max | design de interface: paleta, fontes, estilo visual (indica como instalar o projeto externo) | skills/design/ui-ux-pro-max/SKILL.md
 
+[FERRAMENTAS DE SKILLS (skills/ferramentas-de-skills/)]
+find-skills | caçador de skills: procurar uma skill pronta no catálogo público (skills.sh, npx skills find) antes de fazer do zero; nunca instalar sem aprovação (skill de terceiros, MIT, intacta) | skills/ferramentas-de-skills/find-skills/SKILL.md (leia antes o APRENDIZADOS.md: regras nossas; origem em ORIGEM.md)
+
 [TEXTO (skills/texto/)]
 copywriting | escrever e melhorar texto que convence e converte: páginas, anúncios, títulos, CTAs, legendas, roteiros; lista de frases com cara de IA a evitar (skill de terceiros, MIT, intacta) | skills/texto/copywriting/SKILL.md (lê references/ai-tells.md e copy-frameworks.md só se precisar; origem em ORIGEM.md)
 humanizer | tirar o jeito de IA de um texto (detectar padrões, reescrever em 5 vozes, nota 0 a 100); usar DEPOIS da copywriting (skill de terceiros, MIT, intacta) | skills/texto/humanizer/SKILL.md (padrões em references/patterns.md; origem em ORIGEM.md)
@@ -44,6 +47,7 @@ notas: voz Gemini (como chamar a API, vozes, cuidados) | research_notes/Motion d
 notas: música, efeitos sonoros, licenças e mixagem | research_notes/Motion design 3D e voz IA/music_sound_design.md
 notas: skills, plugins e MCPs do Claude para vídeo/3D/voz | research_notes/Motion design 3D e voz IA/claude_skills_mcp_ecosystem.md
 notas: vídeos do YouTube e processo dos criadores | research_notes/Motion design 3D e voz IA/youtube_and_community.md e youtube_round2.md
+relatório: repositório vercel-labs/skills (programa npx skills e a skill find-skills) | reports/Repositório vercel-labs skills.md
 notas: kit motion-video e dicas (Google AI Studio) | research_notes/Motion design 3D e voz IA/motion_video_kit_e_dicas.md
 notas: Framer Motion / Motion 14 (versão atual, novidades, skill e MCP oficiais, teste de compatibilidade) | research_notes/Framer Motion 2026/notas.md
 amostras de voz (Kokoro, Piper, Chatterbox, Gemini, edge) e legendas alinhadas | research_notes/Motion design 3D e voz IA/samples/

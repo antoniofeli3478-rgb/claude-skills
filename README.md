@@ -4,7 +4,7 @@ Base de conhecimento e habilidades (skills) do Claude para os projetos do Daniel
 
 **Antes de usar, leia o [`LEIA-ANTES-DE-USAR.md`](LEIA-ANTES-DE-USAR.md)**, o manual de utilização do repositório.
 
-## Habilidades (`skills/<categoria>/<nome>/`: video, audio, design, texto e combos)
+## Habilidades (`skills/<categoria>/<nome>/`: video, audio, design, texto, ferramentas-de-skills e combos)
 
 Cada pasta tem o `SKILL.md` (a skill original) e, quando houver, o `APRENDIZADOS.md` com os adendos do que foi aprendido usando a skill. As pastas `combo-*` juntam várias skills com um passo a passo pronto.
 
@@ -20,6 +20,7 @@ Cada pasta tem o `SKILL.md` (a skill original) e, quando houver, o `APRENDIZADOS
 | `combo-video-explicativo` | **Combo:** remotion-video, voz-pt-br e trilha-e-mixagem juntas, com passo a passo | `skills/combos/combo-video-explicativo/` |
 | `button-animation` | Animações de botões e de UI, mais o componente Compose | `skills/design/button-animation/` |
 | `thumbnail-carousel` | Carrossel com miniaturas (Motion 14, antigo Framer Motion) | `skills/design/thumbnail-carousel/` |
+| `find-skills` | Caçador de skills: procura skills prontas no catálogo skills.sh (skill de terceiros, MIT) | `skills/ferramentas-de-skills/find-skills/` |
 | `ui-ux-pro-max` | Como instalar e usar a skill externa de design de UI/UX | `skills/design/ui-ux-pro-max/` |
 
 ## Projetos (`projetos/`)

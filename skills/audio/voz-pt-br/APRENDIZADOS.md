@@ -62,3 +62,7 @@ As outras (Despina, Autonoe, Pulcherrima e Aoede) não foram destacadas. As trê
 - **Alinhamento:** o WhisperX alinhou o arquivo de 32 s num segmento só, sem problemas. O tempo calculado pelas pausas e o alinhamento direto da faixa final diferiram 4 ms na mediana.
 - **"bio" virou "Bill"** na transcrição do modelo grande. É só a pronúncia brasileira normal ("bíu"); o modelo pequeno e o modelo grande com o roteiro como dica ouviram "bio".
 - **Conferir a mixagem final:** a transcrição do áudio final, com voz, trilha e efeitos, deu 97,8% de acerto. É um bom teste de que a música não está cobrindo a voz.
+
+## 11/10/2026: proposta aprovada e salva no SKILL.md
+
+- O Daniel aprovou a proposta com os aprendizados do Rotina v2. O `SKILL.md` agora incorpora tudo até 11/10/2026, já com os caminhos das pastas por categoria.
