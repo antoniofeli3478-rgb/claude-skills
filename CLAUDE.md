@@ -4,6 +4,8 @@ Este repositório existe para o Claude usar e ir melhorando. Ele guarda as habil
 
 ## Antes de qualquer tarefa (economia de créditos)
 
+0. **Primeira conversa ou dúvida sobre como organizar algo:** leia o `LEIA-ANTES-DE-USAR.md` (manual de utilização do repositório). Ele explica cada pasta, cada tipo de arquivo e como adicionar ou mudar coisas.
+
 1. Leia **só** o `HABILIDADES.txt`: é o índice das habilidades, com uma linha por item e o caminho de cada uma.
 2. Escolha a habilidade e abra apenas o arquivo indicado. Não percorra o repositório para descobrir o que existe.
 3. Se a tarefa continuar um projeto já existente, leia o `projetos/<nome>/PASSO-A-PASSO.md` dele, que diz o que foi feito e quais habilidades usar.
