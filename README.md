@@ -2,6 +2,8 @@
 
 Base de conhecimento e habilidades (skills) do Claude para os projetos do Daniel. O índice rápido de tudo está em **`HABILIDADES.txt`**: uma linha por item, com o caminho.
 
+**Antes de usar, leia o [`LEIA-ANTES-DE-USAR.md`](LEIA-ANTES-DE-USAR.md)**, o manual de utilização do repositório.
+
 ## Habilidades (`skills/`, uma pasta por habilidade)
 
 Cada pasta tem o `SKILL.md` (a skill original) e, quando houver, o `APRENDIZADOS.md` com os adendos do que foi aprendido usando a skill. As pastas `combo-*` juntam várias skills com um passo a passo pronto.
