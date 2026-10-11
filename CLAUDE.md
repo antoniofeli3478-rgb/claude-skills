@@ -4,14 +4,16 @@ Este repositório existe para o Claude usar e ir melhorando. Ele guarda as habil
 
 ## Antes de qualquer tarefa (economia de créditos)
 
-0. **Primeira conversa ou dúvida sobre como organizar algo:** leia o `LEIA-ANTES-DE-USAR.md` (manual de utilização do repositório). Ele explica cada pasta, cada tipo de arquivo e como adicionar ou mudar coisas.
+0. **Primeira conversa ou dúvida sobre como organizar algo:** leia o `guia/LEIA-ANTES-DE-USAR.md` (manual de utilização do repositório). Ele explica cada pasta, cada tipo de arquivo e como adicionar ou mudar coisas.
 
-1. Leia **só** o `HABILIDADES.txt`: é o índice das habilidades, com uma linha por item e o caminho de cada uma.
+1. Leia **só** o `guia/HABILIDADES.txt`: é o índice das habilidades, com uma linha por item e o caminho de cada uma.
 2. Escolha a habilidade e abra apenas o arquivo indicado. Não percorra o repositório para descobrir o que existe.
 3. Se a tarefa continuar um projeto já existente, leia o `projetos/<nome>/PASSO-A-PASSO.md` dele, que diz o que foi feito e quais habilidades usar.
-4. Ao criar, mudar ou remover uma habilidade ou um projeto, atualize o `HABILIDADES.txt` no mesmo commit.
+4. Ao criar, mudar ou remover uma habilidade ou um projeto, atualize o `guia/HABILIDADES.txt` no mesmo commit.
 
 ## Como organizar
+
+- **Raiz limpa:** na raiz ficam só `CLAUDE.md`, `README.md` e `.gitignore`. Índice e manual ficam em `guia/`; todo o resto em pastas organizadas.
 
 - **Habilidades** ficam em `skills/<categoria>/<nome>/`, na branch `main`. Categorias: `video`, `audio`, `design`, `texto`, `ferramentas-de-skills` e `combos` (categoria nova só com aprovação). Cada pasta de skill tem:
   - `SKILL.md`: a skill original. Para mudá-la, é preciso **aprovação** do usuário.
@@ -21,7 +23,7 @@ Este repositório existe para o Claude usar e ir melhorando. Ele guarda as habil
   - os **links (caminhos)** das skills usadas;
   - o passo a passo com os pontos de aprovação;
   - os avisos aprendidos ao combiná-las.
-  - Liste o combo na seção COMBOS do `HABILIDADES.txt` e avise o usuário que ele foi criado.
+  - Liste o combo na seção COMBOS do `guia/HABILIDADES.txt` e avise o usuário que ele foi criado.
 - **Ao terminar uma tarefa**, salve o que aprendeu:
   - o `PASSO-A-PASSO.md` do projeto;
   - os `APRENDIZADOS.md` das skills usadas;
@@ -57,8 +59,10 @@ Este repositório existe para o Claude usar e ir melhorando. Ele guarda as habil
 
 | Caminho | O que é |
 |---|---|
-| `HABILIDADES.txt` | Índice rápido de tudo: habilidades, conhecimento, projetos e conectores |
-| `skills/` | Uma pasta por habilidade: `remotion-video`, `motion-video` (kit com motor), `voz-pt-br`, `trilha-e-mixagem`, `button-animation`, `thumbnail-carousel`, `ui-ux-pro-max`, `copywriting`, `humanizer`, e combos (`combo-video-explicativo`, `combo-copy-humanizada`) |
+| `CLAUDE.md`, `README.md` | Os únicos arquivos da raiz (precisam ficar lá para os programas acharem) |
+| `guia/HABILIDADES.txt` | Índice rápido de tudo: habilidades, conhecimento, projetos e conectores |
+| `guia/LEIA-ANTES-DE-USAR.md` | Manual de utilização do repositório |
+| `skills/<categoria>/<nome>/` | Uma pasta por habilidade, dentro da categoria: `video`, `audio`, `design`, `texto`, `ferramentas-de-skills` e `combos` |
 | `projetos/<nome>/PASSO-A-PASSO.md` | Passo a passo de cada projeto, com os caminhos das habilidades usadas |
 | `research_notes/<tema>/` | Anotações brutas da pesquisa (a maioria em inglês) e amostras de voz |
 | `reports/` | Relatórios finais de pesquisa, em português |

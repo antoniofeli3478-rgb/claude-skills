@@ -11,7 +11,7 @@
 
 ## 1. Começo de toda conversa (economia de créditos)
 
-1. **Leia só o `HABILIDADES.txt`** (na raiz da branch `main`). É o índice: uma linha por habilidade, no formato `NOME | quando usar | caminho`.
+1. **Leia só o `guia/HABILIDADES.txt`** (pasta `guia/` da branch `main`). É o índice: uma linha por habilidade, no formato `NOME | quando usar | caminho`.
 2. **Escolha a habilidade** e abra **apenas** o arquivo indicado no índice. Não percorra o repositório para descobrir o que existe.
 3. **Leia o `APRENDIZADOS.md`** da mesma pasta logo depois do `SKILL.md`. Ele tem as correções e as descobertas mais recentes.
 4. **Se a tarefa juntar várias skills**, veja antes a seção **COMBOS** do índice. O combo já traz o passo a passo pronto.
@@ -22,7 +22,7 @@ Comandos úteis num container novo:
 
 ```bash
 git fetch origin main
-git show origin/main:HABILIDADES.txt          # ler o índice sem trocar de branch
+git show origin/main:guia/HABILIDADES.txt          # ler o índice sem trocar de branch
 git worktree add ../claude-skills-main origin/main   # ter a main ao lado de uma branch de projeto
 ```
 
@@ -48,9 +48,11 @@ git worktree add ../claude-skills-main origin/main   # ter a main ao lado de uma
 
 ```
 claude-skills/                       (branch main)
-├── CLAUDE.md                        regras de trabalho (lidas em toda sessão)
-├── HABILIDADES.txt                  ÍNDICE: a primeira e muitas vezes a única leitura
-├── README.md                        apresentação para humanos
+├── CLAUDE.md                        regras de trabalho (lidas em toda sessão) — precisa ficar na raiz
+├── README.md                        apresentação para humanos — precisa ficar na raiz
+├── guia/
+│   ├── HABILIDADES.txt              ÍNDICE: a primeira e muitas vezes a única leitura
+│   └── LEIA-ANTES-DE-USAR.md        este manual
 ├── skills/                          uma pasta por CATEGORIA, e dentro dela uma pasta por skill
 │   ├── video/  audio/  design/  texto/  ferramentas-de-skills/  combos/
 │   │   └── <nome>/
@@ -66,6 +68,8 @@ claude-skills/                       (branch main)
 
 Branches de projeto (ex.: rotina-video)  código, áudio e vídeos de um projeto
 ```
+
+**Raiz limpa:** na raiz ficam só `CLAUDE.md` e `README.md` (os programas só os encontram lá) e o `.gitignore`. Todo o resto vai numa pasta organizada. Arquivo original de uma skill (prompt, link, componente que veio de fora) fica dentro da própria skill, em `original/`.
 
 **O que nunca fica na `main`:** código de projeto, áudios, vídeos, quadros renderizados, chaves.
 **O que nunca fica numa branch de projeto:** cópias de skills. Lá entram só código e mídia do projeto.
@@ -85,13 +89,13 @@ Branches de projeto (ex.: rotina-video)  código, áudio e vídeos de um projeto
 - **Mudar uma skill de categoria** também precisa de aprovação. Atualize todos os caminhos citados e confira com `grep` que não sobrou caminho antigo.
 - **Projeto:** Rotina.
 
-Confira sempre no próprio `HABILIDADES.txt`, que é a fonte certa.
+Confira sempre no próprio `guia/HABILIDADES.txt`, que é a fonte certa.
 
 ---
 
 ## 4. O que vai em cada arquivo
 
-### 4.1 `HABILIDADES.txt` (o índice)
+### 4.1 `guia/HABILIDADES.txt` (o índice)
 
 - **Uma linha por item:** `NOME | quando usar | caminho`.
 - **Seções:**
@@ -172,7 +176,7 @@ Confira sempre no próprio `HABILIDADES.txt`, que é a fonte certa.
 3. **Mostre ao Daniel o que é, de onde vem e o que faz, e peça aprovação.**
 4. Copie para `skills/<categoria>/<nome>/` **sem alterar** os arquivos originais. Mantenha o `LICENSE`.
 5. Crie o `ORIGEM.md` (seção 4.4) e o `APRENDIZADOS.md` com o adendo "entrada na base".
-6. Acrescente a linha no `HABILIDADES.txt`. Se a skill combinar com outra, avalie criar um combo.
+6. Acrescente a linha no `guia/HABILIDADES.txt`. Se a skill combinar com outra, avalie criar um combo.
 7. Faça commit, PR e merge (seção 7).
 
 ### 5.2 Criar uma skill nossa
@@ -306,6 +310,6 @@ São obrigatórias em todo vídeo e animação. O detalhe e o código estão em 
 - [ ] Código e mídia do projeto foram para a branch do projeto (commit e push).
 - [ ] O `PASSO-A-PASSO.md` do projeto foi atualizado na `main`.
 - [ ] Os `APRENDIZADOS.md` das skills usadas ganharam adendos datados.
-- [ ] O `HABILIDADES.txt` está atualizado (se algo foi criado, mudado ou removido).
+- [ ] O `guia/HABILIDADES.txt` está atualizado (se algo foi criado, mudado ou removido).
 - [ ] Mudanças em `SKILL.md` só entraram com aprovação. As pendentes estão numa branch de backup e o Daniel sabe disso.
 - [ ] Nenhuma chave foi para o repositório (seção 8).

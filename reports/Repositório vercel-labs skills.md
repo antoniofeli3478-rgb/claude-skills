@@ -100,7 +100,7 @@ O programa encontrou as skills mesmo dentro das pastas de categoria (`skills/aud
    - Ela entra sem alteração e com o `LICENSE` (MIT), um `ORIGEM.md` (de onde veio e a versão) e um `APRENDIZADOS.md` com as nossas regras:
      - procurar primeiro no nosso índice, e só depois no catálogo;
      - nunca instalar direto no assistente: mostrar ao Daniel, e depois de aprovado salvar no repositório pela receita "instalar skill de terceiros" do manual.
-2. **Registrar o programa `npx skills`** no `LEIA-ANTES-DE-USAR.md` e no índice, como a forma oficial de **procurar** skills novas. Ele não precisa ser instalado: roda com `npx`.
+2. **Registrar o programa `npx skills`** no `guia/LEIA-ANTES-DE-USAR.md` e no índice, como a forma oficial de **procurar** skills novas. Ele não precisa ser instalado: roda com `npx`.
 3. **Corrigir as duas skills** que o programa não enxerga (seção 5), junto com a proposta pendente.
 4. **Candidatas** para olhar depois. Cada uma seria apresentada antes, como sempre:
    - `remotion-dev/skills@remotion-best-practices` (oficial do Remotion; o nosso `remotion-video` já cita o `npx remotion skills add`);

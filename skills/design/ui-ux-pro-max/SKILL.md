@@ -5,7 +5,7 @@ description: Pointer to the external "UI/UX Pro Max" design-intelligence skill (
 
 # UI/UX Pro Max (external skill)
 
-Source: https://github.com/nextlevelbuilder/ui-ux-pro-max-skill (MIT license). The saved link in this repo (`ux-ui-disign-link`) points here. This skill does not copy that project; it tells you how to install and use it.
+Source: https://github.com/nextlevelbuilder/ui-ux-pro-max-skill (MIT license). The saved link in this repo (`skills/design/ui-ux-pro-max/original/ux-ui-disign-link`) points here. This skill does not copy that project; it tells you how to install and use it.
 
 ## What it provides (per its README)
 
