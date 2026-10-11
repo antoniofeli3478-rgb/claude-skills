@@ -245,6 +245,8 @@ Os números vêm de páginas de terceiros; a página oficial da Meta não foi co
 
 ## 3D de verdade (`@remotion/three`, React Three Fiber) sem placa de vídeo
 
+> **Precisa de vidro e metal com cara de foto de produto?** Para 1 ou 2 planos-herói por vídeo, use a skill `skills/video/blender-ia/` (Blender sem interface, PNG com fundo transparente como camada no Remotion).
+
 Medido neste container (4 CPUs, sem GPU, out/2026):
 
 - **Renderizador:** todo modo `--gl` acaba no SwiftShader (CPU). Use `--gl=swangle`; o WebGL2 funciona.
