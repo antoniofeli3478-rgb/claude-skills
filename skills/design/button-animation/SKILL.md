@@ -152,7 +152,7 @@ Props: `value/defaultValue`, `onChange`, `onSubmit`, `onCommand`, `mentions`, `c
 ## Skill e MCP oficiais do Motion (opcional)
 
 - **Instalação:** `npx motion-ai` instala a skill oficial `/motion` (MIT, código em github.com/motiondivision/ai-kit) e configura o MCP **https://mcp.motion.dev**, que busca na documentação e nos exemplos. Ele é gratuito e não precisa de conta.
-- **Neste repositório:** a skill oficial já está em `skills/motion-oficial/SKILL.md`. Leia as regras dela primeiro e use as receitas desta skill depois.
+- **Neste repositório:** a skill oficial já está em `skills/design/motion-oficial/SKILL.md`. Leia as regras dela primeiro e use as receitas desta skill depois.
 - **O que a skill traz:**
   - boas práticas para JS puro, React, Vue, Base UI e Radix;
   - um gerador de molas em CSS (`linear()`);

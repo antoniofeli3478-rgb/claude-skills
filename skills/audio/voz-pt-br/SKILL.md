@@ -37,7 +37,7 @@ Não existe teste cego de vozes em pt-BR. Faça um A/B com o roteiro real e deix
 
 ## 3. Mixagem
 
-A voz vai por cima da música, com a música abaixando sozinha (ducking). Veja a skill `trilha-e-mixagem` (`skills/trilha-e-mixagem/SKILL.md`).
+A voz vai por cima da música, com a música abaixando sozinha (ducking). Veja a skill `trilha-e-mixagem` (`skills/audio/trilha-e-mixagem/SKILL.md`).
 
 ## 4. Legendas sincronizadas (palavra por palavra)
 

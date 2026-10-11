@@ -10,6 +10,6 @@ Adendos datados. O mais novo fica embaixo. Os arquivos oficiais ficam intactos.
   - **Nunca inventar fatos.** Se faltar um detalhe concreto, apontar a lacuna.
   - **Menos é mais.** Um tique isolado (um travessão, uma lista de três) não prova nada. Só um aglomerado de sinais conta. Texto que já tem "pulso" muitas vezes pede nenhuma edição.
   - Não mexer em citações, títulos, código e exemplos.
-- **Ela é escrita para inglês.** Os padrões de vocabulário ("delve", "tapestry", "leverage") e as regras de pontuação são do inglês. Para o português do Brasil, valem os princípios (variar o tamanho das frases, trocar o abstrato pelo concreto, tomar posição, sem fechamento arrumadinho) e a lista de equivalentes do combo `skills/combo-copy-humanizada/SKILL.md`.
+- **Ela é escrita para inglês.** Os padrões de vocabulário ("delve", "tapestry", "leverage") e as regras de pontuação são do inglês. Para o português do Brasil, valem os princípios (variar o tamanho das frases, trocar o abstrato pelo concreto, tomar posição, sem fechamento arrumadinho) e a lista de equivalentes do combo `skills/combos/combo-copy-humanizada/SKILL.md`.
 - **A nota de 0 a 100 feita pelo próprio modelo infla o resultado**, como o `SKILL.md` avisa. Use como sinal, não como veredito. O teste final é o usuário ler em voz alta.
 - **Quando usar:** sempre depois da `copywriting`, e também para revisar qualquer texto que soe "robótico".

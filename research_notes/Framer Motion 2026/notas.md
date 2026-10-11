@@ -99,12 +99,12 @@
 ## Teste de compatibilidade (MEDIDO, 09/10/2026)
 
 - **Ambiente:** `motion@14.0.0` com React 18.3.1, `@types/react` 18.3.3, TypeScript 5.5.4, `strict`, `moduleResolution: bundler`.
-- **Resultado:** os componentes `skills/button-animation/assets/compose.tsx`, `compose-demo.tsx` e `skills/thumbnail-carousel/assets/thumbnail-carousel.tsx` passam na checagem só trocando `"framer-motion"` por `"motion/react"`. O `next/image` foi simulado com uma declaração de tipo.
+- **Resultado:** os componentes `skills/design/button-animation/assets/compose.tsx`, `compose-demo.tsx` e `skills/design/thumbnail-carousel/assets/thumbnail-carousel.tsx` passam na checagem só trocando `"framer-motion"` por `"motion/react"`. O `next/image` foi simulado com uma declaração de tipo.
 - **Bug encontrado no `compose.tsx`:** ele já vinha do `GRADIENT-BUTTON.txt` original. O `{"\n"}` virou uma quebra de linha de verdade dentro da string, o que impede a compilação. A correção é voltar para `{"\n"}`.
 
 ## Feito depois
 
-- A skill oficial foi adicionada em `skills/motion-oficial/` (09/10/2026, com aprovação do usuário), como cópia fiel do pacote `motion-ai` 14.1.0.
+- A skill oficial foi adicionada em `skills/design/motion-oficial/` (09/10/2026, com aprovação do usuário), como cópia fiel do pacote `motion-ai` 14.1.0.
 
 - As atualizações das skills `button-animation` (com a correção do `compose.tsx`) e `thumbnail-carousel` foram aplicadas em 09/10/2026, com aprovação do usuário.
 - O servidor `https://mcp.motion.dev` foi testado: responde daqui, sem sessão, com uma só ferramenta (`search-motion-docs`).

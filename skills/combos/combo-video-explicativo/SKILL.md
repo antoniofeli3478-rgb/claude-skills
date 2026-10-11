@@ -11,12 +11,12 @@ Este combo **não repete** o conteúdo das skills: ele diz qual usar em cada pas
 
 | Papel | Skill | Caminho |
 |---|---|---|
-| Animação e render (principal) | remotion-video | `skills/remotion-video/SKILL.md` (+ `APRENDIZADOS.md`) |
-| Narração e legendas | voz-pt-br | `skills/voz-pt-br/SKILL.md` (+ `APRENDIZADOS.md`) |
-| Música, efeitos sonoros e mixagem | trilha-e-mixagem | `skills/trilha-e-mixagem/SKILL.md` (+ `APRENDIZADOS.md`) |
-| Alternativa de estilo premium em canvas | motion-video | `skills/motion-video/.claude/skills/motion-video/SKILL.md` |
-| Paleta, fonte e estilo | ui-ux-pro-max | `skills/ui-ux-pro-max/SKILL.md` |
-| Animações de botões e telas | button-animation | `skills/button-animation/SKILL.md` |
+| Animação e render (principal) | remotion-video | `skills/video/remotion-video/SKILL.md` (+ `APRENDIZADOS.md`) |
+| Narração e legendas | voz-pt-br | `skills/audio/voz-pt-br/SKILL.md` (+ `APRENDIZADOS.md`) |
+| Música, efeitos sonoros e mixagem | trilha-e-mixagem | `skills/audio/trilha-e-mixagem/SKILL.md` (+ `APRENDIZADOS.md`) |
+| Alternativa de estilo premium em canvas | motion-video | `skills/video/motion-video/.claude/skills/motion-video/SKILL.md` |
+| Paleta, fonte e estilo | ui-ux-pro-max | `skills/design/ui-ux-pro-max/SKILL.md` |
+| Animações de botões e telas | button-animation | `skills/design/button-animation/SKILL.md` |
 
 Exemplo real feito com este combo: `projetos/rotina/PASSO-A-PASSO.md`.
 
