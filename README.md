@@ -4,7 +4,7 @@ Base de conhecimento e habilidades (skills) do Claude para os projetos do Daniel
 
 **Antes de usar, leia o [`guia/LEIA-ANTES-DE-USAR.md`](guia/LEIA-ANTES-DE-USAR.md)**, o manual de utilização do repositório.
 
-## Habilidades (`skills/<categoria>/<nome>/`: video, audio, design, texto, ferramentas-de-skills e combos)
+## Habilidades (`skills/<categoria>/<nome>/`: video, audio, design, texto, sites, ferramentas-de-skills e combos)
 
 Cada pasta tem o `SKILL.md` (a skill original) e, quando houver, o `APRENDIZADOS.md` com os adendos do que foi aprendido usando a skill. As pastas `combo-*` juntam várias skills com um passo a passo pronto.
 
@@ -25,6 +25,17 @@ Cada pasta tem o `SKILL.md` (a skill original) e, quando houver, o `APRENDIZADOS
 | `estilos-premium` | Biblioteca de estilos de marcas premium (fichas DESIGN.md MIT) | `skills/design/estilos-premium/` |
 | `motion-oficial` | Animação de interface: quando e como animar, curvas, molas, acessibilidade | `skills/design/motion-oficial/` |
 | `blender-ia` | 3D realista no Blender escrito pelo Claude, com fundo transparente para os vídeos | `skills/video/blender-ia/` |
+| `taste-skill` | Gerar e revisar interface "anti-genérica" (skill de terceiros, MIT) | `skills/design/taste-skill/` |
+| `image-to-code` | Site "imagem primeiro" (skill de terceiros, MIT; gasta créditos) | `skills/design/image-to-code/` |
+| `web-design-guidelines` | Revisar interface contra 100+ regras da Vercel (MIT) | `skills/design/web-design-guidelines/` |
+| `frontend-design` | Plano curto de design contra o "visual de IA" (Anthropic, Apache-2.0) | `skills/design/frontend-design/` |
+| `referencia-sites` | Base de referência de sites e templates com código e licença | `skills/sites/referencia-sites/` |
+| `scroll-cinematico` | Animação premium que acompanha a rolagem do site | `skills/sites/scroll-cinematico/` |
+| `mcps-para-sites` | Manual dos MCPs para sites (shadcn, 21st, Chrome DevTools) | `skills/sites/mcps-para-sites/` |
+| `site-architecture`, `cro`, `seo-audit` | Planejar o site, converter e SEO (Corey Haines, MIT) | `skills/sites/` |
+| `shadcn`, `vercel-react-best-practices`, `deploy-to-vercel` | Componentes, código rápido e publicação (MIT) | `skills/sites/` |
+| `web-quality`, `webapp-testing`, `playwright-cli` | Auditoria, testes e prints do site | `skills/sites/` |
+| `combo-site-premium` | **Combo:** site do zero com visual premium e 5 aprovações | `skills/combos/combo-site-premium/` |
 
 ## Projetos (`projetos/`)
 

@@ -65,7 +65,7 @@ claude-skills/
 │   │   ├── remotion-video/            SKILL.md, APRENDIZADOS.md, references/
 │   │   ├── motion-video/              SKILL.md (entrada), APRENDIZADOS.md, LEIA-ME.txt, guia em PDF,
 │   │   │                              .claude/skills/motion-video/SKILL.md (original), motion-studio/ (motor)
-│   │   └── blender-ia/                SKILL.md, APRENDIZADOS.md, ORIGEM.md, scripts/ (bpy, GPL), assets/CamadaBlender.tsx
+│   │   └── blender-ia/                SKILL.md, APRENDIZADOS.md, ORIGEM.md, references/, scripts/ (bpy, GPL), assets/
 │   ├── audio/
 │   │   ├── voz-pt-br/                 SKILL.md, APRENDIZADOS.md, scripts/
 │   │   └── trilha-e-mixagem/          SKILL.md, APRENDIZADOS.md, scripts/
@@ -74,7 +74,19 @@ claude-skills/
 │   │   ├── button-animation/          SKILL.md, APRENDIZADOS.md, ORIGEM.md, LICENCAS-TERCEIROS.txt, assets/, original/
 │   │   ├── thumbnail-carousel/        SKILL.md, APRENDIZADOS.md, assets/, original/thumbnail-carousel.txt
 │   │   ├── ui-ux-pro-max/             SKILL.md, APRENDIZADOS.md, ORIGEM.md, references/ (modelo-DESIGN.md único), original/
-│   │   └── estilos-premium/           SKILL.md, APRENDIZADOS.md, ORIGEM.md, references/ (resenha, índice, marcas/ MIT), assets/
+│   │   ├── estilos-premium/           SKILL.md, APRENDIZADOS.md, ORIGEM.md, references/ (resenha, índice, marcas/ MIT), assets/
+│   │   ├── taste-skill/               skill de terceiros (MIT), intacta
+│   │   ├── image-to-code/             skill de terceiros (MIT), intacta (gasta créditos de imagem)
+│   │   ├── web-design-guidelines/     skill de terceiros (MIT) + regras-fixadas/
+│   │   └── frontend-design/           skill de terceiros (Apache-2.0), intacta
+│   ├── sites/
+│   │   ├── referencia-sites/          NOSSA: base de referência de sites e templates (índice + script de download)
+│   │   ├── mcps-para-sites/           NOSSA: manual dos MCPs (shadcn, 21st, Chrome DevTools)
+│   │   ├── scroll-cinematico/         NOSSA: animação que acompanha a rolagem + guia de IA de vídeo
+│   │   ├── site-architecture/  cro/  seo-audit/             terceiros (MIT)
+│   │   ├── shadcn/  vercel-react-best-practices/  deploy-to-vercel/   terceiros (MIT)
+│   │   ├── web-quality/                                      pacote de 6 skills (MIT)
+│   │   └── webapp-testing/  playwright-cli/                  terceiros (Apache-2.0)
 │   ├── texto/
 │   │   ├── copywriting/               SKILL.md, APRENDIZADOS.md, ORIGEM.md, LICENSE, references/, evals/ (terceiros)
 │   │   └── humanizer/                 SKILL.md, APRENDIZADOS.md, ORIGEM.md, LICENSE, README.md, references/, evals/ (terceiros)
@@ -82,7 +94,8 @@ claude-skills/
 │   │   └── find-skills/               SKILL.md, APRENDIZADOS.md, ORIGEM.md, LICENSE (terceiros)
 │   └── combos/
 │       ├── combo-copy-humanizada/     SKILL.md
-│       └── combo-video-explicativo/   SKILL.md, APRENDIZADOS.md
+│       ├── combo-video-explicativo/   SKILL.md, APRENDIZADOS.md
+│       └── combo-site-premium/        SKILL.md, APRENDIZADOS.md (site do zero, com 5 aprovações)
 │
 ├── projetos/                          UM PASSO-A-PASSO POR PROJETO (só esse arquivo)
 │   └── rotina/PASSO-A-PASSO.md
@@ -118,16 +131,17 @@ Outras branches:
 | Explicação de como usar o repositório | este manual, em `guia/` |
 | Chave de API | **nunca no repositório**: `/root/.config/rotina/` no container |
 
-### 3.3 Categorias de skills (aprovadas pelo Daniel em 11/10/2026)
+### 3.3 Categorias de skills (aprovadas pelo Daniel em 11/10/2026; `sites` aprovada em 12/10/2026)
 
 | Categoria | Para quê | Skills hoje |
 |---|---|---|
 | `skills/video/` | fazer vídeos | `remotion-video`, `motion-video`, `blender-ia` |
 | `skills/audio/` | voz, música e som | `voz-pt-br`, `trilha-e-mixagem` |
-| `skills/design/` | animação e interface de sites e apps | `motion-oficial`, `button-animation`, `thumbnail-carousel`, `ui-ux-pro-max`, `estilos-premium` |
+| `skills/design/` | animação e interface de sites e apps | `motion-oficial`, `button-animation`, `thumbnail-carousel`, `ui-ux-pro-max`, `estilos-premium`, `taste-skill`, `image-to-code`, `web-design-guidelines`, `frontend-design` |
+| `skills/sites/` | fazer sites: planejar, construir, testar, auditar e publicar | `referencia-sites`, `mcps-para-sites`, `scroll-cinematico`, `site-architecture`, `shadcn`, `vercel-react-best-practices`, `cro`, `webapp-testing`, `playwright-cli`, `web-quality` (6), `deploy-to-vercel`, `seo-audit` |
 | `skills/texto/` | escrita | `copywriting`, `humanizer` |
 | `skills/ferramentas-de-skills/` | achar, instalar e manter skills | `find-skills` |
-| `skills/combos/` | várias skills juntas, com passo a passo | `combo-copy-humanizada`, `combo-video-explicativo` |
+| `skills/combos/` | várias skills juntas, com passo a passo | `combo-copy-humanizada`, `combo-video-explicativo`, `combo-site-premium` |
 
 ### 3.4 Regras da estrutura
 
@@ -142,7 +156,7 @@ Outras branches:
   ```bash
   npx -y skills@1.7.2 add <caminho-do-repositório> --list
   ```
-  Em 11/10/2026 (fim do dia) ele achava **15 skills**.
+  Em 12/10/2026 ele achava **37 itens** (o pacote `web-quality` conta como 6, e a `taste-skill` aparece como `design-taste-frontend`), sem nenhum "Skipped".
 - **O que nunca fica na `main`:** código de projeto, áudios, vídeos, quadros renderizados, chaves.
 - **O que nunca fica numa branch de projeto:** cópias de skills. Lá entram só código e mídia do projeto.
 - Confira sempre o `guia/HABILIDADES.txt`, que é a fonte certa do que existe.
