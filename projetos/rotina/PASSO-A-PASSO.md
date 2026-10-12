@@ -23,6 +23,12 @@ Este arquivo guarda só o que foi feito, como foi feito e onde estão as habilid
 | Estilo premium em canvas (alternativa ao Remotion) | motion-video | `skills/video/motion-video/.claude/skills/motion-video/SKILL.md` |
 | Animações de botões e de UI nas telas | button-animation | `skills/design/button-animation/SKILL.md` |
 | Paleta, fontes e estilo | ui-ux-pro-max | `skills/design/ui-ux-pro-max/SKILL.md` |
+| Celular 3D no Blender (cena, luz, render, direção de animação) | blender-ia | `skills/video/blender-ia/SKILL.md` (+ `references/direcao-animacao.md`) |
+| Método de animação (curvas, molas, coreografia) | motion-oficial | `skills/design/motion-oficial/SKILL.md` |
+| Visual premium (trava da referência, curvas "premium com peso") | estilos-premium | `skills/design/estilos-premium/SKILL.md` |
+| Revisão de animação (checklist Block/Approve) | review-animations | `skills/design/review-animations/SKILL.md` |
+| v3: o que cada uma das 39 skills faz no vídeo | mapa | `projetos/rotina/v3/MAPA-SKILLS.md` |
+| v3: skills e combos usados, propostas novas | relatório | `reports/Vídeo Rotina v3: skills e combos usados (2026-10-12).md` |
 | Pesquisa completa (o que funciona, números, pendências) | relatório | `reports/Motion design 3D e voz IA.md` |
 | Voz Gemini (como chamar a API) | notas | `research_notes/Motion design 3D e voz IA/gemini_tts_teste.md` |
 | Vozes locais e legendas sincronizadas | notas | `research_notes/Motion design 3D e voz IA/voice_round2.md` |
@@ -85,6 +91,27 @@ Este arquivo guarda só o que foi feito, como foi feito e onde estão as habilid
      - o DELOAD coberto pelo celular antes de ser lido;
      - um chip que ficava só 3 quadros na tela.
 
+6. **Promo v3 de 30 s, todo o 3D no Blender** (composição `RotinaV3`, 1080×1920, 900 quadros, 12/10/2026). Saída: `rotina-video/rotina-v3.mp4`.
+   - **Pedido do usuário:** um agente faz o roteiro com a copy e passa para o humanizador; depois voz e animações; usar todas as skills; todo o 3D pelo Blender e montado no Remotion; reaproveitar pouco; **o celular sempre reto ou inclinado para cima**.
+   - **Mapa das 39 skills** (um agente leu todas): `projetos/rotina/v3/MAPA-SKILLS.md`. Briefing: `projetos/rotina/v3/BRIEFING.md`.
+   - **Roteiro** (agente, combo `combo-copy-humanizada`): ângulo "Segunda eu começo", 13 falas, 91 palavras. Arquivos em `projetos/rotina/v3/roteiro/` e `audio/v3/falas-v3.txt`.
+   - **Voz:** Gemini, voz Leda, um pedido só (41 s a 1,0x), `atempo` 1,1x, pausas apertadas, 28,3 s. WhisperX alinhou cada palavra: `src/v3/voz.json` manda em todos os tempos.
+   - **Visual "palco escuro":** fundo `#080808` com halo que segue o celular, texto `#F5F5F7`, vermelho só na palavra-chave (`#FF5A5A`), Barlow Condensed 600 nos títulos. Grão e vinheta.
+   - **Celular (Blender, `premium.py` + `blender/v3_pose.py`):**
+     - a coreografia é escrita em código no Remotion (`src/v3/rig.ts`) e exportada para `blender/poses-v3.json`; o exportador **para com erro** se algum quadro ficar inclinado para baixo;
+     - a câmera é a mesma nos dois lados (0,62 m, 24°), conferida com 0 px de diferença: os textos saem exatamente de trás do celular;
+     - as telas do app (`V3Tela`, 1080×2309) viram a textura da tela no Blender;
+     - `--borda` renderiza só a região do celular em cada quadro: de 18 para ~9 s por quadro (Cycles, 8 amostras, motion blur, 4 CPUs).
+   - **História na tela do celular:**
+     - gancho: tela de bloqueio ("segunda-feira, 06:30"); em "quarta" a data e a hora rolam e caem 3 notificações de 3 apps diferentes (Dieta, Academia, Dinheiro);
+     - os 3 selos saem de trás do celular, viram ícones de app, se espalham e fogem pelas bordas em "quarta";
+     - revelação em "junta": os ícones voltam para trás do celular, a tela liga em vermelho com a marca e o celular gira (o único plano-herói);
+     - Hábitos (4 toques, foguinho +1), Métricas (a quarta vazada, "FUROU"), Planejar (Seg · Peito, Ter · Costas), Séries ("Salvar séries → Salvando… → ✓ Séries salvas", gráfico desenhando), Visão do mês (salário entra, PIX sai, o saldo acompanha), Despesas (seletor "Fixa | Pontual" com mola), volta para Hábitos, "SEGUNDA" riscada, "LINK NA BIO" que afunda.
+   - **Trilha original de 100 BPM** (`audio/v3/trilha_v3.py`, adaptada da `trilha-e-mixagem`): virada no quadro 250 ("junta"), seções em 430 e 574, pausa em 772, golpe final em 862.
+   - **Efeitos:** <<NEFEITOS>> efeitos em `src/v3/sons.ts`, nos mesmos quadros da animação (swish 1 quadro antes de cada entrada, impacto no pouso, "plim" nas notificações, toques do app).
+   - **Mixagem** (`mixar_com_efeitos.py`): −13,8 LUFS, pico −1,6 dBTP, voz de 12,4 a 27,9 dB acima do fundo (mediana 16,7 dB).
+   - **Revisão:** <<REVISAO>>
+
 ## Comandos (dentro de `rotina-video/`)
 
 ```bash
@@ -108,6 +135,34 @@ npx remotion render src/index.ts RotinaV2 out/rotina-v2.mp4 --crf=17 --audio-cod
 
 - **Python:** venv com numpy, scipy, soundfile e pedalboard. Para regenerar a trilha: `python -I audio/v2/trilha_v2.py saida.wav audio/v2/trilha-v2_eventos.json`.
 - **Se mudar o `rig.ts`:** renderize de novo só os quadros afetados do `V2Celular` (`--frames=a-b` numa pasta temporária, depois copie para `public/v2/celular`).
+
+**Promo v3 (30 s, Blender).** Rode dentro de `rotina-video/`. `$BR` é o `--browser-executable` acima e `$BLENDER` é o Blender 5.2. As pastas `public/v3/tela` e `public/v3/celular` não vão para o Git: gere de novo.
+
+```bash
+# 1) cena base do celular (skill blender-ia), uma vez só, depois de gerar as telas (passo 3)
+HDR=$(bash <main>/skills/video/blender-ia/scripts/baixar_hdri.sh "$SCRATCHPAD/hdri")
+$BLENDER -b --factory-startup -P <main>/skills/video/blender-ia/scripts/premium.py -- --out $PWD/base_ --anim parado \
+  --frames 1-1 --so 1 --pct 10 --spp 1 --tela $PWD/public/v3/tela/element-001.jpeg --tela_seq 1 --hdri $HDR --salvar --fstop 0   # grava base_cena.blend
+# 2) poses do celular (para com erro se algum quadro ficar inclinado para baixo)
+npx esbuild src/v3/exportar_poses.ts --bundle --platform=node --outfile=out/exportar_poses.js && node out/exportar_poses.js > blender/poses-v3.json
+# 3) telas do app (textura do Blender)
+npx remotion render src/index.ts V3Tela public/v3/tela --sequence --image-format=jpeg --jpeg-quality=95 --browser-executable=$BR
+# 4) celular no Blender (~2h30 em 4 CPUs; rode em segundo plano)
+$BLENDER -b base_cena.blend -P blender/v3_pose.py -- --poses $PWD/blender/poses-v3.json --out $PWD/public/v3/celular/c_ \
+  --frames 0-899 --pct 100 --spp 8 --mb --borda --tela $PWD/public/v3/tela/element-000.jpeg
+# 5) trilha, efeitos e mixagem (venv com numpy, scipy, soundfile, pedalboard)
+python -I audio/v3/trilha_v3.py trilha_v3.wav audio/v3/trilha-v3_eventos.json
+npx esbuild audio/v3/exportar_sons.ts --bundle --platform=node --outfile=out/exportar_sons_v3.js && node out/exportar_sons_v3.js > audio/v3/sons.json
+python -I <main>/skills/audio/trilha-e-mixagem/scripts/mixar_com_efeitos.py --voz public/v3/voz.wav --musica trilha_v3.wav \
+  --efeitos audio/v3/sons.json --saida public/v3/rotina-v3-mix.wav --duracao 30 --linha-do-tempo src/v3/voz.json
+# 6) conferir o layout antes do Blender (celular em silhueta), rascunho e final
+npx remotion render src/index.ts RotinaV3 out/v3-silhueta.mp4 --scale=0.5 --props='{"silhueta":true}' --browser-executable=$BR
+npx remotion render src/index.ts RotinaV3 out/v3-rascunho.mp4 --scale=0.5 --browser-executable=$BR
+npx remotion render src/index.ts RotinaV3 out/rotina-v3.mp4 --crf=17 --audio-codec=aac --audio-bitrate=256k --browser-executable=$BR
+```
+
+- **Se mudar o `rig.ts`:** exporte as poses de novo e renderize no Blender só os quadros afetados (`--frames a-b`).
+- **Se mudar uma tela do app:** renderize de novo só aqueles quadros do `V3Tela` e depois os mesmos quadros no Blender.
 
 ## Aprendizados deste projeto
 
