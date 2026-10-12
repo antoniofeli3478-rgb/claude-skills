@@ -45,8 +45,11 @@ Cada projeto tem só um `PASSO-A-PASSO.md`: o que foi feito, como, e os caminhos
 
 ## Conhecimento
 
-- `reports/`: relatórios de pesquisa, em português.
+- `reports/`: relatórios de pesquisa, em português. O de **pendências** mostra o que está incompleto, com porcentagem.
 - `research_notes/`: anotações brutas e amostras de voz.
+  - `research_notes/Caça de skills 2026-10/catalogo/INDICE.md`: **138 fichas**, uma por skill, MCP ou fonte que avaliamos (licença, status, o que aproveitamos).
+  - `research_notes/Caça de skills 2026-10/hospedagem/`: onde hospedar site de cliente com uso comercial.
+  - `research_notes/Caça de skills 2026-10/scroll-suave-PARCIAL/`: scroll-vídeo sem travar, material incompleto (≈ 40%).
 - `CLAUDE.md`: regras de trabalho do Claude neste repositório.
 
 Para usar uma skill em outro projeto no Claude Code, copie a pasta dela para `~/.claude/skills/` (vale para todos os projetos) ou para `<projeto>/.claude/skills/`. Os arquivos originais que deram origem a algumas skills (`.txt` e o link) ficam na pasta `original/` de cada skill. Na raiz ficam só `CLAUDE.md` e `README.md`; o índice e o manual estão em `guia/`.

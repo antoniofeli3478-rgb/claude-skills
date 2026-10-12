@@ -46,7 +46,7 @@ git worktree add ../claude-skills-main origin/main   # ter a main ao lado de uma
 
 ## 3. Mapa do repositório
 
-Estrutura atualizada em 11/10/2026, depois da organização por categorias e da limpeza da raiz.
+Estrutura atualizada em 12/10/2026, depois da organização por categorias, da limpeza da raiz e da entrada do catálogo de fichas.
 
 ### 3.1 A árvore completa (branch `main`)
 
@@ -102,11 +102,23 @@ claude-skills/
 │
 ├── reports/                           RELATÓRIOS FINAIS, em português
 │   ├── Motion design 3D e voz IA.md
-│   └── Repositório vercel-labs skills.md
+│   ├── Repositório vercel-labs skills.md
+│   ├── Caça de skills de design e animação (2026-10-11).md
+│   ├── Blender premium, sites com IA, scroll e vídeo com IA (2026-10-12).md
+│   └── Pendências e porcentagem de pesquisa (2026-10-12).md     o que está incompleto, com %
 │
 └── research_notes/                    ANOTAÇÕES BRUTAS DE PESQUISA, uma pasta por tema
-    ├── Motion design 3D e voz IA/
-    └── Framer Motion 2026/
+    ├── Motion design 3D e voz IA/     (com samples/ de voz)
+    ├── Framer Motion 2026/
+    └── Caça de skills 2026-10/        pesquisa e transcrição de cada rodada da caça de skills
+        ├── motion-oficial/  button-animation/  ui-ux-pro-max/  refero-estilos/
+        ├── blender-ia/  blender-premium/  video-ia/  sites/      (pesquisa-A, pesquisa-B, TRANSCRICAO, RESUMO)
+        ├── catalogo/                  138 fichas, uma por skill avaliada. Comece pelo INDICE.md
+        │   ├── design-movimento/  design-ui/  blender/  sites/   (fichas + _lista.tsv + LEIA-ME.md)
+        │   ├── MODELO.md              o formato de uma ficha
+        │   └── gerar-indice.py        gera o INDICE.md e as listas a partir das fichas
+        ├── hospedagem/                onde hospedar site de cliente (uso comercial), com preços de 12/10/2026
+        └── scroll-suave-PARCIAL/      scroll-vídeo sem travar: material incompleto (≈ 40%), com código de teste
 
 Outras branches:
 - rotina-video                         código, áudio e vídeos do projeto Rotina (pasta rotina-video/)
@@ -126,6 +138,8 @@ Outras branches:
 | Um projeto novo | `projetos/<nome>/PASSO-A-PASSO.md` na `main` + uma branch própria para o código |
 | Código, áudio, vídeo de projeto | **só** na branch do projeto, nunca na `main` |
 | Anotações de pesquisa | `research_notes/<tema>/` |
+| Pesquisa parada ou incompleta | `research_notes/<tema>-PARCIAL/` com um `LEIA-ME.md` que diz quanto ficou pronto, como foi calculado e como retomar |
+| Ficha de uma skill, MCP ou fonte avaliada | `research_notes/Caça de skills 2026-10/catalogo/<área>/<autor>__<nome>.md` (formato em `catalogo/MODELO.md`), e depois `python3 gerar-indice.py <pasta do catálogo>` |
 | Relatório final | `reports/<título>.md` |
 | Regras de trabalho | `CLAUDE.md` (raiz) |
 | Explicação de como usar o repositório | este manual, em `guia/` |

@@ -62,10 +62,10 @@ Este repositório existe para o Claude usar e ir melhorando. Ele guarda as habil
 | `CLAUDE.md`, `README.md` | Os únicos arquivos da raiz (precisam ficar lá para os programas acharem) |
 | `guia/HABILIDADES.txt` | Índice rápido de tudo: habilidades, conhecimento, projetos e conectores |
 | `guia/LEIA-ANTES-DE-USAR.md` | Manual de utilização do repositório |
-| `skills/<categoria>/<nome>/` | Uma pasta por habilidade, dentro da categoria: `video`, `audio`, `design`, `texto`, `ferramentas-de-skills` e `combos` |
+| `skills/<categoria>/<nome>/` | Uma pasta por habilidade, dentro da categoria: `video`, `audio`, `design`, `sites`, `texto`, `ferramentas-de-skills` e `combos` |
 | `projetos/<nome>/PASSO-A-PASSO.md` | Passo a passo de cada projeto, com os caminhos das habilidades usadas |
-| `research_notes/<tema>/` | Anotações brutas da pesquisa (a maioria em inglês) e amostras de voz |
-| `reports/` | Relatórios finais de pesquisa, em português |
+| `research_notes/<tema>/` | Anotações brutas da pesquisa (a maioria em inglês) e amostras de voz. A caça de skills de outubro de 2026 fica em `research_notes/Caça de skills 2026-10/` (o catálogo de fichas começa em `catalogo/INDICE.md`) |
+| `reports/` | Relatórios finais de pesquisa, em português (inclui o de pendências, com porcentagem do que está incompleto) |
 
 ## Notas do ambiente (container da nuvem, sem GPU)
 
