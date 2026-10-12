@@ -1,6 +1,6 @@
 # Scroll-vídeo sem travar: material parcial (12/10/2026)
 
-**Situação: INCOMPLETO. O Daniel mandou parar tudo em 12/10/2026, e este material foi salvo como estava.** Nada aqui altera a skill `skills/sites/scroll-cinematico/` (ela continua como entrou no PR #21).
+**Situação: CANCELADO. O Daniel mandou parar tudo e depois cancelou o trabalho em 12/10/2026. O material foi salvo como estava (≈ 40% pronto) e não será continuado, a não ser que ele peça de novo.** Nada aqui altera a skill `skills/sites/scroll-cinematico/` (ela continua como entrou no PR #21).
 
 O pedido do Daniel: "foque em ter uma boa utilização do scroll vídeo nos sites, de forma que ele não fique travado". Foram três agentes: pesquisa (A), teste de velocidade no navegador (B) e proposta de atualização da skill (C).
 
@@ -22,7 +22,7 @@ Método: cada etapa vale 1 (pronta), 0,5 (parcial) ou 0 (não feita). Para o tes
 - `codigo-A/`: rascunhos de código (janela deslizante, suavização, qualidade adaptativa, medidor) e as receitas de ffmpeg testadas.
 - `codigo-B/`: gerador de conteúdo, servidor, página de teste e rodador da matriz (373 execuções), mais o resultado das 2 execuções.
 
-## Como retomar (quando o Daniel mandar)
+## Se o Daniel pedir de novo (o trabalho está cancelado)
 
 1. Rodar `codigo-B/gerar-conteudo.sh` (uns 6 minutos) e `node rodar.js --perfil=principal` e os outros perfis (uns 60 minutos no total).
 2. Terminar os testes de A: janela deslizante com rolagem real e rede lenta; WebCodecs.

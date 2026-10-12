@@ -73,7 +73,7 @@ caça de skills de design e animação (11/10/2026): pesquisas e transcrições 
 mapa: árvore completa de pastas e onde colocar cada coisa nova (guia/, skills/, projetos/, reports/, research_notes/) | guia/LEIA-ANTES-DE-USAR.md (seção 3)
 notas: catálogo de fichas (uma por skill, MCP ou fonte avaliada: licença, status, o que aproveitamos e a transcrição do que aprendemos; ~138 fichas em 4 áreas) | research_notes/Caça de skills 2026-10/catalogo/INDICE.md
 notas: hospedagem de site de cliente (a Vercel grátis não é para uso comercial; Cloudflare Pages, Netlify, Vercel Pro e outras, com preços e termos de 12/10/2026) | research_notes/Caça de skills 2026-10/hospedagem/pesquisa.md
-notas: scroll-vídeo sem travar, material PARCIAL (~40%: pesquisa de codecs e medidas, rascunhos de código, equipamento de teste; parado a pedido do Daniel) | research_notes/Caça de skills 2026-10/scroll-suave-PARCIAL/LEIA-ME.md
+notas: scroll-vídeo sem travar, CANCELADO a pedido do Daniel; material guardado só como conhecimento (~40%: pesquisa de codecs e medidas, rascunhos de código, equipamento de teste) | research_notes/Caça de skills 2026-10/scroll-suave-PARCIAL/LEIA-ME.md
 relatório: pendências e porcentagem de pesquisa de tudo o que está incompleto (12/10/2026) | reports/Pendências e porcentagem de pesquisa (2026-10-12).md
 notas: kit motion-video e dicas (Google AI Studio) | research_notes/Motion design 3D e voz IA/motion_video_kit_e_dicas.md
 notas: Framer Motion / Motion 14 (versão atual, novidades, skill e MCP oficiais, teste de compatibilidade) | research_notes/Framer Motion 2026/notas.md

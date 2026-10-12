@@ -118,7 +118,7 @@ claude-skills/
         │   ├── MODELO.md              o formato de uma ficha
         │   └── gerar-indice.py        gera o INDICE.md e as listas a partir das fichas
         ├── hospedagem/                onde hospedar site de cliente (uso comercial), com preços de 12/10/2026
-        └── scroll-suave-PARCIAL/      scroll-vídeo sem travar: material incompleto (≈ 40%), com código de teste
+        └── scroll-suave-PARCIAL/      scroll-vídeo sem travar: CANCELADO pelo Daniel; material incompleto (≈ 40%) guardado, com código de teste
 
 Outras branches:
 - rotina-video                         código, áudio e vídeos do projeto Rotina (pasta rotina-video/)
