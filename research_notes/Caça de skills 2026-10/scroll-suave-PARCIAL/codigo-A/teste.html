@@ -1,0 +1,25 @@
+<!doctype html><html lang="pt-BR"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<style>body{margin:0;background:#07070c}.cine{height:400vh;position:relative}.palco{position:sticky;top:0;height:100vh}canvas{width:100%;height:100%;display:block}</style></head>
+<body><section class="cine" id="cine"><div class="palco"><canvas id="cv"></canvas></div></section>
+<script type="module">
+import { criarJanela } from './janela.js';
+import { criarScrub } from './suave.js';
+import { medir } from './medir.js';
+import { escolherPerfil, dprMax } from './adaptar.js';
+const N = 90, sec = document.getElementById('cine'), cv = document.getElementById('cv'), ctx = cv.getContext('2d');
+const dpr = dprMax(); cv.width = innerWidth * dpr; cv.height = innerHeight * dpr;
+let aborts = 0, fetches = 0, ticks = 0, sem = 0, desenhos = 0; const f0 = window.fetch;
+window.fetch = (u, o) => { fetches++; o && o.signal && o.signal.addEventListener('abort', () => aborts++); return f0(u, o); };
+const raf0 = window.requestAnimationFrame; window.requestAnimationFrame = (cb) => raf0((t) => { ticks++; cb(t); });
+const url = (i) => `frames/f_${String(i + 1).padStart(4, '0')}.webp`;
+let pedido = 0, dir = 1;
+const win = criarJanela({ total: N, url, frente: 24, atras: 8, paralelo: 4, aoChegar: (i) => { if (i === pedido) redesenha(); } });
+let maxProntos = 0;
+function redesenha() { const b = win.perto(pedido); if (!b) { sem++; return; }
+  const s = Math.min(cv.width / b.width, cv.height / b.height); ctx.clearRect(0, 0, cv.width, cv.height);
+  ctx.drawImage(b, 0, 0, b.width * s, b.height * s); desenhos++; }
+const scrub = criarScrub({ secao: sec, total: N, desenhar: (i) => { dir = i >= pedido ? 1 : -1; pedido = i; win.ir(i, dir); redesenha();
+  maxProntos = Math.max(maxProntos, win.stats().prontos); } });
+const m = medir();
+window.__t = { stats: () => ({ ...win.stats(), maxProntos, aborts, fetches, ticks, sem, desenhos, perfil: escolherPerfil(), pedido }), medir: m, fechar: () => win.fechar() };
+</script></body></html>

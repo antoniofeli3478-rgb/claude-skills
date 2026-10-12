@@ -1,0 +1,201 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Benchmark scroll-vídeo</title>
+<!--
+  Página única do benchmark. Mesma interface para todas as técnicas; escolha por query string:
+    ?tecnica=video|canvas-demanda|canvas-todos|canvas-janela|webcodecs
+    &variante=vp9-intra|vp9-g30|vp9-longo|av1-intra|h264-intra|...   (video, webcodecs)
+    &janela=16        (canvas-janela: ±N quadros)      &cancelar=1|0  (aborta fetch fora da janela)
+    &lerp=0|0.15      (suavização por tempo, só roda enquanto |alvo-atual| > ε)
+    &formato=webp|avif (canvas-*)      &fonte=url|blob (video)      &conteudo=d|m (auto por largura)
+  Medições: window.__bench (ver iniciar()/parar()).
+-->
+<style>
+  html, body { margin: 0; background: #07070c; color: #eee; font: 16px system-ui, sans-serif; overflow-x: clip; }
+  .intro, .outro { height: 100vh; display: grid; place-items: center; }
+  .cine { position: relative; height: 400vh; }
+  .palco { position: sticky; top: 0; height: 100vh; overflow: clip; }
+  canvas, video { position: absolute; inset: 0; width: 100%; height: 100%; display: block; object-fit: contain; }
+</style>
+</head>
+<body>
+<section class="intro"><p>Role para baixo</p></section>
+<section class="cine" id="cine"><div class="palco" id="palco"></div></section>
+<section class="outro"><p>Fim</p></section>
+<script>
+(() => {
+const Q = new URLSearchParams(location.search);
+const N = 150, FPS = 30, EPS = 0.0005;
+const cfg = {
+  tecnica: Q.get('tecnica') || 'canvas-demanda', variante: Q.get('variante') || 'vp9-intra',
+  janela: +(Q.get('janela') || 16), lerp: +(Q.get('lerp') || 0), formato: Q.get('formato') || 'webp',
+  fonte: Q.get('fonte') || 'url', cancelar: Q.get('cancelar') !== '0',
+  conteudo: Q.get('conteudo') || (matchMedia('(max-width: 700px)').matches ? 'm' : 'd'), base: Q.get('base') || '/_gerado/' };
+const B = window.__bench = { cfg, pronto: false, naoSuportado: null, erro: null, tPrimeiro: null, tPronto: null, seeks: [], seeksApres: [], decodes: [], carregados: 0 };
+const sec = document.getElementById('cine'), palco = document.getElementById('palco');
+const pad = i => String(i + 1).padStart(4, "0");
+const clamp = (x, a = 0, b = 1) => Math.min(b, Math.max(a, x));
+const frameUrl = i => `${cfg.base}${cfg.conteudo}-${cfg.formato}/f_${pad(i)}.${cfg.formato}`;
+
+// ---------- geometria (só no resize) ----------
+let top = 0, len = 1, dpr = 1, W = 0, H = 0, cv = null, ctx = null;
+const measure = () => { const r = sec.getBoundingClientRect(); top = r.top + scrollY; len = Math.max(1, sec.offsetHeight - innerHeight);
+  dpr = Math.min(devicePixelRatio || 1, 2); W = innerWidth; H = innerHeight;
+  if (cv) { cv.width = Math.round(W * dpr); cv.height = Math.round(H * dpr); drawn = -1; if (tech && tech.redraw) tech.redraw(); }
+  B.geo = { top, len, W, H, dpr }; };
+new ResizeObserver(measure).observe(document.documentElement);
+
+// ---------- laço principal: lê só scrollY; lerp por tempo; roda só enquanto há movimento ----------
+let cur = 0, want = 0, drawn = -1, raf = 0, last = 0, tech = null;
+const progress = () => clamp((scrollY - top) / len);
+const tick = now => { raf = 0; const dt = last ? Math.min(64, now - last) : 16.7; last = now;
+  const p = progress();
+  if (cfg.lerp > 0) { cur += (p - cur) * (1 - Math.pow(1 - cfg.lerp, dt / 16.7)); if (Math.abs(p - cur) < EPS) cur = p; } else cur = p;
+  want = Math.round(cur * (N - 1));
+  if (tech) tech.show(want);
+  if (cur !== p) kick(); else last = 0; };
+const kick = () => { if (!raf) raf = requestAnimationFrame(tick); };
+addEventListener('scroll', kick, { passive: true });
+const primeiro = () => { if (B.tPrimeiro === null) B.tPrimeiro = performance.now(); };
+
+// ---------- canvas ----------
+const mkCanvas = () => { cv = document.createElement('canvas'); palco.append(cv); ctx = cv.getContext('2d'); measure(); };
+const paint = (src, sw, sh, idx) => { const s = Math.min(cv.width / sw, cv.height / sh), w = sw * s, h = sh * s;
+  ctx.drawImage(src, (cv.width - w) / 2, (cv.height - h) / 2, w, h); drawn = idx; primeiro(); };
+const nearest = (map, i) => { for (let d = 0; d < N; d++) { if (map.has(i - d)) return i - d; if (map.has(i + d)) return i + d; } return -1; };
+const order = (() => { const o = [0]; for (const s of [8, 4, 2, 1]) for (let i = 0; i < N; i += s) if (!o.includes(i)) o.push(i); return o; })();
+
+// (b) canvas com quadros sob demanda (Image + decode())
+async function tecDemanda() {
+  mkCanvas(); const imgs = new Map(), carregando = new Set(); let voo = 0; const MAXV = 4;
+  const load = async i => { carregando.add(i); voo++; const im = new Image(); im.src = frameUrl(i);
+    try { await im.decode(); imgs.set(i, im); B.carregados++; } catch (e) { B.erro = String(e); } finally { carregando.delete(i); voo--; kick(); } };
+  await load(0); paint(imgs.get(0), imgs.get(0).naturalWidth, imgs.get(0).naturalHeight, 0);
+  tech = { show(i) { if (!imgs.has(i) && !carregando.has(i) && voo < MAXV) load(i);
+      const k = imgs.has(i) ? i : nearest(imgs, i); if (k >= 0 && k !== drawn) { const im = imgs.get(k); paint(im, im.naturalWidth, im.naturalHeight, k); } },
+    redraw() { const im = imgs.get(drawn < 0 ? 0 : drawn); if (im) paint(im, im.naturalWidth, im.naturalHeight, drawn < 0 ? 0 : drawn); } };
+  B.pronto = true; B.tPronto = performance.now();
+}
+
+// (c) canvas com TODOS os quadros pré-carregados como ImageBitmap
+async function tecTodos() {
+  mkCanvas(); const bm = new Map(); let k = 0;
+  const worker = async () => { while (k < N) { const i = order[k++]; const r = await fetch(frameUrl(i)); const b = await createImageBitmap(await r.blob());
+    bm.set(i, b); B.carregados++; if (i === 0) paint(b, b.width, b.height, 0); kick(); } };
+  tech = { show(i) { const j = bm.has(i) ? i : nearest(bm, i); if (j >= 0 && j !== drawn) { const b = bm.get(j); paint(b, b.width, b.height, j); } },
+    redraw() { const b = bm.get(drawn < 0 ? 0 : drawn); if (b) paint(b, b.width, b.height, drawn < 0 ? 0 : drawn); } };
+  await Promise.all(Array.from({ length: 6 }, worker)); B.pronto = true; B.tPronto = performance.now();
+}
+
+// (d) canvas com JANELA DESLIZANTE de ImageBitmap (±janela), cancelamento fora da janela
+async function tecJanela() {
+  mkCanvas(); const Wn = cfg.janela, bm = new Map(), voo = new Map(); const MAXV = 6; let dir = 1, ant = 0;
+  const start = i => { const ac = new AbortController(); voo.set(i, ac);
+    fetch(frameUrl(i), { signal: ac.signal }).then(r => r.blob()).then(createImageBitmap).then(b => {
+      voo.delete(i); if (Math.abs(i - want) > Wn) { b.close(); } else { bm.set(i, b); B.carregados++; }
+      if (i === 0 && drawn < 0) paint(b, b.width, b.height, 0); kick(); })
+      .catch(() => { voo.delete(i); }); };
+  const sync = c => { const lo = Math.max(0, c - Wn), hi = Math.min(N - 1, c + Wn);
+    for (const [k, b] of bm) if (k < lo || k > hi) { b.close(); bm.delete(k); }
+    if (cfg.cancelar) for (const [k, ac] of voo) if (k < lo || k > hi) { ac.abort(); voo.delete(k); }
+    if (c !== ant) { dir = c > ant ? 1 : -1; ant = c; }
+    for (let d = 0; d <= Wn && voo.size < MAXV; d++) for (const k of [c + dir * d, c - dir * d]) {
+      if (k >= lo && k <= hi && !bm.has(k) && !voo.has(k) && voo.size < MAXV) start(k); } };
+  tech = { show(i) { sync(i); const j = bm.has(i) ? i : nearest(bm, i); if (j >= 0 && j !== drawn) { const b = bm.get(j); paint(b, b.width, b.height, j); } },
+    redraw() { const b = bm.get(drawn < 0 ? 0 : drawn); if (b) paint(b, b.width, b.height, drawn < 0 ? 0 : drawn); } };
+  sync(0); B.tamJanela = () => bm.size;
+  await new Promise(ok => { const t = setInterval(() => { let n = 0; for (let k = 0; k <= Math.min(Wn, N - 1); k++) if (bm.has(k)) n++; if (n > Wn) { clearInterval(t); ok(); } }, 30); });
+  B.pronto = true; B.tPronto = performance.now();
+}
+
+// (a) <video> com currentTime = progresso (um seek por vez; alvo no meio do intervalo do quadro)
+async function tecVideo() {
+  const v = document.createElement('video'); v.muted = true; v.playsInline = true; v.preload = 'auto'; palco.append(v);
+  const cod = cfg.variante.split('-')[0], ext = cod === 'vp9' ? 'webm' : 'mp4';
+  const mime = { h264: 'video/mp4; codecs="avc1.640028"', vp9: 'video/webm; codecs="vp9"', av1: 'video/mp4; codecs="av01.0.08M.08"' }[cod];
+  if (!v.canPlayType(mime)) { B.naoSuportado = `este navegador não toca ${cod} (${mime})`; return; }
+  const url = `${cfg.base}${cfg.conteudo}-${cfg.variante}.${ext}`;
+  if (cfg.fonte === 'blob') v.src = URL.createObjectURL(await (await fetch(url)).blob()); else v.src = url;
+  await new Promise((ok, no) => { v.addEventListener('loadeddata', ok, { once: true }); v.addEventListener('error', () => no(v.error && v.error.message), { once: true }); });
+  let seeking = false, tSeek = 0, esperaApres = false;
+  const alvoDe = i => (i + 0.5) / FPS, frameDe = () => Math.floor(v.currentTime * FPS);
+  const ir = i => { seeking = true; tSeek = performance.now(); esperaApres = true; v.currentTime = alvoDe(i); };
+  v.addEventListener('seeked', () => { B.seeks.push(performance.now() - tSeek); seeking = false; if (frameDe() !== want) ir(want); });
+  const rvfc = (now, meta) => { drawn = Math.round(meta.mediaTime * FPS); primeiro();
+    if (esperaApres) { esperaApres = false; B.seeksApres.push(now - tSeek); } v.requestVideoFrameCallback(rvfc); };
+  v.requestVideoFrameCallback(rvfc);
+  tech = { show(i) { if (!seeking && frameDe() !== i) ir(i); } };
+  ir(0); await new Promise(ok => { const t = setInterval(() => { if (drawn === 0) { clearInterval(t); ok(); } }, 20); });
+  B.seeks.length = 0; B.seeksApres.length = 0; B.pronto = true; B.tPronto = performance.now();
+}
+
+// (e) WebCodecs: VideoDecoder com VP9 all-intra (quadros crus em IVF: contêiner trivial, sem biblioteca de terceiros)
+async function tecWebcodecs() {
+  if (typeof VideoDecoder === 'undefined') { B.naoSuportado = 'VideoDecoder (WebCodecs) indisponível neste navegador/contexto'; return; }
+  const cod = 'vp09.00.10.08'; const buf = new Uint8Array(await (await fetch(`${cfg.base}${cfg.conteudo}-vp9-intra.ivf`)).arrayBuffer());
+  const dv = new DataView(buf.buffer), vw = dv.getUint16(12, true), vh = dv.getUint16(14, true); const chunks = []; let o = dv.getUint16(6, true);
+  while (o + 12 <= buf.length) { const sz = dv.getUint32(o, true); chunks.push(buf.subarray(o + 12, o + 12 + sz)); o += 12 + sz; }
+  const sup = await VideoDecoder.isConfigSupported({ codec: cod, codedWidth: vw, codedHeight: vh });
+  if (!sup.supported) { B.naoSuportado = 'VP9 não suportado pelo VideoDecoder'; return; }
+  mkCanvas(); let voo = -1, t0 = 0;
+  const dec = new VideoDecoder({ output: f => { const i = Math.round(f.timestamp / 1000); B.decodes.push(performance.now() - t0); paint(f, f.displayWidth, f.displayHeight, i); f.close(); voo = -1; kick(); },
+    error: e => { B.erro = String(e); } });
+  dec.configure({ codec: cod, codedWidth: vw, codedHeight: vh });
+  const go = i => { voo = i; t0 = performance.now(); dec.decode(new EncodedVideoChunk({ type: 'key', timestamp: i * 1000, data: chunks[i] })); dec.flush().catch(() => {}); };
+  tech = { show(i) { if (voo < 0 && i !== drawn) go(i); } };
+  B.nQuadrosIvf = chunks.length; go(0);
+  await new Promise(ok => { const t = setInterval(() => { if (drawn === 0) { clearInterval(t); ok(); } }, 20); });
+  B.decodes.length = 0; B.pronto = true; B.tPronto = performance.now();
+}
+
+// ---------- sonda de medição ----------
+// Durante a execução só registra amostras por rAF (t, y, quadro-alvo pelo scroll, quadro-alvo suavizado, quadro desenhado);
+// toda a análise é feita em parar(). "Ativo" = scroll mexeu nos últimos 500 ms ou o quadro desenhado ainda não é o do scroll.
+const pct = (a, p) => { if (!a.length) return null; const s = [...a].sort((x, y) => x - y); return s[Math.min(s.length - 1, Math.floor(p * s.length))]; };
+const soma = a => a.reduce((x, y) => x + y, 0);
+let S = null;
+B.iniciar = () => { S = { rodando: true, t: [], y: [], raw: [], alvo: [], dr: [], longtasks: [], loaf: [], t0: performance.now() };
+  try { S.po1 = new PerformanceObserver(l => S.longtasks.push(...l.getEntries().map(e => e.duration))); S.po1.observe({ type: 'longtask' }); } catch (e) {}
+  try { S.po2 = new PerformanceObserver(l => S.loaf.push(...l.getEntries().map(e => ({ d: e.duration, b: e.blockingDuration })))); S.po2.observe({ type: 'long-animation-frame' }); } catch (e) {}
+  const loop = t => { if (!S || !S.rodando) return;
+    S.t.push(t); S.y.push(scrollY); S.raw.push(Math.round(progress() * (N - 1))); S.alvo.push(want); S.dr.push(drawn); requestAnimationFrame(loop); };
+  requestAnimationFrame(loop); };
+B.parar = () => { S.rodando = false; try { S.po1 && S.po1.disconnect(); S.po2 && S.po2.disconnect(); } catch (e) {}
+  const n = S.t.length, dts = [], lagR = [], lagA = [], mov = new Array(n).fill(false), lag = S.dr.map((d, i) => d < 0 ? N : Math.abs(S.raw[i] - d));
+  for (let i = 1; i < n; i++) if (S.y[i] !== S.y[i - 1]) mov[i] = true;
+  let ult = -1e9, tTot = 0, tLag3 = 0, velMax = 0;
+  for (let i = 1; i < n; i++) { if (mov[i]) ult = S.t[i]; const ativo = S.t[i] - ult < 500 || lag[i] > 0;
+    if (ativo) { const dt = S.t[i] - S.t[i - 1]; dts.push(dt); tTot += dt; if (lag[i] > 3) tLag3 += dt; lagR.push(lag[i]); lagA.push(S.dr[i] < 0 ? N : Math.abs(S.alvo[i] - S.dr[i])); } }
+  for (let i = 0, j = 0; i < n; i++) { while (S.t[i] - S.t[j] > 100) j++; if (S.t[i] - S.t[j] >= 50) velMax = Math.max(velMax, Math.abs(S.y[i] - S.y[j]) / (S.t[i] - S.t[j]) * 1000); }
+  // rajadas de scroll (lacuna > 150 ms) e tempo para assentar (quadro desenhado == quadro do scroll) depois de cada uma
+  const idx = []; for (let i = 0; i < n; i++) if (mov[i]) idx.push(i); const assent = []; let naoAssentou = 0;
+  for (let k = 0; k < idx.length; k++) { const fim = idx[k], prox = idx[k + 1]; if (prox !== undefined && S.t[prox] - S.t[fim] <= 150) continue;
+    const lim = prox !== undefined ? prox : n; let ok = -1; for (let i = fim; i < lim; i++) if (lag[i] === 0) { ok = i; break; }
+    if (ok < 0) naoAssentou++; else assent.push(S.t[ok] - S.t[fim]); }
+  const f = (a, x) => a.filter(v => v > x).length, m = dts.length;
+  return { duracaoMs: Math.round(performance.now() - S.t0), amostras: n,
+    intervalo: { n: m, p50: pct(dts, .5), p95: pct(dts, .95), p99: pct(dts, .99), max: m ? Math.max(...dts) : null, pct20: m ? 100 * f(dts, 20) / m : null, pct33: m ? 100 * f(dts, 33.4) / m : null, pct50: m ? 100 * f(dts, 50) / m : null, media: m ? soma(dts) / m : null },
+    longtasks: { n: S.longtasks.length, totalMs: soma(S.longtasks), maxMs: S.longtasks.length ? Math.max(...S.longtasks) : 0 },
+    loaf: { n: S.loaf.length, totalMs: soma(S.loaf.map(x => x.d)), bloqueioMs: soma(S.loaf.map(x => x.b)), maxMs: S.loaf.length ? Math.max(...S.loaf.map(x => x.d)) : 0 },
+    atraso: { p50: pct(lagR, .5), p95: pct(lagR, .95), max: lagR.length ? Math.max(...lagR) : null, pctTempoMais3: tTot ? 100 * tLag3 / tTot : null },
+    atrasoAlvo: { p95: pct(lagA, .95), max: lagA.length ? Math.max(...lagA) : null },
+    assentar: { n: assent.length, p50: pct(assent, .5), max: assent.length ? Math.max(...assent) : null, naoAssentou },
+    seek: { n: B.seeks.length, p50: pct(B.seeks, .5), p95: pct(B.seeks, .95), max: B.seeks.length ? Math.max(...B.seeks) : null, apres_p50: pct(B.seeksApres, .5), apres_p95: pct(B.seeksApres, .95), apres_max: B.seeksApres.length ? Math.max(...B.seeksApres) : null },
+    decode: { n: B.decodes.length, p50: pct(B.decodes, .5), p95: pct(B.decodes, .95), max: B.decodes.length ? Math.max(...B.decodes) : null },
+    velMaxPxS: Math.round(velMax), progressoFim: +progress().toFixed(3), quadroDesenhado: drawn + 1, quadroAlvo: Math.round(progress() * (N - 1)) + 1,
+    jsHeapMB: performance.memory ? +(performance.memory.usedJSHeapSize / 1048576).toFixed(1) : null }; };
+B.estado = () => ({ p: cur, want, drawn, y: scrollY });
+
+// ---------- partida ----------
+(async () => { try {
+  const t = { video: tecVideo, 'canvas-demanda': tecDemanda, 'canvas-todos': tecTodos, 'canvas-janela': tecJanela, webcodecs: tecWebcodecs }[cfg.tecnica];
+  if (!t) throw new Error('técnica desconhecida: ' + cfg.tecnica);
+  await t(); if (B.naoSuportado) { B.pronto = true; } kick();
+} catch (e) { B.erro = String(e && e.message || e); } })();
+})();
+</script>
+</body>
+</html>
