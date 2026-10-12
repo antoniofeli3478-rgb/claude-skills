@@ -31,3 +31,8 @@ Adendos datados. O mais novo fica embaixo. A skill original continua no `SKILL.m
 - Corrigidos: `transition-all` na receita principal e o botão desligado encolhendo no toque. Padrão novo: toque sem quique (bounce 0); quique só em app divertido.
 - Novos componentes testados (`tsc --strict`, motion 14): `assets/status-button.tsx` e `assets/hold-to-confirm.tsx`.
 - Pesquisas e transcrição completas: `research_notes/Caça de skills 2026-10/button-animation/`.
+
+## 12/10/2026: valores usados nas telas do Rotina v3
+
+- Toque 1 → 0,96 → 1 com ondulação no ponto; check desenhado; "Salvar séries → Salvando… → ✓ Séries salvas" em sequência (12 quadros no "Salvando…"); seletor "Fixa | Pontual" com mola 650/40/0,5; botão "LINK NA BIO" que afunda (receita 12) no lugar do anel girando.
+- Tudo preso a palavras da voz (`voz.json`). Código: `src/v3/Tela.tsx` na branch `rotina-video`.

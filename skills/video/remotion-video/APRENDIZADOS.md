@@ -72,3 +72,14 @@ O Daniel é editor de vídeo profissional (motion). Ele revisou o v2 do Rotina e
 
 - O Daniel aprovou a proposta com os aprendizados do Rotina v2. O `SKILL.md` agora incorpora tudo até 11/10/2026, já com os caminhos das pastas por categoria.
 - A `description` do cabeçalho foi posta entre aspas: os dois-pontos no meio quebravam o YAML e o programa `npx skills` não achava a skill.
+
+## 12/10/2026: Rotina v3 (celular do Blender montado no Remotion)
+
+- **Textura da tela:** quando o celular vem do Blender (`premium.py`), as telas do app são renderizadas em **1080×2309**, não 1080×2340.
+- **Camadas:** fundo com halo que segue o celular → textos e cartões → PNG do celular do Blender (`<Img>` do quadro) → grão e vinheta. O Remotion deve pular exatamente os quadros que o Blender não grava (no v3, `y0 > 2000` da caixa projetada).
+- **Silhueta com a mesma projeção** do Blender (`camera.ts`) permitiu revisar todo o layout antes de 2 h 40 min de render.
+- **Revisão por terços:** rascunho de 10 s em meia resolução (~1 min) assim que cada terço do Blender fica pronto. Achou 3 problemas antes do fim do render.
+- **`Atras` com elemento mais largo que o celular:** o título ROTINA (210 px) vazava pela lateral do celular girando. Solução: nascer centrado no celular e 20% menor, crescendo enquanto sobe.
+- **Troca de texto dentro da tela do app:** cruzamento com deslocamento e blur, sem `overflow:hidden` (a regra 2 vale também dentro do celular).
+- **Vídeo sem som:** cada fala precisa de uma palavra na tela ou de uma ação clara no celular. Um trecho de 1,5 s sem texto, com metade do quadro vazia, foi corrigido com um título entrando pela borda.
+- Detalhes: `projetos/rotina/PASSO-A-PASSO.md` (item 6) e `reports/Vídeo Rotina v3, skills e combos usados (2026-10-12).md`.

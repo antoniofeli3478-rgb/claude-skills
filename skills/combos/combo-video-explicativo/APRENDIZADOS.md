@@ -40,3 +40,8 @@ Ordem que funcionou, do zero ao vídeo final, numa sessão (passo a passo comple
 ## 11/10/2026: proposta aprovada e salva no SKILL.md
 
 - O Daniel aprovou a proposta com os aprendizados do Rotina v2. O `SKILL.md` agora incorpora tudo até 11/10/2026, já com os caminhos das pastas por categoria.
+
+## 12/10/2026: Rotina v3 com o 3D no Blender
+
+- O esqueleto do combo funcionou trocando o 3D em React pelo Blender. Ordem que mudou: as telas do app ficam prontas **antes** do 3D (viram a textura), e o layout é revisado com o celular em silhueta antes de 2 h 40 min de render. Trilha, efeitos e mixagem são feitos **enquanto** o Blender roda.
+- Proposta (espera aprovação): um combo próprio, `combo-promo-3d-blender`. Detalhes: `projetos/rotina/PASSO-A-PASSO.md` (item 6) e `reports/Vídeo Rotina v3, skills e combos usados (2026-10-12).md`.

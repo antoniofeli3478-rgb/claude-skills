@@ -13,3 +13,7 @@ Adendos datados. O mais novo fica embaixo. Os arquivos oficiais ficam intactos.
 - **Ela é escrita para inglês.** Os padrões de vocabulário ("delve", "tapestry", "leverage") e as regras de pontuação são do inglês. Para o português do Brasil, valem os princípios (variar o tamanho das frases, trocar o abstrato pelo concreto, tomar posição, sem fechamento arrumadinho) e a lista de equivalentes do combo `skills/combos/combo-copy-humanizada/SKILL.md`.
 - **A nota de 0 a 100 feita pelo próprio modelo infla o resultado**, como o `SKILL.md` avisa. Use como sinal, não como veredito. O teste final é o usuário ler em voz alta.
 - **Quando usar:** sempre depois da `copywriting`, e também para revisar qualquer texto que soe "robótico".
+
+## 12/10/2026: roteiro do Rotina v3
+
+- `rewrite --purpose marketing`, voz `casual`. Tirou o tom de anúncio ("Aí cada coisa fica num app diferente", "cai direto no gráfico") sem mexer nos fatos nem na CTA. Antes e depois: `research_notes/Rotina v3 2026-10/roteiro/`.

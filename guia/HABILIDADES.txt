@@ -77,6 +77,8 @@ notas: catálogo de fichas (uma por skill, MCP ou fonte avaliada: origem, status
 notas: hospedagem de site de cliente (a Vercel grátis não é para uso comercial; Cloudflare Pages, Netlify, Vercel Pro e outras, com preços e termos de 12/10/2026) | research_notes/Caça de skills 2026-10/hospedagem/pesquisa.md
 notas: scroll-vídeo sem travar, CANCELADO a pedido do Daniel; material guardado só como conhecimento (~40%: pesquisa de codecs e medidas, rascunhos de código, equipamento de teste) | research_notes/Caça de skills 2026-10/scroll-suave-PARCIAL/LEIA-ME.md
 relatório: pendências e porcentagem de pesquisa de tudo o que está incompleto (12/10/2026) | reports/Pendências e porcentagem de pesquisa (2026-10-12).md
+relatório: vídeo Rotina v3 (12/10/2026): cada skill e combo usado, como foi usado, e as propostas de skills e combos novos (esperam aprovação) | reports/Vídeo Rotina v3, skills e combos usados (2026-10-12).md
+notas: Rotina v3: mapa das 39 skills para um vídeo (o que cada uma faz, conflitos, receita de design e animação, checklist de revisão), briefing e roteiro (copy → humanizado) | research_notes/Rotina v3 2026-10/ (comece pelo MAPA-SKILLS.md)
 notas: kit motion-video e dicas (Google AI Studio) | research_notes/Motion design 3D e voz IA/motion_video_kit_e_dicas.md
 notas: Framer Motion / Motion 14 (versão atual, novidades, skill e MCP oficiais, teste de compatibilidade) | research_notes/Framer Motion 2026/notas.md
 amostras de voz (Kokoro, Piper, Chatterbox, Gemini, edge) e legendas alinhadas | research_notes/Motion design 3D e voz IA/samples/
@@ -85,7 +87,7 @@ manual de utilização do repositório (pastas, arquivos, receitas, GitHub, apro
 
 2b) PROJETOS (cada um tem só um PASSO-A-PASSO com o que foi feito e os caminhos das habilidades)
 --------------------------------------------------------------------------------------------------
-Rotina (vídeos do app: teaser 10 s, explicativo 60 s e promo v2/v2.1 30 s com celular 3D, revisada com as regras de composição do editor) | projetos/rotina/PASSO-A-PASSO.md (código: branch rotina-video, pasta rotina-video/)
+Rotina (vídeos do app: teaser 10 s, explicativo 60 s, promo v2/v2.1 30 s com celular 3D e promo v3 30 s com o celular todo no Blender) | projetos/rotina/PASSO-A-PASSO.md (código: branch rotina-video, pasta rotina-video/)
 
 3) HABILIDADES DA PLATAFORMA (não estão no repositório; chamar pelo nome com a ferramenta Skill)
 -------------------------------------------------------------------------------------------------
