@@ -38,3 +38,14 @@ O `SKILL.md` incorpora os aprendizados até 11/10/2026.
 - Rodar o componente dentro de um app Next.js de verdade.
 - Gerar um clipe de verdade por IA: o PC do Daniel tem GPU NVIDIA de ~4 GB (12/10/2026), abaixo do mínimo; usar Kaggle, Colab ou conta grátis no HF. Falta montar o notebook.
 - A categoria `skills/sites/` ainda precisa da aprovação do Daniel.
+
+## 12/10/2026: scroll sem travar (trabalho parcial, parado a pedido do Daniel)
+
+O Daniel pediu foco em usar o scroll-vídeo **sem travar**. A pesquisa e o teste de velocidade foram interrompidos (≈ 40% prontos). O que já se sabe está em `research_notes/Caça de skills 2026-10/scroll-suave-PARCIAL/`. Resumo do que tem fonte ou medição:
+
+- **Vídeo ligado à rolagem trava porque o navegador pula para o keyframe mais próximo.** A correção é codificar com todos os quadros como keyframe (`-g 1`). Medimos a distância até o keyframe: 45,5 quadros em média no GOP 250 e 1 no all-intra. O custo é o peso: 4,29 MB contra 1,52 MB em H.264 (720p, 3 s). Num teste, o VP9 all-intra ficou com cerca de metade do peso do H.264 na mesma qualidade (1,42 MB contra 2,91 MB); foi um vídeo sintético, repetir com quadros reais.
+- **Para produto com fundo transparente no vídeo:** VP9 com alfa para Chrome e Firefox; HEVC com alfa só se codifica no Mac; o ffmpeg perde o alfa do HEVC sem avisar. A alternativa que roda em todo lugar é o vídeo "empilhado" (cor em cima, máscara embaixo).
+- **Canvas com todos os quadros decodificados usa muita memória** (843 MB no pico contra 325 MB com vídeo, em 150 quadros): a ideia é a **janela deslizante** (`fetch` + `createImageBitmap`, `close()` ao sair da janela). Rascunho em `codigo-A/janela.js`.
+- **Não validado:** nenhuma técnica foi comparada de verdade (2 de 373 execuções do teste), nada rodou em celular real nem no Safari.
+
+**Pendências antigas, atualizadas:** a categoria `skills/sites/` foi aprovada e entrou (PR #21). O notebook para Kaggle/Colab foi **cancelado** pelo Daniel (ele mesmo vai escolher o serviço de geração de imagem e vídeo). Continuam pendentes: testar num iPhone e num Android reais e rodar o componente num app Next.js de verdade.
