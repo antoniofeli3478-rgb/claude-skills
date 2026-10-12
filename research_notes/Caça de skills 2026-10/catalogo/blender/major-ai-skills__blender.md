@@ -3,7 +3,6 @@ nome: "major-ai-skills/blender"
 repositorio: "major-ai-skills (pacote npm 2.3.0)"
 caminho_no_repo: "não verificado"
 autor: "major-ai-skills"
-licenca: "variada, não conferida"
 instalacoes: "não verificado"
 commit_ou_versao: "2026 (ano informado na pesquisa B)"
 data_verificada: "2026-10-11"
@@ -25,7 +24,6 @@ Skill de Blender dentro do pacote major-ai-skills. Aparece na pesquisa B só com
 - Não foi lida nem conferida; não há base para aproveitar nada.
 
 ## Riscos e cuidados
-- Licença 'variada, não conferida' segundo a pesquisa B.
 - Nada foi instalado nem executado.
 
 ## Transcrição: o que aprendemos (nas nossas palavras)

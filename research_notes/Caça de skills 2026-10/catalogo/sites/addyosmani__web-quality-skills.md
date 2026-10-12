@@ -3,7 +3,6 @@ nome: "web-quality-skills (pacote de 6: web-quality-audit, performance, core-web
 repositorio: "addyosmani/web-quality-skills"
 caminho_no_repo: "skills/ (6 pastas: web-quality-audit, performance, core-web-vitals, accessibility, seo, best-practices)"
 autor: "Addy Osmani (Google Chrome)"
-licenca: "MIT (LICENSE da raiz, Addy Osmani 2026; cada SKILL.md também traz license: MIT)"
 instalacoes: "por skill, na ordem em que a pesquisa lista: web-quality-audit 30,3 mil; performance 39 mil; core-web-vitals sem número; accessibility 60,3 mil; seo 49,7 mil; best-practices sem número (skills.sh find, 11/10/2026)"
 commit_ou_versao: "afa8da942115f2961fdbfa80807ea0b232ff6c00 (24/08/2026); pacote versão 2.0"
 data_verificada: "2026-10-11"

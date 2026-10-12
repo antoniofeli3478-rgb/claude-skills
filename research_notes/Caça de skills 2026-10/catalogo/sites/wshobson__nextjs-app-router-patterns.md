@@ -3,7 +3,6 @@ nome: "nextjs-app-router-patterns"
 repositorio: "wshobson/agents"
 caminho_no_repo: "não verificado"
 autor: "wshobson"
-licenca: "não conferida (a própria pesquisa diz isso)"
 instalacoes: "31,7 mil (skills.sh find, 11/10/2026)"
 commit_ou_versao: "não verificado"
 data_verificada: "2026-10-11"
@@ -23,7 +22,6 @@ Skill com padrões do **App Router** do Next.js (a forma atual de organizar pág
 
 ## O que NÃO aproveitamos e por quê
 - Motivo do descarte: "fica abaixo da Vercel e da equipe do Next" (pesquisa A). Redundante com fontes oficiais.
-- Licença **não conferida**.
 - Nota 4.
 - Observação desta ficha: o status "descartada" vem da nota baixa e dessa frase; a pesquisa não a lista expressamente entre as "só referência" nem entre as descartadas. Conferir com o Daniel se quiser mudar.
 

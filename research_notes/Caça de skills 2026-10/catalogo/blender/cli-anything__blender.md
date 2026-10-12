@@ -3,7 +3,6 @@ nome: "CLI-Anything Blender"
 repositorio: "não verificado (página no claudskills.sh)"
 caminho_no_repo: "não verificado"
 autor: "não verificado"
-licenca: "variada, não conferida"
 instalacoes: "não verificado"
 commit_ou_versao: "2026 (ano informado na pesquisa B)"
 data_verificada: "2026-10-11"
@@ -25,7 +24,6 @@ Skill de Blender para agentes via linha de comando. Aparece na pesquisa B só co
 - Não foi lida nem conferida; não há base para aproveitar nada.
 
 ## Riscos e cuidados
-- Licença 'variada, não conferida' segundo a pesquisa B.
 - Nada foi instalado nem executado.
 
 ## Transcrição: o que aprendemos (nas nossas palavras)

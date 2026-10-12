@@ -3,7 +3,6 @@ nome: "Skills do Next.js, as outras (next-bundle-optimizer, next-cache-component
 repositorio: "vercel/next.js (antes vercel-labs/next-skills)"
 caminho_no_repo: "skills/ (branch canary)"
 autor: "Vercel (equipe do Next.js)"
-licenca: "MIT (repositório vercel/next.js)"
 instalacoes: "não verificado (só a next-dev-loop tem número: 19,2 mil)"
 commit_ou_versao: "não verificado"
 data_verificada: "2026-10-11"
