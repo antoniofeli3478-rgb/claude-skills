@@ -81,3 +81,15 @@ O `SKILL.md` incorpora os aprendizados até 12/10/2026.
 - O Daniel disse que **não quer mais testes no Blender**. Os quatro itens abaixo ficam registrados como **não testados**, para ninguém achar que foram conferidos: o render completo de 90 quadros, a tela real do app Rotina no celular, a cintilação do removedor de ruído (OIDN) numa sequência longa e o Blender no computador dele.
 - **Valores mantidos como padrão:** o celular passa do ponto 1% e o `premium.py` é o script principal do plano-herói. Se o olho de editor dele achar o reflexo rápido demais ou o movimento errado, ajustar pelos números da `references/direcao-animacao.md`.
 
+
+## 12/10/2026: Rotina v3, primeiro vídeo inteiro com o celular do Blender
+
+- **Agora testado** (era "não testado" no adendo anterior): render longo de **895 quadros** a 100% (Cycles, 8 amostras, motion blur, OIDN); a **UI real do Rotina** como sequência na tela (1080×2309, numerada pelo quadro do Remotion); **tremido do OIDN** em sequência longa: diferença média de 0,4/255 entre quadros parados (invisível).
+- **Cena base + poses de fora:** a cena saiu do `premium.py --anim parado --salvar`; um script do projeto (`blender/v3_pose.py`, branch `rotina-video`) limpa a animação, aplica uma pose por quadro (lida de um JSON exportado do Remotion, chaves lineares) e troca a imagem da tela por uma sequência (`frame_start=1`, `offset 0`).
+- **Mesma câmera nos dois lados:** câmera fixa em (0, −0,62, 0) olhando +Y, `sensor_fit VERTICAL`, altura do sensor 36 mm, lente 84,68 mm (fov 24°). As projeções do Blender e do Remotion bateram com 0 px de diferença (`--checar` grava os cantos projetados).
+- **Render só da região do celular (`--borda`):** a caixa projetada das malhas do celular em cada quadro (subquadros ±0,5 por causa do motion blur, folga de 3%), `use_border=True` e `use_crop_to_border=False` (o PNG continua 1080×1920). De 18 para ~10 s por quadro. Quadros sem celular não são gravados: o Remotion precisa pular exatamente os mesmos.
+- **Regra do Daniel:** o celular fica sempre reto ou inclinado para cima (nunca com a tela virada para baixo). No v3 isso virou teste: o exportador de poses para com erro se algum quadro quebrar a regra.
+- **Celular apagado em palco escuro vira um retângulo preto.** Uma tela acesa (bloqueio com relógio e notificações) dá forma ao aparelho.
+- **Render longo em segundo plano:** o Bash em segundo plano para em 2 h. Use `setsid nohup … & disown`. Não use `pkill -f` com um padrão que também casa com o seu próprio comando (matou o shell, código 144).
+- **Tempo real:** 2 h 39 min para 895 quadros (~10,7 s por quadro com 4 CPUs, dividindo a máquina com rascunhos do Remotion).
+- Detalhes: `projetos/rotina/PASSO-A-PASSO.md` (item 6) e `reports/Vídeo Rotina v3, skills e combos usados (2026-10-12).md`.

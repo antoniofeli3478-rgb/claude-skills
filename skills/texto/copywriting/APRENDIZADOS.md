@@ -11,3 +11,8 @@ Adendos datados. O mais novo fica embaixo. Os arquivos oficiais ficam intactos.
   - O teste "Now you can" e as fórmulas de título (`references/copy-frameworks.md`).
 - **Ela é escrita para inglês.** As frases proibidas ("In today's fast-paced world", "Say goodbye to") não existem em português. A **estrutura** vale igual (contraste, negação em lista, frases que se arrastam). Para o português do Brasil, veja a lista nossa de equivalentes no combo `combo-copy-humanizada`.
 - **Regra de honestidade:** nunca inventar números, depoimentos ou provas. Quando faltar um dado, escrever `[NEED: ...]` em vez de preencher.
+
+## 12/10/2026: roteiro do Rotina v3 (agente, combo-copy-humanizada)
+
+- Ângulo "Segunda eu começo": a semana é o fio (segunda → quarta → o dia a dia no app → "nem precisa esperar a segunda" → "agora"). 13 falas, 91 palavras, gancho de 2 s, uma CTA só.
+- Para a voz caber em 30 s com a Leda a ~1,1x, a meta de 80 a 95 palavras funcionou. Arquivos: `research_notes/Rotina v3 2026-10/roteiro/`.

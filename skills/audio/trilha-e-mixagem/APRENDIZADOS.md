@@ -34,3 +34,11 @@ Adendos datados. O mais novo fica embaixo.
 ## 11/10/2026: proposta aprovada e salva no SKILL.md
 
 - O Daniel aprovou a proposta com os aprendizados do Rotina v2. O `SKILL.md` agora incorpora tudo até 11/10/2026, já com os caminhos das pastas por categoria.
+
+## 12/10/2026: Rotina v3 (trilha de 100 BPM)
+
+- **Mudar o BPM do `exemplo_trilha_v2.py`:** além de `beat_t(k) = (fase + 18·k)/30` (100 BPM = 18 quadros por batida), há tempos fixos em segundos pensados para 120 BPM que precisam ser multiplicados por 1,2: o deslocamento dos chimbais (0,125 → 0,15), o contratempo (0,25 → 0,3), o 2º tom da virada (0,375 → 0,45), o passo do rufar e o delay. Procure por números decimais no script.
+- **Grade travada na voz:** virada no quadro 250 ("junta"), seções em 430 e 574, pausa em 772 e golpe final em 862, logo depois de "bio".
+- **Efeitos:** 96, todos em `src/v3/sons.ts` com os quadros da animação. Novo: o "plim" de notificação = `chime` com `n1 1760, n2 2349,3, gap 0,05, dur 0,35`, ganho 0,1.
+- **Resultado:** −14,0 LUFS e −1,6 dBTP no vídeo final; voz no mínimo 12,8 dB acima do fundo (mediana 17,1 dB). A transcrição do áudio final (95,6%) ficou acima da voz sozinha (93,4%): a trilha não cobre a fala.
+- Detalhes: `projetos/rotina/PASSO-A-PASSO.md` (item 6) e `reports/Vídeo Rotina v3, skills e combos usados (2026-10-12).md`.

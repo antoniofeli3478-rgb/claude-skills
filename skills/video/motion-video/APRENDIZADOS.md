@@ -45,3 +45,8 @@ Detalhes e como implementar: `skills/video/remotion-video/APRENDIZADOS.md`, aden
 ## 11/10/2026: SKILL.md de entrada
 
 - Foi criado `skills/video/motion-video/SKILL.md`, que só aponta para o original em `.claude/skills/motion-video/SKILL.md`. Sem ele, o programa `npx skills` não achava a skill (não procura em pastas ocultas). O original continua intacto.
+
+## 12/10/2026: o que o Rotina v3 aproveitou
+
+- **Usado:** as 9 regras de movimento (nada parado, eventos sobrepostos de 4 a 12 quadros) e os sons do `sfx.py`, que já estão no mixer da `trilha-e-mixagem`. O motor em canvas não foi usado; o 3D veio do Blender.
+- **Cuidado com as regras do Daniel:** os ajudantes `words()` (palavra surgindo com blur no lugar) e `logo()` fazem o texto brotar no meio da tela. Isso quebra a regra 4 (o texto entra pela borda ou de trás do celular). Não use os dois em vídeo para o Daniel.

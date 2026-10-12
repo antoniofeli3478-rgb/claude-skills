@@ -66,3 +66,10 @@ As outras (Despina, Autonoe, Pulcherrima e Aoede) não foram destacadas. As trê
 ## 11/10/2026: proposta aprovada e salva no SKILL.md
 
 - O Daniel aprovou a proposta com os aprendizados do Rotina v2. O `SKILL.md` agora incorpora tudo até 11/10/2026, já com os caminhos das pastas por categoria.
+
+## 12/10/2026: Rotina v3 (Leda, 91 palavras)
+
+- **Velocidade da Leda:** 91 palavras em 13 falas deram **41 s a 1,0x** (2,2 palavras por segundo). A estimativa de 2,67 da v2 errou para menos. Com `atempo` 1,1x e pausas apertadas: 28,3 s.
+- **Chave:** a primeira chave do Gemini respondeu 401; o script passou sozinho para a segunda. Nenhuma chave entrou no repositório.
+- **Transcrição (`conferir_voz.py`, modelo small):** 93,4% na voz sozinha e 95,6% no áudio final. Erros: "eu começo" virou "o começo", "Rotina" virou "rutina" e "anotou peso" saiu colado ("anotopeza"). O modelo `large-v3-turbo` quebrou no alinhamento de palavras do faster-whisper (`IndexError` em `find_alignment`); fique no small ou passe sem marcação de palavras.
+- Detalhes: `projetos/rotina/PASSO-A-PASSO.md` (item 6) e `reports/Vídeo Rotina v3, skills e combos usados (2026-10-12).md`.

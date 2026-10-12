@@ -107,11 +107,13 @@ claude-skills/
 │   ├── Repositório vercel-labs skills.md
 │   ├── Caça de skills de design e animação (2026-10-11).md
 │   ├── Blender premium, sites com IA, scroll e vídeo com IA (2026-10-12).md
-│   └── Pendências e porcentagem de pesquisa (2026-10-12).md     o que está incompleto, com %
+│   ├── Pendências e porcentagem de pesquisa (2026-10-12).md     o que está incompleto, com %
+│   └── Vídeo Rotina v3, skills e combos usados (2026-10-12).md   skills e combos do v3 + propostas novas
 │
 └── research_notes/                    ANOTAÇÕES BRUTAS DE PESQUISA, uma pasta por tema
     ├── Motion design 3D e voz IA/     (com samples/ de voz)
     ├── Framer Motion 2026/
+    ├── Rotina v3 2026-10/             mapa das 39 skills para um vídeo, briefing e roteiro do v3
     └── Caça de skills 2026-10/        pesquisa e transcrição de cada rodada da caça de skills
         ├── motion-oficial/  button-animation/  ui-ux-pro-max/  refero-estilos/
         ├── blender-ia/  blender-premium/  video-ia/  sites/      (pesquisa-A, pesquisa-B, TRANSCRICAO, RESUMO)
