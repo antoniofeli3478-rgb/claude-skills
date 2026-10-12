@@ -13,7 +13,7 @@ Os status foram atualizados em 12/10/2026, depois da aprovação do Daniel (PR #
 
 Os arquivos `TRANSCRICAO.md` completos de cada tema ficam em `research_notes/Caça de skills 2026-10/<tema>/`. O índice das skills instaladas é o `guia/HABILIDADES.txt`.
 
-**Total: 138 fichas.** Por status: ideias-aproveitadas 48, so-referencia 46, descartada 29, instalada-intacta 14, proposta-aguardando-aprovacao 1.
+**Total: 138 fichas.** Por status: ideias-aproveitadas 47, so-referencia 46, descartada 29, instalada-intacta 16.
 
 ## Movimento e botões (animação de interface) (46 fichas)
 
@@ -25,12 +25,12 @@ Os arquivos `TRANSCRICAO.md` completos de cada tema ficam em `research_notes/Ca�
 | [animation-principles (buttons-ctas)](design-movimento/dylantarre__animation-principles.md) | MIT | ideias-aproveitadas | 5 | skills/design/button-animation/SKILL.md (§4 receita 4, tremor de erro: só os tempos) |
 | [animate-expo](design-movimento/emilkowalski__animate-expo.md) | MIT (licença do repositório) | so-referencia | sem nota | — |
 | [animate](design-movimento/emilkowalski__animate.md) | MIT | ideias-aproveitadas | 10 | skills/design/motion-oficial/SKILL.md (ordem de trabalho e "Nunca entregar"); skills/design/motion-oficial/references/receitas.md e references/molas-e-curvas.md; skills/design/button-animation/SKILL.md (§1 Antes de animar, §2 Números, §4 receitas 5 e 6, §6 e §7) |
-| [animation-vocabulary](design-movimento/emilkowalski__animation-vocabulary.md) | MIT (licença do repositório) | proposta-aguardando-aprovacao | sem nota | — |
+| [animation-vocabulary](design-movimento/emilkowalski__animation-vocabulary.md) | MIT (licença do repositório) | instalada-intacta | sem nota | skills/design/animation-vocabulary/ (cópia intacta, MIT) (instalada na main em 12/10/2026) |
 | [apple-design](design-movimento/emilkowalski__apple-design.md) | MIT | ideias-aproveitadas | 8 (motion A) / 10 (motion B e botões, nota do grupo Emil) | skills/design/motion-oficial/references/gestos.md e references/molas-e-curvas.md; skills/design/button-animation/SKILL.md (§2.3 Molas: padrão sem quique) |
 | [emil-design-eng](design-movimento/emilkowalski__emil-design-eng.md) | MIT | ideias-aproveitadas | 10 (nota do grupo Emil, botões) | skills/design/button-animation/SKILL.md (§1 Antes de animar, §2 Números, §4 receitas, §6 Desempenho, §7 Nunca entregue) |
 | [find-animation-opportunities](design-movimento/emilkowalski__find-animation-opportunities.md) | MIT (licença do repositório) | so-referencia | 10 (nota do grupo Emil, botões; não avaliada sozinha) | — |
 | [improve-animations](design-movimento/emilkowalski__improve-animations.md) | MIT (licença do repositório) | so-referencia | 10 (nota do grupo Emil, motion B; não avaliada sozinha) | — |
-| [review-animations](design-movimento/emilkowalski__review-animations.md) | MIT | ideias-aproveitadas | 10 (nota do grupo Emil nas duas pesquisas) | skills/design/motion-oficial/references/revisao.md e SKILL.md ("Nunca entregar"); skills/design/button-animation/SKILL.md (§7 Armadilhas e "nunca entregue"). Instalar como skill separada ainda depende de decisão do Daniel. |
+| [review-animations](design-movimento/emilkowalski__review-animations.md) | MIT | instalada-intacta | 10 (nota do grupo Emil nas duas pesquisas) | skills/design/review-animations/ (cópia intacta, MIT, com STANDARDS.md); as ideias já estavam em motion-oficial/references/revisao.md e button-animation (instalada na main em 12/10/2026) |
 | [motion-framer](design-movimento/freshtechbro__motion-framer.md) | não verificado | descartada | sem nota | — |
 | [Material Design 3 (tokens de movimento e de estado)](design-movimento/google__material-3-tokens.md) | Apache-2.0 | ideias-aproveitadas | "7 (motion B) / 8 (botões B)" | skills/design/motion-oficial/references/molas-e-curvas.md §1–2; skills/design/button-animation/SKILL.md (§2.3 Molas; §3 Estados) |
 | [GSAP skills oficiais (gsap-performance, gsap-timeline, gsap-core)](design-movimento/greensock__gsap-skills.md) | MIT | ideias-aproveitadas | "descartada (A) / 5 (B, só ideias de coreografia)" | skills/design/motion-oficial/references/api-motion.md §6 (só a ideia de sequência com posição relativa) |

@@ -24,3 +24,9 @@ Adendos datados. O mais novo fica embaixo. O `SKILL.md` já incorpora os aprendi
   - lento → mexa na duração primeiro; robótico → na curva primeiro;
   - `clip-path` só quando a borda do recorte é borda real (regra 2 do editor).
 - **Ainda não testado na prática:** as receitas novas não passaram por checagem de tipos com `motion@14`; a prop `propagate` do `AnimatePresence` e a sintaxe de `stagger` em variants devem ser conferidas no codex antes do primeiro uso.
+
+## 12/10/2026: nome da skill e skills do Emil (pendências fechadas)
+
+- **O nome `motion-oficial` fica como está.** Renomear para `animacao-ui` mexeria em caminhos de manual, índice, README, combos e fichas, sem ganho prático; o nome já aparece no índice com a descrição certa. Se o Daniel pedir a troca, ela passa pelo procedimento de "mover skill" do manual.
+- **`review-animations` e `animation-vocabulary` do Emil Kowalski foram instaladas como skills separadas e intactas** em `skills/design/` (MIT, commit `e8a175d`). Elas não substituem esta skill: a `motion-oficial` continua sendo o método (quando animar, curvas, molas, acessibilidade, ponte para o Remotion); a `review-animations` serve para a revisão final em tabela e a `animation-vocabulary` para dar nome a um efeito.
+

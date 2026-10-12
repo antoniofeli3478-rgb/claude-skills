@@ -74,7 +74,7 @@ Este combo **não repete** o conteúdo das skills: ele diz qual usar em cada pas
 11. **Publicar** (`deploy-to-vercel`):
     - primeiro **preview**; mande o link ao Daniel;
     - ✋ **Aprovação para produção** (e para qualquer push ou para o script "sem login", que envia o projeto a um servidor da Vercel);
-    - site de cliente: o plano grátis (Hobby) é só para uso não comercial; avise antes;
+    - **site de cliente pagante (uso comercial): NÃO publique em plano Hobby da Vercel, nem as prévias.** Pelos termos da Vercel, quem é pago para criar o site já torna o uso comercial. Pergunte ao Daniel e ofereça: Cloudflare Pages (grátis e permitido, para site estático) ou Vercel Pro (US$ 20 por mês, para site com servidor). O cliente cria a própria conta e convida o Daniel como membro. Preços, termos e o passo a passo: `research_notes/Caça de skills 2026-10/hospedagem/pesquisa.md` (confira a página oficial no dia, porque mudam);
     - domínio e analytics; token nunca no repositório.
 12. **Depois do ar** (`seo-audit`): Search Console, diagnóstico e correções. Ferramentas pagas só com o "sim" do Daniel.
 13. **Salve o aprendizado:**
