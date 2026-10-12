@@ -15,7 +15,7 @@ Pedido do Daniel: pegar tudo o que foi coletado, salvar como planejado e trazer 
 
 | # | Item | Pesquisa feita | O que falta |
 |---|---|---|---|
-| 1 | **Scroll-vídeo sem travar** (parado) | **≈ 40%** (pesquisa 63%, teste 40%, proposta 17%) | 371 de 373 execuções do teste; texto final; proposta; celular real |
+| 1 | **Scroll-vídeo sem travar** (**cancelado** pelo Daniel em 12/10/2026) | **≈ 40%** (pesquisa 63%, teste 40%, proposta 17%) | 371 de 373 execuções do teste; texto final; proposta; celular real |
 | 2 | **Catálogo de 138 fichas** | licença verificada **74%**; autor **88%**; nota **67%**; transcrição completa **34%** | 36 fichas sem licença verificada; 91 com transcrição curta |
 | 3 | **Hospedagem de site de cliente** | **68%** dos fatos confirmados em página oficial (38 de 56) | 18 fatos "não confirmado" |
 | 4 | **IA de vídeo grátis** | **≈ 86%** (6 pontos "não verificado" em 42 itens) | nenhum vídeo gerado (por escolha do Daniel) |
@@ -24,7 +24,7 @@ Pedido do Daniel: pegar tudo o que foi coletado, salvar como planejado e trazer 
 | 7 | **Estilos de marca (Awesome Design)** | **15 de 74** fichas guardadas (20%) | as outras 59 ficam como link de download, de propósito |
 | 8 | **Notebook Kaggle/Colab** | 0% | **cancelado** pelo Daniel |
 
-## 1. Scroll-vídeo sem travar (≈ 40%)
+## 1. Scroll-vídeo sem travar (≈ 40%; cancelado pelo Daniel)
 
 | Parte | Pronto | Detalhe |
 |---|---|---|
@@ -70,7 +70,7 @@ Pesquisa cobre modelos abertos (Wan 2.2, LTX-2.x e outros), 16 serviços online 
 4. **Image to Code:** confirmar se a skill `image-to-code` da Taste Skill é a do vídeo que ele viu.
 5. **21st MCP:** recomendação é não assinar (pago e envia o contexto do projeto para fora).
 6. **Blender:** o reflexo deve demorar mais (30 a 40 quadros)? O "passa do ponto" do celular fica em 1% ou 1,5%? O `premium.py` vira o padrão? (ficaram os valores padrão: 1% e `premium.py`.)
-7. **Retomar o scroll sem travar:** quando e com que prioridade.
+7. ~~Retomar o scroll sem travar~~ **cancelado** pelo Daniel em 12/10/2026; só volta se ele pedir.
 
 ## Limites desta contagem
 
