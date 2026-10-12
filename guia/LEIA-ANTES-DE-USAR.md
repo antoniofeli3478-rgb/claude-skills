@@ -78,7 +78,9 @@ claude-skills/
 │   │   ├── taste-skill/               skill de terceiros (MIT), intacta
 │   │   ├── image-to-code/             skill de terceiros (MIT), intacta (gasta créditos de imagem)
 │   │   ├── web-design-guidelines/     skill de terceiros (MIT) + regras-fixadas/
-│   │   └── frontend-design/           skill de terceiros (Apache-2.0), intacta
+│   │   ├── frontend-design/           skill de terceiros (Apache-2.0), intacta
+│   │   ├── animation-vocabulary/      skill de terceiros (Emil Kowalski, MIT), intacta
+│   │   └── review-animations/         skill de terceiros (Emil Kowalski, MIT), intacta (SKILL.md + STANDARDS.md)
 │   ├── sites/
 │   │   ├── referencia-sites/          NOSSA: base de referência de sites e templates (índice + script de download)
 │   │   ├── mcps-para-sites/           NOSSA: manual dos MCPs (shadcn, 21st, Chrome DevTools)
@@ -151,7 +153,7 @@ Outras branches:
 |---|---|---|
 | `skills/video/` | fazer vídeos | `remotion-video`, `motion-video`, `blender-ia` |
 | `skills/audio/` | voz, música e som | `voz-pt-br`, `trilha-e-mixagem` |
-| `skills/design/` | animação e interface de sites e apps | `motion-oficial`, `button-animation`, `thumbnail-carousel`, `ui-ux-pro-max`, `estilos-premium`, `taste-skill`, `image-to-code`, `web-design-guidelines`, `frontend-design` |
+| `skills/design/` | animação e interface de sites e apps | `motion-oficial`, `button-animation`, `thumbnail-carousel`, `ui-ux-pro-max`, `estilos-premium`, `taste-skill`, `image-to-code`, `web-design-guidelines`, `frontend-design`, `animation-vocabulary`, `review-animations` |
 | `skills/sites/` | fazer sites: planejar, construir, testar, auditar e publicar | `referencia-sites`, `mcps-para-sites`, `scroll-cinematico`, `site-architecture`, `shadcn`, `vercel-react-best-practices`, `cro`, `webapp-testing`, `playwright-cli`, `web-quality` (6), `deploy-to-vercel`, `seo-audit` |
 | `skills/texto/` | escrita | `copywriting`, `humanizer` |
 | `skills/ferramentas-de-skills/` | achar, instalar e manter skills | `find-skills` |
@@ -170,7 +172,7 @@ Outras branches:
   ```bash
   npx -y skills@1.7.2 add <caminho-do-repositório> --list
   ```
-  Em 12/10/2026 ele achava **37 itens** (o pacote `web-quality` conta como 6, e a `taste-skill` aparece como `design-taste-frontend`), sem nenhum "Skipped".
+  Em 12/10/2026 ele achava **39 itens** (o pacote `web-quality` conta como 6, e a `taste-skill` aparece como `design-taste-frontend`), sem nenhum "Skipped".
 - **O que nunca fica na `main`:** código de projeto, áudios, vídeos, quadros renderizados, chaves.
 - **O que nunca fica numa branch de projeto:** cópias de skills. Lá entram só código e mídia do projeto.
 - Confira sempre o `guia/HABILIDADES.txt`, que é a fonte certa do que existe.

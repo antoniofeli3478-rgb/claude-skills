@@ -9,8 +9,8 @@ commit_ou_versao: "não verificado (repositório no commit e8a175d, 02/10/2026)"
 data_verificada: "2026-10-11 (data da pesquisa)"
 categoria_nossa: "design"
 nota: "sem nota"
-status: "proposta-aguardando-aprovacao"
-onde_entrou: "—"
+status: "instalada-intacta"
+onde_entrou: "skills/design/animation-vocabulary/ (cópia intacta, MIT) (instalada na main em 12/10/2026)"
 fontes_locais: ["research_notes/Caça de skills 2026-10/button-animation/pesquisa-A.md (§3.18, §5 (item 9))", "research_notes/Caça de skills 2026-10/button-animation/RESUMO.md (Para você decidir)", "research_notes/Caça de skills 2026-10/button-animation/TRANSCRICAO.md (§5)", "skills/design/button-animation/ORIGEM.md (O que ficou de fora)"]
 ---
 # animation-vocabulary

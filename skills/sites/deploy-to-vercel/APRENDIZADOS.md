@@ -1,7 +1,7 @@
 # Aprendizados: deploy-to-vercel
 
 Adendos datados. O mais novo fica embaixo. Os arquivos oficiais ficam intactos.
-A skill incorpora os aprendizados até 11/10/2026 (entrada na base). O adendo de 12/10/2026 (hospedagem comercial) ainda não está refletido no SKILL.md.
+A skill incorpora os aprendizados até 11/10/2026 (entrada na base). O adendo de 12/10/2026 (hospedagem comercial) fica só aqui: o `SKILL.md` original não foi editado; a regra vale pelo `combo-site-premium`.
 
 ## 11/10/2026: entrada na base
 
@@ -27,7 +27,7 @@ Pesquisa completa em `research_notes/Caça de skills 2026-10/hospedagem/pesquisa
 - **Plano B grátis:** Netlify Free, que diz aceitar projetos comerciais, mas pausa o site se os créditos do mês acabarem.
 - **Evitar para cliente pagante:** GitHub Pages (os termos barram "negócio online") e o servidor grátis do Render ("não usar em produção").
 - **Quando o site precisa de servidor** (login, banco, SSR/ISR, imagens do Next.js sem configuração): Vercel Pro, ou Cloudflare Workers pago (a partir de US$ 5 por mês, com mais configuração).
-- **Mudança sugerida no fluxo da skill** (só com o "pode" do Daniel, porque altera o comportamento): perguntar "é uso comercial?" antes de publicar; se sim, não usar Hobby e oferecer Cloudflare Pages (estático) ou Vercel Pro (com servidor).
+- **Mudança de fluxo (aplicada em 12/10/2026 no `combo-site-premium`, passo 11):** perguntar "é uso comercial?" antes de publicar; se sim, não usar Hobby e oferecer Cloudflare Pages (estático) ou Vercel Pro (com servidor). Esta skill é cópia intacta de terceiros e não foi editada.
 - **Preços e termos mudam todo mês.** Isto não é parecer jurídico. Conferir a página oficial no dia de fechar com o cliente.
 
 ### Regras nossas (valem sempre)

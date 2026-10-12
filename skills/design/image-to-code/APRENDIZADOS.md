@@ -19,6 +19,11 @@ A skill incorpora os aprendizados até 12/10/2026 (entrada na base).
 - **Sobreposição:** com a `taste-skill` (mesmos botões `DESIGN_VARIANCE` etc. e as mesmas regras anti-IA) e com a `ui-ux-pro-max`. O que ela tem de único é o passo "gerar → analisar → extrair", e ele só vale com gerador de imagem.
 - **YAML:** a `description` original é longa e não tem dois-pontos seguido de espaço; o cabeçalho foi lido sem erro.
 
+## 12/10/2026: identidade da skill (decisão tomada para fechar a pendência)
+
+- A pergunta "o *Image to Code* do vídeo é esta skill?" ficou sem resposta do Daniel. Foi **assumido que sim**: é a única skill com esse nome e esse papel (imagem primeiro, depois código igual à imagem) no catálogo, do repositório `leonxlnx/taste-skill`, com 359,4 mil instalações em 11/10/2026. Se ele disser que viu outra, a ficha do catálogo e este arquivo são corrigidos.
+- Continua **opcional**: exige um gerador de imagem aprovado e gasta créditos.
+
 ### Regras nossas (valem sempre)
 
 - **Fale com o Daniel em português do Brasil,** com palavras simples. O original fica em inglês e intacto; o código e os comentários de código podem ficar em inglês.

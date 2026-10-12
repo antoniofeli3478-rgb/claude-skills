@@ -13,6 +13,11 @@ A skill incorpora os aprendizados até 12/10/2026 (criação).
   - O `@21st-dev/cli` manda o nome de alguns comandos para a 21st.dev e não tem opção para desligar (lido no pacote, não executado).
 - **Ainda não testado num projeto real.** Nada foi instalado no container. No primeiro uso (no computador do Daniel), anote aqui o comando que funcionou e o que mudou.
 
+## 12/10/2026: decisão sobre o 21st MCP (pendência fechada)
+
+- **Não assinar e não ligar o 21st MCP.** Motivos já descritos na `SKILL.md`: é pago para código de componente e IA e envia o contexto do projeto para a 21st.dev. Os componentes de que precisamos vêm do `shadcn` (grátis, linha de comando) e da base `referencia-sites`. Só volta a ser considerado se o Daniel pedir.
+- O `shadcn/ui MCP` e o Chrome DevTools MCP seguem como instruções para o computador dele, sem instalar na nuvem.
+
 ### Regras nossas (valem sempre)
 
 - **Fale com o Daniel em português do Brasil,** com palavras simples.

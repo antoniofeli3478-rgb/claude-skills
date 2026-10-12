@@ -18,3 +18,10 @@ O combo incorpora os aprendizados até 11/10/2026 (entrada na base).
 - **Conflitos conhecidos:** a `taste-skill` tem padrões com recorte e texto sobre imagem em movimento (quebram as 4 regras do editor); a `image-to-code` manda a imagem ser a "fonte da verdade", mas aqui é o `DESIGN.md`. Em ambos, vale o nosso.
 - **Custo de leitura:** `taste-skill` ~22 mil tokens (leia por seção); `image-to-code` ~9 mil; `frontend-design` ~2,5 mil.
 - **Nada disso foi usado num site real ainda.**
+
+## 12/10/2026: hospedagem de site de cliente (decisão aplicada)
+
+- **Mudança no passo 11 (publicar):** a pergunta "é uso comercial?" já estava no briefing (passo 0); agora o passo 11 manda **não usar o plano Hobby da Vercel para cliente pagante**, nem nas prévias, e oferecer Cloudflare Pages (estático, grátis) ou Vercel Pro (com servidor). Motivo e fontes: `research_notes/Caça de skills 2026-10/hospedagem/pesquisa.md` e o adendo de 12/10/2026 em `skills/sites/deploy-to-vercel/APRENDIZADOS.md`.
+- **Por que a mudança ficou aqui e não na `deploy-to-vercel`:** a `deploy-to-vercel` é uma cópia intacta de terceiros (não se edita). Ela continua só publicando; quem decide **onde** publicar é este combo.
+- **Decisão:** o Daniel pediu para terminar as pendências (12/10/2026) e a recomendação dada foi seguida. Se ele preferir o fluxo antigo, é só desfazer este bullet.
+- **Ainda não testado:** nenhum site real foi publicado por este fluxo.

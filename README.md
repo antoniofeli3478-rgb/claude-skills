@@ -29,6 +29,8 @@ Cada pasta tem o `SKILL.md` (a skill original) e, quando houver, o `APRENDIZADOS
 | `image-to-code` | Site "imagem primeiro" (skill de terceiros, MIT; gasta créditos) | `skills/design/image-to-code/` |
 | `web-design-guidelines` | Revisar interface contra 100+ regras da Vercel (MIT) | `skills/design/web-design-guidelines/` |
 | `frontend-design` | Plano curto de design contra o "visual de IA" (Anthropic, Apache-2.0) | `skills/design/frontend-design/` |
+| `animation-vocabulary` | Dar o nome certo a um efeito de movimento descrito pela sensação (Emil Kowalski, MIT) | `skills/design/animation-vocabulary/` |
+| `review-animations` | Revisar animação de interface contra 10 padrões, em tabela com veredito (Emil Kowalski, MIT) | `skills/design/review-animations/` |
 | `referencia-sites` | Base de referência de sites e templates com código e licença | `skills/sites/referencia-sites/` |
 | `scroll-cinematico` | Animação premium que acompanha a rolagem do site | `skills/sites/scroll-cinematico/` |
 | `mcps-para-sites` | Manual dos MCPs para sites (shadcn, 21st, Chrome DevTools) | `skills/sites/mcps-para-sites/` |

@@ -14,4 +14,4 @@ Pasta: `catalogo/design-movimento/`. Reúne **46 fichas**, uma por skill, reposi
 - **Caminhos locais** das fontes nas fichas são relativos a `/home/user/claude-skills-main/`.
 - **Lacunas:** ver o relatório final (skills do Emil só citadas pelo nome, repositórios descartados sem leitura, nota e licença faltando em alguns casos).
 
-**Status atual (46 fichas, atualizado após o PR #21 de 12/10/2026):** ideias-aproveitadas 29, descartada 10, so-referencia 6, proposta-aguardando-aprovacao 1.
+**Status atual (46 fichas, atualizado após o PR #21 de 12/10/2026):** ideias-aproveitadas 28, descartada 10, so-referencia 6, instalada-intacta 2.

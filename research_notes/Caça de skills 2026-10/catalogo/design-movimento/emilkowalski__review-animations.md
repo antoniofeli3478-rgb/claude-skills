@@ -9,8 +9,8 @@ commit_ou_versao: "e8a175d (02/10/2026)"
 data_verificada: "2026-10-11 (data da pesquisa)"
 categoria_nossa: "design"
 nota: "10 (nota do grupo Emil nas duas pesquisas)"
-status: "ideias-aproveitadas"
-onde_entrou: "skills/design/motion-oficial/references/revisao.md e SKILL.md (\"Nunca entregar\"); skills/design/button-animation/SKILL.md (§7 Armadilhas e \"nunca entregue\"). Instalar como skill separada ainda depende de decisão do Daniel."
+status: "instalada-intacta"
+onde_entrou: "skills/design/review-animations/ (cópia intacta, MIT, com STANDARDS.md); as ideias já estavam em motion-oficial/references/revisao.md e button-animation (instalada na main em 12/10/2026)"
 fontes_locais: ["research_notes/Caça de skills 2026-10/motion-oficial/pesquisa-A.md (§2.1 (item k))", "research_notes/Caça de skills 2026-10/motion-oficial/TRANSCRICAO.md (§3.1)", "research_notes/Caça de skills 2026-10/button-animation/pesquisa-A.md (§2, §5)", "research_notes/Caça de skills 2026-10/button-animation/pesquisa-B.md (§2.2)", "research_notes/Caça de skills 2026-10/button-animation/RESUMO.md", "research_notes/Caça de skills 2026-10/button-animation/TRANSCRICAO.md (§5)", "skills/design/motion-oficial/ORIGEM.md", "skills/design/button-animation/ORIGEM.md"]
 ---
 # review-animations
