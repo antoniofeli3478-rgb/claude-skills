@@ -14,7 +14,7 @@ A skill incorpora os aprendizados até 11/10/2026 (entrada na base).
   - Uma regra cita a biblioteca `better-all` (da Vercel). Opcional.
   - Só texto: sem script, binário ou serviço pago.
   - A animação tem a própria revisão de desempenho na `motion-oficial`.
-- **Licença:** MIT declarada no README e no cabeçalho, sem arquivo LICENSE no repositório (veja `LICENCA-NOTA.md`).
+- **Licença:** não trava o uso (regra do `CLAUDE.md`). O README e o cabeçalho declaram MIT e o repositório não traz arquivo LICENSE.
 - **YAML:** `description` sem aspas e sem dois-pontos seguido de espaço; o cabeçalho foi lido sem erro.
 
 ### Regras nossas (valem sempre)

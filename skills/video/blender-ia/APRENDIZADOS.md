@@ -75,3 +75,9 @@ O `SKILL.md` incorpora os aprendizados até 12/10/2026.
 - O `Noise` de micro-deriva foi medido numa sonda (0,15° pico a pico), mas **não está ligado** no `premium.py`; está na receita de `references/direcao-animacao.md`.
 - O `produto.py` e o `logo_e_celular.py` não foram alterados (só um aviso no cabeçalho do segundo); o `produto.py` continua com view `Standard` por padrão (passe `--view "Khronos PBR Neutral"`).
 - Aprovação: o Daniel decide se o `premium.py` vira o padrão e se o `produto.py` pode ser aposentado.
+
+## 12/10/2026: testes finais dispensados (decisão do Daniel)
+
+- O Daniel disse que **não quer mais testes no Blender**. Os quatro itens abaixo ficam registrados como **não testados**, para ninguém achar que foram conferidos: o render completo de 90 quadros, a tela real do app Rotina no celular, a cintilação do removedor de ruído (OIDN) numa sequência longa e o Blender no computador dele.
+- **Valores mantidos como padrão:** o celular passa do ponto 1% e o `premium.py` é o script principal do plano-herói. Se o olho de editor dele achar o reflexo rápido demais ou o movimento errado, ajustar pelos números da `references/direcao-animacao.md`.
+

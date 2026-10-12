@@ -3,7 +3,6 @@ nome: "ui-skills (baseline-ui, create-design-md, fixing-accessibility, fixing-mo
 repositorio: "ibelick/ui-skills"
 caminho_no_repo: "4 skills no repositório"
 autor: "ibelick"
-licenca: "MIT"
 instalacoes: "não verificado"
 commit_ou_versao: "não verificado (clone A-ibelick-ui-skills na pesquisa B)"
 data_verificada: "2026-10-11"

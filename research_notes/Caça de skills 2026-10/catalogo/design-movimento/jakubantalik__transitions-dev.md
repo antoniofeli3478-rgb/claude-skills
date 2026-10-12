@@ -3,7 +3,6 @@ nome: "transitions-polish / transitions-dev"
 repositorio: "jakubantalik/transitions.dev (https://github.com/jakubantalik/transitions.dev)"
 caminho_no_repo: "não verificado"
 autor: "Jakub Antalik (atenção: não é o Jakub Krehel)"
-licenca: "licença própria: pode usar em projetos, mas NÃO pode redistribuir a coleção"
 instalacoes: "8,9 mil (skills.sh, 11/10/2026)"
 commit_ou_versao: "2773886 (10/10/2026)"
 data_verificada: "2026-10-11 (data da pesquisa)"
@@ -16,13 +15,13 @@ fontes_locais: ["research_notes/Caça de skills 2026-10/motion-oficial/pesquisa-
 # transitions-polish / transitions-dev
 
 ## O que é
-Coleção com 35 receitas de transição (número que aparece, odômetro, text morph, shimmer etc.). A licença proíbe redistribuir a coleção; copiar para a nossa base seria redistribuir.
+Coleção com 35 receitas de transição (número que aparece, odômetro, text morph, shimmer etc.). Os efeitos podem ser instalados direto no projeto quando o Daniel quiser.
 
 ## O que aproveitamos
 - Nada copiado. Só a ideia: o catálogo de nomes serve como lista de "efeitos que existem" para vídeos de app.
 
 ## O que NÃO aproveitamos e por quê
-- Descartada para a base por causa da licença própria.
+- Fica só como referência por ora (não copiada para a base). A licença não impede o uso.
 - Se o Daniel quiser usar, pode instalar direto no projeto dele, onde o uso é permitido.
 
 ## Riscos e cuidados

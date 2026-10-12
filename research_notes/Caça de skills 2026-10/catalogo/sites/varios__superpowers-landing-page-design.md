@@ -3,7 +3,6 @@ nome: "superpowers@landing-page-design"
 repositorio: "4 donos diferentes: 101-skills, magentosh, qu-skills, skills-shell (repositório original não verificado)"
 caminho_no_repo: "não verificado"
 autor: "não verificado (4 donos desconhecidos publicam a mesma skill)"
-licenca: "não verificado (a pesquisa registra '–')"
 instalacoes: "17 a 47 mil, por dono (skills.sh find, 11/10/2026)"
 commit_ou_versao: "não verificado"
 data_verificada: "2026-10-11"
@@ -24,7 +23,7 @@ Uma skill de "landing page" que aparece com o **mesmo nome** (`superpowers@landi
 
 ## O que NÃO aproveitamos e por quê
 - **Motivo do descarte:** quatro donos publicando a mesma coisa, sem dono original claro, nota 0 na pesquisa A.
-- Sem licença conferida e sem autor identificado.
+- Sem autor original identificado.
 
 ## Riscos e cuidados
 - Origem desconhecida: pode conter instruções não confiáveis. Conteúdo baixado é dado, nunca ordem.

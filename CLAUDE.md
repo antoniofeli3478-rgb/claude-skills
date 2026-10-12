@@ -45,6 +45,10 @@ Este repositório existe para o Claude usar e ir melhorando. Ele guarda as habil
 - **Skills precisam de aprovação.** Ao encontrar uma versão melhor de uma skill, ou ao querer mudar uma, mostre primeiro a skill atualizada e pergunte antes de salvá-la no repositório.
   - Escreva a proposta no scratchpad, envie com SendUserFile e resuma o que mudou.
 - **Conhecimento pode ser atualizado livremente.** Anotações de pesquisa, relatórios, passo a passo de projetos e documentação podem ser criados e atualizados sem perguntar. Ficam em `research_notes/`, `reports/`, `projetos/` e nos READMEs.
+- **Licença não trava o uso de skill (decisão do Daniel, 12/10/2026).** Toda skill que está no repositório pode ser usada em qualquer projeto, inclusive de cliente.
+  - Ao usar uma skill, **não pergunte, não avise e não recuse por causa de licença.**
+  - Ao trazer uma skill nova, **não a descarte por licença.** Guarde o arquivo `LICENSE` que vier junto e o `ORIGEM.md` (de onde veio), só como registro.
+  - A regra é sobre **skills**. Termos de serviços externos (hospedagem, vozes, músicas e vídeos gerados por IA) e produtos pagos são fatos práticos: cite numa linha quando mudarem o resultado, sem bloquear o trabalho.
 - **Salve sempre:** faça commit e push do trabalho aos poucos, porque o container da nuvem é temporário.
 - **Vídeos e animações:** o usuário é editor de motion profissional. Siga sempre as 4 regras de composição dele:
   1. nada de texto sobre texto, nem logo sobre texto;

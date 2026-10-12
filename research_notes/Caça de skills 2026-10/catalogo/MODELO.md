@@ -8,7 +8,6 @@ nome: "nome da skill"
 repositorio: "dono/repo (ou URL; 'não verificado' se faltar)"
 caminho_no_repo: "pasta da skill dentro do repositório, se souber"
 autor: "..."
-licenca: "MIT | Apache-2.0 | CC-BY | proprietária | sem licença | não verificado"
 instalacoes: "número do skills.sh quando houver, senão estrelas, senão 'não verificado'"
 commit_ou_versao: "..."
 data_verificada: "AAAA-MM-DD (a data que consta na pesquisa)"
@@ -27,10 +26,10 @@ fontes_locais: ["arquivos de pesquisa/transcrição de onde tirei isto"]
 Itens curtos: regra, número, receita, checklist, e onde entrou na nossa skill.
 
 ## O que NÃO aproveitamos e por quê
-Conflitos, riscos, licença, redundância.
+Conflitos, riscos, redundância.
 
 ## Riscos e cuidados
-Executa algo sozinha? Telemetria? Chave/conta/plano pago? Envia dados para fora? Licença restrita?
+Executa algo sozinha? Telemetria? Chave/conta/plano pago? Envia dados para fora?
 
 ## Transcrição: o que aprendemos (nas nossas palavras)
 Síntese própria do que esta skill ensina, em 5–15 linhas ou itens. Citação literal só se for curta (até 20 palavras), entre aspas, com a origem. Não copie trechos longos.
@@ -39,9 +38,9 @@ Síntese própria do que esta skill ensina, em 5–15 linhas ou itens. Citação
 - links e arquivos locais usados
 ```
 Regras de preenchimento:
-- Use SÓ o que está nos arquivos locais indicados (pesquisas, transcrições, ORIGEM.md, relatórios). Não faça pesquisa nova na web. Se um campo não aparece, escreva "não verificado": NUNCA invente números, licenças ou datas.
+- Use SÓ o que está nos arquivos locais indicados (pesquisas, transcrições, ORIGEM.md, relatórios). Não faça pesquisa nova na web. Se um campo não aparece, escreva "não verificado": NUNCA invente números ou datas.
 - Não copie trechos longos de skills de terceiros nem de páginas do Refero (os termos do Refero proíbem). A "Transcrição" é síntese nossa.
 - Português do Brasil, frases curtas. Código ou nomes técnicos podem ficar em inglês.
 - Nunca escreva chaves ou senhas.
-- Cada área termina com `_lista.tsv` (separado por TAB, com cabeçalho): arquivo, nome, repositorio, licenca, status, nota, onde_entrou, categoria_nossa. Uma linha por ficha.
+- Cada área termina com `_lista.tsv` (separado por TAB, com cabeçalho): arquivo, nome, repositorio, status, nota, onde_entrou, categoria_nossa. Uma linha por ficha.
 - Inclua também, em cada área, um `LEIA-ME.md` de 10–20 linhas: o que há na pasta, quantas fichas, como ler.

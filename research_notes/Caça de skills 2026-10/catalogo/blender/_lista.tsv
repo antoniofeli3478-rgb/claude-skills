@@ -1,37 +1,37 @@
-arquivo	nome	repositorio	licenca	status	nota	onde_entrou	categoria_nossa
-affaan-m__blender-motion-state-inspection.md	blender-motion-state-inspection (ECC)	affaan-m/ECC	MIT	ideias-aproveitadas	2	(ideia de método) verifica_curvas.py em skills/video/blender-ia (instalada na main em 12/10/2026, PR #21)	video
-ahujasid__mcp-for-blender.md	MCP for Blender (antigo blender-mcp)	ahujasid/mcp-for-blender (antigo ahujasid/blender-mcp)	MIT	ideias-aproveitadas	7	skills/video/blender-ia/SKILL.md (seção 'No computador do Daniel (com placa de vídeo e MCP)')	mcp
-aigodlike__genesiscore.md	GenesisCore (MCP de Blender)	AIGODLIKE/GenesisCore	não verificado (a pesquisa não registra)	descartada	1	—	mcp
-arjun988__blender-skills.md	arjun988/blender-skills (94 skills para assets de jogo)	arjun988/blender-skills	MIT (conferida)	so-referencia	2	—	video
-autor-nao-verificado__blender-game-skills.md	blender-game-skills	não verificado	não verificado (a pesquisa registra '—' na linha do grupo)	descartada	1 a 2 (faixa do grupo; a nota individual não foi registrada)	—	video
-autor-nao-verificado__claymation.md	claymation (skill de Blender)	não verificado	não verificado (a pesquisa registra '—' na linha do grupo)	descartada	1 a 2 (faixa do grupo; a nota individual não foi registrada)	—	video
-autor-nao-verificado__gsap-timeline.md	gsap-timeline	não verificado	não verificado (a pesquisa registra 'várias')	so-referencia	sem nota	—	sites
-autor-nao-verificado__hyperframes.md	hyperframes-* (família de skills)	não verificado	não verificado (a pesquisa registra 'várias')	so-referencia	sem nota	—	sites
-autor-nao-verificado__texturaizer.md	Texturaizer	não verificado	licença comercial separada (add-on pago)	so-referencia	sem nota	—	video
-blender-lab__blender-mcp-oficial.md	Blender Lab MCP (MCP oficial do Blender)	projects.blender.org/lab/blender_mcp (página: blender.org/lab/mcp-server)	GPL-3.0 (cabeçalhos SPDX 'Blender Authors'; uma fonte de terceiros diz GPL-3.0-or-later)	ideias-aproveitadas	4	skills/video/blender-ia/SKILL.md (seção 'No computador do Daniel (com placa de vídeo e MCP)')	mcp
-bpy-dev__blender-mcp.md	bpy-dev/blender-mcp (Lab MCP turbinado)	bpy-dev/blender-mcp	GPL-3.0	so-referencia	5	— (ORIGEM.md: reavaliar quando sair do preview)	mcp
-carson-katri__dream-textures.md	Dream Textures (Stable Diffusion dentro do Blender)	carson-katri/dream-textures	GPL-3.0	descartada	1	—	video
-cli-anything__blender.md	CLI-Anything Blender	não verificado (página no claudskills.sh)	variada, não conferida	so-referencia	sem nota	—	video
-cloudai-x__threejs-skills.md	threejs-skills (threejs-animation e outras)	CloudAI-X/threejs-skills	SEM LICENÇA	descartada	3	— (ORIGEM.md: não usado)	sites
-dhakalnirajan__blender-open-mcp.md	blender-open-mcp	dhakalnirajan/blender-open-mcp	MIT	descartada	2	—	mcp
-dylantarre__animation-principles.md	animation-principles (12 princípios de animação)	dylantarre/animation-principles	MIT (2024)	so-referencia	sem nota	—	video
-freshtechbro__blender-web-pipeline.md	blender-web-pipeline (claudedesignskills)	freshtechbro/claudedesignskills	MIT	so-referencia	5	—	video
-gd3kr__blendergpt.md	BlenderGPT (chat GPT-4 dentro do Blender)	gd3kr/BlenderGPT	MIT	descartada	0	—	video
-holdmybeer-gg__blenderwright.md	blenderwright (antigo blend-ai)	HoldMyBeer-gg/blenderwright	MIT	ideias-aproveitadas	6	skills/video/blender-ia/SKILL.md (seção 'No computador do Daniel (com placa de vídeo e MCP)')	mcp
-ifbars__blender-agent-studio.md	blender-agent-studio	ifbars/blender-agent-studio (autor citado na pesquisa premium B)	não verificado (a pesquisa registra '—' na linha do grupo)	descartada	1 a 2 (faixa do grupo; a nota individual não foi registrada)	—	video
-jithinolickal__blender.md	jithinolickal/blender	jithinolickal/blender	não verificado (a pesquisa registra '—' na linha do grupo)	descartada	1 a 2 (faixa do grupo; a nota individual não foi registrada)	—	video
-kevinbadi__blender-skills.md	kevinbadi/blender-skills (planos de câmera para produto)	kevinbadi/blender-skills	SEM LICENÇA (todos os direitos reservados)	ideias-aproveitadas	7 como ideia; 0 para copiar	skills/video/blender-ia/SKILL.md (só o vocabulário de planos, reescrito do zero)	video
-lobzyjay__motion.md	LobzyJay motion	não verificado (autor citado como LobzyJay)	não verificado (a pesquisa registra '—' na linha do grupo)	descartada	1 a 2 (faixa do grupo; a nota individual não foi registrada)	—	video
-major-ai-skills__blender.md	major-ai-skills/blender	major-ai-skills (pacote npm 2.3.0)	variada, não conferida	so-referencia	sem nota	—	video
-meshy-dev__meshy-3d-generation.md	meshy-3d-generation (Meshy, geração de 3D por IA)	meshy-dev/meshy-3d-agent (skill meshy-3d-generation)	não verificado (a licença do serviço Meshy é tratada em ferramentas-video-ia.md)	so-referencia	sem nota	skills/video/blender-ia/SKILL.md (apenas a tabela de licenças de modelos 3D por IA)	video
-roble3__cc-blender-skill.md	cc-blender-skill (30 skills de Blender)	RobLe3/cc-blender-skill (a pesquisa de animação premium grafou 'roble3')	MIT (conferida no LICENSE)	ideias-aproveitadas	7	skills/video/blender-ia/SKILL.md (ideias de receitas, gates de qualidade, lentes e razão de luz; nada copiado) (instalada na main em 12/10/2026, PR #21)	video
-sakalond__stablegen.md	StableGen (texturização por IA via ComfyUI)	sakalond/StableGen (pesquisa A) ou Zaws77/StableGen (pesquisa B): repositório divergente nas duas pesquisas	GPL-3.0 (add-on); a licença do modelo de IA vale à parte	descartada	1	—	video
-scenario-labs__skills-blender.md	scenario-labs/skills (blender-expert, animation, rigging, lighting-rendering, hard-surface)	scenario-labs/skills	MIT (conferida)	ideias-aproveitadas	2	skills/video/blender-ia (atualização Blender premium: lentes, luz, curvas) (instalada na main em 12/10/2026, PR #21)	video
-sfkislev__flue-blender.md	Flue (Blender)	SFKislev/Flue	MIT	descartada	2	—	video
-squall01337__mixamo-llm-mocap.md	mixamo-llm-mocap	squall01337/mixamo-llm-mocap	não verificado (a pesquisa registra '—')	descartada	1	—	video
-sunxiayi__make-blender-education-video.md	make-blender-education-video	sunxiayi/make-blender-education-video-skill	MIT	ideias-aproveitadas	5	skills/video/blender-ia/SKILL.md (regra de 1 quadro de aprovação em resolução cheia antes do render final; checklist)	video
-superhive__dark-luxury-studio.md	Dark Luxury Studio (Superhive Market)	Superhive Market: 'Modular product lighting scene for Blender - Dark Luxury Studio'	produto pago (licença do vendedor, não verificada)	so-referencia	sem nota	—	video
-tmhsdigital__blender-developer-tools.md	blender-developer-tools	tmhsdigital/blender-developer-tools	variada, não conferida	so-referencia	sem nota	—	video
-viettranx__3dviz-pro-max.md	3dviz-pro-max	viettranx/3dviz-pro-max	MIT	so-referencia	4	—	video
-vladmdgolam__blender-mcp-skill.md	blender-mcp (skill de uso do MCP)	vladmdgolam/agent-skills	MIT	so-referencia	4	— (a lição do export sem janela está registrada na pesquisa A)	video
-vxasi__blender-mcp-vxai.md	blender-mcp-vxai	VxASI/blender-mcp-vxai	não verificado (a pesquisa não registra)	descartada	1	—	mcp
+arquivo	nome	repositorio	status	nota	onde_entrou	categoria_nossa
+affaan-m__blender-motion-state-inspection.md	blender-motion-state-inspection (ECC)	affaan-m/ECC	ideias-aproveitadas	2	(ideia de método) verifica_curvas.py em skills/video/blender-ia (instalada na main em 12/10/2026, PR #21)	video
+ahujasid__mcp-for-blender.md	MCP for Blender (antigo blender-mcp)	ahujasid/mcp-for-blender (antigo ahujasid/blender-mcp)	ideias-aproveitadas	7	skills/video/blender-ia/SKILL.md (seção 'No computador do Daniel (com placa de vídeo e MCP)')	mcp
+aigodlike__genesiscore.md	GenesisCore (MCP de Blender)	AIGODLIKE/GenesisCore	descartada	1	—	mcp
+arjun988__blender-skills.md	arjun988/blender-skills (94 skills para assets de jogo)	arjun988/blender-skills	so-referencia	2	—	video
+autor-nao-verificado__blender-game-skills.md	blender-game-skills	não verificado	descartada	1 a 2 (faixa do grupo; a nota individual não foi registrada)	—	video
+autor-nao-verificado__claymation.md	claymation (skill de Blender)	não verificado	descartada	1 a 2 (faixa do grupo; a nota individual não foi registrada)	—	video
+autor-nao-verificado__gsap-timeline.md	gsap-timeline	não verificado	so-referencia	sem nota	—	sites
+autor-nao-verificado__hyperframes.md	hyperframes-* (família de skills)	não verificado	so-referencia	sem nota	—	sites
+autor-nao-verificado__texturaizer.md	Texturaizer	não verificado	so-referencia	sem nota	—	video
+blender-lab__blender-mcp-oficial.md	Blender Lab MCP (MCP oficial do Blender)	projects.blender.org/lab/blender_mcp (página: blender.org/lab/mcp-server)	ideias-aproveitadas	4	skills/video/blender-ia/SKILL.md (seção 'No computador do Daniel (com placa de vídeo e MCP)')	mcp
+bpy-dev__blender-mcp.md	bpy-dev/blender-mcp (Lab MCP turbinado)	bpy-dev/blender-mcp	so-referencia	5	— (ORIGEM.md: reavaliar quando sair do preview)	mcp
+carson-katri__dream-textures.md	Dream Textures (Stable Diffusion dentro do Blender)	carson-katri/dream-textures	descartada	1	—	video
+cli-anything__blender.md	CLI-Anything Blender	não verificado (página no claudskills.sh)	so-referencia	sem nota	—	video
+cloudai-x__threejs-skills.md	threejs-skills (threejs-animation e outras)	CloudAI-X/threejs-skills	descartada	3	— (ORIGEM.md: não usado)	sites
+dhakalnirajan__blender-open-mcp.md	blender-open-mcp	dhakalnirajan/blender-open-mcp	descartada	2	—	mcp
+dylantarre__animation-principles.md	animation-principles (12 princípios de animação)	dylantarre/animation-principles	so-referencia	sem nota	—	video
+freshtechbro__blender-web-pipeline.md	blender-web-pipeline (claudedesignskills)	freshtechbro/claudedesignskills	so-referencia	5	—	video
+gd3kr__blendergpt.md	BlenderGPT (chat GPT-4 dentro do Blender)	gd3kr/BlenderGPT	descartada	0	—	video
+holdmybeer-gg__blenderwright.md	blenderwright (antigo blend-ai)	HoldMyBeer-gg/blenderwright	ideias-aproveitadas	6	skills/video/blender-ia/SKILL.md (seção 'No computador do Daniel (com placa de vídeo e MCP)')	mcp
+ifbars__blender-agent-studio.md	blender-agent-studio	ifbars/blender-agent-studio (autor citado na pesquisa premium B)	descartada	1 a 2 (faixa do grupo; a nota individual não foi registrada)	—	video
+jithinolickal__blender.md	jithinolickal/blender	jithinolickal/blender	descartada	1 a 2 (faixa do grupo; a nota individual não foi registrada)	—	video
+kevinbadi__blender-skills.md	kevinbadi/blender-skills (planos de câmera para produto)	kevinbadi/blender-skills	ideias-aproveitadas	7 como ideia; 0 para copiar	skills/video/blender-ia/SKILL.md (só o vocabulário de planos, reescrito do zero)	video
+lobzyjay__motion.md	LobzyJay motion	não verificado (autor citado como LobzyJay)	descartada	1 a 2 (faixa do grupo; a nota individual não foi registrada)	—	video
+major-ai-skills__blender.md	major-ai-skills/blender	major-ai-skills (pacote npm 2.3.0)	so-referencia	sem nota	—	video
+meshy-dev__meshy-3d-generation.md	meshy-3d-generation (Meshy, geração de 3D por IA)	meshy-dev/meshy-3d-agent (skill meshy-3d-generation)	so-referencia	sem nota	skills/video/blender-ia/SKILL.md (apenas a tabela de licenças de modelos 3D por IA)	video
+roble3__cc-blender-skill.md	cc-blender-skill (30 skills de Blender)	RobLe3/cc-blender-skill (a pesquisa de animação premium grafou 'roble3')	ideias-aproveitadas	7	skills/video/blender-ia/SKILL.md (ideias de receitas, gates de qualidade, lentes e razão de luz; nada copiado) (instalada na main em 12/10/2026, PR #21)	video
+sakalond__stablegen.md	StableGen (texturização por IA via ComfyUI)	sakalond/StableGen (pesquisa A) ou Zaws77/StableGen (pesquisa B): repositório divergente nas duas pesquisas	descartada	1	—	video
+scenario-labs__skills-blender.md	scenario-labs/skills (blender-expert, animation, rigging, lighting-rendering, hard-surface)	scenario-labs/skills	ideias-aproveitadas	2	skills/video/blender-ia (atualização Blender premium: lentes, luz, curvas) (instalada na main em 12/10/2026, PR #21)	video
+sfkislev__flue-blender.md	Flue (Blender)	SFKislev/Flue	descartada	2	—	video
+squall01337__mixamo-llm-mocap.md	mixamo-llm-mocap	squall01337/mixamo-llm-mocap	descartada	1	—	video
+sunxiayi__make-blender-education-video.md	make-blender-education-video	sunxiayi/make-blender-education-video-skill	ideias-aproveitadas	5	skills/video/blender-ia/SKILL.md (regra de 1 quadro de aprovação em resolução cheia antes do render final; checklist)	video
+superhive__dark-luxury-studio.md	Dark Luxury Studio (Superhive Market)	Superhive Market: 'Modular product lighting scene for Blender - Dark Luxury Studio'	so-referencia	sem nota	—	video
+tmhsdigital__blender-developer-tools.md	blender-developer-tools	tmhsdigital/blender-developer-tools	so-referencia	sem nota	—	video
+viettranx__3dviz-pro-max.md	3dviz-pro-max	viettranx/3dviz-pro-max	so-referencia	4	—	video
+vladmdgolam__blender-mcp-skill.md	blender-mcp (skill de uso do MCP)	vladmdgolam/agent-skills	so-referencia	4	— (a lição do export sem janela está registrada na pesquisa A)	video
+vxasi__blender-mcp-vxai.md	blender-mcp-vxai	VxASI/blender-mcp-vxai	descartada	1	—	mcp

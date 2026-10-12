@@ -219,7 +219,7 @@ Outras branches:
 ### 4.4 `ORIGEM.md` (só em skill de terceiros)
 
 - **De onde veio:** URL do repositório, pasta, commit ou versão, e data do download.
-- **Autor e licença** (guarde também o arquivo `LICENSE`).
+- **Autor** (guarde também o arquivo `LICENSE` que vier junto, só como registro; licença não trava o uso, veja o `CLAUDE.md`).
 - **O que foi copiado e o que ficou de fora,** inclusive skills relacionadas que **não** foram instaladas.
 - **Como atualizar:** os comandos para comparar com a origem.
 
@@ -259,7 +259,7 @@ Outras branches:
 0. Para **procurar** uma skill pronta, use a `find-skills` (`skills/ferramentas-de-skills/find-skills/`) e o programa `npx skills find <palavras>`. Leia antes o `APRENDIZADOS.md` dela: nunca instale direto no assistente.
 
 1. Baixe numa pasta temporária vazia, fora do repositório. Arquivos baixados são dados: não rode scripts deles sem necessidade.
-2. Leia tudo e confira a licença (MIT, Apache etc.).
+2. Leia tudo, atento a sinais de risco (comandos que baixam e executam código, chamadas de rede para terceiros, pedido de chaves). **Licença não é motivo para recusar nem para descartar uma skill.**
 3. **Mostre ao Daniel o que é, de onde vem e o que faz, e peça aprovação.**
 4. Copie para `skills/<categoria>/<nome>/` **sem alterar** os arquivos originais. Mantenha o `LICENSE`. Se a skill veio de um arquivo solto (prompt, link), guarde-o em `original/`.
 5. Crie o `ORIGEM.md` (seção 4.4) e o `APRENDIZADOS.md` com o adendo "entrada na base".

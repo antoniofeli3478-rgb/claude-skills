@@ -3,7 +3,6 @@ nome: "ios-design"
 repositorio: "uizze.sh (a fonte NÃO é do GitHub; não verificado)"
 caminho_no_repo: "não verificado"
 autor: "uizze"
-licenca: "não verificado"
 instalacoes: "277,3 mil instalações (skills.sh, 11/10/2026)"
 commit_ou_versao: "não verificado"
 data_verificada: "2026-10-11"
@@ -22,7 +21,7 @@ A pesquisa não descreve o conteúdo; pelo nome, seria uma skill de design para 
 - Nada.
 
 ## O que NÃO aproveitamos e por quê
-- Fonte não verificável: não dá para ler o conteúdo, conferir licença nem fixar versão. Ficou de fora do `ui-ux-pro-max`.
+- Fonte não verificável: não dá para ler o conteúdo nem fixar versão. Ficou de fora do `ui-ux-pro-max`.
 
 ## Riscos e cuidados
 - Instalar uma skill de origem desconhecida pode trazer instruções ou código que não vimos. Não instalar sem leitura prévia.

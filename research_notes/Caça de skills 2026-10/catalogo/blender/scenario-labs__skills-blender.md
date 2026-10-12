@@ -3,7 +3,6 @@ nome: "scenario-labs/skills (blender-expert, animation, rigging, lighting-render
 repositorio: "scenario-labs/skills"
 caminho_no_repo: "scenario-blender-expert, scenario-blender-animation, scenario-blender-rigging, scenario-blender-lighting-rendering, scenario-blender-hard-surface"
 autor: "scenario-labs"
-licenca: "MIT (conferida)"
 instalacoes: "964 estrelas; 170 a 217 instalações"
 commit_ou_versao: "último push 10/10/2026"
 data_verificada: "2026-10-11"

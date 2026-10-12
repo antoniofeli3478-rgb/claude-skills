@@ -49,7 +49,7 @@ Cada projeto tem só um `PASSO-A-PASSO.md`: o que foi feito, como, e os caminhos
 
 - `reports/`: relatórios de pesquisa, em português. O de **pendências** mostra o que está incompleto, com porcentagem.
 - `research_notes/`: anotações brutas e amostras de voz.
-  - `research_notes/Caça de skills 2026-10/catalogo/INDICE.md`: **138 fichas**, uma por skill, MCP ou fonte que avaliamos (licença, status, o que aproveitamos).
+  - `research_notes/Caça de skills 2026-10/catalogo/INDICE.md`: **138 fichas**, uma por skill, MCP ou fonte que avaliamos (origem, status, o que aproveitamos).
   - `research_notes/Caça de skills 2026-10/hospedagem/`: onde hospedar site de cliente com uso comercial.
   - `research_notes/Caça de skills 2026-10/scroll-suave-PARCIAL/`: scroll-vídeo sem travar, **cancelado pelo Daniel**; material incompleto (≈ 40%) guardado como conhecimento.
 - `CLAUDE.md`: regras de trabalho do Claude neste repositório.

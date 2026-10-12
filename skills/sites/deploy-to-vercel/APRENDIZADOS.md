@@ -15,7 +15,7 @@ A skill incorpora os aprendizados até 11/10/2026 (entrada na base). O adendo de
   - O `Archive.zip` é uma cópia antiga e redundante (veja `ORIGEM.md`). Não use.
 - **Antes de publicar:** rode a `webapp-testing` e a `web-quality-audit` (passos do combo).
 - **YAML:** `description` sem aspas e sem dois-pontos seguido de espaço; o cabeçalho foi lido sem erro.
-- **Licença:** MIT declarada no README, sem arquivo LICENSE no repositório (veja `LICENCA-NOTA.md`).
+- **Licença:** não trava o uso (regra do `CLAUDE.md`). O README declara MIT e o repositório não traz arquivo LICENSE.
 
 ## 12/10/2026: hospedagem de site de cliente (aviso de uso comercial)
 
