@@ -1,0 +1,24 @@
+arquivo	nome	repositorio	licenca	status	nota	onde_entrou	categoria_nossa
+addyosmani__web-quality-skills.md	web-quality-skills (pacote de 6: web-quality-audit, performance, core-web-vitals, accessibility, seo, best-practices)	addyosmani/web-quality-skills	MIT (LICENSE da raiz, Addy Osmani 2026; cada SKILL.md também traz license: MIT)	instalada-intacta	9	skills/sites/web-quality/<skill>/ (6 pastas lado a lado, cópia intacta) (instalada na main em 12/10/2026, PR #21)	sites
+anthropics__theme-factory.md	theme-factory	anthropics/skills	Apache-2.0	so-referencia	sem nota	—	sites
+anthropics__web-artifacts-builder.md	web-artifacts-builder	anthropics/skills	Apache-2.0	so-referencia	sem nota	—	sites
+anthropics__webapp-testing.md	webapp-testing	anthropics/skills	Apache-2.0 (LICENSE.txt dentro da pasta da skill)	instalada-intacta	8	skills/sites/webapp-testing/ (cópia intacta) (instalada na main em 12/10/2026, PR #21)	sites
+astrolicious__astro.md	astro	astrolicious/agent-skills	MIT	so-referencia	5	—	sites
+cloudflare__web-perf.md	web-perf	cloudflare/skills	Apache-2.0	so-referencia	6	—	sites
+coreyhaines31__ai-seo.md	ai-seo	coreyhaines31/marketingskills	MIT (LICENSE da raiz do repositório)	so-referencia	5.5	—	sites
+coreyhaines31__analytics.md	analytics	coreyhaines31/marketingskills	MIT (LICENSE da raiz do repositório)	so-referencia	6.5	—	sites
+coreyhaines31__cro.md	cro (antiga page-cro)	coreyhaines31/marketingskills	MIT (LICENSE da raiz do repositório)	instalada-intacta	7.5	skills/sites/cro/ (cópia intacta) (instalada na main em 12/10/2026, PR #21)	sites
+coreyhaines31__programmatic-seo.md	programmatic-seo	coreyhaines31/marketingskills	MIT (LICENSE da raiz do repositório)	so-referencia	5.5	—	sites
+coreyhaines31__schema.md	schema (também citada como schema-markup)	coreyhaines31/marketingskills	MIT (LICENSE da raiz do repositório)	so-referencia	6	—	sites
+coreyhaines31__seo-audit.md	seo-audit	coreyhaines31/marketingskills	MIT (LICENSE da raiz do repositório)	instalada-intacta	7.5	skills/sites/seo-audit/ (cópia intacta) (instalada na main em 12/10/2026, PR #21)	sites
+coreyhaines31__site-architecture.md	site-architecture	coreyhaines31/marketingskills	MIT (LICENSE da raiz do repositório)	instalada-intacta	7.5	skills/sites/site-architecture/ (cópia intacta) (instalada na main em 12/10/2026, PR #21)	sites
+currents-dev__playwright-best-practices.md	playwright-best-practices	currents-dev/playwright-best-practices-skill	MIT	so-referencia	7	—	sites
+shadcn-ui__shadcn.md	shadcn (skill)	shadcn-ui/ui	MIT (LICENSE.md da raiz do repositório)	instalada-intacta	9	skills/sites/shadcn/ (cópia intacta) (instalada na main em 12/10/2026, PR #21)	sites
+varios__superpowers-landing-page-design.md	superpowers@landing-page-design	4 donos diferentes: 101-skills, magentosh, qu-skills, skills-shell (repositório original não verificado)	não verificado (a pesquisa registra '–')	descartada	0	—	sites
+vercel-labs__agent-browser.md	agent-browser	vercel-labs/agent-browser	Apache-2.0	so-referencia	4	—	sites
+vercel-labs__deploy-to-vercel.md	deploy-to-vercel	vercel-labs/agent-skills	MIT (declarada só no README do repositório; o repositório não tem arquivo LICENSE e o SKILL.md não tem campo de licença)	instalada-intacta	8	skills/sites/deploy-to-vercel/ (cópia intacta; aviso de hospedagem comercial no APRENDIZADOS.md) (instalada na main em 12/10/2026, PR #21)	sites
+vercel-labs__vercel-optimize.md	vercel-optimize	vercel-labs/agent-skills	MIT (declarada no README do repositório; o repositório não tem arquivo LICENSE)	so-referencia	5	—	sites
+vercel-labs__vercel-react-best-practices.md	vercel-react-best-practices	vercel-labs/agent-skills	MIT (declarada no README, linhas 237-239, e no campo license: do SKILL.md; o repositório não tem arquivo LICENSE)	instalada-intacta	9	skills/sites/vercel-react-best-practices/ (cópia intacta) (instalada na main em 12/10/2026, PR #21)	sites
+vercel__next-dev-loop.md	next-dev-loop	vercel/next.js	MIT (repositório vercel/next.js)	so-referencia	6.5	—	sites
+vercel__next-skills-outras.md	Skills do Next.js, as outras (next-bundle-optimizer, next-cache-components-adoption/optimizer, next-partial-prefetching-adoption/optimizer e mais)	vercel/next.js (antes vercel-labs/next-skills)	MIT (repositório vercel/next.js)	so-referencia	sem nota	—	sites
+wshobson__nextjs-app-router-patterns.md	nextjs-app-router-patterns	wshobson/agents	não conferida (a própria pesquisa diz isso)	descartada	4	—	sites
