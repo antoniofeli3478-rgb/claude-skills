@@ -1,7 +1,7 @@
 # Aprendizados: deploy-to-vercel
 
 Adendos datados. O mais novo fica embaixo. Os arquivos oficiais ficam intactos.
-A skill incorpora os aprendizados até 11/10/2026 (entrada na base).
+A skill incorpora os aprendizados até 11/10/2026 (entrada na base). O adendo de 12/10/2026 (hospedagem comercial) ainda não está refletido no SKILL.md.
 
 ## 11/10/2026: entrada na base
 
@@ -16,6 +16,19 @@ A skill incorpora os aprendizados até 11/10/2026 (entrada na base).
 - **Antes de publicar:** rode a `webapp-testing` e a `web-quality-audit` (passos do combo).
 - **YAML:** `description` sem aspas e sem dois-pontos seguido de espaço; o cabeçalho foi lido sem erro.
 - **Licença:** MIT declarada no README, sem arquivo LICENSE no repositório (veja `LICENCA-NOTA.md`).
+
+## 12/10/2026: hospedagem de site de cliente (aviso de uso comercial)
+
+Pesquisa completa em `research_notes/Caça de skills 2026-10/hospedagem/pesquisa.md` (páginas oficiais lidas em 12/10/2026; o que não foi confirmado está marcado lá).
+
+- **A Vercel Hobby (grátis) não serve para site de cliente pagante.** Os termos limitam o plano a "uso pessoal não comercial". Pela definição da Vercel, conta como comercial o site usado para ganho de qualquer pessoa envolvida, **inclusive o consultor pago que escreve o código**, e "receber para criar, atualizar ou hospedar o site" está na lista de exemplos. Vale também para as prévias (links de teste) e mesmo se a conta Hobby for do cliente.
+- **Vercel Pro:** US$ 20 por mês por vaga de desenvolvedor. A transferência de projeto entre times é oficial e sem queda (por exemplo, do time do Daniel para o do cliente).
+- **Grátis e permitido para uso comercial, em site estático ou Next.js exportado como estático:** Cloudflare Pages. Duas regras dos termos: o **cliente cria a própria conta** e convida o Daniel como membro (não criar conta "em nome" de terceiro), e **não coletar cartão de crédito dentro do site** no plano grátis. Passo a passo na seção 5 da pesquisa (`output: 'export'`, preset "Next.js (Static HTML Export)", pasta `out`).
+- **Plano B grátis:** Netlify Free, que diz aceitar projetos comerciais, mas pausa o site se os créditos do mês acabarem.
+- **Evitar para cliente pagante:** GitHub Pages (os termos barram "negócio online") e o servidor grátis do Render ("não usar em produção").
+- **Quando o site precisa de servidor** (login, banco, SSR/ISR, imagens do Next.js sem configuração): Vercel Pro, ou Cloudflare Workers pago (a partir de US$ 5 por mês, com mais configuração).
+- **Mudança sugerida no fluxo da skill** (só com o "pode" do Daniel, porque altera o comportamento): perguntar "é uso comercial?" antes de publicar; se sim, não usar Hobby e oferecer Cloudflare Pages (estático) ou Vercel Pro (com servidor).
+- **Preços e termos mudam todo mês.** Isto não é parecer jurídico. Conferir a página oficial no dia de fechar com o cliente.
 
 ### Regras nossas (valem sempre)
 
