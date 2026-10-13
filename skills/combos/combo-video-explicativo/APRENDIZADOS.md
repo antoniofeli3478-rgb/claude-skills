@@ -45,3 +45,8 @@ Ordem que funcionou, do zero ao vídeo final, numa sessão (passo a passo comple
 
 - O esqueleto do combo funcionou trocando o 3D em React pelo Blender. Ordem que mudou: as telas do app ficam prontas **antes** do 3D (viram a textura), e o layout é revisado com o celular em silhueta antes de 2 h 40 min de render. Trilha, efeitos e mixagem são feitos **enquanto** o Blender roda.
 - Proposta (espera aprovação): um combo próprio, `combo-promo-3d-blender`. Detalhes: `projetos/rotina/PASSO-A-PASSO.md` (item 6) e `reports/Vídeo Rotina v3, skills e combos usados (2026-10-12).md`.
+
+## 13/10/2026: Rotina v4 (o v3 ficou "simples demais")
+
+- O Daniel comparou o v3 (39 skills lidas, "premium contido", palco escuro) com o v2.1 (menos skills, sistema "papel e tinta") e preferiu o v2.1 com folga. **Escolha o sistema visual antes de aplicar as outras skills.** Para promo de app em Reels, o padrão dele é: fundos que mudam por seção (papel com grade, vermelho, tinta com brilho), Anton gigante com serifa itálica de acento, peças do app saindo do celular em tamanho grande e algo acontecendo o tempo todo.
+- O v4 juntou o celular do Blender do v3 com esse sistema. Voz, trilha e poses foram reaproveitadas; só a camada 2D e 136 quadros da tela mudaram. Detalhes: `projetos/rotina/PASSO-A-PASSO.md` (item 7).

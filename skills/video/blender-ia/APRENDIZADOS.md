@@ -93,3 +93,8 @@ O `SKILL.md` incorpora os aprendizados até 12/10/2026.
 - **Render longo em segundo plano:** o Bash em segundo plano para em 2 h. Use `setsid nohup … & disown`. Não use `pkill -f` com um padrão que também casa com o seu próprio comando (matou o shell, código 144).
 - **Tempo real:** 2 h 39 min para 895 quadros (~10,7 s por quadro com 4 CPUs, dividindo a máquina com rascunhos do Remotion).
 - Detalhes: `projetos/rotina/PASSO-A-PASSO.md` (item 6) e `reports/Vídeo Rotina v3, skills e combos usados (2026-10-12).md`.
+
+## 13/10/2026: Rotina v4 reaproveitou o render do v3
+
+- Os 895 PNG do celular (2 h 40 min) foram reusados num visual totalmente novo. Só a tela de abertura mudou, porque a tela vermelha sumia no fundo vermelho: 136 quadros refeitos com `--frames` (~29 min). Guardar as poses e os PNG por quadro, separados do 2D, paga.
+- Um celular escuro sobre papel claro funciona bem como foto de produto, desde que tenha sombra (feita em 2D no Remotion). Detalhes: `projetos/rotina/PASSO-A-PASSO.md` (item 7).

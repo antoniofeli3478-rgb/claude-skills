@@ -37,3 +37,8 @@ Adendos datados. O mais novo fica embaixo. A skill incorpora os aprendizados at�
   - **Datas:** fichas MIT e Refero podem discordar, como no acento do Linear. Confira no site real e anote a data.
   - **Texto animado:** efeitos populares, como letras subindo de uma "fenda" e texto brotando no meio da tela, quebram as regras do editor. Use as trocas de `references/movimento-sites.md`.
 - **Ainda não testado:** usar a skill num site de verdade (por exemplo, a landing page do Rotina). Anote aqui o resultado da primeira vez.
+
+## 13/10/2026: "premium contido" ficou simples demais em Reels (Rotina v3 → v4)
+
+- O v3 aplicou a personalidade "premium com peso" de forma contida (palco escuro, um acento, títulos pequenos, pouco texto) e o Daniel achou simples demais. O v2.1, com o sistema "papel e tinta" (fundos por seção, Anton gigante, serifa itálica, peças do app saindo do celular), foi o preferido.
+- Para **vídeo promocional curto**, o premium do Daniel é **editorial e cheio de energia**, não minimalista. O "contido" continua valendo para sites e telas. Detalhes: `projetos/rotina/PASSO-A-PASSO.md` (item 7).

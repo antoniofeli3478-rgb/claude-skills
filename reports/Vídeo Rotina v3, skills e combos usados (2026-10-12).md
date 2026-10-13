@@ -107,3 +107,28 @@ Em ordem de prioridade. As 4 primeiras já têm código pronto no projeto, entã
 5. **Quem assiste sem som** precisa de uma palavra na tela ou de uma ação clara no celular em cada fala.
 6. **Custos medidos:** Blender 2 h 39 min (895 quadros, ~10,7 s por quadro com 4 CPUs e a máquina dividida com os rascunhos); vídeo final no Remotion 4 min 22 s; rascunho de 10 s em meia resolução ~1 min.
 7. **O que o Claude não consegue julgar:** o som (ritmo da trilha, volume, se "anotou peso" saiu claro) e o "sentir" do movimento. Isso fica com o seu ouvido e o seu olho de editor.
+
+## 6. Depois: o v4 (13/10/2026)
+
+O Daniel achou o v3 **simples demais** e comparou com o v2.1, que tinha menos skills e estava melhor. O v4 juntou as duas coisas: **o celular do Blender do v3** e **o sistema visual "papel e tinta" do v2.1**.
+
+- **Mudou:**
+  - fundos por seção (papel, vermelho, tinta, papel, vermelho);
+  - Anton gigante dividido, com Instrument Serif itálico de acento;
+  - adesivos que viram 3 apps;
+  - peças do app saindo do celular em tamanho grande;
+  - gráfico cruzando o quadro;
+  - seletor FIXA|PONTUAL grande;
+  - CTA com botão que afunda;
+  - abertura clara do app, para não sumir no fundo vermelho.
+- **Reaproveitado:** voz, trilha, poses e os 895 PNG do Blender (só 136 quadros refeitos), e os componentes do v2 (`Entra`, `PalavraDividida`, tema).
+- **Skills que pesaram no v4:**
+  - **remotion-video**: montagem, fundos e sombra 2D;
+  - **blender-ia**: o celular;
+  - **trilha-e-mixagem**: 127 efeitos e a mixagem;
+  - **voz-pt-br**;
+  - **button-animation**: o botão que afunda e o seletor;
+  - **motion-oficial**: as curvas.
+  - O design veio do v2, não das skills de estilo.
+- **Lição:** a quantidade de skills não garante um vídeo melhor. Primeiro vem um **sistema visual forte**, escolhido de propósito; as skills entram depois para executar. Isso reforça a proposta **design-de-video** (seção 4, item 5), que agora tem um ponto de partida aprovado pelo Daniel: o "papel e tinta" do v2/v4.
+- Detalhes: `projetos/rotina/PASSO-A-PASSO.md`, item 7.
