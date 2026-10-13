@@ -83,3 +83,11 @@ O Daniel é editor de vídeo profissional (motion). Ele revisou o v2 do Rotina e
 - **Troca de texto dentro da tela do app:** cruzamento com deslocamento e blur, sem `overflow:hidden` (a regra 2 vale também dentro do celular).
 - **Vídeo sem som:** cada fala precisa de uma palavra na tela ou de uma ação clara no celular. Um trecho de 1,5 s sem texto, com metade do quadro vazia, foi corrigido com um título entrando pela borda.
 - Detalhes: `projetos/rotina/PASSO-A-PASSO.md` (item 6) e `reports/Vídeo Rotina v3, skills e combos usados (2026-10-12).md`.
+
+## 13/10/2026: Rotina v4 (celular do Blender sobre o papel e tinta do v2)
+
+- **Fundos por seção sem máscara de conteúdo:** formas sólidas crescendo (círculo que nasce de trás do celular, faixa diagonal varrendo no sentido em que o celular se move). A grade e a vinheta acompanham a troca por rampa (nada muda de uma vez).
+- **Sombra 2D para o celular do Blender:** polígono do corpo projetado (`bodyQuad`), desfocado (34 px) e deslocado (+30, +58). No papel, opacidade 0,3; no vermelho, um pouco mais e em tom vinho; some na tinta, onde entra o brilho vermelho atrás do celular.
+- **Gráfico que se desenha sem máscara:** a área sob a linha é um polígono calculado até a ponta da linha a cada quadro, no lugar do `clipPath`.
+- **`Atras` com elemento largo:** se o elemento for mais largo que o celular, ele começa vazando pela lateral. Use `Entra` pela borda do quadro (ex.: o botão do CTA desce do topo).
+- **Textos saindo e entrando no mesmo lugar:** confira se o que sai e o que entra não se cruzam no meio do movimento (no v4, o botão do CTA cruzava o texto que saía; resolvido saindo antes). Detalhes: `projetos/rotina/PASSO-A-PASSO.md` (item 7).

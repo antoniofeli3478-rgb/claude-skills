@@ -32,3 +32,7 @@ Adendos datados. O mais novo fica embaixo. O `SKILL.md` já incorpora os aprendi
   - o `npx skills` continua achando 13 skills (nenhum `SKILL.md` novo foi criado);
   - propostas para outras skills: hierarquia premium de botões e "sem anel de gradiente em site minimalista" na `button-animation`; perfil "movimento premium" no `APRENDIZADOS.md` da `motion-oficial`; variante "vitrine" na `thumbnail-carousel`;
   - combo futuro `combo-ui-premium`: ui-ux-pro-max (etapas 1 a 4) → button-animation, motion-oficial e thumbnail-carousel (etapa 5) → revisão (etapa 6).
+
+## 13/10/2026: arquétipo do vídeo do Rotina
+
+- O "Palco escuro" (um fundo escuro o vídeo todo) deixou o v3 monótono. No v4 voltou o sistema do v2: papel com grade, vermelho e tinta alternando por seção, com o vermelho da marca como acento e como fundo nas viradas. Para vídeo, a variação de fundo entre seções conta mais que a paleta mínima. Detalhes: `projetos/rotina/PASSO-A-PASSO.md` (item 7).

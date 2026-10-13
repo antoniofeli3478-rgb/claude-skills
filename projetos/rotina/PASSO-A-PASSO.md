@@ -121,6 +121,36 @@ Este arquivo guarda só o que foi feito, como foi feito e onde estão as habilid
      3. **Conferências finais:** −14,0 LUFS; transcrição do áudio final com 95,6% de acerto (a voz sozinha deu 93,4%, então a trilha não cobre a fala; "anotou peso" saiu colado); tremido do reflexo nos quadros parados de 0,4/255 em média (invisível).
    - **Tempo de render:** Blender 2 h 39 min (895 quadros, ~10,7 s por quadro com 4 CPUs, dividindo a máquina com os rascunhos); vídeo final no Remotion 4 min 22 s.
 
+7. **Promo v4 de 30 s: o celular do Blender do v3 com o visual do v2** (composição `RotinaV4`, 13/10/2026). Saída: `rotina-video/rotina-v4.mp4`.
+   - **Pedido do usuário:** o v3 ficou "simples demais". O v2.1 estava muito melhor e usava menos skills. Manter o celular do Blender do jeito que foi feito, mas voltar à dinâmica de fontes, cores, fundo e animação do v2.
+   - **Comparação v2.1 × v3** (folhas a cada 15 quadros):
+     - o v2.1 muda de fundo por seção (papel com grade → vermelho → tinta com brilho vermelho → papel → vermelho);
+     - usa Anton gigante ocupando a largura, com Instrument Serif itálico de acento;
+     - tira peças do app do celular em tamanho grande (gráfico da semana, faixa de dias, cartões, seletor, gráfico cruzando o quadro);
+     - o v3 tinha um fundo escuro só, títulos pequenos no topo e pílulas cinzas.
+   - **Reaproveitado:**
+     - do v3: voz, trilha e as poses do celular (os 895 PNG do Blender);
+     - do v2: o tema (`src/v2/theme.ts`: cores, fontes e curvas), `Entra`, `PalavraDividida`, `Pill`, `UiCard`, grade, granulação e vinheta.
+   - **Novo** (`src/v4/`):
+     - fundos por seção, todos formas sólidas: o vermelho nasce de trás do celular na virada da trilha ("junta"), o papel volta a partir do centro do celular, a tinta varre da esquerda quando o celular vai para a direita e o papel varre da direita quando ele volta;
+     - `Atras` ligado ao celular do Blender;
+     - sombra 2D do celular (polígono do corpo projetado, desfocado), para ele não parecer colado no papel.
+   - **Abertura clara do app** (`V4Tela`): a tela vermelha sumia no fundo vermelho. Só 136 quadros do Blender foram refeitos (254–290 e 801–899, ~29 min dividindo a máquina com os rascunhos); o resto lê `public/v3/celular`.
+   - **Seções:**
+     1. gancho: SEGUNDA dividido + "eu começo." em serifa vermelha; adesivos DIETA, ACADEMIA e DINHEIRO pela borda viram 3 apps coloridos com notificação; DIFERENTE; QUARTA em vermelho + "você já perdeu a conta."; os apps caem para fora do quadro;
+     2. revelação: os apps voltam da borda de baixo para trás do celular; ROTINA sobe de trás dele; "no mesmo lugar.";
+     3. HÁBITOS: chip CUMPRIDO, cartão da sequência 11 → 12 com +1, gráfico ESTA SEMANA com a quarta marcada, FUROU;
+     4. TREINO (tinta): faixa de dias com SEG PEITO e TER COSTAS, cartões 82,5 kg e 10 repetições, gráfico grande cruzando o quadro (área por polígono, sem máscara), +19%;
+     5. FINANCEIRO: entrada R$ 4.800, PIX R$ 1.200, saldo do mês contando até R$ 4.240, seletor FIXA|PONTUAL com "de um lado" e "do outro";
+     6. "nem precisa esperar" + SEGUNDA riscada;
+     7. CTA (vermelho): BAIXE AGORA desce do topo e afunda no "agora"; LINK NA BIO sai de trás do celular.
+   - **Áudio:** 127 efeitos (`src/v4/sons.ts`), música −9 dB. Vídeo final: −14,0 LUFS e −1,6 dBTP; a voz fica pelo menos 13,2 dB acima do fundo (mediana 15,4 dB). A transcrição deu 95,6%.
+   - **Revisão:** 11 folhas (a cada 6 quadros) do rascunho e 5 do final. Corrigido:
+     - os 10 primeiros quadros vazios;
+     - os adesivos virando quadrados vazios antes do ícone;
+     - a vinheta mudando de uma vez na troca de fundo;
+     - os textos do fechamento cruzando o botão do CTA.
+
 ## Comandos (dentro de `rotina-video/`)
 
 ```bash
@@ -173,6 +203,21 @@ npx remotion render src/index.ts RotinaV3 out/rotina-v3.mp4 --crf=17 --audio-cod
 - **Se mudar o `rig.ts`:** exporte as poses de novo e renderize no Blender só os quadros afetados (`--frames a-b`).
 - **Se mudar uma tela do app:** renderize de novo só aqueles quadros do `V3Tela` e depois os mesmos quadros no Blender.
 
+**Promo v4 (30 s).** Usa as poses, a voz e a trilha do v3. Rode dentro de `rotina-video/`.
+
+```bash
+# telas com a abertura clara: copie public/v3/tela para public/v4/tela e renderize por cima só os quadros que mudam
+npx remotion render src/index.ts V4Tela /tmp/v4t --sequence --image-format=jpeg --jpeg-quality=95 --frames=254-290 --browser-executable=$BR
+npx remotion render src/index.ts V4Tela /tmp/v4t --sequence --image-format=jpeg --jpeg-quality=95 --frames=801-899 --browser-executable=$BR
+# Blender só nesses quadros (o resto do celular vem de public/v3/celular)
+$BLENDER -b base_cena.blend -P blender/v3_pose.py -- --poses $PWD/blender/poses-v3.json --out $PWD/public/v4/celular/c_ \
+  --frames 254-290 --pct 100 --spp 8 --mb --borda --tela $PWD/public/v4/tela/element-000.jpeg    # e de novo com --frames 801-899
+npx esbuild audio/v4/exportar_sons.ts --bundle --platform=node --outfile=out/exportar_sons_v4.js && node out/exportar_sons_v4.js > audio/v4/sons.json
+python -I <main>/skills/audio/trilha-e-mixagem/scripts/mixar_com_efeitos.py --voz public/v3/voz.wav --musica trilha_v3.wav \
+  --efeitos audio/v4/sons.json --saida public/v4/rotina-v4-mix.wav --duracao 30 --musica-db -9 --linha-do-tempo src/v3/voz.json
+npx remotion render src/index.ts RotinaV4 out/rotina-v4.mp4 --crf=17 --audio-codec=aac --audio-bitrate=256k --browser-executable=$BR
+```
+
 ## Aprendizados deste projeto
 
 - **O vídeo ficou "simples" por quatro motivos:**
@@ -204,6 +249,14 @@ npx remotion render src/index.ts RotinaV3 out/rotina-v3.mp4 --crf=17 --audio-cod
 - **Velocidade da Leda:** 91 palavras deram 41 s a 1,0x (2,2 palavras por segundo, mais devagar que a estimativa de 2,67 da v2). Com 1,1x e pausas apertadas, 28,3 s.
 - **Vídeo sem som:** a maioria assiste Reels sem som. Toda fala precisa de uma palavra na tela ou de uma ação clara no celular; um trecho de 1,5 s sem texto e com metade do quadro vazia foi corrigido.
 
+### Aprendizados da v4 (13/10/2026)
+
+- **Direção de arte pesa mais que a quantidade de skills.** O v2.1 (menos skills) ganhou do v3 (39 skills lidas) porque tinha um sistema visual forte e variado. O v3 seguiu à risca o "premium contido" (palco escuro, um acento, pouco texto) e ficou simples demais para Reels.
+- **O padrão do Daniel para promo de app em Reels é o "papel e tinta" do v2:** fundos que mudam por seção, Anton gigante com serifa itálica de acento, peças do app saindo do celular em tamanho grande e algo acontecendo o tempo todo. Escolha esse sistema primeiro e só depois aplique as outras skills.
+- **Camadas separadas pagaram de novo:** o celular do Blender (2 h 40 min) foi reaproveitado inteiro; só a tela de abertura mudou (136 quadros, ~29 min).
+- **Celular escuro no papel precisa de sombra.** Uma sombra 2D feita do corpo projetado, desfocada e deslocada para baixo, resolve sem renderizar de novo.
+- **Tela vermelha em fundo vermelho some.** Quando o fundo do vídeo é da cor da tela do app, use uma versão clara da tela.
+
 ## Próximo vídeo: plano
 
 1. **Ouvir e avaliar a v2** (o Claude não ouve). Pontos para o usuário decidir:
@@ -216,7 +269,8 @@ npx remotion render src/index.ts RotinaV3 out/rotina-v3.mp4 --crf=17 --audio-cod
    - Confirme os termos antes de impulsionar.
 3. **Música licenciada ou Lyria pago:** se a trilha em código ainda soar "básica", use uma faixa com licença para anúncio pago e mantenha a grade da música nos tempos da voz.
 4. **Versões menores:** reaproveitar as camadas para cortes de 15 s (gancho + uma seção + CTA), trocando só o `voz.json` e a lista de seções.
-5. **Depois da v3 (12/10/2026):**
-   - o Daniel assiste e dá o veredito de editor (ritmo, giro da revelação, tamanho das telas no celular, volume da trilha);
+5. **Depois da v3 e da v4 (13/10/2026):**
+   - o Daniel assiste ao v4 e dá o veredito de editor (ritmo, giro da revelação, tamanho das telas no celular, volume da trilha);
+   - transformar o "papel e tinta" do v2/v4 numa skill de sistema visual (proposta `design-de-video`), para não perder o padrão;
    - decidir as skills e combos novos propostos no relatório `reports/Vídeo Rotina v3, skills e combos usados (2026-10-12).md`;
    - capa do Reels a partir de um quadro do Blender (proposta `capa-e-cortes-reels`).
