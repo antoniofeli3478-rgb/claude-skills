@@ -1,0 +1,24 @@
+[project]
+name = "hello-langgraph"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.13"
+dependencies = [
+    "copilotkit>=0.1.47",
+    "fastapi>=0.115.12",
+    "google-api-python-client>=2.171.0",
+    "google-auth>=2.40.2",
+    "google-auth-oauthlib>=1.2.2",
+    "groq>=0.26.0",
+    "langchain>=0.3.25",
+    "langchain-community>=0.3.24",
+    "langchain-core>=0.3.63",
+    "langchain-google-genai>=2.1.5",
+    "langchain-groq>=0.3.2",
+    "langchain-openai>=0.3.19",
+    "langgraph>=0.4.7",
+    "langgraph-cli[inmem]>=0.2.10",
+    "pytz>=2025.2",
+    "uvicorn>=0.34.3",
+]

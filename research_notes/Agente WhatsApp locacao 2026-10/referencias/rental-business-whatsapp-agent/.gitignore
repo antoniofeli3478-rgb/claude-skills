@@ -1,0 +1,11 @@
+.venv/
+__pycache__/
+*.pyc
+.env
+.DS_Store
+tmp/*
+data/traces.jsonl
+
+# Runtime polling state is stored durably in Neon, never in Render/local files.
+data/whatsapp.offset
+data/whatsapp.offset.tmp

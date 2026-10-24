@@ -1,0 +1,43 @@
+{
+  "name": "Lahore Ride Rentals",
+  "tagline": "Cars on demand across Lahore",
+  "city": "Lahore, Pakistan",
+  "phone": "+92 300 555 0199",
+  "email": "bookings@lahoreriderentals.demo",
+  "hours": "09:00–21:00 PKT",
+  "pickup_areas": [
+    "DHA Lahore",
+    "Gulberg",
+    "Johar Town",
+    "Allama Iqbal Airport"
+  ],
+  "driver_daily_fee": 3000,
+  "welcome_message": "Hi! 👋 I’m the AI assistant for Lahore Ride Rentals. I’m here to help you rent or book a car. 🚗\n\nI can help you check available cars, share vehicle photos, prepare a quote, and confirm your booking right here on WhatsApp.",
+  "terms": "Demo terms: a booking is confirmed only after explicit customer confirmation. Vehicle availability, prices and business details are demo data for this prototype and must be verified before any real-world booking.",
+  "vehicles": [
+    {
+      "id": "corolla",
+      "name": "Toyota Corolla",
+      "category": "Sedan",
+      "daily_rate": 6500,
+      "image": "toyota_corolla.jpeg",
+      "short_description": "Comfortable sedan for city trips and intercity travel."
+    },
+    {
+      "id": "civic",
+      "name": "Honda Civic",
+      "category": "Premium Sedan",
+      "daily_rate": 8500,
+      "image": "honda_civic.jpeg",
+      "short_description": "Premium sedan with a refined interior and smooth ride."
+    },
+    {
+      "id": "yaris",
+      "name": "Toyota Yaris",
+      "category": "Economy Sedan",
+      "daily_rate": 5200,
+      "image": "toyota_yaris.jpeg",
+      "short_description": "Fuel-efficient option for economical city use."
+    }
+  ]
+}
