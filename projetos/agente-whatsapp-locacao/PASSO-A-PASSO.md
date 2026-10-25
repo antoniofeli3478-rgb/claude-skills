@@ -10,6 +10,15 @@ diferente seguindo o padrão dela.
   `research_notes/Agente WhatsApp locacao 2026-10/referencias/` (leia antes o `LEIA-ME.md` da pasta).
   - Comando: `git clone --depth 1 <url>` e depois `rm -rf .git`. Do cookbook, só a pasta `tool_use`, com sparse-checkout.
   - O plano aprovado está resumido abaixo.
+- **25/10/2026:** dossiê da 1ª empresa, a **Anima Kids** (Anima Kids Park, Ribeirão Preto). Está
+  em `research_notes/Agente WhatsApp locacao 2026-10/anima-kids/`:
+  - `DOSSIE.md`: tudo o que foi achado e a lista do que falta perguntar ao dono;
+  - `catalogo-rascunho.yaml`: 52 itens, 38 com foto;
+  - `dados-brutos/`: texto de 65 páginas e 23 posts, mais o índice de fotos.
+  - Como foi feito: a API pública do WordPress do site, `/wp-json/wp/v2/pages|posts|media`.
+    Os scripts ficaram no scratchpad e não foram para o repositório.
+  - O Instagram bloqueia a leitura automática: é preciso pedir prints ao Daniel.
+  - **Regra do Daniel:** a Anima Kids não tem endereço fixo (os do Maps são só para SEO). O agente nunca informa endereço.
 
 ## Plano aprovado
 1. Partir do código do `whatsapp-agentkit` (CLAUDE.md, seção 3), traduzido para pt-BR.
@@ -29,11 +38,9 @@ diferente seguindo o padrão dela.
 - Skill da plataforma `claude-api`: uso de ferramentas (tool use) com o Claude.
 
 ## Próximo passo
-Esperando o Daniel mandar os dados da empresa:
-- nome;
-- catálogo e preços;
-- Instagram ou exemplos de conversa;
-- frete, sinal e cancelamento.
+Esperando o Daniel (ou o dono da Anima Kids) responder a lista "Falta perguntar ao dono" do
+`DOSSIE.md`: preços, frete, sinal/Pix, cancelamento e chuva, estoque, horário, número da equipe
+e prints do Instagram e de conversas.
 
 Também falta decidir até onde vai a reserva e o provedor (Zernio ou Meta).
 Onde fica o código: ainda não foi decidido (repositório próprio ou branch de projeto, nunca a `main`).

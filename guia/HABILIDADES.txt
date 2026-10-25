@@ -85,11 +85,12 @@ amostras de voz (Kokoro, Piper, Chatterbox, Gemini, edge) e legendas alinhadas |
 regras do repositório e do ambiente | CLAUDE.md
 manual de utilização do repositório (pastas, arquivos, receitas, GitHub, aprovação) | guia/LEIA-ANTES-DE-USAR.md
 notas: agente de WhatsApp para locação de brinquedos (24/10/2026): 5 repositórios de referência baixados (whatsapp-ai-agent MIT com Claude e ferramentas, locação com orçamento em PDF, agendamento, cookbook oficial de tool use) e as lições | research_notes/Agente WhatsApp locacao 2026-10/LEIA-ME.md
+notas: dossiê da Anima Kids (Ribeirão Preto, 25/10/2026): identidade, cidades, regras, faixas etárias, catálogo de 52 itens com fotos (rascunho), o que falta perguntar ao dono; sem endereço fixo | research_notes/Agente WhatsApp locacao 2026-10/anima-kids/DOSSIE.md
 
 2b) PROJETOS (cada um tem só um PASSO-A-PASSO com o que foi feito e os caminhos das habilidades)
 --------------------------------------------------------------------------------------------------
 Rotina (vídeos do app: teaser 10 s, explicativo 60 s, promo v2/v2.1 30 s com celular 3D, promo v3 30 s com o celular todo no Blender e promo v4 30 s = celular do Blender + visual papel e tinta do v2) | projetos/rotina/PASSO-A-PASSO.md (código: branch rotina-video, pasta rotina-video/)
-Agente WhatsApp locação de brinquedos (molde com um perfil por empresa, clima de festa; esperando os dados da empresa) | projetos/agente-whatsapp-locacao/PASSO-A-PASSO.md
+Agente WhatsApp locação de brinquedos (molde com um perfil por empresa, clima de festa; 1ª empresa: Anima Kids, dossiê pronto, esperando preços e regras do dono) | projetos/agente-whatsapp-locacao/PASSO-A-PASSO.md
 
 3) HABILIDADES DA PLATAFORMA (não estão no repositório; chamar pelo nome com a ferramenta Skill)
 -------------------------------------------------------------------------------------------------

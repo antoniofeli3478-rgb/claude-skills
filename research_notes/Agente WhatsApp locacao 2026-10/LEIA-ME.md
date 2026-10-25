@@ -7,6 +7,10 @@ Base do agente: o molde `whatsapp-agentkit`, que é um repositório à parte (Fa
 Zernio/Meta, memória e deduplicação). O que falta nele: o Claude **não chama** as ferramentas do
 `tools.py`, e isso é essencial para consultar datas, montar orçamentos e fazer pré-reservas.
 
+## Empresas
+
+- `anima-kids/`: dossiê da Anima Kids Park, de Ribeirão Preto (comece pelo `DOSSIE.md`).
+
 ## O que tem em `referencias/` e o que aproveitar
 
 | Pasta | Licença | Abrir primeiro | O que aproveitar |
