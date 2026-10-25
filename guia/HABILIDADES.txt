@@ -91,6 +91,7 @@ notas: dossiê da Anima Kids (Ribeirão Preto, 25/10/2026): identidade, cidades,
 --------------------------------------------------------------------------------------------------
 Rotina (vídeos do app: teaser 10 s, explicativo 60 s, promo v2/v2.1 30 s com celular 3D, promo v3 30 s com o celular todo no Blender e promo v4 30 s = celular do Blender + visual papel e tinta do v2) | projetos/rotina/PASSO-A-PASSO.md (código: branch rotina-video, pasta rotina-video/)
 Agente WhatsApp locação de brinquedos (molde com um perfil por empresa, clima de festa; 1ª empresa: Anima Kids; 1ª versão do agente pronta em whatsapp-agentkit/agente-locacao, esperando preços e regras do dono) | projetos/agente-whatsapp-locacao/PASSO-A-PASSO.md
+IA mão direita do dono (projeto final: IA que ajuda em todas as áreas da empresa; só visão e roteiro em 6 degraus, o degrau 1 é o agente de atendimento) | projetos/ia-mao-direita/PASSO-A-PASSO.md
 
 3) HABILIDADES DA PLATAFORMA (não estão no repositório; chamar pelo nome com a ferramenta Skill)
 -------------------------------------------------------------------------------------------------
