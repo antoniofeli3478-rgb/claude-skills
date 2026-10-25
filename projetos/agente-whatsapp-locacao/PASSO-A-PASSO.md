@@ -27,6 +27,42 @@ diferente seguindo o padrão dela.
     elástica e piscina de bolinhas. Sem personagem fantasiado; recreação só no futuro. Jogos,
     touro e pipoca ficaram `ativo: false`.
   - Obs.: "Daniel" é só o nome que veio no fork do claude-skills, não é o usuário.
+- **25/10/2026 (3): 1ª versão do agente construída** (o usuário pediu para montar já, mesmo
+  genérica, para mostrar ao dono e ganhar a confiança dele antes de pedir preços e regras).
+  - **Onde:** repositório `whatsapp-agentkit`, branch `claude/whatsapp-toy-rental-agent-9jfi4l`,
+    pasta `agente-locacao/`. Comece pelo `agente-locacao/LEIA-ME.md`.
+  - ⚠️ Os commits `2574d60` e `fd1b79f` estão só no container: o push deu 403, porque o app do
+    Claude no GitHub não tem acesso ao `whatsapp-agentkit`. O usuário precisa instalar o app
+    nesse repositório e depois mandar dar o push.
+  - **Regra de ouro (definida pelo usuário):** a IA atende e a equipe fecha.
+    - A IA nunca confirma data, reserva ou valor, e nunca dá endereço.
+    - Ela anota a ficha e passa para a equipe.
+    - Depois disso fica pausada: volta pelo painel, pelo comando `#bot voltar <telefone>` ou
+      sozinha depois de 12 h.
+  - **Nome do agente:** "Anima Kids Park Bot" (o usuário pediu; troca no `perfil.yaml`).
+  - **Ferramentas (tool use):**
+    - `sugerir_brinquedos`: filtra por idade, espaço, água e tema;
+    - `ver_brinquedo`;
+    - `enviar_foto`: a foto real sai do site da empresa;
+    - `anotar_pedido`;
+    - `passar_para_equipe`.
+  - **Travas no código:** promessa de data ou reserva, valor e endereço. A IA ganha uma segunda
+    chance; se errar de novo, a conversa vai para a equipe.
+  - **Zernio:**
+    - manda foto com `attachmentUrl` + `attachmentType: image`;
+    - o evento `message.sent` com `sentVia: human` significa que a equipe respondeu pelo celular,
+      e a IA pausa.
+    - Fonte: docs.zernio.com (send-inbox-message e webhooks/inbox).
+  - **Testes:**
+    - 37 testes com pytest e um Claude falso, sem gastar API;
+    - `tests/test_local.py`: conversa no terminal;
+    - `tests/rodar_conversas.py`: 12 cenários com a API de verdade (falta a chave da Anthropic).
+  - **Teste de ponta a ponta:** feito com o `uvicorn`. O webhook responde 200 na hora, chama a
+    API e trata erros de chave sem cair.
+  - **Modelo:** `claude-sonnet-5`, o padrão do molde do AgentKit; troca pelo `ANTHROPIC_MODEL`.
+- **Habilidades usadas nesta etapa:**
+  - skill de plataforma `claude-api` (tool use, cache do system prompt, effort);
+  - o tom de festa veio do Instagram e do site (`anima-kids/instagram.md`).
 
 ## Plano aprovado
 1. Partir do código do `whatsapp-agentkit` (CLAUDE.md, seção 3), traduzido para pt-BR.
@@ -46,9 +82,13 @@ diferente seguindo o padrão dela.
 - Skill da plataforma `claude-api`: uso de ferramentas (tool use) com o Claude.
 
 ## Próximo passo
-Esperando o usuário (ou o dono da Anima Kids) responder a lista "Falta perguntar ao dono" do
-`DOSSIE.md`: preços, frete, sinal/Pix, cancelamento e chuva, estoque, horário, número da equipe
-e prints do Instagram e de conversas.
+1. O usuário instala o app do Claude no GitHub do `whatsapp-agentkit` → push dos commits.
+2. A chave da API da Anthropic (fica só no `.env` do container) → rodar `tests/test_local.py` e
+   `tests/rodar_conversas.py` e ajustar o tom pelas transcrições.
+3. Mostrar ao dono. Depois, preencher com os dados dele: preços, frete, sinal/Pix,
+   cancelamento e chuva, estoque, horário e número da equipe (`EQUIPE_WHATSAPP`).
+4. Deploy na Railway (Root Directory `agente-locacao`) e webhook da Zernio (eventos
+   message.received e message.sent).
 
 Também falta decidir até onde vai a reserva e o provedor (Zernio ou Meta).
 Onde fica o código: ainda não foi decidido (repositório próprio ou branch de projeto, nunca a `main`).
