@@ -73,3 +73,10 @@ As outras (Despina, Autonoe, Pulcherrima e Aoede) não foram destacadas. As trê
 - **Chave:** a primeira chave do Gemini respondeu 401; o script passou sozinho para a segunda. Nenhuma chave entrou no repositório.
 - **Transcrição (`conferir_voz.py`, modelo small):** 93,4% na voz sozinha e 95,6% no áudio final. Erros: "eu começo" virou "o começo", "Rotina" virou "rutina" e "anotou peso" saiu colado ("anotopeza"). O modelo `large-v3-turbo` quebrou no alinhamento de palavras do faster-whisper (`IndexError` em `find_alignment`); fique no small ou passe sem marcação de palavras.
 - Detalhes: `projetos/rotina/PASSO-A-PASSO.md` (item 6) e `reports/Vídeo Rotina v3, skills e combos usados (2026-10-12).md`.
+
+## 25/10/2026: Kokoro lendo palavras erradas de propósito (Soletra Aí)
+
+- Uma fala curta por arquivo (uma palavra) com `pm_alex` a 1,12: cada uma sai com 0,5–1,8 s depois de cortar o silêncio.
+- Homófonos (Exceção/Excessão) soam iguais; para um erro precisar *soar* errado, respelle (ex.: "Exeção" → "Ezeção").
+- O "rr" sai como /h/ (certo no pt-BR); o Whisper transcreve "Otohino", mas a fala está certa.
+- O `faster-whisper` deste container quebra ao abrir arquivo (`av.open ... metadata_errors`): passe o áudio como array numpy.

@@ -1,0 +1,183 @@
+{
+ "marca": "SOLETRA AÍ",
+ "rodadas": [
+  {
+   "palavra": "Bicicleta",
+   "reacao": "choque",
+   "linhas": [
+    [
+     "Bicicleta",
+     1.1
+    ],
+    [
+     "Bicicleta",
+     1.3
+    ],
+    [
+     "Bicicleta",
+     1.6
+    ],
+    [
+     "Bicicleta",
+     2.2
+    ],
+    [
+     "Bisicleta"
+    ],
+    [
+     "Minha magrela"
+    ]
+   ]
+  },
+  {
+   "palavra": "Exceção",
+   "reacao": null,
+   "linhas": [
+    [
+     "Exceção",
+     1.8
+    ],
+    [
+     "Exceção",
+     2.4
+    ],
+    [
+     "Excessão"
+    ],
+    [
+     "Exeção"
+    ],
+    [
+     "Esseção"
+    ]
+   ]
+  },
+  {
+   "palavra": "Ansioso",
+   "reacao": "olhar",
+   "linhas": [
+    [
+     "Ansioso",
+     0.9
+    ],
+    [
+     "Ansioso",
+     1.0
+    ],
+    [
+     "Ansioso",
+     1.2
+    ],
+    [
+     "Ansioso",
+     1.4
+    ],
+    [
+     "Ansioso",
+     1.9
+    ],
+    [
+     "Ancioso"
+    ],
+    [
+     "Tô nervoso"
+    ]
+   ]
+  },
+  {
+   "palavra": "Cabeleireiro",
+   "reacao": "explosao",
+   "linhas": [
+    [
+     "Cabeleireiro",
+     2.6
+    ],
+    [
+     "Cabelereiro"
+    ],
+    [
+     "Cabeleleiro"
+    ],
+    [
+     "Cabelerero"
+    ],
+    [
+     "Cabelo ereiro"
+    ],
+    [
+     "Barbeiro"
+    ]
+   ]
+  },
+  {
+   "palavra": "Paralelepípedo",
+   "reacao": "choro",
+   "linhas": [
+    [
+     "Paralelepípedo",
+     3.1
+    ],
+    [
+     "Paralelepípedo",
+     3.9
+    ],
+    [
+     "Paralelipípedo"
+    ],
+    [
+     "Paralelepípido"
+    ],
+    [
+     "Paraleleprípedo"
+    ],
+    [
+     "Paralelo pipoca"
+    ],
+    [
+     "Pedra"
+    ]
+   ]
+  },
+  {
+   "palavra": "Otorrinolaringologista",
+   "reacao": "explosao",
+   "linhas": [
+    [
+     "Otorrinolaringologista",
+     6.2
+    ],
+    [
+     "Otorrinolaringologista",
+     8.9
+    ],
+    [
+     "Otorrino"
+    ],
+    [
+     "Otorrinolaringo"
+    ],
+    [
+     "Otorrinolaringolojista"
+    ],
+    [
+     "Médico do nariz e da orelha"
+    ]
+   ]
+  }
+ ],
+ "final": {
+  "palavra": "E você?",
+  "linhas": [
+   [
+    "Acertei todas",
+    0.1
+   ],
+   [
+    "Errei a do otorrino"
+   ],
+   [
+    "Comenta aí embaixo"
+   ]
+  ]
+ }
+}

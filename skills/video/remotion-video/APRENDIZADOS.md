@@ -91,3 +91,12 @@ O Daniel é editor de vídeo profissional (motion). Ele revisou o v2 do Rotina e
 - **Gráfico que se desenha sem máscara:** a área sob a linha é um polígono calculado até a ponta da linha a cada quadro, no lugar do `clipPath`.
 - **`Atras` com elemento largo:** se o elemento for mais largo que o celular, ele começa vazando pela lateral. Use `Entra` pela borda do quadro (ex.: o botão do CTA desce do topo).
 - **Textos saindo e entrando no mesmo lugar:** confira se o que sai e o que entra não se cruzam no meio do movimento (no v4, o botão do CTA cruzava o texto que saía; resolvido saindo antes). Detalhes: `projetos/rotina/PASSO-A-PASSO.md` (item 7).
+
+## 25/10/2026: Soletra Aí (meme de placar estilo TikTok)
+
+- **Vídeo de referência do TikTok:** `yt-dlp --impersonate chrome` (precisa de `pip install "yt-dlp[default,curl-cffi]"`).
+- **Formato placar:** um único `timeline.json` gerado em Python (a partir das durações das vozes) move animação, voz e efeitos. Trocar uma palavra = rodar os scripts de novo.
+- **Giro de cubo** entre a cena e a reação: a face que sai gira em torno da borda direita (`transformOrigin 100%`, `translateX(-W·p) rotateY(-90°·p)`), a que entra em torno da esquerda; a aresta comum fica sempre no mesmo X. Curva in-out curta (9–10 quadros).
+- **Tremor de câmera:** escale a camada ~1,06 para a borda preta não aparecer.
+- **Chromium do container mudou:** `/opt/pw-browsers/chromium_headless_shell-1243/chrome-headless-shell-linux64/chrome-headless-shell`.
+- Detalhes: `projetos/soletra-ai/PASSO-A-PASSO.md`.
