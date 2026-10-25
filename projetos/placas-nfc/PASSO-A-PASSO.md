@@ -8,7 +8,7 @@ App pessoal para controlar as placas NFC (Google, Instagram, WhatsApp, Pix e out
   - `docs/index.html`: o app inteiro (HTML, CSS e JS num arquivo só, sem biblioteca).
   - `docs/manifest.webmanifest` e `docs/sw.js`: o que faz o app ser instalável e abrir sem internet.
   - `docs/icons/`: ícones (gerados por um SVG renderizado no Chromium do container).
-- **Endereço do app (depois de ligar o GitHub Pages):** https://antoniofeli3478-rgb.github.io/claude-skills/
+- **Endereço do app (no ar desde 25/10/2026):** https://antoniofeli3478-rgb.github.io/claude-skills/
 - **Primeira versão (25/10/2026):** painel no Claude (artifact) em https://claude.ai/artifact/8ctRyPGCsBFYM1n7MdfXZG. Ficou para trás porque só abre dentro do claude.ai.
 
 ## Como ligar o GitHub Pages (uma vez só)
@@ -51,8 +51,10 @@ cd docs && python3 -m http.server 8765 &
 
 - Para um app pessoal no celular, PWA estático no GitHub Pages resolve: ícone na tela inicial, tela cheia, funciona sem internet, de graça.
 - Node em ESM não acha o Playwright global; use `require("playwright")` em arquivo `.cjs`.
+- Ligar o Pages pelo celular travou: o campo Branch ficou em "None" e a mensagem era "GitHub Pages is currently disabled". Mandar print da tela Settings → Pages resolveu na hora. Com o Pages ligado, cada push na branch publica sozinho em 1 ou 2 minutos.
+- Endereço digitado sem `https://` no Chrome vira pesquisa no Google e leva a sites aleatórios. Mandar sempre o link completo.
 
 ## Próximo passo
 
-- Daniel ligar o GitHub Pages e instalar no celular.
+- Instalar no celular (Android: Chrome → ⋮ → Instalar app) e lançar o estoque inicial.
 - Ideias se ele pedir: contas "a receber", lista de clientes, sincronizar entre dois aparelhos.
