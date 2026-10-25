@@ -35,9 +35,9 @@ diferente seguindo o padrão dela.
   genérica, para mostrar ao dono e ganhar a confiança dele antes de pedir preços e regras).
   - **Onde:** repositório `whatsapp-agentkit`, branch `claude/whatsapp-toy-rental-agent-9jfi4l`,
     pasta `agente-locacao/`. Comece pelo `agente-locacao/LEIA-ME.md`.
-  - ⚠️ Os commits `2574d60` e `fd1b79f` estão só no container: o push deu 403, porque o app do
-    Claude no GitHub não tem acesso ao `whatsapp-agentkit`. O usuário precisa instalar o app
-    nesse repositório e depois mandar dar o push.
+  - Commits `2574d60` e `fd1b79f` enviados ao GitHub em 25/10. No começo o push deu 403;
+    resolveu quando o usuário liberou o `whatsapp-agentkit` no app do Claude
+    (github.com/settings/installations → Claude → Configure → Repository access).
   - **Regra de ouro (definida pelo usuário):** a IA atende e a equipe fecha.
     - A IA nunca confirma data, reserva ou valor, e nunca dá endereço.
     - Ela anota a ficha e passa para a equipe.
@@ -86,12 +86,11 @@ diferente seguindo o padrão dela.
 - Skill da plataforma `claude-api`: uso de ferramentas (tool use) com o Claude.
 
 ## Próximo passo
-1. O usuário instala o app do Claude no GitHub do `whatsapp-agentkit` → push dos commits.
-2. A chave da API da Anthropic (fica só no `.env` do container) → rodar `tests/test_local.py` e
+1. A chave da API da Anthropic (fica só no `.env` do container) → rodar `tests/test_local.py` e
    `tests/rodar_conversas.py` e ajustar o tom pelas transcrições.
-3. Mostrar ao dono. Depois, preencher com os dados dele: preços, frete, sinal/Pix,
+2. Mostrar ao dono. Depois, preencher com os dados dele: preços, frete, sinal/Pix,
    cancelamento e chuva, estoque, horário e número da equipe (`EQUIPE_WHATSAPP`).
-4. Deploy na Railway (Root Directory `agente-locacao`) e webhook da Zernio (eventos
+3. Deploy na Railway (Root Directory `agente-locacao`) e webhook da Zernio (eventos
    message.received e message.sent).
 
 Também falta decidir até onde vai a reserva e o provedor (Zernio ou Meta).
