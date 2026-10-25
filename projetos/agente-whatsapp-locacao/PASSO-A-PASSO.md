@@ -5,6 +5,10 @@ Um agente de IA no WhatsApp para locadoras de brinquedos de festa, com clima de 
 molde só, com um perfil por empresa** (tom, emojis, catálogo, frete e regras), e cada empresa fica
 diferente seguindo o padrão dela.
 
+## Combinado com o usuário
+- Sempre avisar quando terminar uma tarefa: resumo final + notificação (PushNotification).
+- Base do agente: manter o código próprio em `agente-locacao/`. O Chatwoot (central da equipe) fica para uma fase 2, se o dono aprovar.
+
 ## O que foi feito
 - **24/10/2026:** pesquisa de repositórios de referência. Os 5 melhores foram baixados para
   `research_notes/Agente WhatsApp locacao 2026-10/referencias/` (leia antes o `LEIA-ME.md` da pasta).
