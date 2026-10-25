@@ -1,7 +1,9 @@
 _aviso: 'RASCUNHO gerado do site em 25/10/2026. Preços, estoque e fichas antigas precisam ser confirmados pelo dono
   antes de ir ao ar. preco: null = a confirmar. As fotos foram ligadas de forma automática (pelo nome do arquivo
   e pela página): conferir antes de o agente enviar. A página do Celeiro usa a foto aventura-na-fazenda: confirmar
-  se Celeiro e Aventura na Fazenda são o mesmo brinquedo.'
+  se Celeiro e Aventura na Fazenda são o mesmo brinquedo. Foco da empresa: brinquedos INFLÁVEIS diferenciados (na
+  região não tem igual), mais cama elástica e piscina de bolinhas. ativo: false = está no site, mas o agente não
+  oferece (a confirmar). Sem personagem fantasiado. Recreação só no futuro.'
 itens:
 - id: kid-play-aventura
   nome: Kid Play Aventura
@@ -12,8 +14,9 @@ itens:
   fotos: []
   capacidade: 3
   area_instalacao_m: 9,40 x 6,10 x 3,40 (ficha antiga)
+  ativo: true
 - id: kid-play-fazendinha
-  nome: Kid Play Fazendinha / Aventura na Fazenda
+  nome: Kid Play Fazendinha (o pequeno, ficha antiga)
   linha: kid-play
   pagina: https://www.animakidsfestas.com.br/kid-play-fazendinha-ribeirao-preto/
   preco: null
@@ -22,8 +25,9 @@ itens:
   - https://www.animakidsfestas.com.br/wp-content/uploads/2026/10/aventura-na-fazenda-featured.jpg
   medidas_m: 3,90 x 2,80 x 2,35 (ficha antiga)
   capacidade: 2
+  ativo: true
 - id: kid-play-celeiro
-  nome: Kid Play Celeiro
+  nome: Aventura na Fazenda / Kid Play Celeiro
   linha: kid-play
   pagina: https://www.animakidsfestas.com.br/kid-play-celeiro-ribeirao-preto/
   preco: null
@@ -37,6 +41,8 @@ itens:
   atividades: joão-bobo, pula-pula, escalada, escorregador e pêndulo
   energia: precisa de tomada
   monitor: true
+  ativo: true
+  observacao: Destaque 'Novidade' no Instagram; mesmas medidas do Celeiro (5,40 x 5,00 x 3,40 m).
 - id: kid-play-patrulha-canina
   nome: Kid Play Patrulha Canina (Farol)
   linha: kid-play
@@ -49,6 +55,7 @@ itens:
   medidas_m: 6,40 x 5,00 x 3,50 (ficha antiga)
   capacidade: 5
   idade: 1 a 12 anos
+  ativo: true
 - id: jardim-encantado
   nome: Jardim Encantado Kid Play
   linha: kid-play
@@ -57,6 +64,7 @@ itens:
   quantidade: null
   fotos:
   - https://www.animakidsfestas.com.br/wp-content/uploads/2023/01/mult_play_jardim_encantado_1161_4_1ecd6cb57a0d716974662d68a84811a4.webp
+  ativo: true
 - id: kid-play-polvo
   nome: Polvo Kid Play
   linha: kid-play
@@ -65,6 +73,7 @@ itens:
   quantidade: null
   fotos:
   - https://www.animakidsfestas.com.br/wp-content/uploads/2026/10/kid-play-polvo-anima-kids.jpg
+  ativo: true
 - id: kid-play-safari
   nome: Safari Kid Play
   linha: kid-play
@@ -73,6 +82,7 @@ itens:
   quantidade: null
   fotos:
   - https://www.animakidsfestas.com.br/wp-content/uploads/2026/10/kid-play-safari-anima-kids.jpg
+  ativo: true
 - id: kid-play-circo
   nome: Circo Kid Play
   linha: kid-play
@@ -80,6 +90,7 @@ itens:
   preco: null
   quantidade: null
   fotos: []
+  ativo: true
 - id: crocokid
   nome: CrocoKid
   linha: kid-play
@@ -88,6 +99,7 @@ itens:
   quantidade: null
   fotos:
   - https://www.animakidsfestas.com.br/wp-content/uploads/2017/11/Pula-Pula-Croco-4.jpeg
+  ativo: true
 - id: pocket-vaquinha
   nome: Pocket Vaquinha 3 em 1
   linha: pocket
@@ -97,6 +109,7 @@ itens:
   fotos:
   - https://www.animakidsfestas.com.br/wp-content/uploads/2023/02/Combo-Pocket-Vaquinha-4.webp
   agua: pode ser aquático
+  ativo: true
 - id: pocket-tigrinho
   nome: Tigrinho Pocket 3 em 1
   linha: pocket
@@ -106,6 +119,7 @@ itens:
   fotos:
   - https://www.animakidsfestas.com.br/wp-content/uploads/2022/12/tigre-3.webp
   agua: pode ser aquático
+  ativo: true
 - id: pocket-pirata
   nome: Pocket Pirata 3 em 1
   linha: pocket
@@ -114,6 +128,7 @@ itens:
   quantidade: 1
   fotos: []
   agua: pode ser aquático
+  ativo: true
 - id: pocket-dino
   nome: Pocket Dino 3 em 1
   linha: pocket
@@ -123,6 +138,7 @@ itens:
   fotos:
   - https://www.animakidsfestas.com.br/wp-content/uploads/2023/03/dino-2.webp
   agua: pode ser aquático
+  ativo: true
 - id: pocket-safari
   nome: Pocket Safari 3 em 1
   linha: pocket
@@ -132,6 +148,7 @@ itens:
   fotos:
   - https://www.animakidsfestas.com.br/wp-content/uploads/2026/10/pocket-safari-3-em-1.jpg
   agua: pode ser aquático
+  ativo: true
 - id: baby-fantasia
   nome: Baby Fantasia
   linha: baby
@@ -141,6 +158,7 @@ itens:
   fotos:
   - https://www.animakidsfestas.com.br/wp-content/uploads/2026/10/baby-fantasia-featured.jpg
   idade: 0 a 6 anos
+  ativo: true
 - id: circuito-safari-baby
   nome: Circuito Safari Baby
   linha: baby
@@ -148,6 +166,7 @@ itens:
   preco: null
   quantidade: null
   fotos: []
+  ativo: true
 - id: piscina-de-bolinhas
   nome: Piscina de Bolinhas
   linha: baby
@@ -160,6 +179,7 @@ itens:
   capacidade: 3
   peso_kg: 96
   idade: até 4 anos
+  ativo: true
 - id: cama-elastica
   nome: Cama Elástica / Pula-Pula
   linha: tradicional
@@ -174,6 +194,7 @@ itens:
   - https://www.animakidsfestas.com.br/wp-content/uploads/2016/10/pula-pula-ventura-3.jpg
   - https://www.animakidsfestas.com.br/wp-content/uploads/2016/10/pula-pula-ventura-2.jpg
   tamanhos: vários
+  ativo: true
 - id: big-shark
   nome: Big Shark (tobogã gigante)
   linha: toboga
@@ -183,6 +204,17 @@ itens:
   fotos:
   - https://www.animakidsfestas.com.br/wp-content/uploads/2026/10/big-shark-tobog-gigante-featured.jpg
   agua: seco, com piscina ou na beira da piscina; slide complementar
+  ativo: true
+- id: dual-splash
+  nome: Dual Splash
+  linha: toboga
+  pagina: null
+  preco: null
+  quantidade: null
+  fotos: []
+  ativo: true
+  observacao: Tobogã aquático visto num destaque do Instagram; ainda não está no site. Confirmar medidas e se é
+    aquático.
 - id: tigrao
   nome: Tigrão Inflável
   linha: toboga
@@ -191,6 +223,7 @@ itens:
   quantidade: null
   fotos:
   - https://www.animakidsfestas.com.br/wp-content/uploads/2016/10/tigrao-300x274.jpg
+  ativo: true
 - id: toboga-t-rex
   nome: Tobogã T-Rex
   linha: toboga
@@ -199,6 +232,7 @@ itens:
   quantidade: null
   fotos:
   - https://www.animakidsfestas.com.br/wp-content/uploads/2026/10/toboga-t-rex-frente.jpg
+  ativo: true
 - id: combo-t-rex
   nome: Combo T-Rex
   linha: toboga
@@ -206,6 +240,7 @@ itens:
   preco: null
   quantidade: null
   fotos: []
+  ativo: true
 - id: toboga-safari
   nome: Tobogã Safari
   linha: toboga
@@ -213,6 +248,7 @@ itens:
   preco: null
   quantidade: null
   fotos: []
+  ativo: true
 - id: super-golfinho
   nome: Super Golfinho 3 em 1
   linha: toboga
@@ -220,6 +256,7 @@ itens:
   preco: null
   quantidade: null
   fotos: []
+  ativo: true
 - id: super-3-em-1
   nome: Tobogã Super 3 em 1 com piscina
   linha: toboga
@@ -229,6 +266,7 @@ itens:
   fotos:
   - https://www.animakidsfestas.com.br/wp-content/uploads/2016/10/toboga-super-300x274.jpg
   agua: opção com piscina
+  ativo: true
 - id: parque-dos-dinossauros
   nome: Parque dos Dinossauros
   linha: toboga
@@ -236,6 +274,7 @@ itens:
   preco: null
   quantidade: null
   fotos: []
+  ativo: true
 - id: invasao-jurassica
   nome: Invasão Jurássica
   linha: toboga
@@ -243,6 +282,7 @@ itens:
   preco: null
   quantidade: null
   fotos: []
+  ativo: true
 - id: corrida-divertida
   nome: Corrida Divertida
   linha: circuito
@@ -252,6 +292,7 @@ itens:
   fotos:
   - https://www.animakidsfestas.com.br/wp-content/uploads/2024/02/corrida-de-obstaculo-3.webp
   idade: 5 a 13 anos
+  ativo: true
 - id: corrida-de-obstaculos
   nome: Corrida de Obstáculos / Circuito Radical Modular
   linha: circuito
@@ -266,6 +307,7 @@ itens:
   - https://www.animakidsfestas.com.br/wp-content/uploads/2026/10/circuito-radical-modular-evento-coberto-anima-kids-ribeirao-preto.webp
   - https://www.animakidsfestas.com.br/wp-content/uploads/2026/10/circuito-radical-modular-escalada-anima-kids-ribeirao-preto.webp
   modular: true
+  ativo: true
 - id: futebol-de-sabao-7x5
   nome: Futebol de Sabão 7x5
   linha: esportivo
@@ -278,6 +320,7 @@ itens:
   medidas_m: 7 x 5 (nominal)
   agua: true
   energia: true
+  ativo: true
 - id: futebol-de-sabao-brasileirao
   nome: Futebol de Sabão Brasileirão 7x5
   linha: esportivo
@@ -288,6 +331,7 @@ itens:
   - https://www.animakidsfestas.com.br/wp-content/uploads/2026/10/futebol-de-sabao-brasileirao-anima-kids.jpg
   medidas_m: 7 x 5 (nominal)
   agua: true
+  ativo: true
 - id: futebol-de-sabao-10x5
   nome: Futebol de Sabão 10x5
   linha: esportivo
@@ -298,6 +342,7 @@ itens:
   - https://www.animakidsfestas.com.br/wp-content/uploads/2026/10/futebol-de-sabao-brasileirao-anima-kids.jpg
   medidas_m: 10 x 5 (nominal)
   agua: true
+  ativo: true
 - id: futebol-de-sabao-champions
   nome: Futebol de Sabão Champions 10x5
   linha: esportivo
@@ -308,6 +353,7 @@ itens:
   - https://www.animakidsfestas.com.br/wp-content/uploads/2026/10/futebol-de-sabao-brasileirao-anima-kids.jpg
   medidas_m: 10 x 5 (nominal)
   agua: true
+  ativo: true
 - id: arena-play
   nome: Arena Play 12x6
   linha: esportivo
@@ -318,6 +364,7 @@ itens:
   - https://www.animakidsfestas.com.br/wp-content/uploads/2026/10/arena-play-featured.jpg
   medidas_m: 12 x 6 + folga de circulação
   idade: crianças maiores, adolescentes e adultos
+  ativo: true
 - id: xtreme-ball
   nome: Xtreme Ball
   linha: esportivo
@@ -326,6 +373,7 @@ itens:
   quantidade: null
   fotos:
   - https://www.animakidsfestas.com.br/wp-content/uploads/2026/10/xtreme-ball-featured.jpg
+  ativo: true
 - id: giro-radical
   nome: Giro Radical
   linha: esportivo
@@ -336,6 +384,7 @@ itens:
   - https://www.animakidsfestas.com.br/wp-content/uploads/2026/10/giro-radical-featured.jpg
   idade: a partir de ~5 anos
   energia: true
+  ativo: true
 - id: bumper-ball
   nome: Bumper Ball
   linha: esportivo
@@ -350,6 +399,7 @@ itens:
   - https://www.animakidsfestas.com.br/wp-content/uploads/2016/10/BumperBall6.jpg
   - https://www.animakidsfestas.com.br/wp-content/uploads/2016/10/BumperBall5.jpg
   capacidade: 1 por bola
+  ativo: true
 - id: touro-mecanico
   nome: Touro Mecânico
   linha: esportivo
@@ -366,6 +416,7 @@ itens:
   monitor: sempre (opera e controla a intensidade)
   idade: crianças maiores, adolescentes e adultos
   energia: true
+  ativo: false
 - id: air-soccer
   nome: Air Soccer
   linha: jogos
@@ -375,6 +426,7 @@ itens:
   fotos:
   - https://www.animakidsfestas.com.br/wp-content/uploads/2026/10/air-soccer-inflavel-vista-frontal-anima-kids-ribeirao-preto.webp
   - https://www.animakidsfestas.com.br/wp-content/uploads/2026/10/air-soccer-inflavel-vista-lateral-anima-kids-ribeirao-preto.webp
+  ativo: true
 - id: basquete-inflavel
   nome: Basquete Inflável
   linha: jogos
@@ -388,6 +440,7 @@ itens:
   - https://www.animakidsfestas.com.br/wp-content/uploads/2016/10/Basquete8.jpg
   - https://www.animakidsfestas.com.br/wp-content/uploads/2016/10/Basquete7.jpg
   - https://www.animakidsfestas.com.br/wp-content/uploads/2016/10/Basquete6.jpg
+  ativo: true
 - id: multi-target
   nome: Multi Target
   linha: jogos
@@ -396,6 +449,7 @@ itens:
   quantidade: null
   fotos:
   - https://www.animakidsfestas.com.br/wp-content/uploads/2016/10/Mult_Target_transf500x400px.jpg
+  ativo: true
 - id: air-hockey
   nome: Air Hockey
   linha: jogos
@@ -405,6 +459,7 @@ itens:
   fotos: []
   jogadores: 2
   energia: true
+  ativo: false
 - id: ping-pong
   nome: Ping-Pong
   linha: jogos
@@ -417,6 +472,7 @@ itens:
   - https://www.animakidsfestas.com.br/wp-content/uploads/2026/10/aluguel-mesa-ping-pong-ribeirao-preto-anima-kids-04.webp
   - https://www.animakidsfestas.com.br/wp-content/uploads/2026/10/aluguel-mesa-ping-pong-ribeirao-preto-anima-kids-03.webp
   - https://www.animakidsfestas.com.br/wp-content/uploads/2026/10/aluguel-mesa-ping-pong-ribeirao-preto-anima-kids-02.webp
+  ativo: false
 - id: pebolim
   nome: Pebolim
   linha: jogos
@@ -425,6 +481,7 @@ itens:
   quantidade: null
   fotos:
   - https://www.animakidsfestas.com.br/wp-content/uploads/2018/06/pimbolim-ribeirao-preto-anima-kids-5-e1529494081956.jpg
+  ativo: false
 - id: fliperama
   nome: Fliperama
   linha: jogos
@@ -433,6 +490,7 @@ itens:
   quantidade: null
   fotos: []
   energia: true
+  ativo: false
 - id: corrida-maluca
   nome: Corrida Maluca
   linha: jogos
@@ -443,6 +501,7 @@ itens:
   - https://www.animakidsfestas.com.br/wp-content/uploads/2016/10/corridamaluca32.png
   medidas_m: 3,10 x 0,90 x 1,10 (ficha antiga)
   capacidade: 2
+  ativo: true
 - id: autorama
   nome: Autorama
   linha: jogos
@@ -452,6 +511,7 @@ itens:
   fotos: []
   medidas_m: mesa 1,84 x 0,90; 15 kg (ficha antiga)
   jogadores: 2
+  ativo: false
 - id: canhao-de-espuma
   nome: Canhão de Espuma
   linha: agua
@@ -463,6 +523,7 @@ itens:
   - https://www.animakidsfestas.com.br/wp-content/uploads/2026/10/canhao-de-espuma-anima-kids.jpg
   agua: true
   energia: true
+  ativo: true
 - id: water-ball
   nome: Water Ball (bolha na piscina)
   linha: agua
@@ -471,6 +532,7 @@ itens:
   quantidade: null
   fotos: []
   precisa: piscina
+  ativo: true
 - id: pipoca
   nome: Pipoca (com atendente)
   linha: alimentacao
@@ -484,6 +546,7 @@ itens:
   - https://www.animakidsfestas.com.br/wp-content/uploads/2016/10/pipoca-retro1.jpg
   - https://www.animakidsfestas.com.br/wp-content/uploads/2016/10/pipoca4.jpg
   - https://www.animakidsfestas.com.br/wp-content/uploads/2016/10/pipoca3_2-1.png
+  ativo: false
 - id: algodao-doce
   nome: Algodão-doce (com atendente)
   linha: alimentacao
@@ -497,6 +560,7 @@ itens:
   - https://www.animakidsfestas.com.br/wp-content/uploads/2016/10/algodaoep_det.png
   - https://www.animakidsfestas.com.br/wp-content/uploads/2016/10/pipoca-algodao-300x272.jpg
   - https://www.animakidsfestas.com.br/wp-content/uploads/2016/10/pipoca-algodao-300x272-1.jpg
+  ativo: false
 - id: combo-pipoca-algodao
   nome: Combo Pipoca + Algodão-doce
   linha: alimentacao
@@ -504,3 +568,4 @@ itens:
   preco: null
   quantidade: null
   fotos: []
+  ativo: false

@@ -7,7 +7,7 @@ O texto bruto está em `dados-brutos/` (uma página por arquivo) e o índice de 
 
 ## Identidade
 
-- **Nomes:** Anima Kids Park (é o que o site usa) e Anima Kids Festas e Eventos (como o Daniel chama).
+- **Nomes:** Anima Kids Park (é o que o site usa) e Anima Kids Festas e Eventos (nome do perfil no Instagram).
 - **Instagram:** [@animakidspark](https://www.instagram.com/animakidspark/). Ele bloqueia leitura
   automática, então faltam os prints para pegar o tom e os emojis.
 - **WhatsApp:** (16) 98808-4847 (wa.me/5516988084847). O telefone fixo (16) 3443-6604 aparece em páginas antigas.
@@ -22,7 +22,20 @@ O texto bruto está em `dados-brutos/` (uma página por arquivo) e o índice de 
 - **Concorrentes com nome parecido (NÃO confundir):** Anima Kids de Jundiaí, Animakid's de
   Maringá, Anima Kids Buffet (@animakids) e Anima Park de Portugal.
 
-## Regra do Daniel: sem endereço
+## Foco e diferencial (dito pelo usuário em 25/10)
+
+- **O que oferece:** brinquedos **infláveis**, mais cama elástica e piscina de bolinhas.
+- **Diferencial:** os infláveis são **diferenciados: na região que a empresa atende não tem
+  igual** (pode ter parecido). É o argumento de venda nº 1.
+- **O que não oferece:**
+  - personagem fantasiado: não trabalha com isso;
+  - recreação: vai entrar no futuro, ainda não.
+- **Itens desligados no catálogo:** jogos (air hockey, ping-pong, pebolim, fliperama, autorama),
+  touro mecânico e pipoca/algodão-doce. Estão no site, mas o agente não oferece (`ativo: false`
+  no catálogo), até alguém confirmar.
+- **Instagram:** anotações em `instagram.md`. Lá está o aviso contra golpe, que vira regra de pagamento do agente.
+
+## Regra do usuário: sem endereço
 
 **Não existe endereço fixo.** Os endereços que aparecem no Google Maps foram colocados pelo dono
 só para aparecer no Google: ninguém atende lá. Todo o atendimento é pelo WhatsApp, e a empresa vai
@@ -157,4 +170,6 @@ O agente deve reconhecer essas frases e já entrar no roteiro do orçamento.
 9. **Prints do Instagram e de conversas reais:** tom, emojis, gírias e jeito de fechar a venda.
 10. **Nome do agente** (ex.: "Ani") e se ele deve se apresentar como assistente virtual.
 11. Se o agente pode **citar os eventos grandes** (Agrishow, Rodeo Music) como prova social.
-12. Confirmar se **Kid Play Celeiro** e **Aventura na Fazenda** são o mesmo brinquedo (o site usa a mesma foto).
+12. ~~Celeiro e Aventura na Fazenda~~: são o mesmo brinquedo (o destaque do Instagram tem as mesmas medidas).
+13. **Dual Splash** (visto no Instagram): medidas, se é aquático e o preço.
+14. Confirmar se os itens `ativo: false` saíram mesmo do catálogo.

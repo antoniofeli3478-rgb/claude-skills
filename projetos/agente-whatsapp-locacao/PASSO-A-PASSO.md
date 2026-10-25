@@ -17,8 +17,8 @@ diferente seguindo o padrão dela.
   - `dados-brutos/`: texto de 65 páginas e 23 posts, mais o índice de fotos.
   - Como foi feito: a API pública do WordPress do site, `/wp-json/wp/v2/pages|posts|media`.
     Os scripts ficaram no scratchpad e não foram para o repositório.
-  - O Instagram bloqueia a leitura automática: é preciso pedir prints ao Daniel.
-  - **Regra do Daniel:** a Anima Kids não tem endereço fixo (os do Maps são só para SEO). O agente nunca informa endereço.
+  - O Instagram bloqueia a leitura automática: o usuário mandou prints (ver `instagram.md`).
+  - **Regra do usuário:** a Anima Kids não tem endereço fixo (os do Maps são só para SEO). O agente nunca informa endereço.
 
 ## Plano aprovado
 1. Partir do código do `whatsapp-agentkit` (CLAUDE.md, seção 3), traduzido para pt-BR.
@@ -38,7 +38,7 @@ diferente seguindo o padrão dela.
 - Skill da plataforma `claude-api`: uso de ferramentas (tool use) com o Claude.
 
 ## Próximo passo
-Esperando o Daniel (ou o dono da Anima Kids) responder a lista "Falta perguntar ao dono" do
+Esperando o usuário (ou o dono da Anima Kids) responder a lista "Falta perguntar ao dono" do
 `DOSSIE.md`: preços, frete, sinal/Pix, cancelamento e chuva, estoque, horário, número da equipe
 e prints do Instagram e de conversas.
 
