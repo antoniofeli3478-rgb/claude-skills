@@ -28,6 +28,15 @@ Se a branch for juntada na `main` um dia, troque a branch do Pages para `main` c
 - PIN de 4 números opcional: tranca a tela contra curiosos. Não criptografa os dados.
 - No iPhone, abrir sempre pelo ícone da tela inicial: o Safari e o app instalado têm armazenamentos separados.
 
+## Versão 1.1 (25/10/2026)
+
+- **Lucro certo:** custo médio de cada placa (só das entradas com custo informado) × placas vendidas. Antes descontava tudo o que tinha chegado no período.
+- **Venda pelo preço de cada placa:** o total é calculado (quantidade × preço).
+- **Pagamento dividido:** dá para marcar Pix, Dinheiro, Cartão e A receber juntos, com o valor de cada um. Se só um campo fica vazio, ele recebe o que falta. Não salva se a soma não fechar com o total.
+- Resultados mostram "Como entrou o dinheiro" por forma de pagamento; o histórico mostra o lucro de cada venda; a planilha ganhou colunas por forma de pagamento e de lucro.
+- Registros da 1.0 são convertidos sozinhos ao abrir (`migrarMov`), inclusive ao restaurar uma cópia antiga.
+- No container, `pkill -f http.server` derruba o próprio shell (saída 144): pare o servidor de teste pelo PID.
+
 ## Como atualizar o app
 
 Editar `docs/index.html`, subir a versão em `VERSAO_APP` e o nome do cache em `docs/sw.js` (`placas-nfc-v1` → `v2`), depois commit e push. O app pega a versão nova na próxima vez que abrir com internet.

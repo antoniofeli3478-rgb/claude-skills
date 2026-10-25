@@ -242,6 +242,21 @@ h2 { margin: 0; font-size: 17px; font-weight: 700; letter-spacing: -0.01em; }
 .chips { display: flex; flex-wrap: wrap; gap: 8px; }
 .chip { border: 1.5px solid var(--line); background: var(--surface); border-radius: 999px; padding: 7px 13px; font-size: 14px; font-weight: 600; }
 .chip[aria-pressed="true"] { border-color: var(--accent); background: var(--accent-soft); color: var(--accent); }
+.opt { font-style: normal; font-weight: 500; }
+.totalbox { display: flex; justify-content: space-between; align-items: baseline; gap: 10px; background: var(--accent-soft); color: var(--accent); border-radius: 12px; padding: 10px 14px; font-weight: 600; font-size: 15px; }
+.totalbox b { font-family: var(--font-display); font-size: 20px; font-variant-numeric: tabular-nums; }
+.split { display: flex; flex-direction: column; gap: 8px; margin-top: 4px; }
+.split-row { display: grid; grid-template-columns: 96px 1fr; gap: 10px; align-items: center; }
+.split-row > span { font-weight: 600; font-size: 15px; color: var(--ink); }
+.split-row .money input { font-size: 17px; padding-top: 10px; padding-bottom: 10px; }
+.helper.ok { color: var(--good); font-weight: 600; }
+.helper.bad { color: var(--bad); font-weight: 600; }
+.pays { display: flex; flex-direction: column; gap: 8px; font-size: 14px; }
+.pays div { display: flex; justify-content: space-between; gap: 10px; }
+.pays span { color: var(--muted); }
+.pays b { font-variant-numeric: tabular-nums; }
+.pays .due b { color: var(--warn); }
+.item .v .lucro { color: var(--good); font-weight: 600; }
 .quick { border: 0; background: var(--accent-soft); color: var(--accent); border-radius: 10px; padding: 8px 12px; font-size: 14px; font-weight: 600; align-self: flex-start; }
 .helper { margin: 0; font-size: 14px; color: var(--muted); }
 .warnbox { background: var(--warn-soft); color: var(--warn); border-radius: 12px; padding: 10px 12px; font-size: 14px; font-weight: 500; }
@@ -344,6 +359,10 @@ h2 { margin: 0; font-size: 17px; font-weight: 700; letter-spacing: -0.01em; }
           <button type="button" data-per="tudo" aria-pressed="false">Tudo</button>
         </div>
         <div class="stats" id="stats"></div>
+        <div id="pays-wrap" class="sec" style="gap:10px" hidden>
+          <div class="flabel">Como entrou o dinheiro</div>
+          <div class="pays" id="pays"></div>
+        </div>
         <div id="rank-wrap" class="sec" style="gap:10px">
           <div class="flabel">Mais vendidas no período</div>
           <div class="rank" id="rank"></div>
@@ -447,16 +466,19 @@ h2 { margin: 0; font-size: 17px; font-weight: 700; letter-spacing: -0.01em; }
       <div class="stepper"><button type="button" id="q-menos" aria-label="Diminuir">−</button><input id="l-qtd" type="number" inputmode="numeric" min="1" step="1" value="1" aria-label="Quantidade"><button type="button" id="q-mais" aria-label="Aumentar">+</button></div>
     </div>
     <div class="warnbox" id="l-warn" hidden></div>
-    <div class="field"><span id="l-valor-l">Valor total recebido</span><div class="money"><input id="l-valor" type="text" inputmode="decimal" placeholder="0,00" autocomplete="off"></div></div>
+    <div class="field"><span id="l-valor-l">Preço de cada placa</span><div class="money"><input id="l-valor" type="text" inputmode="decimal" placeholder="0,00" autocomplete="off"></div></div>
+    <div class="totalbox" id="l-total" hidden></div>
     <p class="helper" id="l-unit" hidden></p>
     <button type="button" class="quick" id="l-quick" hidden></button>
-    <div class="field" id="l-pag-f"><span>Como pagou</span>
+    <div class="field" id="l-pag-f"><span>Como pagou <em class="opt">(pode marcar mais de um)</em></span>
       <div class="chips" id="l-pag">
         <button type="button" class="chip" data-pag="Pix" aria-pressed="false">Pix</button>
         <button type="button" class="chip" data-pag="Dinheiro" aria-pressed="false">Dinheiro</button>
         <button type="button" class="chip" data-pag="Cartão" aria-pressed="false">Cartão</button>
         <button type="button" class="chip" data-pag="A receber" aria-pressed="false">A receber</button>
       </div>
+      <div class="split" id="l-split" hidden></div>
+      <p class="helper" id="l-split-msg" hidden></p>
     </div>
     <div class="two">
       <label class="field"><span>Data</span><input id="l-data" type="date"></label>
@@ -546,7 +568,7 @@ h2 { margin: 0; font-size: 17px; font-weight: 700; letter-spacing: -0.01em; }
 <script>
 (() => {
   "use strict";
-  const VERSAO_APP = "1.0";
+  const VERSAO_APP = "1.1";
   const KEY = "placas-nfc:v1";
   const NFC_SVG = '<svg class="plate-nfc" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M6 8.5a5 5 0 0 1 0 7"/><path d="M9.5 6a9 9 0 0 1 0 12"/><path d="M13 3.5a13 13 0 0 1 0 17"/></svg>';
 
@@ -584,10 +606,19 @@ h2 { margin: 0; font-size: 17px; font-weight: 700; letter-spacing: -0.01em; }
   function carregar() {
     try {
       const raw = localStorage.getItem(KEY);
-      if (raw) { const s = JSON.parse(raw); if (s && Array.isArray(s.movs) && Array.isArray(s.tipos)) { s.cfg = Object.assign(novoEstado().cfg, s.cfg || {}); return s; } }
+      if (raw) { const s = JSON.parse(raw); if (s && Array.isArray(s.movs) && Array.isArray(s.tipos)) { s.cfg = Object.assign(novoEstado().cfg, s.cfg || {}); s.movs.forEach(migrarMov); return s; } }
     } catch (e) { /* segue com estado novo */ }
     return novoEstado();
   }
+  // Vendas da versão 1.0 guardavam uma forma de pagamento só, em "pag"
+  function migrarMov(m) {
+    if (m.mov !== "venda") return m;
+    if (!Array.isArray(m.pagamentos)) m.pagamentos = m.pag ? [{ forma: m.pag, valor: m.valor || 0 }] : [];
+    if (!(m.preco >= 0)) m.preco = m.qtd ? Math.round((m.valor || 0) / m.qtd * 100) / 100 : 0;
+    return m;
+  }
+  const FORMAS = ["Pix", "Dinheiro", "Cartão", "A receber"];
+  const nomesPag = (m) => (m.pagamentos || []).map(p => p.forma).join(" + ");
   function salvar() {
     try { localStorage.setItem(KEY, JSON.stringify(S)); return true; }
     catch (e) { toast("Não deu para salvar: o armazenamento do celular está cheio ou bloqueado.", true); return false; }
@@ -615,21 +646,33 @@ h2 { margin: 0; font-size: 17px; font-weight: 700; letter-spacing: -0.01em; }
     if (per === "ano") return d.slice(0, 4) === h.slice(0, 4);
     return true;
   }
+  // Custo médio de uma placa de cada tipo, usando só as entradas em que o custo foi informado.
+  // O lucro de uma venda é o que entrou menos o custo das placas que SAÍRAM, não de tudo o que chegou.
+  function custosMedios() {
+    const c = {};
+    S.movs.forEach(m => { if (m.mov === "entrada" && m.valor > 0 && m.qtd > 0) { c[m.tipo] = c[m.tipo] || { v: 0, q: 0 }; c[m.tipo].v += m.valor; c[m.tipo].q += m.qtd; } });
+    const r = {}; Object.keys(c).forEach(k => r[k] = c[k].v / c[k].q); return r;
+  }
+  function lucroVenda(m, cm) { cm = cm || custosMedios(); const u = cm[m.tipo]; return u == null ? null : (m.valor || 0) - m.qtd * u; }
+  const vazio = () => ({ rec: 0, ven: 0, fat: 0, custo: 0, lucro: 0, fatComCusto: 0, semCusto: 0 });
   function porTipo(per) {
-    const r = {};
-    S.tipos.forEach(t => r[t.id] = { rec: 0, ven: 0, fat: 0, custo: 0 });
+    const r = {}, cm = custosMedios();
+    S.tipos.forEach(t => r[t.id] = vazio());
     S.movs.forEach(m => {
-      if (!r[m.tipo]) r[m.tipo] = { rec: 0, ven: 0, fat: 0, custo: 0 };
+      if (!r[m.tipo]) r[m.tipo] = vazio();
       if (per && !noPeriodo(m, per)) return;
-      if (m.mov === "entrada") { r[m.tipo].rec += m.qtd; r[m.tipo].custo += m.valor || 0; }
-      else { r[m.tipo].ven += m.qtd; r[m.tipo].fat += m.valor || 0; }
+      const x = r[m.tipo];
+      if (m.mov === "entrada") { x.rec += m.qtd; x.custo += m.valor || 0; return; }
+      x.ven += m.qtd; x.fat += m.valor || 0;
+      const l = lucroVenda(m, cm);
+      if (l == null) x.semCusto += m.qtd; else { x.lucro += l; x.fatComCusto += m.valor || 0; }
     });
     return r;
   }
   function estoque(id) { const x = porTipo()[id]; return x ? x.rec - x.ven : 0; }
   function ultimoPreco(id) {
     const v = S.movs.filter(m => m.mov === "venda" && m.tipo === id && m.qtd > 0 && m.valor > 0).sort(ordem)[0];
-    return v ? v.valor / v.qtd : null;
+    return v ? (v.preco > 0 ? v.preco : v.valor / v.qtd) : null;
   }
   const ordem = (a, b) => (b.data || "").localeCompare(a.data || "") || (b.criadoEm || 0) - (a.criadoEm || 0);
 
@@ -704,16 +747,29 @@ h2 { margin: 0; font-size: 17px; font-weight: 700; letter-spacing: -0.01em; }
   function renderStats() {
     document.querySelectorAll("[data-per]").forEach(b => b.setAttribute("aria-pressed", b.dataset.per === periodo));
     const r = porTipo(periodo);
-    let rec = 0, ven = 0, fat = 0, custo = 0;
-    Object.values(r).forEach(x => { rec += x.rec; ven += x.ven; fat += x.fat; custo += x.custo; });
-    const nVendas = S.movs.filter(m => m.mov === "venda" && noPeriodo(m, periodo)).length;
+    let rec = 0, ven = 0, fat = 0, custo = 0, lucro = 0, fatCC = 0, semCusto = 0;
+    Object.values(r).forEach(x => { rec += x.rec; ven += x.ven; fat += x.fat; custo += x.custo; lucro += x.lucro; fatCC += x.fatComCusto; semCusto += x.semCusto; });
+    const vendasPer = S.movs.filter(m => m.mov === "venda" && noPeriodo(m, periodo));
+    const temCusto = Object.keys(custosMedios()).length > 0;
     const cards = [
-      ["Faturado", brl.format(fat), plural(nVendas, "venda", "vendas")],
+      ["Faturado", brl.format(fat), plural(vendasPer.length, "venda", "vendas")],
       ["Placas vendidas", int.format(ven), ven ? `média ${brl.format(fat / ven)}` : "—"],
       ["Placas recebidas", int.format(rec), custo ? `custaram ${brl.format(custo)}` : "entradas no estoque"],
     ];
-    cards.push(custo ? ["Lucro estimado", brl.format(fat - custo), "faturado − custo"] : ["Preço médio", ven ? brl.format(fat / ven) : "—", "por placa vendida"]);
+    if (temCusto) {
+      let sub = fatCC > 0 ? `margem de ${Math.round(lucro / fatCC * 100)}%` : "sobre as placas vendidas";
+      if (semCusto) sub = `${plural(semCusto, "placa sem custo ficou", "placas sem custo ficaram")} de fora`;
+      cards.push(["Lucro", brl.format(lucro), sub]);
+    } else cards.push(["Lucro", "—", "lance o custo nas entradas"]);
     $("stats").innerHTML = cards.map(c => `<div class="mini"><span>${c[0]}</span><b class="n">${c[1]}</b><small>${c[2]}</small></div>`).join("");
+
+    // Quanto entrou por forma de pagamento
+    const porForma = {}; let semForma = 0;
+    vendasPer.forEach(m => { if (!(m.pagamentos || []).length) semForma += m.valor || 0; (m.pagamentos || []).forEach(p => porForma[p.forma] = (porForma[p.forma] || 0) + (p.valor || 0)); });
+    const linhasPag = FORMAS.filter(f => porForma[f]).map(f => `<div class="${f === "A receber" ? "due" : ""}"><span>${f === "A receber" ? "Ainda a receber" : f}</span><b>${brl.format(porForma[f])}</b></div>`);
+    if (semForma) linhasPag.push(`<div><span>Sem forma informada</span><b>${brl.format(semForma)}</b></div>`);
+    $("pays-wrap").hidden = !linhasPag.length;
+    $("pays").innerHTML = linhasPag.join("");
 
     const lista = Object.entries(r).filter(([, x]) => x.ven > 0).sort((a, b) => b[1].ven - a[1].ven);
     const max = lista.length ? lista[0][1].ven : 1;
@@ -763,10 +819,12 @@ h2 { margin: 0; font-size: 17px; font-weight: 700; letter-spacing: -0.01em; }
       const rec = lista.filter(m => m.mov === "entrada").reduce((s, m) => s + m.qtd, 0);
       const resumo = [ven ? `${plural(ven, "vendida", "vendidas")} · ${brl.format(fat)}` : "", rec ? `${plural(rec, "recebida", "recebidas")}` : ""].filter(Boolean).join(" · ");
       html += `<div class="month"><div class="month-head"><h3>${MESES[+mm - 1]} ${y}</h3><span class="n">${resumo}</span></div><div class="list">`;
+      const cm = custosMedios();
       html += lista.map(m => {
         const t = tipoDe(m.tipo), venda = m.mov === "venda";
-        const det = [fmtData(m.data), m.quem, venda ? m.pag : "", m.obs].filter(Boolean).map(esc).join(" · ");
-        const val = venda ? `${brl.format(m.valor || 0)}<small>${m.qtd > 1 ? brl.format((m.valor || 0) / m.qtd) + " cada" : "1 placa"}</small>` : `+${int.format(m.qtd)}<small>${m.valor ? "custo " + brl.format(m.valor) : "no estoque"}</small>`;
+        const det = [fmtData(m.data), m.quem, venda ? nomesPag(m) : "", m.obs].filter(Boolean).map(esc).join(" · ");
+        const lc = venda ? lucroVenda(m, cm) : null;
+        const val = venda ? `${brl.format(m.valor || 0)}<small>${m.qtd > 1 ? brl.format(m.preco >= 0 ? m.preco : (m.valor || 0) / m.qtd) + " cada" : "1 placa"}</small>${lc != null ? `<small class="lucro">lucro ${brl.format(lc)}</small>` : ""}` : `+${int.format(m.qtd)}<small>${m.valor ? "custo " + brl.format(m.valor) : "no estoque"}</small>`;
         return `<button type="button" class="item" data-id="${esc(m.id)}">
           <span class="ico n" style="${styleTipo(t)}">${venda ? "−" : "+"}${m.qtd}</span>
           <span style="min-width:0"><span class="t" style="display:block">${venda ? "Venda" : "Entrada"} · ${esc(t.nome)}</span><span class="d" style="display:block">${det}</span></span>
@@ -834,13 +892,17 @@ h2 { margin: 0; font-size: 17px; font-weight: 700; letter-spacing: -0.01em; }
   document.addEventListener("keydown", (e) => { if (e.key === "Escape") fecharFolha(); });
 
   // ── lançar / editar ────────────────────────────────
-  let L = { mov: "venda", tipo: null, editId: null, pag: "" };
+  // Venda: o preço é POR PLACA e o total é calculado. O pagamento pode ser dividido entre várias formas.
+  let L = { mov: "venda", tipo: null, editId: null, pagSel: [], pagVal: {}, pagManual: {} };
   function abrirLancar({ mov, tipo, editId } = {}) {
     const m = editId ? S.movs.find(x => x.id === editId) : null;
-    L = { mov: m ? m.mov : (mov || "venda"), tipo: m ? m.tipo : (tipo || L.tipo || (S.tipos[0] && S.tipos[0].id)), editId: m ? m.id : null, pag: m ? (m.pag || "") : "" };
+    L = { mov: m ? m.mov : (mov || "venda"), tipo: m ? m.tipo : (tipo || L.tipo || (S.tipos[0] && S.tipos[0].id)), editId: m ? m.id : null, pagSel: [], pagVal: {}, pagManual: {} };
     if (!S.tipos.some(t => t.id === L.tipo) && S.tipos[0] && !m) L.tipo = S.tipos[0].id;
+    if (m && m.mov === "venda") {
+      (m.pagamentos || []).forEach(p => { L.pagSel.push(p.forma); L.pagVal[p.forma] = fmtValorInput(p.valor || 0); L.pagManual[p.forma] = true; });
+    }
     $("l-qtd").value = m ? m.qtd : 1;
-    $("l-valor").value = m && m.valor ? fmtValorInput(m.valor) : "";
+    $("l-valor").value = !m ? "" : m.mov === "venda" ? fmtValorInput(m.preco >= 0 ? m.preco : (m.valor || 0) / m.qtd) : (m.valor ? fmtValorInput(m.valor) : "");
     $("l-data").value = m ? m.data : hoje();
     $("l-quem").value = m ? (m.quem || "") : "";
     $("l-obs").value = m ? (m.obs || "") : "";
@@ -853,23 +915,63 @@ h2 { margin: 0; font-size: 17px; font-weight: 700; letter-spacing: -0.01em; }
     document.querySelectorAll("#l-mov [data-mov]").forEach(b => b.setAttribute("aria-pressed", b.dataset.mov === L.mov));
     $("l-title").textContent = L.editId ? "Editar registro" : venda ? "Nova venda" : "Entrada no estoque";
     $("l-save").textContent = L.editId ? "Salvar alterações" : venda ? "Salvar venda" : "Salvar entrada";
-    $("l-valor-l").textContent = venda ? "Valor total recebido" : "Quanto você pagou no total (opcional)";
+    $("l-valor-l").textContent = venda ? "Preço de cada placa" : "Quanto você pagou no total (opcional)";
     $("l-quem-l").textContent = venda ? "Cliente" : "Fornecedor";
     $("l-pag-f").hidden = !venda;
-    document.querySelectorAll("#l-pag [data-pag]").forEach(b => b.setAttribute("aria-pressed", b.dataset.pag === L.pag));
     const tot = porTipo();
     $("l-picker").innerHTML = S.tipos.map(t => { const x = tot[t.id] || { rec: 0, ven: 0 }; return `<button type="button" class="pick" data-tipo="${esc(t.id)}" style="${styleTipo(t)}" aria-pressed="${t.id === L.tipo}">${esc(t.nome)}<small>${int.format(x.rec - x.ven)} em estoque</small></button>`; }).join("");
+    renderSplit();
     calcLancar();
   }
+  const totalVenda = () => { const q = parseInt($("l-qtd").value, 10) || 0, p = parseValor($("l-valor").value); return p >= 0 && q > 0 ? Math.round(p * q * 100) / 100 : NaN; };
+
+  // Desenha um campo de valor para cada forma marcada (só quando há duas ou mais)
+  function renderSplit() {
+    document.querySelectorAll("#l-pag [data-pag]").forEach(b => b.setAttribute("aria-pressed", L.pagSel.includes(b.dataset.pag)));
+    const box = $("l-split");
+    box.hidden = L.pagSel.length < 2;
+    box.innerHTML = L.pagSel.length < 2 ? "" : L.pagSel.map(f =>
+      `<label class="split-row"><span>${f}</span><span class="money"><input type="text" inputmode="decimal" placeholder="0,00" autocomplete="off" data-split="${f}" value="${esc(L.pagVal[f] || "")}" aria-label="Valor pago em ${f}"></span></label>`).join("");
+  }
+  // Se só um campo ficou sem preencher, ele recebe o que falta para fechar o total
+  function autoSplit() {
+    const total = totalVenda();
+    if (L.pagSel.length < 2 || !(total >= 0)) return;
+    const livres = L.pagSel.filter(f => !L.pagManual[f]);
+    if (livres.length !== 1) return;
+    const usado = L.pagSel.filter(f => L.pagManual[f]).reduce((s, f) => s + (parseValor(L.pagVal[f]) || 0), 0);
+    const resto = Math.max(0, Math.round((total - usado) * 100) / 100);
+    L.pagVal[livres[0]] = fmtValorInput(resto);
+    const inp = document.querySelector(`[data-split="${livres[0]}"]`);
+    if (inp && document.activeElement !== inp) inp.value = L.pagVal[livres[0]];
+  }
+  function somaSplit() { return L.pagSel.reduce((s, f) => s + (parseValor(L.pagVal[f]) || 0), 0); }
+
   function calcLancar() {
     const venda = L.mov === "venda";
     const q = parseInt($("l-qtd").value, 10) || 0;
     const v = parseValor($("l-valor").value);
-    $("l-unit").hidden = !(q > 1 && v > 0);
-    $("l-unit").textContent = `${brl.format(v / q)} por placa`;
+    if (venda) {
+      const total = totalVenda();
+      $("l-total").hidden = !(total > 0);
+      $("l-total").innerHTML = `<span>Total da venda (${plural(q, "placa", "placas")})</span><b>${brl.format(total || 0)}</b>`;
+      $("l-unit").hidden = true;
+      autoSplit();
+      const msg = $("l-split-msg");
+      if (L.pagSel.length >= 2 && total > 0) {
+        const dif = Math.round((total - somaSplit()) * 100) / 100;
+        msg.hidden = false;
+        if (Math.abs(dif) < 0.005) { msg.className = "helper ok"; msg.textContent = "Os pagamentos fecham com o total."; }
+        else { msg.className = "helper bad"; msg.textContent = dif > 0 ? `Falta ${brl.format(dif)} para fechar o total.` : `Passou ${brl.format(-dif)} do total.`; }
+      } else msg.hidden = true;
+    } else {
+      $("l-total").hidden = true; $("l-split-msg").hidden = true;
+      $("l-unit").hidden = !(q > 1 && v > 0);
+      $("l-unit").textContent = `${brl.format(v / q)} por placa`;
+    }
     const up = venda ? ultimoPreco(L.tipo) : null;
-    $("l-quick").hidden = !(up && q > 0 && !(v > 0));
-    if (up) $("l-quick").textContent = `Usar último preço: ${brl.format(up)} cada (${brl.format(up * q)})`;
+    $("l-quick").hidden = !(up && !(v > 0));
+    if (up) $("l-quick").textContent = `Usar último preço: ${brl.format(up)} cada`;
     let est = estoque(L.tipo);
     if (L.editId) { const m = S.movs.find(x => x.id === L.editId); if (m && m.tipo === L.tipo) est += m.mov === "venda" ? m.qtd : -m.qtd; }
     const w = $("l-warn");
@@ -878,32 +980,53 @@ h2 { margin: 0; font-size: 17px; font-weight: 700; letter-spacing: -0.01em; }
   }
   $("l-mov").addEventListener("click", (e) => { const b = e.target.closest("[data-mov]"); if (b) { L.mov = b.dataset.mov; atualizarLancar(); } });
   $("l-picker").addEventListener("click", (e) => { const b = e.target.closest("[data-tipo]"); if (b) { L.tipo = b.dataset.tipo; document.querySelectorAll("#l-picker .pick").forEach(p => p.setAttribute("aria-pressed", p === b)); calcLancar(); } });
-  $("l-pag").addEventListener("click", (e) => { const b = e.target.closest("[data-pag]"); if (b) { L.pag = L.pag === b.dataset.pag ? "" : b.dataset.pag; document.querySelectorAll("#l-pag [data-pag]").forEach(x => x.setAttribute("aria-pressed", x.dataset.pag === L.pag)); } });
+  $("l-pag").addEventListener("click", (e) => {
+    const b = e.target.closest("[data-pag]"); if (!b) return;
+    const f = b.dataset.pag;
+    if (L.pagSel.includes(f)) { L.pagSel = L.pagSel.filter(x => x !== f); delete L.pagVal[f]; delete L.pagManual[f]; }
+    else L.pagSel = FORMAS.filter(x => x === f || L.pagSel.includes(x));
+    // Com uma forma só, ela leva o total inteiro: os valores digitados antes deixam de valer
+    if (L.pagSel.length < 2) { L.pagVal = {}; L.pagManual = {}; }
+    renderSplit(); calcLancar();
+  });
+  $("l-split").addEventListener("input", (e) => {
+    const f = e.target.dataset.split; if (!f) return;
+    L.pagVal[f] = e.target.value; L.pagManual[f] = e.target.value.trim() !== "";
+    calcLancar();
+  });
   $("q-menos").addEventListener("click", () => { $("l-qtd").value = Math.max(1, (parseInt($("l-qtd").value, 10) || 1) - 1); calcLancar(); });
   $("q-mais").addEventListener("click", () => { $("l-qtd").value = (parseInt($("l-qtd").value, 10) || 0) + 1; calcLancar(); });
   $("l-qtd").addEventListener("input", calcLancar);
   $("l-valor").addEventListener("input", calcLancar);
-  $("l-quick").addEventListener("click", () => { const up = ultimoPreco(L.tipo), q = parseInt($("l-qtd").value, 10) || 1; if (up) { $("l-valor").value = fmtValorInput(Math.round(up * q * 100) / 100); calcLancar(); } });
+  $("l-quick").addEventListener("click", () => { const up = ultimoPreco(L.tipo); if (up) { $("l-valor").value = fmtValorInput(up); calcLancar(); } });
   $("l-form").addEventListener("submit", (e) => {
     e.preventDefault();
     if (!L.tipo) { toast("Crie um tipo de placa primeiro, em Ajustes.", true); return; }
     const q = parseInt($("l-qtd").value, 10);
     if (!(q > 0)) { toast("A quantidade precisa ser 1 ou mais.", true); $("l-qtd").focus(); return; }
     const raw = $("l-valor").value.trim(), v = parseValor(raw);
-    if (L.mov === "venda" && !(v >= 0)) { toast("Coloque o valor total da venda, por exemplo 45,00.", true); $("l-valor").focus(); return; }
-    if (raw && !(v >= 0)) { toast("Esse valor não parece um número. Use o formato 45,00.", true); return; }
+    const venda = L.mov === "venda";
+    if (venda && !(v >= 0)) { toast("Coloque o preço de cada placa, por exemplo 35,00.", true); $("l-valor").focus(); return; }
+    if (raw && !(v >= 0)) { toast("Esse valor não parece um número. Use o formato 35,00.", true); return; }
     const reg = {
       id: L.editId || uid(), mov: L.mov, tipo: L.tipo, qtd: q,
-      valor: v > 0 ? Math.round(v * 100) / 100 : 0,
       data: $("l-data").value || hoje(), quem: $("l-quem").value.trim(), obs: $("l-obs").value.trim(),
-      pag: L.mov === "venda" ? L.pag : "",
       criadoEm: L.editId ? (S.movs.find(x => x.id === L.editId) || {}).criadoEm || Date.now() : Date.now(),
     };
+    if (venda) {
+      reg.preco = Math.round(v * 100) / 100;
+      reg.valor = Math.round(reg.preco * q * 100) / 100;
+      if (L.pagSel.length >= 2) {
+        const soma = Math.round(somaSplit() * 100) / 100;
+        if (Math.abs(soma - reg.valor) >= 0.005) { toast(`Os pagamentos somam ${brl.format(soma)}, mas a venda é de ${brl.format(reg.valor)}. Ajuste os valores.`, true); return; }
+        reg.pagamentos = L.pagSel.map(f => ({ forma: f, valor: Math.round((parseValor(L.pagVal[f]) || 0) * 100) / 100 }));
+      } else reg.pagamentos = L.pagSel.map(f => ({ forma: f, valor: reg.valor }));
+    } else reg.valor = v > 0 ? Math.round(v * 100) / 100 : 0;
     if (L.editId) S.movs = S.movs.map(x => x.id === L.editId ? reg : x); else S.movs.push(reg);
     if (!salvar()) return;
     fecharFolha();
     const nome = tipoDe(reg.tipo).nome;
-    toast(L.editId ? "Alterações salvas" : reg.mov === "venda" ? `Venda salva: ${plural(q, "placa", "placas")} ${nome}` : `Entrada salva: +${q} ${nome}`);
+    toast(L.editId ? "Alterações salvas" : venda ? `Venda salva: ${plural(q, "placa", "placas")} ${nome} por ${brl.format(reg.valor)}` : `Entrada salva: +${q} ${nome}`);
     if (navigator.vibrate) navigator.vibrate(12);
     render();
   });
@@ -915,7 +1038,7 @@ h2 { margin: 0; font-size: 17px; font-weight: 700; letter-spacing: -0.01em; }
   let tipoAberto = null;
   function abrirTipo(id) {
     tipoAberto = id;
-    const t = tipoDe(id), x = porTipo()[id] || { rec: 0, ven: 0, fat: 0, custo: 0 };
+    const t = tipoDe(id), x = porTipo()[id] || vazio(), cmu = custosMedios()[id];
     $("t-title").textContent = t.nome;
     $("t-plate").innerHTML = plateHTML(t, x, true).replace('class="plate"', 'class="plate" style="width:100%"');
     const up = ultimoPreco(id);
@@ -924,7 +1047,11 @@ h2 { margin: 0; font-size: 17px; font-weight: 700; letter-spacing: -0.01em; }
       ["Faturado", brl.format(x.fat)], ["Preço médio", x.ven ? brl.format(x.fat / x.ven) : "—"],
     ];
     if (up) linhas.push(["Último preço", brl.format(up)]);
-    if (x.custo) { linhas.push(["Custo das placas", brl.format(x.custo)]); linhas.push(["Lucro estimado", brl.format(x.fat - x.custo)]); }
+    if (cmu != null) {
+      linhas.push(["Custo de cada placa", brl.format(cmu)]);
+      linhas.push(["Lucro nas vendidas", brl.format(x.lucro)]);
+      if (x.ven) linhas.push(["Lucro por placa", brl.format(x.lucro / Math.max(1, x.ven - x.semCusto))]);
+    } else linhas.push(["Lucro", "lance o custo numa entrada"]);
     $("t-dl").innerHTML = linhas.map(l => `<dt>${l[0]}</dt><dd>${l[1]}</dd>`).join("");
     abrirFolha("sh-tipo");
   }
@@ -998,8 +1125,16 @@ h2 { margin: 0; font-size: 17px; font-weight: 700; letter-spacing: -0.01em; }
   $("bk-csv").addEventListener("click", async () => {
     const c = (s) => `"${String(s ?? "").replace(/"/g, '""')}"`;
     const num = (v) => (v || 0).toFixed(2).replace(".", ",");
-    const linhas = [["Data", "Movimento", "Placa", "Quantidade", "Valor total (R$)", "Valor por placa (R$)", "Pagamento", "Cliente/Fornecedor", "Observação"].map(c).join(";")];
-    S.movs.slice().sort(ordem).reverse().forEach(m => linhas.push([m.data.split("-").reverse().join("/"), m.mov === "venda" ? "Venda" : "Entrada", tipoDe(m.tipo).nome, m.qtd, num(m.valor), m.qtd ? num((m.valor || 0) / m.qtd) : "", m.pag, m.quem, m.obs].map(c).join(";")));
+    const cm = custosMedios();
+    const linhas = [["Data", "Movimento", "Placa", "Quantidade", "Valor por placa (R$)", "Valor total (R$)", ...FORMAS.map(f => f + " (R$)"), "Lucro (R$)", "Cliente/Fornecedor", "Observação"].map(c).join(";")];
+    S.movs.slice().sort(ordem).reverse().forEach(m => {
+      const venda = m.mov === "venda", pg = {};
+      (m.pagamentos || []).forEach(p => pg[p.forma] = (pg[p.forma] || 0) + (p.valor || 0));
+      const lc = venda ? lucroVenda(m, cm) : null;
+      linhas.push([m.data.split("-").reverse().join("/"), venda ? "Venda" : "Entrada", tipoDe(m.tipo).nome, m.qtd,
+        m.qtd ? num(venda && m.preco >= 0 ? m.preco : (m.valor || 0) / m.qtd) : "", num(m.valor),
+        ...FORMAS.map(f => pg[f] ? num(pg[f]) : ""), lc != null ? num(lc) : "", m.quem, m.obs].map(c).join(";"));
+    });
     await entregarArquivo(`placas-nfc-${hoje()}.csv`, "﻿" + linhas.join("\r\n"), "text/csv");
   });
   $("bk-file").addEventListener("change", async (e) => {
@@ -1010,7 +1145,7 @@ h2 { margin: 0; font-size: 17px; font-weight: 700; letter-spacing: -0.01em; }
     if (!d || d.app !== "placas-nfc" || !Array.isArray(d.movs) || !Array.isArray(d.tipos)) { toast("Esse arquivo não é uma cópia do Placas NFC.", true); return; }
     const quando = d.salvoEm ? new Date(d.salvoEm).toLocaleDateString("pt-BR") : "data desconhecida";
     confirmar(`Trocar os dados deste aparelho pela cópia de ${quando}, com ${plural(d.movs.length, "registro", "registros")}? O que está aqui agora será substituído.`, "Restaurar", () => {
-      S.tipos = d.tipos; S.movs = d.movs; if (salvar()) { toast("Cópia restaurada"); render(); }
+      S.tipos = d.tipos; S.movs = d.movs.map(migrarMov); if (salvar()) { toast("Cópia restaurada"); render(); }
     });
   });
   $("wipe").addEventListener("click", () => confirmar("Apagar todos os registros e tipos deste aparelho? Isso não tem volta. Se quiser, salve uma cópia de segurança antes.", "Apagar tudo", () => {

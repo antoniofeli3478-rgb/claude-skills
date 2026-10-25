@@ -1,6 +1,6 @@
 // Placas NFC: guarda o app no aparelho para abrir sem internet.
 // Os registros NÃO passam por aqui: ficam no localStorage do aparelho.
-const CACHE = "placas-nfc-v1";
+const CACHE = "placas-nfc-v2";
 const APP = ["./", "./index.html", "./manifest.webmanifest", "./icons/icon-192.png", "./icons/icon-512.png", "./icons/apple-touch-icon.png"];
 
 self.addEventListener("install", (e) => {
