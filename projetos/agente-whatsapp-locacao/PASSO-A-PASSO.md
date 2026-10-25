@@ -19,6 +19,14 @@ diferente seguindo o padrão dela.
     Os scripts ficaram no scratchpad e não foram para o repositório.
   - O Instagram bloqueia a leitura automática: o usuário mandou prints (ver `instagram.md`).
   - **Regra do usuário:** a Anima Kids não tem endereço fixo (os do Maps são só para SEO). O agente nunca informa endereço.
+- **25/10/2026 (2):** Instagram pelos prints do usuário (`anima-kids/instagram.md` e `prints/`).
+  - Aviso contra golpe vira regra de pagamento do agente.
+  - Aventura na Fazenda e Celeiro são o mesmo brinquedo.
+  - Dual Splash entrou no catálogo.
+  - O usuário definiu o foco: infláveis diferenciados ("na região não tem igual"), mais cama
+    elástica e piscina de bolinhas. Sem personagem fantasiado; recreação só no futuro. Jogos,
+    touro e pipoca ficaram `ativo: false`.
+  - Obs.: "Daniel" é só o nome que veio no fork do claude-skills, não é o usuário.
 
 ## Plano aprovado
 1. Partir do código do `whatsapp-agentkit` (CLAUDE.md, seção 3), traduzido para pt-BR.
