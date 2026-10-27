@@ -9,6 +9,13 @@ diferente seguindo o padrão dela.
 - Sempre avisar quando terminar uma tarefa: resumo final + notificação (PushNotification).
 - Base do agente: manter o código próprio em `agente-locacao/`. O Chatwoot (central da equipe) fica para uma fase 2, se o dono aprovar.
 
+- **Contexto (27/10):** a Anima Kids é de familiares do usuário. É um **piloto gratuito e
+  experimental**: a família testa e diz o que melhorar, sem arriscar a reputação do usuário no
+  mercado antes de a IA estar 100%. O ramo de festas não é o foco comercial dele; o produto
+  depois vai para outros nichos.
+- **Decisão (27/10):** fazer agora o mesmo modelo da Neural Scales (vender agente de WhatsApp),
+  que é o degrau 1 do projeto `projetos/ia-mao-direita/`, e usar o caixa para os degraus seguintes.
+
 ## O que foi feito
 - **24/10/2026:** pesquisa de repositórios de referência. Os 5 melhores foram baixados para
   `research_notes/Agente WhatsApp locacao 2026-10/referencias/` (leia antes o `LEIA-ME.md` da pasta).
