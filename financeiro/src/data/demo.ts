@@ -30,7 +30,7 @@ export async function popularDemo(db: FinDB, hoje: ISODate) {
   ]);
 
   const movs: Movimento[] = [
-    m({ tipo: "envelope", origem: "distribuicao", data: d(-40), descricao: "Saldo inicial distribuído", receitaId: null, itens: [{ envelopeId: ENV.negocio, valor: 40000 }, { envelopeId: ENV.pc, valor: 30000 }, { envelopeId: ENV.reserva, valor: 10000 }, { envelopeId: ENV.livre, valor: 17000 }] }),
+    m({ tipo: "envelope", origem: "distribuicao", data: d(-40), descricao: "Saldo inicial distribuído", receitaId: null, itens: [{ envelopeId: ENV.obrigacoes, valor: 60000 }, { envelopeId: ENV.negocio, valor: 40000 }, { envelopeId: ENV.pc, valor: 15000 }, { envelopeId: ENV.reserva, valor: 5000 }, { envelopeId: ENV.livre, valor: 17000 }] }),
     m({ tipo: "estoque_compra", produtoId: "p-google", qtd: 30, valor: 35010, status: "paga", contaId: "conta-inter", envelopeId: ENV.negocio, data: d(-35), descricao: "Lote de 30 placas Google", fornecedor: "Fornecedor exemplo" }),
     m({ tipo: "estoque_compra", produtoId: "p-pix", qtd: 6, valor: 8400, status: "inicial", contaId: null, envelopeId: ENV.negocio, data: d(-40), descricao: "Estoque que já existia" }),
   ];
@@ -58,7 +58,7 @@ export async function popularDemo(db: FinDB, hoje: ISODate) {
   movs.push(m({ tipo: "investimento", investimentoId: "inv-demo", direcao: "aporte", valor: 30000, contaId: "conta-inter", envelopeId: null, data: d(-50), descricao: "Aporte inicial" }));
   await db.movimentos.bulkPut(movs);
   // o aporte de 300 saiu do Inter antes da distribuição inicial
-  await db.contas.update("conta-inter", { saldoInicial: 85000 + 30000 });
+  await db.contas.update("conta-inter", { saldoInicial: 85000 + 30000 + 40000 });
   await gerarRecorrencias(db, hoje);
   await db.config.update("cfg", { setupDispensado: true });
 }

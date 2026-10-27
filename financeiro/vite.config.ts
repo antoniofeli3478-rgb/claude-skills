@@ -36,6 +36,6 @@ export default defineConfig({
       workbox: { globPatterns: ["**/*.{js,css,html,svg,png,woff2}"], navigateFallback: "index.html" },
     }),
   ],
-  build: { outDir: "../docs/financeiro", emptyOutDir: true },
+  build: { outDir: "../docs/financeiro", emptyOutDir: true, chunkSizeWarningLimit: 900 },
   test: { environment: "node", include: ["tests/**/*.test.ts"] },
 });

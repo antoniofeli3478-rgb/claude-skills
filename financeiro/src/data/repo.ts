@@ -34,6 +34,9 @@ export async function carregarDados(db: FinDB): Promise<Dados> {
     db.contas.toArray(), db.envelopes.toArray(), db.movimentos.toArray(), db.recorrencias.toArray(),
     db.cartoes.toArray(), db.produtos.toArray(), db.investimentos.toArray(), db.config.get("cfg"),
   ]);
+  // Ordem definida por você, não a ordem interna do banco
+  contas.sort((a, b) => a.ordem - b.ordem);
+  envelopes.sort((a, b) => a.ordem - b.ordem);
   return { contas, envelopes, movimentos, recorrencias, cartoes, produtos, investimentos, config: config ?? configInicial() };
 }
 

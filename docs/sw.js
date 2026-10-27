@@ -1,6 +1,6 @@
 // Placas NFC: guarda o app no aparelho para abrir sem internet.
 // Os registros NÃO passam por aqui: ficam no localStorage do aparelho.
-const CACHE = "placas-nfc-v4";
+const CACHE = "placas-nfc-v5";
 const APP = ["./", "./index.html", "./manifest.webmanifest", "./icons/icon-192.png", "./icons/icon-512.png", "./icons/apple-touch-icon.png"];
 
 self.addEventListener("install", (e) => {
@@ -18,6 +18,11 @@ self.addEventListener("activate", (e) => {
 self.addEventListener("fetch", (e) => {
   const req = e.request;
   if (req.method !== "GET") return;
+  // Só cuida dos arquivos do app de placas. Outros apps na mesma pasta do site
+  // (ex.: /financeiro/) têm o próprio service worker e não podem ser tocados aqui.
+  const url = new URL(req.url);
+  const raiz = new URL("./", self.registration.scope).pathname;
+  if (url.origin === location.origin && url.pathname.startsWith(raiz) && /^(financeiro)\//.test(url.pathname.slice(raiz.length))) return;
 
   // A página: tenta a internet primeiro (para pegar atualizações) e cai no que está guardado.
   if (req.mode === "navigate") {

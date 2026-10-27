@@ -89,6 +89,7 @@ manual de utilização do repositório (pastas, arquivos, receitas, GitHub, apro
 --------------------------------------------------------------------------------------------------
 Rotina (vídeos do app: teaser 10 s, explicativo 60 s, promo v2/v2.1 30 s com celular 3D, promo v3 30 s com o celular todo no Blender e promo v4 30 s = celular do Blender + visual papel e tinta do v2) | projetos/rotina/PASSO-A-PASSO.md (código: branch rotina-video, pasta rotina-video/)
 Placas NFC (app de celular para estoque e vendas de placas NFC, PWA no GitHub Pages, dados só no aparelho) | projetos/placas-nfc/PASSO-A-PASSO.md (código: branch claude/nfc-cards-dashboard-wh964t, pasta docs/)
+Gerente Financeiro (app pessoal de finanças: envelopes, distribuição de cada recebimento, negócio NFC, cartão, metas, relatórios e consultor; React + Dexie, PWA offline, 58 testes) | projetos/gerente-financeiro/PASSO-A-PASSO.md (código: branch claude/nfc-cards-dashboard-wh964t, pasta financeiro/; publicado em docs/financeiro/)
 
 3) HABILIDADES DA PLATAFORMA (não estão no repositório; chamar pelo nome com a ferramenta Skill)
 -------------------------------------------------------------------------------------------------
