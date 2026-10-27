@@ -1,4 +1,4 @@
-# Projeto Gerente Financeiro (passo a passo)
+# Projeto Finanças (antes "Gerente Financeiro") (passo a passo)
 
 App financeiro pessoal do Daniel: renda variável, envelopes, negócio NFC, cartão Inter (manual), meta do PC e reserva. Local e offline (PWA), dados só no aparelho.
 
@@ -41,7 +41,15 @@ npm run preview   # http://localhost:4173
 | Plano visual, anti-"cara de IA" | frontend-design | `skills/design/frontend-design/SKILL.md` |
 | Referência de interface premium | ui-ux-pro-max | `skills/design/ui-ux-pro-max/SKILL.md` |
 
+## 27/10/2026 (2): dois apps separados e ligados
+
+- Pedido do Daniel: **dois apps separados**. O **Plaquinhas NFC** volta a ser o app das placas, com a mesma tela e os mesmos dados (`docs/index.html` é idêntico ao da versão 1.3; só o cache offline do `docs/sw.js` mudou para v6, para limpar uma página salva por engano). O **Finanças** (novo nome) ganhou a aba **Meus negócios**, com o card do Plaquinhas NFC e o botão para abrir o app das placas.
+- **Ligação:** mesmo endereço (`antoniofeli3478-rgb.github.io`) = o Finanças lê o localStorage `placas-nfc:v1` do app das placas. Só leitura. Conversor em `financeiro/src/integracoes/nfc.ts`; 5 testes novos (63 no total). O módulo de vendas/produtos/compras de dentro do Finanças saiu: isso agora é do app das placas.
+- **Endereço provisório:** o Finanças continua em `/claude-skills/financeiro/` até o Daniel criar o repositório `financas` (a integração do GitHub não tem permissão para criar repositórios). Depois disso: código e build vão para `antoniofeli3478-rgb/financas` (Pages: branch main, pasta /docs), o endereço vira `https://antoniofeli3478-rgb.github.io/financas/`, e `/claude-skills/financeiro/` vira só um redirecionamento. Os dados do Finanças continuam (mesmo endereço base = mesmo banco no navegador).
+- Por que separar de endereço: o escopo do app das placas é `/claude-skills/`, que engloba `/claude-skills/financeiro/`. No Android, um app instalado dentro do escopo do outro se mistura.
+
 ## Próximo passo
 
+- Daniel criar o repositório `financas` e ligar o Pages; Claude move o app e redireciona o endereço antigo.
 - Daniel instalar no celular e rodar o assistente com os números reais.
 - Possíveis versões futuras: notificações com o app fechado (exigiria servidor de push), importação de extrato OFX/CSV do Inter, sincronizar entre celular e computador.

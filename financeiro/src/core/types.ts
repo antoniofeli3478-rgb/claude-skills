@@ -142,7 +142,11 @@ export interface CompraEstoque extends Base {
   fornecedor?: string;
 }
 
-export interface Recebimento { id: ID; valor: Cents; data: ISODate; contaId: ID }
+export interface Recebimento {
+  id: ID; valor: Cents; data: ISODate; contaId: ID;
+  /** Recebido antes de o app acompanhar o caixa (já está no saldo informado): conta no faturamento, não no caixa. */
+  historico?: boolean;
+}
 
 export interface Venda extends Base {
   tipo: "venda";
@@ -278,6 +282,8 @@ export interface Config {
   setup: { [passo: string]: boolean };
   setupDispensado: boolean;
   categorias: { pessoal: string[]; negocio: string[] };
+  /** Negócios ligados (apps separados). Por enquanto: Plaquinhas NFC. */
+  negocios?: { nfc?: { ativo: boolean; contaId: ID; desde: ISODate } };
 }
 
 export interface Dados {

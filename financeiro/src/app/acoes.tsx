@@ -7,6 +7,7 @@ import type { Compromisso, AReceber } from "../core/situacao";
 import type { PagamentoFatura } from "../core/types";
 import { totaisVenda } from "../core/ledger";
 import { useApp } from "./store";
+import { ehDoNfc, URL_APP_NFC } from "../integracoes/nfc";
 import { db } from "../data/db";
 import { ErroValidacao, marcarRecebida, novoMov, pagar, receberVenda, salvarMovimento } from "../data/repo";
 import { Distribuicao, type PedidoDistribuicao } from "../forms/Distribuicao";
@@ -88,6 +89,15 @@ function PagarConta({ c, onFechar }: { c: Compromisso; onFechar: () => void }) {
 }
 
 function Receber({ r, onFechar, onDistribuir }: { r: AReceber; onFechar: () => void; onDistribuir: (p: PedidoDistribuicao) => void }) {
+  if (ehDoNfc(r.movId)) return (
+    <Folha aberta onFechar={onFechar} titulo="Recebimento de venda das placas" rodape={<a href={URL_APP_NFC} className="flex h-11 w-full items-center justify-center rounded-xl bg-accent font-semibold text-accent-ink">Abrir Plaquinhas NFC</a>}>
+      <p className="pb-2 text-[15px] leading-relaxed text-muted">{r.descricao}: faltam {brl(r.valor)}. Registre o recebimento no app Plaquinhas NFC (A receber → Recebi). O Finanças atualiza o caixa do negócio sozinho.</p>
+    </Folha>
+  );
+  return <ReceberAqui r={r} onFechar={onFechar} onDistribuir={onDistribuir} />;
+}
+
+function ReceberAqui({ r, onFechar, onDistribuir }: { r: AReceber; onFechar: () => void; onDistribuir: (p: PedidoDistribuicao) => void }) {
   const { d, sit, hoje } = useApp();
   const { toast } = useUi();
   const mov = d.movimentos.find((m) => m.id === r.movId);

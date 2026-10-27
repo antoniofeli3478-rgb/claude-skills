@@ -8,7 +8,7 @@ import { Visao } from "../screens/Visao";
 import { Movimentacoes } from "../screens/Movimentacoes";
 import { Envelopes } from "../screens/Envelopes";
 import { ContasFaturas } from "../screens/ContasFaturas";
-import { Negocio } from "../screens/Negocio";
+import { MeusNegocios } from "../screens/MeusNegocios";
 import { Metas } from "../screens/Metas";
 import { Relatorios } from "../screens/Relatorios";
 import { Consultor } from "../screens/Consultor";
@@ -21,7 +21,7 @@ export const NAV: { rota: Rota; nome: string; icone: ReactNode }[] = [
   { rota: "movimentos", nome: "Movimentações", icone: <ArrowLeftRight size={19} /> },
   { rota: "envelopes", nome: "Envelopes", icone: <Layers size={19} /> },
   { rota: "contas", nome: "Contas e faturas", icone: <CalendarClock size={19} /> },
-  { rota: "negocio", nome: "Negócio NFC", icone: <BriefcaseBusiness size={19} /> },
+  { rota: "negocios", nome: "Meus negócios", icone: <BriefcaseBusiness size={19} /> },
   { rota: "metas", nome: "Metas", icone: <Target size={19} /> },
   { rota: "relatorios", nome: "Relatórios", icone: <BarChart3 size={19} /> },
   { rota: "consultor", nome: "Consultor", icone: <MessageCircleQuestion size={19} /> },
@@ -80,10 +80,10 @@ function Casca() {
 
   const tela = {
     visao: <Visao abrirAssistente={() => setAssistente(true)} />, movimentos: <Movimentacoes />, envelopes: <Envelopes />, contas: <ContasFaturas aba={sub} />,
-    negocio: <Negocio aba={sub} />, metas: <Metas />, relatorios: <Relatorios />, consultor: <Consultor />, config: <Configuracoes abrirAssistente={() => setAssistente(true)} />,
+    negocios: <MeusNegocios aba={sub} />, metas: <Metas />, relatorios: <Relatorios />, consultor: <Consultor />, config: <Configuracoes abrirAssistente={() => setAssistente(true)} />,
   }[rota];
 
-  const baixo: { rota: Rota; nome: string; icone: ReactNode }[] = [NAV[0], NAV[1], NAV[2], NAV[3]];
+  const baixo: { rota: Rota; nome: string; icone: ReactNode }[] = [NAV[0], NAV[1], NAV[4], NAV[3]];
 
   return (
     <div className="min-h-dvh lg:pl-64">
@@ -91,7 +91,7 @@ function Casca() {
       <aside className="no-print fixed inset-y-0 left-0 z-30 hidden w-64 flex-col border-r border-line bg-surface px-3 py-5 lg:flex">
         <div className="mb-6 flex items-center gap-2.5 px-2">
           <Logo />
-          <div><div className="font-display text-[17px] font-semibold leading-tight">Gerente Financeiro</div><div className="text-[12px] text-muted">{modo === "demo" ? "Modo demonstração" : "Só neste aparelho"}</div></div>
+          <div><div className="font-display text-[19px] font-semibold leading-tight">Finanças</div><div className="text-[12px] text-muted">{modo === "demo" ? "Modo demonstração" : "Só neste aparelho"}</div></div>
         </div>
         <button onClick={() => nova()} className="mb-4 flex h-11 items-center justify-center gap-2 rounded-xl bg-accent font-semibold text-accent-ink hover:brightness-105"><Plus size={18} />Adicionar movimentação</button>
         <nav className="flex flex-col gap-0.5">
@@ -142,7 +142,7 @@ function Casca() {
 function ItemBaixo({ n, ativo }: { n: { rota: Rota; nome: string; icone: ReactNode }; ativo: boolean }) {
   return (
     <a href={`#/${n.rota}`} className={cn("flex flex-col items-center gap-0.5 text-[11px] font-semibold", ativo ? "text-accent" : "text-muted")}>
-      {n.icone}<span className="max-w-[72px] truncate">{n.nome === "Visão geral" ? "Início" : n.nome === "Movimentações" ? "Movimentos" : n.nome}</span>
+      {n.icone}<span className="max-w-[72px] truncate">{n.nome === "Visão geral" ? "Início" : n.nome === "Movimentações" ? "Movimentos" : n.nome === "Meus negócios" ? "Negócios" : n.nome}</span>
     </a>
   );
 }

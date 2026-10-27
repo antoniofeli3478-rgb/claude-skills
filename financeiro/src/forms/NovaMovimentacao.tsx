@@ -2,7 +2,7 @@
 // Serve para criar e para editar. Toda gravação passa pelo repo (validação + recálculo).
 
 import { useEffect, useMemo, useState, type ReactNode } from "react";
-import { ArrowDownLeft, ArrowLeftRight, ArrowUpRight, Boxes, CreditCard, Hourglass, PiggyBank, Scale, Store, TrendingUp, Wallet } from "lucide-react";
+import { ArrowDownLeft, ArrowLeftRight, ArrowUpRight, CreditCard, Hourglass, PiggyBank, Scale, TrendingUp, Wallet } from "lucide-react";
 import { br } from "../core/dates";
 import { brl, type Cents } from "../core/money";
 import { datasDaFatura, faturaDaCompra } from "../core/cartao";
@@ -11,6 +11,7 @@ import { disponivelParaRetirada } from "../core/negocio";
 import { calcularSaldos, totaisVenda } from "../core/ledger";
 import type { Ajuste, CompraCartao, CompraEstoque, Despesa, Escopo, ID, Movimento, MovEnvelope, MovInvestimento, PagamentoFatura, Receita, Recebimento, Transferencia, Venda } from "../core/types";
 import { useApp } from "../app/store";
+import { ehDoNfc, URL_APP_NFC } from "../integracoes/nfc";
 import { db } from "../data/db";
 import { apagarMovimento, conciliar, ErroValidacao, movimentarInvestimento, novoId, salvarMovimento } from "../data/repo";
 import { Aviso, Button, Campo, cn, Data, Dinheiro, Folha, Interruptor, Money, Numero, Segmentos, Selecao, Texto, useUi } from "../ui/ui";
@@ -21,10 +22,8 @@ export type TipoForm = "recebimento" | "despesa" | "transferencia" | "cartao" | 
 export const TIPOS: { id: TipoForm; nome: string; desc: string; icone: ReactNode }[] = [
   { id: "recebimento", nome: "Recebimento", desc: "Dinheiro que entrou", icone: <ArrowDownLeft size={20} /> },
   { id: "despesa", nome: "Despesa", desc: "Gasto ou conta a pagar", icone: <ArrowUpRight size={20} /> },
-  { id: "venda", nome: "Venda", desc: "Placas NFC", icone: <Store size={20} /> },
   { id: "cartao", nome: "Compra no cartão", desc: "Crédito, à vista ou parcelado", icone: <CreditCard size={20} /> },
   { id: "pendente", nome: "A receber", desc: "Trabalho que vão te pagar", icone: <Hourglass size={20} /> },
-  { id: "estoque", nome: "Compra de estoque", desc: "Lote de placas, materiais", icone: <Boxes size={20} /> },
   { id: "aporte", nome: "Aporte em objetivo", desc: "Mover entre envelopes", icone: <PiggyBank size={20} /> },
   { id: "transferencia", nome: "Transferência", desc: "Entre suas contas", icone: <ArrowLeftRight size={20} /> },
   { id: "investimento", nome: "Investimento", desc: "Aplicar ou resgatar", icone: <TrendingUp size={20} /> },
@@ -42,6 +41,21 @@ export interface PedidoNova { tipo?: TipoForm; editId?: ID; produtoId?: ID; enve
 
 export function NovaMovimentacao({ pedido, onFechar, onDistribuir }: { pedido: PedidoNova | null; onFechar: () => void; onDistribuir: (p: PedidoDistribuicao) => void }) {
   const { d } = useApp();
+  if (pedido?.editId && ehDoNfc(pedido.editId)) return <DoNfc onFechar={onFechar} />;
+  if (pedido && (pedido.tipo === "venda" || pedido.tipo === "estoque") && !pedido.editId) return <DoNfc onFechar={onFechar} novo />;
+  return <Seletor d={d} pedido={pedido} onFechar={onFechar} onDistribuir={onDistribuir} />;
+}
+
+/** Vendas e estoque das placas são do app Plaquinhas NFC: aqui só aparecem. */
+function DoNfc({ onFechar, novo }: { onFechar: () => void; novo?: boolean }) {
+  return (
+    <Folha aberta onFechar={onFechar} titulo={novo ? "Registre no app das placas" : "Registro do Plaquinhas NFC"} rodape={<a href={URL_APP_NFC} className="flex h-11 w-full items-center justify-center rounded-xl bg-accent font-semibold text-accent-ink">Abrir Plaquinhas NFC</a>}>
+      <p className="pb-2 text-[15px] leading-relaxed text-muted">{novo ? "Vendas e entradas de estoque das placas são registradas no app Plaquinhas NFC. Elas aparecem aqui no Finanças sozinhas, com o lucro e o caixa do negócio calculados." : "Este registro vem do app Plaquinhas NFC. Para mudar ou apagar, faça lá: o Finanças atualiza sozinho quando você voltar."}</p>
+    </Folha>
+  );
+}
+
+function Seletor({ d, pedido, onFechar, onDistribuir }: { d: ReturnType<typeof useApp>["d"]; pedido: PedidoNova | null; onFechar: () => void; onDistribuir: (p: PedidoDistribuicao) => void }) {
   const [tipo, setTipo] = useState<TipoForm | null>(null);
   const editando = pedido?.editId ? d.movimentos.find((m) => m.id === pedido.editId) ?? null : null;
   useEffect(() => { setTipo(editando ? tipoDoMov(editando) : pedido?.tipo ?? null); }, [pedido]); // eslint-disable-line

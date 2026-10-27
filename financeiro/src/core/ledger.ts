@@ -44,7 +44,7 @@ export function lancamentos(m: Movimento): Lancamento[] {
       if (m.cancelada) return [];
       const ls: Lancamento[] = [];
       // Só o que foi recebido de verdade entra no caixa (regra 4)
-      for (const r of m.recebimentos) ls.push({ contaId: r.contaId, valor: r.valor }, { envelopeId: m.envelopeId, valor: r.valor });
+      for (const r of m.recebimentos) if (!r.historico) ls.push({ contaId: r.contaId, valor: r.valor }, { envelopeId: m.envelopeId, valor: r.valor });
       if (m.despesasDiretas > 0 && m.contaDespesasId) {
         ls.push({ contaId: m.contaDespesasId, valor: -m.despesasDiretas }, { envelopeId: m.envelopeId, valor: -m.despesasDiretas });
       }

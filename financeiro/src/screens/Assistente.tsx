@@ -7,11 +7,11 @@ import { addMeses, fromParts } from "../core/dates";
 import { brl, type Cents } from "../core/money";
 import { calcularSaldos } from "../core/ledger";
 import { SUGESTOES } from "../core/defaults";
-import type { CompraEstoque, Recorrencia } from "../core/types";
+import type { Recorrencia } from "../core/types";
 import { useApp } from "../app/store";
 import { db } from "../data/db";
 import { conciliar, distribuir, gerarRecorrencias, novoId, novoMov, salvarMovimento } from "../data/repo";
-import { Aviso, Button, Campo, cn, Data, Dinheiro, Folha, Interruptor, Numero, Segmentos, Texto, useUi } from "../ui/ui";
+import { Aviso, Button, Campo, cn, Data, Dinheiro, Folha, Interruptor, Numero, Segmentos, Selecao, Texto, useUi } from "../ui/ui";
 
 const PASSOS = [
   { id: "contas", nome: "Saldos das contas" },
@@ -19,7 +19,7 @@ const PASSOS = [
   { id: "cartao", nome: "Cartão" },
   { id: "pc", nome: "Meta do PC" },
   { id: "reserva", nome: "Reserva" },
-  { id: "produtos", nome: "Produtos NFC" },
+  { id: "produtos", nome: "Plaquinhas NFC" },
   { id: "negocio", nome: "Capital do negócio" },
   { id: "prioridades", nome: "Prioridades" },
 ];
@@ -50,7 +50,7 @@ export function Assistente({ onFechar }: { onFechar: () => void }) {
         {passo.id === "cartao" && <PassoCartao onOk={concluir} />}
         {passo.id === "pc" && <PassoPC onOk={concluir} />}
         {passo.id === "reserva" && <PassoReserva onOk={concluir} />}
-        {passo.id === "produtos" && <PassoProdutos onOk={concluir} />}
+        {passo.id === "produtos" && <PassoNfc onOk={concluir} />}
         {passo.id === "negocio" && <PassoNegocio onOk={concluir} />}
         {passo.id === "prioridades" && <PassoPrioridades onOk={concluir} />}
         <div className="flex items-center justify-between border-t border-line pt-3">
@@ -216,36 +216,25 @@ function PassoReserva({ onOk }: P) {
   );
 }
 
-function PassoProdutos({ onOk }: P) {
-  const { d, hoje, sit } = useApp();
-  const [itens, setItens] = useState(SUGESTOES.produtos.map((p, k) => ({ ...p, ativo: k === 0 && !d.produtos.length, precoVenda: p.precoVenda as Cents | null, custoReferencia: p.custoReferencia as Cents | null, estoque: 0, minimo: 10 })));
+function PassoNfc({ onOk }: P) {
+  const { d, nfc, hoje } = useApp();
+  const [contaId, setContaId] = useState(d.config.negocios?.nfc?.contaId ?? d.contas[0]?.id ?? "");
   const salvar = async () => {
-    for (const it of itens.filter((x) => x.ativo)) {
-      const id = novoId();
-      await db().produtos.put({ id, nome: it.nome, categoria: it.categoria, precoVenda: it.precoVenda ?? 0, custoReferencia: it.custoReferencia ?? 0, custoHistorico: [{ data: hoje, custo: it.custoReferencia ?? 0 }], custoAdicional: 0, estoqueMinimo: it.minimo, ativo: true });
-      if (it.estoque > 0) await salvarMovimento(db(), novoMov<CompraEstoque>({ tipo: "estoque_compra", produtoId: id, qtd: it.estoque, valor: it.estoque * (it.custoReferencia ?? 0), status: "inicial", contaId: null, envelopeId: sit.env.negocio?.id ?? "", data: hoje, descricao: "Estoque que eu já tinha" }));
-    }
+    await db().config.update("cfg", { negocios: { ...d.config.negocios, nfc: { ativo: true, contaId, desde: d.config.negocios?.nfc?.desde ?? hoje } } });
     onOk();
   };
   return (
     <div className="flex flex-col gap-4">
-      <h3 className="font-display text-[20px] font-semibold">Seus produtos NFC</h3>
-      <p className="text-[14px] text-muted">Valores de exemplo do que você contou (custo de R$ 14, ou R$ 11,67 em lote maior; venda a R$ 80 ou R$ 89,90). Ajuste para os seus.</p>
-      {itens.map((it, k) => (
-        <div key={k} className={cn("flex flex-col gap-2 rounded-xl border p-3", it.ativo ? "border-accent/50" : "border-line")}>
-          <label className="flex items-center justify-between gap-3"><Texto value={it.nome} onChange={(e) => setItens(itens.map((x, j) => (j === k ? { ...x, nome: e.target.value } : x)))} /><Interruptor ligado={it.ativo} onChange={(v) => setItens(itens.map((x, j) => (j === k ? { ...x, ativo: v } : x)))} rotulo="Cadastrar" /></label>
-          {it.ativo && (
-            <div className="grid grid-cols-2 gap-2 sm:grid-cols-4">
-              <Campo rotulo="Preço"><Dinheiro value={it.precoVenda} onChange={(v) => setItens(itens.map((x, j) => (j === k ? { ...x, precoVenda: v } : x)))} /></Campo>
-              <Campo rotulo="Custo"><Dinheiro value={it.custoReferencia} onChange={(v) => setItens(itens.map((x, j) => (j === k ? { ...x, custoReferencia: v } : x)))} /></Campo>
-              <Campo rotulo="Tenho em estoque"><Numero value={it.estoque} onChange={(n) => setItens(itens.map((x, j) => (j === k ? { ...x, estoque: n } : x)))} /></Campo>
-              <Campo rotulo="Estoque mínimo"><Numero value={it.minimo} onChange={(n) => setItens(itens.map((x, j) => (j === k ? { ...x, minimo: n } : x)))} /></Campo>
-            </div>
-          )}
-        </div>
-      ))}
-      <Button variante="outline" tamanho="sm" className="self-start" onClick={() => setItens([...itens, { nome: "Placa NFC Instagram", categoria: "Instagram", precoVenda: 8000, custoReferencia: 1400, ativo: true, estoque: 0, minimo: 5 }])}><Plus size={15} />Outro produto</Button>
-      <Button onClick={salvar}>Salvar e continuar</Button>
+      <h3 className="font-display text-[20px] font-semibold">Ligar o Plaquinhas NFC</h3>
+      <p className="text-[14px] text-muted">O app das placas continua separado. O Finanças só lê as vendas e o estoque de lá, para calcular o lucro e o caixa do negócio sem você digitar nada duas vezes.</p>
+      {nfc.encontrado ? (
+        <Aviso tom="good">Encontrei {nfc.registros} registros do Plaquinhas NFC neste aparelho ({nfc.vendas} vendas). {nfc.estoque.map((e) => `${e.nome}: ${e.emEstoque} em estoque`).join(" · ")}.</Aviso>
+      ) : (
+        <Aviso tom="warn">{nfc.erro ?? "Não encontrei dados do Plaquinhas NFC neste navegador. Dá para ligar mesmo assim: quando o app das placas tiver registros neste aparelho, eles aparecem aqui."}</Aviso>
+      )}
+      <Campo rotulo="Conta onde cai o dinheiro das placas"><Selecao value={contaId} onChange={setContaId} opcoes={d.contas.filter((c) => !c.arquivada).map((c) => ({ valor: c.id, rotulo: c.nome }))} /></Campo>
+      <Aviso tom="info">O dinheiro das vendas de antes de hoje já está no saldo que você informou, então só conta no faturamento e no lucro. Daqui para frente, o que você receber pelas placas entra no envelope do negócio.</Aviso>
+      <Button onClick={salvar}>Ligar e continuar</Button>
     </div>
   );
 }

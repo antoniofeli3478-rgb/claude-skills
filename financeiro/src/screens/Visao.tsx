@@ -80,7 +80,7 @@ export function Visao({ abrirAssistente }: { abrirAssistente: () => void }) {
           <Stat rotulo="Contas a pagar" valor={<Money c={sit.totalAPagar} />} dica={sit.compromissos.some((c) => c.atrasado) ? "há contas vencidas" : `${sit.compromissos.length} em aberto`} tom={sit.compromissos.some((c) => c.atrasado) ? "bad" : undefined} onClick={() => ir("contas")} />
           <Stat rotulo="A receber" valor={<Money c={sit.totalAReceber} />} dica="fora do dinheiro disponível" onClick={() => ir("contas")} />
           <Stat rotulo="Fatura atual" valor={<Money c={sit.faturaAtual} />} dica={d.cartoes.length ? "ainda aberta" : "nenhum cartão"} onClick={() => ir("contas", "cartoes")} />
-          <Stat rotulo="Capital do negócio" valor={<Money c={sit.capitalNegocio.total} />} dica={`${brl(sit.capitalNegocio.caixa)} caixa + ${brl(sit.capitalNegocio.estoque)} estoque`} onClick={() => ir("negocio")} />
+          <Stat rotulo="Capital do negócio" valor={<Money c={sit.capitalNegocio.total} />} dica={`${brl(sit.capitalNegocio.caixa)} caixa + ${brl(sit.capitalNegocio.estoque)} estoque`} onClick={() => ir("negocios")} />
           <Stat rotulo="Patrimônio financeiro" valor={<Money c={sit.patrimonio.total} />} dica="contas + investimentos − dívidas" onClick={() => ir("relatorios")} />
           <Stat rotulo="Investido" valor={<Money c={sit.investimentos.valorAtual} />} dica="valor atual informado" onClick={() => ir("metas")} />
         </div>
@@ -119,7 +119,7 @@ export function Visao({ abrirAssistente }: { abrirAssistente: () => void }) {
               <div className="flex items-center gap-2 text-[13.5px] font-semibold"><i className="h-2.5 w-2.5 rounded-full" style={{ background: sit.env.negocio.cor }} />Capital de giro</div>
               <div className="num text-[22px] font-semibold tracking-tight">{brl(sit.capitalNegocio.caixa)}</div>
               <Progresso pct={sit.env.negocio.minimo ? (sit.capitalNegocio.caixa / sit.env.negocio.minimo) * 100 : 0} cor={sit.env.negocio.cor} />
-              <div className="text-[12.5px] text-muted">{sit.env.negocio.minimo ? (sit.capitalNegocio.caixa >= sit.env.negocio.minimo ? `Acima do mínimo de ${brl(sit.env.negocio.minimo)}` : `Faltam ${brl(sit.env.negocio.minimo - sit.capitalNegocio.caixa)} para o mínimo`) : "Defina o mínimo no Negócio NFC"}</div>
+              <div className="text-[12.5px] text-muted">{sit.env.negocio.minimo ? (sit.capitalNegocio.caixa >= sit.env.negocio.minimo ? `Acima do mínimo de ${brl(sit.env.negocio.minimo)}` : `Faltam ${brl(sit.env.negocio.minimo - sit.capitalNegocio.caixa)} para o mínimo`) : "Defina o mínimo em Meus negócios"}</div>
             </Card>
           )}
         </div>

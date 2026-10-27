@@ -1,9 +1,9 @@
 // Navegação pelo "#/tela" no endereço: funciona offline e em qualquer pasta.
 import { useEffect, useState } from "react";
 
-export type Rota = "visao" | "movimentos" | "envelopes" | "contas" | "negocio" | "metas" | "relatorios" | "consultor" | "config";
+export type Rota = "visao" | "movimentos" | "envelopes" | "contas" | "negocios" | "metas" | "relatorios" | "consultor" | "config";
 
-export const ROTAS: Rota[] = ["visao", "movimentos", "envelopes", "contas", "negocio", "metas", "relatorios", "consultor", "config"];
+export const ROTAS: Rota[] = ["visao", "movimentos", "envelopes", "contas", "negocios", "metas", "relatorios", "consultor", "config"];
 
 function ler(): { rota: Rota; sub: string } {
   const [r, sub = ""] = location.hash.replace(/^#\/?/, "").split("/");

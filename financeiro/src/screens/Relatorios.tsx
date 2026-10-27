@@ -99,7 +99,7 @@ export function Relatorios() {
       </div>
 
       <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
-        <Secao titulo="Negócio NFC no período">
+        <Secao titulo="Plaquinhas NFC no período">
           <Card className="flex flex-col divide-y divide-line px-4 py-1 text-[14px]">
             {[["Faturamento", r.nfc.faturamento], ["Recebido", r.nfc.recebido], ["Custo das placas vendidas", -r.nfc.cmv], ["Lucro bruto", r.nfc.lucroBruto], ["Despesas do negócio", -r.nfc.despesasOperacionais], ["Lucro líquido", r.nfc.lucroLiquido]].map(([k, v]) => (
               <div key={k as string} className="flex justify-between py-2"><span className={k === "Lucro líquido" ? "font-semibold" : "text-muted"}>{k}</span><Money c={v as number} className="font-semibold" /></div>
@@ -155,10 +155,10 @@ function ProjecaoNegocio() {
   const lucroPorUnidade = x.unidades ? Math.round(x.lucroLiquido / x.unidades) : null;
   const [mult, setMult] = useState({ conservador: 70, intermediario: 100, otimista: 130 });
   if (!ritmo || lucroPorUnidade == null) return (
-    <Secao titulo="Projeção do negócio NFC"><Card className="p-4 text-[14px] text-muted">Registre vendas por algumas semanas para o app projetar o crescimento. Até lá, use a Simulação no Negócio NFC.</Card></Secao>
+    <Secao titulo="Projeção das Plaquinhas NFC"><Card className="p-4 text-[14px] text-muted">Registre vendas por algumas semanas para o app projetar o crescimento. Até lá, use a Simulação em Meus negócios.</Card></Secao>
   );
   return (
-    <Secao titulo="Projeção do negócio NFC (próximos 3 meses)">
+    <Secao titulo="Projeção das Plaquinhas NFC (próximos 3 meses)">
       <Card className="flex flex-col gap-3 p-4">
         <p className="text-[13.5px] text-muted">Base real das últimas 8 semanas: {ritmo.unidadesSemana.toFixed(1).replace(".", ",")} placas por semana e {brl(lucroPorUnidade)} de lucro líquido por placa. Ajuste o ritmo de cada cenário:</p>
         <div className="grid grid-cols-1 gap-2 sm:grid-cols-3">

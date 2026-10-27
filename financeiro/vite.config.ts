@@ -16,8 +16,8 @@ export default defineConfig({
       injectRegister: "auto",
       includeAssets: ["icon.svg", "apple-touch-icon.png"],
       manifest: {
-        name: "Gerente Financeiro",
-        short_name: "Financeiro",
+        name: "Finanças",
+        short_name: "Finanças",
         description: "Seu dinheiro organizado em envelopes, com o negócio NFC, cartão e metas.",
         lang: "pt-BR",
         start_url: "./",

@@ -84,7 +84,7 @@ export async function lerBackup(texto: string, senha?: string): Promise<{ dados:
   let bruto: unknown;
   try { bruto = JSON.parse(texto); } catch { throw new ErroBackup("Este arquivo não é um backup válido (não é JSON)."); }
   const o = bruto as Partial<ArquivoCifrado & ArquivoBackup>;
-  if (!o || o.app !== APP) throw new ErroBackup("Este arquivo não é um backup do Gerente Financeiro.");
+  if (!o || o.app !== APP) throw new ErroBackup("Este arquivo não é um backup do Finanças.");
   if ((o.schemaVersion ?? 0) > SCHEMA_VERSION) throw new ErroBackup("Este backup é de uma versão mais nova do app. Atualize o app antes de restaurar.");
   let dados: unknown = o.dados;
   if (o.cifrado) {

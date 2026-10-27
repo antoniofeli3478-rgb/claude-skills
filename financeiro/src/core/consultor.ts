@@ -63,9 +63,12 @@ export function quantoVenderParaPC(sit: Situacao, d: Dados): Resposta {
   if (!meta || meta.meta == null) return { veredito: "sem-dados", titulo: "Defina o valor do PC", linhas: ["Em Metas, coloque quanto custa o PC que você quer."] };
   if (meta.falta <= 0) return { veredito: "sim", titulo: "A meta do PC já foi atingida", linhas: [] };
   const prod = d.produtos.filter((p) => p.ativo);
-  if (!prod.length) return { veredito: "sem-dados", titulo: "Cadastre seus produtos NFC", linhas: ["Preciso do preço e do custo das placas para fazer a conta."] };
+  if (!prod.length) return { veredito: "sem-dados", titulo: "Nenhuma placa encontrada", linhas: ["Preciso das vendas e do custo das placas. Registre no app Plaquinhas NFC, no mesmo aparelho."] };
+  // A placa de referência: a que tem custo conhecido e o maior preço praticado
+  const comCusto = prod.filter((x) => x.custoReferencia > 0 && x.precoVenda > 0).sort((a, b) => b.precoVenda - a.precoVenda);
+  if (!comCusto.length) return { veredito: "sem-dados", titulo: "Falta o custo das placas", linhas: ["Registre uma entrada de estoque com o valor pago no app Plaquinhas NFC. Sem o custo, eu acharia que cada venda é lucro inteiro."] };
   const ritmo = ritmoVendas(d, sit.hoje);
-  const p = prod[0];
+  const p = comCusto[0];
   const preco = ritmo?.precoMedio || p.precoVenda;
   const lucroUnit = preco - p.custoReferencia - p.custoAdicional;
   if (lucroUnit <= 0) return { veredito: "nao", titulo: "Com o preço atual cada placa não dá lucro", linhas: [`Preço ${brl(preco)}, custo ${brl(p.custoReferencia + p.custoAdicional)}.`] };
@@ -79,7 +82,7 @@ export function quantoVenderParaPC(sit: Situacao, d: Dados): Resposta {
   ];
   if (parte !== tudo) linhas.push(`Com a sua regra atual (${pctPC}% do lucro retirado vai para o PC): ${parte} placas.`);
   if (ritmo) linhas.push(`No seu ritmo das últimas semanas (${ritmo.unidadesSemana.toFixed(1).replace(".", ",")} placas/semana), isso leva umas ${Math.ceil(parte / Math.max(0.1, ritmo.unidadesSemana))} semanas.`);
-  linhas.push("Despesas do negócio (transporte, embalagem) reduzem esse lucro. Veja a simulação no Negócio NFC.");
+  linhas.push("Despesas do negócio (transporte, embalagem) reduzem esse lucro. Veja a simulação em Meus negócios.");
   return { veredito: "info", titulo: `Cerca de ${parte} placas`, linhas };
 }
 
@@ -111,7 +114,7 @@ export function podeComprarLote(sit: Situacao, d: Dados, produtoId: string, qtd:
   const p = d.produtos.find((x) => x.id === produtoId);
   if (!p || !(qtd > 0)) return { veredito: "sem-dados", titulo: "Escolha o produto e a quantidade", linhas: [] };
   const custo = qtd * (custoUnit ?? p.custoReferencia);
-  if (!custo) return { veredito: "sem-dados", titulo: "Falta o custo do produto", linhas: [`Cadastre o custo de ${p.nome} no Negócio NFC.`] };
+  if (!custo) return { veredito: "sem-dados", titulo: "Falta o custo do produto", linhas: [`Registre uma entrada de ${p.nome} com o custo no app Plaquinhas NFC.`] };
   const caixa = sit.saldoEnv(sit.env.negocio);
   const contas = sit.compromissos.filter((c) => c.escopo === "negocio").reduce((a, c) => a + c.valor, 0);
   const minimo = sit.env.negocio?.minimo ?? 0;

@@ -76,7 +76,7 @@ export function Configuracoes({ abrirAssistente }: { abrirAssistente: () => void
             toast("Dados apagados");
           }}>Apagar todos os dados {modo === "demo" ? "da demonstração" : ""}</button>
         </Card>
-        <p className="text-center text-[12px] text-faint">Gerente Financeiro 1.0 · {modo === "demo" ? "modo demonstração" : "dados reais"} · {d.movimentos.length} movimentações</p>
+        <p className="text-center text-[12px] text-faint">Finanças 1.1 · {modo === "demo" ? "modo demonstração" : "dados reais"} · {d.movimentos.length} movimentações</p>
       </Secao>
       {estEditar && <EditarEstrategia est={estEditar} onFechar={() => setEstEditar(null)} />}
     </div>
