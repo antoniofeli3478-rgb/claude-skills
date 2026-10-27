@@ -86,6 +86,7 @@ regras do repositório e do ambiente | CLAUDE.md
 manual de utilização do repositório (pastas, arquivos, receitas, GitHub, aprovação) | guia/LEIA-ANTES-DE-USAR.md
 notas: agente de WhatsApp para locação de brinquedos (24/10/2026): 5 repositórios de referência baixados (whatsapp-ai-agent MIT com Claude e ferramentas, locação com orçamento em PDF, agendamento, cookbook oficial de tool use) e as lições | research_notes/Agente WhatsApp locacao 2026-10/LEIA-ME.md
 notas: dossiê da Anima Kids (Ribeirão Preto, 25/10/2026): identidade, cidades, regras, faixas etárias, catálogo de 52 itens com fotos (rascunho), o que falta perguntar ao dono; sem endereço fixo | research_notes/Agente WhatsApp locacao 2026-10/anima-kids/DOSSIE.md
+notas: dossiê da Neural Scales (27/10/2026), agência de IA que o usuário quer usar de modelo: sócios, CNPJ, produtos (Máquina de Leads, agente de WhatsApp, vídeos imobiliários), preço R$ 2.890 + R$ 1.590/mês, curso, ProspecZ, parceiros e diferenciais do usuário | research_notes/Neural Scales 2026-10/DOSSIE.md
 
 2b) PROJETOS (cada um tem só um PASSO-A-PASSO com o que foi feito e os caminhos das habilidades)
 --------------------------------------------------------------------------------------------------
