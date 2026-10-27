@@ -77,6 +77,7 @@ notas: catálogo de fichas (uma por skill, MCP ou fonte avaliada: origem, status
 notas: hospedagem de site de cliente (a Vercel grátis não é para uso comercial; Cloudflare Pages, Netlify, Vercel Pro e outras, com preços e termos de 12/10/2026) | research_notes/Caça de skills 2026-10/hospedagem/pesquisa.md
 notas: scroll-vídeo sem travar, CANCELADO a pedido do Daniel; material guardado só como conhecimento (~40%: pesquisa de codecs e medidas, rascunhos de código, equipamento de teste) | research_notes/Caça de skills 2026-10/scroll-suave-PARCIAL/LEIA-ME.md
 relatório: pendências e porcentagem de pesquisa de tudo o que está incompleto (12/10/2026) | reports/Pendências e porcentagem de pesquisa (2026-10-12).md
+notas: filtros do TikTok (Effect House): como publicar, como funciona o pagamento (Effect Creator Rewards) e ideias de filtro (27/10/2026) | research_notes/Filtros TikTok 2026-10/pesquisa.md
 relatório: vídeo Rotina v3 (12/10/2026): cada skill e combo usado, como foi usado, e as propostas de skills e combos novos (esperam aprovação) | reports/Vídeo Rotina v3, skills e combos usados (2026-10-12).md
 notas: Rotina v3: mapa das 39 skills para um vídeo (o que cada uma faz, conflitos, receita de design e animação, checklist de revisão), briefing e roteiro (copy → humanizado) | research_notes/Rotina v3 2026-10/ (comece pelo MAPA-SKILLS.md)
 notas: kit motion-video e dicas (Google AI Studio) | research_notes/Motion design 3D e voz IA/motion_video_kit_e_dicas.md
