@@ -55,8 +55,7 @@ Se a branch for juntada na `main` um dia, troque a branch do Pages para `main` c
 
 ## 27/10/2026: ligado ao app Finanças
 
-- O Plaquinhas NFC continua um app separado, com a mesma tela da 1.3. O app **Finanças** (repositório `Finan-as`) lê os dados dele (chave `placas-nfc:v1`) na aba **Meus negócios**, só leitura.
-- **Não mudar o formato dos dados** sem atualizar o conversor do Finanças (`src/integracoes/nfc.ts` no repositório Finan-as).
+- O Plaquinhas NFC continua um app separado, com a mesma tela da 1.3. O app **Finanças** (repositório `Finan-as`) chegou a ler os dados dele, mas **essa ligação foi retirada no mesmo dia** a pedido do Daniel: hoje os dois apps são independentes e as vendas das placas são lançadas à mão no Finanças.
 - `docs/sw.js` (cache v6) ignora a pasta `financeiro/`, que hoje é só um redirecionamento para o Finanças.
 
 ## Como atualizar o app
