@@ -2,8 +2,8 @@
 
 ## Onde está
 
-- Código: repositório `antoniofeli3478-rgb/Minhasfinancas`, branch `main`, na raiz (`index.html`, `manifest.webmanifest`, `sw.js`, `icons/`).
-- No ar: https://antoniofeli3478-rgb.github.io/Minhasfinancas/ (GitHub Pages: main / root).
+- Código: repositório `antoniofeli3478-rgb/Minhasfinancas`, branch `main`, pasta `docs/` (`index.html`, `manifest.webmanifest`, `sw.js`, `icons/`).
+- No ar: https://antoniofeli3478-rgb.github.io/Minhasfinancas/ (GitHub Pages: main / docs).
 - Dados: localStorage, chave `minhas-financas:v1`. Ficam só no aparelho.
 
 ## O que foi feito (27/10/2026)
@@ -26,4 +26,4 @@
 
 ## Próximo passo
 
-- O Daniel ligar o Pages (Settings → Pages → main / root), instalar pelo Chrome e colocar os saldos reais.
+- O Daniel instalar pelo Chrome e colocar os saldos reais.
