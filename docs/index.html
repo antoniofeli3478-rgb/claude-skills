@@ -267,6 +267,10 @@ h2 { margin: 0; font-size: 17px; font-weight: 700; letter-spacing: -0.01em; }
 .due-card small { display: block; font-size: 13px; font-weight: 600; opacity: .85; }
 .due-card .chev { font-size: 22px; }
 .dues { display: flex; flex-direction: column; gap: 10px; }
+.due-card.loja { background: var(--accent-soft); color: var(--accent); }
+.due .amt.loja { color: var(--accent); }
+.steplbl { display: flex; justify-content: space-between; gap: 8px; }
+.steplbl small { font-weight: 500; color: var(--muted); }
 .due { background: var(--surface-2); border-radius: var(--r-md); padding: 12px 14px; display: grid; grid-template-columns: 1fr auto; gap: 4px 12px; align-items: center; }
 .due .who { font-weight: 700; font-size: 16px; min-width: 0; overflow-wrap: anywhere; }
 .due .amt { font-weight: 700; font-size: 17px; color: var(--warn); text-align: right; font-variant-numeric: tabular-nums; }
@@ -353,7 +357,7 @@ h2 { margin: 0; font-size: 17px; font-weight: 700; letter-spacing: -0.01em; }
       <div class="hero-main">
         <div>
           <div class="hero-num n" id="h-estoque">0</div>
-          <div class="hero-label">placas em estoque</div>
+          <div class="hero-label" id="h-est-l">placas em estoque</div>
         </div>
       </div>
       <div class="hero-split">
@@ -361,6 +365,7 @@ h2 { margin: 0; font-size: 17px; font-weight: 700; letter-spacing: -0.01em; }
         <div class="mini"><span>Vendidas este mês</span><b class="n" id="h-ven">0</b><small id="h-ven-s">placas</small></div>
       </div>
       <button type="button" class="due-card" id="due-card" hidden><span class="grow"><small>A receber dos clientes</small><b id="due-total">R$ 0,00</b><small id="due-sub"></small></span><span class="chev">›</span></button>
+      <button type="button" class="due-card loja" id="loja-card" hidden><span class="grow"><small>Placas deixadas nas lojas</small><b id="loja-total">0</b><small id="loja-sub"></small></span><span class="chev">›</span></button>
       <div class="alerts" id="alerts" hidden></div>
     </div>
 
@@ -401,6 +406,7 @@ h2 { margin: 0; font-size: 17px; font-weight: 700; letter-spacing: -0.01em; }
       <button type="button" class="fchip" data-f="" aria-pressed="true">Tudo</button>
       <button type="button" class="fchip" data-f="venda" aria-pressed="false">Vendas</button>
       <button type="button" class="fchip" data-f="entrada" aria-pressed="false">Entradas</button>
+      <button type="button" class="fchip" data-f="loja" aria-pressed="false">Nas lojas</button>
     </div>
     <div class="filters" id="f-tipo"></div>
     <div class="filters" id="f-pag"></div>
@@ -487,7 +493,8 @@ h2 { margin: 0; font-size: 17px; font-weight: 700; letter-spacing: -0.01em; }
   <form class="form" id="l-form" novalidate>
     <div class="seg" role="group" aria-label="Tipo de lançamento" id="l-mov">
       <button type="button" data-mov="venda" aria-pressed="true">Venda</button>
-      <button type="button" data-mov="entrada" aria-pressed="false">Entrada no estoque</button>
+      <button type="button" data-mov="entrada" aria-pressed="false">Entrada</button>
+      <button type="button" data-mov="loja" aria-pressed="false">Na loja</button>
     </div>
     <div class="field"><span>Placa</span><div class="picker" id="l-picker"></div></div>
     <div class="field"><span>Quantidade</span>
@@ -514,6 +521,7 @@ h2 { margin: 0; font-size: 17px; font-weight: 700; letter-spacing: -0.01em; }
     </div>
     <label class="field"><span>Observação</span><input id="l-obs" type="text" maxlength="160" placeholder="Opcional"></label>
     <button type="submit" class="btn" id="l-save">Salvar venda</button>
+    <button type="button" class="btn ghost" id="l-acertar" hidden>Fazer acerto com a loja</button>
     <div id="l-del-wrap" hidden>
       <button type="button" class="btn textdanger" id="l-del">Apagar este registro</button>
       <div class="btn-row" id="l-del-confirm" hidden>
@@ -610,6 +618,47 @@ h2 { margin: 0; font-size: 17px; font-weight: 700; letter-spacing: -0.01em; }
   </form>
 </div>
 
+<!-- Folha: placas nas lojas -->
+<div class="sheet" id="sh-lojas" role="dialog" aria-modal="true" aria-labelledby="lj-title">
+  <div class="grab"></div>
+  <div class="sheet-head"><h2 id="lj-title">Nas lojas</h2><button type="button" class="close" data-close aria-label="Fechar">✕</button></div>
+  <div class="form">
+    <p class="helper" id="lj-resumo"></p>
+    <div class="dues" id="lj-lista"></div>
+    <button type="button" class="btn ghost" id="lj-nova">Deixar mais placas numa loja</button>
+  </div>
+</div>
+
+<!-- Folha: acerto com a loja -->
+<div class="sheet" id="sh-acerto" role="dialog" aria-modal="true" aria-labelledby="a-title">
+  <div class="grab"></div>
+  <div class="sheet-head"><h2 id="a-title">Acerto</h2><button type="button" class="close" data-close aria-label="Fechar">✕</button></div>
+  <form class="form" id="a-form" novalidate>
+    <div class="totalbox" id="a-na-loja"></div>
+    <div class="field"><span class="steplbl">Quantas a loja vendeu</span>
+      <div class="stepper"><button type="button" data-step="a-ven:-1" aria-label="Diminuir">−</button><input id="a-ven" type="number" inputmode="numeric" min="0" step="1" value="0" aria-label="Placas vendidas pela loja"><button type="button" data-step="a-ven:1" aria-label="Aumentar">+</button></div>
+    </div>
+    <div class="field"><span class="steplbl">Quantas voltaram para você <small>(opcional)</small></span>
+      <div class="stepper"><button type="button" data-step="a-dev:-1" aria-label="Diminuir">−</button><input id="a-dev" type="number" inputmode="numeric" min="0" step="1" value="0" aria-label="Placas devolvidas"><button type="button" data-step="a-dev:1" aria-label="Aumentar">+</button></div>
+    </div>
+    <p class="helper" id="a-fica"></p>
+    <div id="a-venda-f" class="form">
+      <div class="field"><span>Preço de cada placa</span><div class="money"><input id="a-preco" type="text" inputmode="decimal" placeholder="0,00" autocomplete="off"></div></div>
+      <div class="totalbox" id="a-total" hidden></div>
+      <div class="field"><span>Como a loja pagou</span>
+        <div class="chips" id="a-forma">
+          <button type="button" class="chip" data-f="Pix" aria-pressed="true">Pix</button>
+          <button type="button" class="chip" data-f="Dinheiro" aria-pressed="false">Dinheiro</button>
+          <button type="button" class="chip" data-f="Cartão" aria-pressed="false">Cartão</button>
+          <button type="button" class="chip" data-f="A receber" aria-pressed="false">Ainda não pagou</button>
+        </div>
+      </div>
+    </div>
+    <label class="field"><span>Data do acerto</span><input id="a-data" type="date"></label>
+    <button type="submit" class="btn" id="a-save">Salvar acerto</button>
+  </form>
+</div>
+
 <!-- Folha: confirmar -->
 <div class="sheet" id="sh-confirm" role="dialog" aria-modal="true" aria-labelledby="c-title">
   <div class="grab"></div>
@@ -625,7 +674,7 @@ h2 { margin: 0; font-size: 17px; font-weight: 700; letter-spacing: -0.01em; }
 <script>
 (() => {
   "use strict";
-  const VERSAO_APP = "1.2";
+  const VERSAO_APP = "1.3";
   const KEY = "placas-nfc:v1";
   const NFC_SVG = '<svg class="plate-nfc" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M6 8.5a5 5 0 0 1 0 7"/><path d="M9.5 6a9 9 0 0 1 0 12"/><path d="M13 3.5a13 13 0 0 1 0 17"/></svg>';
 
@@ -717,12 +766,18 @@ h2 { margin: 0; font-size: 17px; font-weight: 700; letter-spacing: -0.01em; }
   const taxaVenda = (m) => Math.round((m.pagamentos || []).filter(p => p.forma === "Cartão").reduce((s, p) => s + (p.valor || 0), 0) * taxaDe(m)) / 100;
   function lucroVenda(m, cm) { cm = cm || custosMedios(); const u = cm[m.tipo]; return u == null ? null : (m.valor || 0) - m.qtd * u - taxaVenda(m); }
   const somaPorForma = (m) => { const r = {}; (m.pagamentos || []).forEach(p => r[p.forma] = Math.round(((r[p.forma] || 0) + (p.valor || 0)) * 100) / 100); return r; };
-  const vazio = () => ({ rec: 0, ven: 0, fat: 0, custo: 0, lucro: 0, fatComCusto: 0, semCusto: 0 });
+  const vazio = () => ({ rec: 0, ven: 0, fat: 0, custo: 0, lucro: 0, fatComCusto: 0, semCusto: 0, loja: 0 });
+  // Placas deixadas numa loja (consignado). O que a loja vendeu vira uma venda comum com "consigId";
+  // o que voltou fica em "acertos". O que sobra continua na loja e fora do estoque.
+  const vendasDaLoja = (m) => S.movs.filter(v => v.mov === "venda" && v.consigId === m.id);
+  const restLoja = (m) => Math.max(0, m.qtd - vendasDaLoja(m).reduce((s, v) => s + v.qtd, 0) - (m.acertos || []).reduce((s, a) => s + (a.devolvidas || 0), 0));
+  const emEstoque = (x) => x.rec - x.ven - (x.loja || 0);
   function porTipo(per) {
     const r = {}, cm = custosMedios();
     S.tipos.forEach(t => r[t.id] = vazio());
     S.movs.forEach(m => {
       if (!r[m.tipo]) r[m.tipo] = vazio();
+      if (m.mov === "loja") { if (!per) r[m.tipo].loja += restLoja(m); return; }
       if (per && !noPeriodo(m, per)) return;
       const x = r[m.tipo];
       if (m.mov === "entrada") { x.rec += m.qtd; x.custo += m.valor || 0; return; }
@@ -732,7 +787,7 @@ h2 { margin: 0; font-size: 17px; font-weight: 700; letter-spacing: -0.01em; }
     });
     return r;
   }
-  function estoque(id) { const x = porTipo()[id]; return x ? x.rec - x.ven : 0; }
+  function estoque(id) { const x = porTipo()[id]; return x ? emEstoque(x) : 0; }
   function ultimoPreco(id) {
     const v = S.movs.filter(m => m.mov === "venda" && m.tipo === id && m.qtd > 0 && m.valor > 0).sort(ordem)[0];
     return v ? (v.preco > 0 ? v.preco : v.valor / v.qtd) : null;
@@ -767,7 +822,7 @@ h2 { margin: 0; font-size: 17px; font-weight: 700; letter-spacing: -0.01em; }
   function renderInicio() {
     const tot = porTipo(), mes = porTipo("mes");
     let est = 0, fatM = 0, venM = 0;
-    Object.values(tot).forEach(x => est += x.rec - x.ven);
+    Object.values(tot).forEach(x => est += emEstoque(x));
     Object.values(mes).forEach(x => { fatM += x.fat; venM += x.ven; });
     $("h-estoque").textContent = int.format(est);
     $("h-fat").textContent = brl.format(fatM);
@@ -778,11 +833,20 @@ h2 { margin: 0; font-size: 17px; font-weight: 700; letter-spacing: -0.01em; }
     const al = [];
     S.tipos.forEach(t => {
       const x = tot[t.id]; if (!x || (x.rec === 0 && x.ven === 0)) return;
-      const e = x.rec - x.ven;
+      const e = emEstoque(x);
       if (e <= 0) al.push(`<button type="button" class="alert out" data-tipo="${esc(t.id)}">${esc(t.nome)} esgotada</button>`);
       else if (e <= BAIXO) al.push(`<button type="button" class="alert" data-tipo="${esc(t.id)}">${esc(t.nome)}: só ${e}</button>`);
     });
     $("alerts").hidden = !al.length; $("alerts").innerHTML = al.join("");
+
+    const abertas = S.movs.filter(m => m.mov === "loja" && restLoja(m) > 0);
+    const naLoja = abertas.reduce((s, m) => s + restLoja(m), 0);
+    const previsto = abertas.reduce((s, m) => s + restLoja(m) * (m.preco || 0), 0);
+    const lojas = new Set(abertas.map(m => (m.quem || "").trim().toLowerCase()));
+    $("h-est-l").textContent = naLoja ? `placas em estoque · mais ${int.format(naLoja)} nas lojas` : "placas em estoque";
+    $("loja-card").hidden = !abertas.length;
+    $("loja-total").textContent = plural(naLoja, "placa", "placas");
+    $("loja-sub").textContent = `em ${plural(lojas.size, "loja", "lojas")}${previsto ? ` · ${brl.format(previsto)} se venderem tudo` : ""} · toque para acertar`;
 
     const pend = S.movs.filter(m => m.mov === "venda" && pendente(m) > 0.004);
     const totPend = pend.reduce((s, m) => s + pendente(m), 0);
@@ -801,7 +865,7 @@ h2 { margin: 0; font-size: 17px; font-weight: 700; letter-spacing: -0.01em; }
 
   function plateHTML(t, x, estatico) {
     x = x || { rec: 0, ven: 0 };
-    const v = visualTipo(t), e = x.rec - x.ven;
+    const v = visualTipo(t), e = emEstoque(x);
     let tag = "";
     if (x.rec || x.ven) { if (e <= 0) tag = '<span class="plate-tag out">Esgotada</span>'; else if (e <= BAIXO) tag = '<span class="plate-tag">Acabando</span>'; }
     const el = estatico ? "div" : "button";
@@ -809,7 +873,7 @@ h2 { margin: 0; font-size: 17px; font-weight: 700; letter-spacing: -0.01em; }
       <div class="plate-top"><span class="plate-name">${esc(t.nome)}</span>${NFC_SVG}</div>${tag}
       <div class="plate-bottom">
         <div class="plate-stock n">${int.format(e)}<small>em estoque</small></div>
-        <div class="plate-side n">${int.format(x.rec)} recebidas<br>${int.format(x.ven)} vendidas</div>
+        <div class="plate-side n">${x.loja ? `${int.format(x.loja)} na loja<br>` : ""}${int.format(x.rec)} recebidas<br>${int.format(x.ven)} vendidas</div>
       </div>${v.faixa ? `<span class="plate-strip" style="background:${v.faixa}"></span>` : ""}
     </${el}>`;
   }
@@ -892,7 +956,8 @@ h2 { margin: 0; font-size: 17px; font-weight: 700; letter-spacing: -0.01em; }
       const fat = lista.filter(m => m.mov === "venda").reduce((s, m) => s + (m.valor || 0), 0);
       const ven = lista.filter(m => m.mov === "venda").reduce((s, m) => s + m.qtd, 0);
       const rec = lista.filter(m => m.mov === "entrada").reduce((s, m) => s + m.qtd, 0);
-      let resumo = [ven ? `${plural(ven, "vendida", "vendidas")} · ${brl.format(fat)}` : "", rec ? `${plural(rec, "recebida", "recebidas")}` : ""].filter(Boolean).join(" · ");
+      const lj = lista.filter(m => m.mov === "loja").reduce((s, m) => s + m.qtd, 0);
+      let resumo = [ven ? `${plural(ven, "vendida", "vendidas")} · ${brl.format(fat)}` : "", rec ? `${plural(rec, "recebida", "recebidas")}` : "", lj ? `${int.format(lj)} na loja` : ""].filter(Boolean).join(" · ");
       if (filtroPag) resumo = `${filtroPag === "A receber" ? "Devendo" : filtroPag}: ${brl.format(lista.reduce((s, m) => s + (somaPorForma(m)[filtroPag] || 0), 0))}`;
       html += `<div class="month"><div class="month-head"><h3>${MESES[+mm - 1]} ${y}</h3><span class="n">${resumo}</span></div><div class="list">`;
       const cm = custosMedios();
@@ -900,6 +965,14 @@ h2 { margin: 0; font-size: 17px; font-weight: 700; letter-spacing: -0.01em; }
         const t = tipoDe(m.tipo), venda = m.mov === "venda";
         const det = [fmtData(m.data), m.quem, venda ? nomesPag(m) : "", m.obs].filter(Boolean).map(esc).join(" · ");
         const lc = venda ? lucroVenda(m, cm) : null;
+        if (m.mov === "loja") {
+          const r = restLoja(m), vend = vendasDaLoja(m).reduce((s, v) => s + v.qtd, 0);
+          const detL = [fmtData(m.data), m.quem, vend ? `${int.format(vend)} vendidas` : "", m.obs].filter(Boolean).map(esc).join(" · ");
+          return `<button type="button" class="item" data-id="${esc(m.id)}">
+          <span class="ico n" style="${styleTipo(t)}">${m.qtd}</span>
+          <span style="min-width:0"><span class="t" style="display:block">Na loja · ${esc(t.nome)}</span><span class="d" style="display:block">${detL}</span></span>
+          <span class="v n">${r ? `${int.format(r)} na loja` : "Acertado"}${m.preco ? `<small>${brl.format(m.preco)} cada</small>` : ""}</span></button>`;
+        }
         const pd = venda ? pendente(m) : 0;
         const val = venda ? `${brl.format(m.valor || 0)}${pd > 0.004 ? `<small class="falta">falta ${brl.format(pd)}</small>` : ""}<small>${m.qtd > 1 ? brl.format(m.preco >= 0 ? m.preco : (m.valor || 0) / m.qtd) + " cada" : "1 placa"}</small>${lc != null ? `<small class="lucro">lucro ${brl.format(lc)}</small>` : ""}` : `+${int.format(m.qtd)}<small>${m.valor ? "custo " + brl.format(m.valor) : "no estoque"}</small>`;
         return `<button type="button" class="item" data-id="${esc(m.id)}">
@@ -916,7 +989,7 @@ h2 { margin: 0; font-size: 17px; font-weight: 700; letter-spacing: -0.01em; }
     const tot = porTipo();
     $("tipos-list").innerHTML = S.tipos.map(t => {
       const x = tot[t.id] || { rec: 0, ven: 0 };
-      return `<button type="button" class="row" data-edtipo="${esc(t.id)}"><span class="ico" style="${styleTipo(t)};width:34px;height:34px;border-radius:10px"></span><span class="grow">${esc(t.nome)}<small>${int.format(x.rec - x.ven)} em estoque</small></span><span class="chev">›</span></button>`;
+      return `<button type="button" class="row" data-edtipo="${esc(t.id)}"><span class="ico" style="${styleTipo(t)};width:34px;height:34px;border-radius:10px"></span><span class="grow">${esc(t.nome)}<small>${int.format(emEstoque(x))} em estoque</small></span><span class="chev">›</span></button>`;
     }).join("") + `<button type="button" class="row" data-edtipo=""><span class="ico" style="--p-bg:var(--surface-2);--p-ink:var(--accent);width:34px;height:34px;border-radius:10px;font-size:20px">+</span><span class="grow" style="color:var(--accent);font-weight:600">Adicionar tipo</span></button>`;
     if (document.activeElement !== $("cfg-taxa")) $("cfg-taxa").value = S.cfg.taxaCartao ? fmtValorInput(S.cfg.taxaCartao) : "";
     $("pin-switch").setAttribute("aria-checked", !!S.cfg.pinHash);
@@ -995,24 +1068,26 @@ h2 { margin: 0; font-size: 17px; font-weight: 700; letter-spacing: -0.01em; }
       L.pagSel.forEach(f => { L.pagVal[f] = fmtValorInput(pf[f] || 0); L.pagManual[f] = true; });
     }
     $("l-qtd").value = m ? m.qtd : 1;
-    $("l-valor").value = !m ? "" : m.mov === "venda" ? fmtValorInput(m.preco >= 0 ? m.preco : (m.valor || 0) / m.qtd) : (m.valor ? fmtValorInput(m.valor) : "");
+    $("l-valor").value = !m ? "" : m.mov === "loja" ? (m.preco ? fmtValorInput(m.preco) : "") : m.mov === "venda" ? fmtValorInput(m.preco >= 0 ? m.preco : (m.valor || 0) / m.qtd) : (m.valor ? fmtValorInput(m.valor) : "");
     $("l-data").value = m ? m.data : hoje();
     $("l-quem").value = m ? (m.quem || "") : "";
     $("l-obs").value = m ? (m.obs || "") : "";
     $("l-del-wrap").hidden = !m; $("l-del").hidden = false; $("l-del-confirm").hidden = true;
+    $("l-acertar").hidden = !(m && m.mov === "loja" && restLoja(m) > 0);
     atualizarLancar();
     abrirFolha("sh-lancar");
   }
   function atualizarLancar() {
-    const venda = L.mov === "venda";
+    const venda = L.mov === "venda", loja = L.mov === "loja";
     document.querySelectorAll("#l-mov [data-mov]").forEach(b => b.setAttribute("aria-pressed", b.dataset.mov === L.mov));
-    $("l-title").textContent = L.editId ? "Editar registro" : venda ? "Nova venda" : "Entrada no estoque";
-    $("l-save").textContent = L.editId ? "Salvar alterações" : venda ? "Salvar venda" : "Salvar entrada";
-    $("l-valor-l").textContent = venda ? "Preço de cada placa" : "Quanto você pagou no total (opcional)";
-    $("l-quem-l").textContent = venda ? "Cliente" : "Fornecedor";
+    $("l-title").textContent = L.editId ? "Editar registro" : venda ? "Nova venda" : loja ? "Deixar na loja" : "Entrada no estoque";
+    $("l-save").textContent = L.editId ? "Salvar alterações" : venda ? "Salvar venda" : loja ? "Salvar" : "Salvar entrada";
+    $("l-valor-l").textContent = venda ? "Preço de cada placa" : loja ? "Preço combinado de cada placa" : "Quanto você pagou no total (opcional)";
+    $("l-quem-l").textContent = venda ? "Cliente" : loja ? "Nome da loja" : "Fornecedor";
+    $("l-quem").placeholder = loja ? "Obrigatório" : "Opcional";
     $("l-pag-f").hidden = !venda;
     const tot = porTipo();
-    $("l-picker").innerHTML = S.tipos.map(t => { const x = tot[t.id] || { rec: 0, ven: 0 }; return `<button type="button" class="pick" data-tipo="${esc(t.id)}" style="${styleTipo(t)}" aria-pressed="${t.id === L.tipo}">${esc(t.nome)}<small>${int.format(x.rec - x.ven)} em estoque</small></button>`; }).join("");
+    $("l-picker").innerHTML = S.tipos.map(t => { const x = tot[t.id] || vazio(); return `<button type="button" class="pick" data-tipo="${esc(t.id)}" style="${styleTipo(t)}" aria-pressed="${t.id === L.tipo}">${esc(t.nome)}<small>${int.format(emEstoque(x))} em estoque</small></button>`; }).join("");
     renderSplit();
     calcLancar();
   }
@@ -1061,6 +1136,10 @@ h2 { margin: 0; font-size: 17px; font-weight: 700; letter-spacing: -0.01em; }
         msg.hidden = false; msg.className = "helper bad";
         msg.textContent = (L.pagSel.length >= 2 && total > 0 ? msg.textContent + " " : "") + "Coloque o nome do cliente para saber quem está devendo.";
       }
+    } else if (L.mov === "loja") {
+      $("l-split-msg").hidden = true; $("l-unit").hidden = true;
+      $("l-total").hidden = !(v > 0 && q > 0);
+      $("l-total").innerHTML = `<span>Se a loja vender tudo</span><b>${brl.format((v || 0) * q)}</b>`;
     } else {
       $("l-total").hidden = true; $("l-split-msg").hidden = true;
       $("l-unit").hidden = !(q > 1 && v > 0);
@@ -1070,9 +1149,9 @@ h2 { margin: 0; font-size: 17px; font-weight: 700; letter-spacing: -0.01em; }
     $("l-quick").hidden = !(up && !(v > 0));
     if (up) $("l-quick").textContent = `Usar último preço: ${brl.format(up)} cada`;
     let est = estoque(L.tipo);
-    if (L.editId) { const m = S.movs.find(x => x.id === L.editId); if (m && m.tipo === L.tipo) est += m.mov === "venda" ? m.qtd : -m.qtd; }
+    if (L.editId) { const m = S.movs.find(x => x.id === L.editId); if (m && m.tipo === L.tipo) est += m.mov === "venda" ? m.qtd : m.mov === "loja" ? restLoja(m) : -m.qtd; }
     const w = $("l-warn");
-    if (venda && q > est) { w.hidden = false; w.textContent = est > 0 ? `Você tem só ${plural(est, "placa", "placas")} de ${tipoDe(L.tipo).nome} no estoque. Dá para salvar, mas talvez falte lançar uma entrada.` : `O estoque de ${tipoDe(L.tipo).nome} está zerado. Dá para salvar, mas talvez falte lançar uma entrada.`; }
+    if ((venda || L.mov === "loja") && q > est) { w.hidden = false; w.textContent = est > 0 ? `Você tem só ${plural(est, "placa", "placas")} de ${tipoDe(L.tipo).nome} no estoque. Dá para salvar, mas talvez falte lançar uma entrada.` : `O estoque de ${tipoDe(L.tipo).nome} está zerado. Dá para salvar, mas talvez falte lançar uma entrada.`; }
     else w.hidden = true;
   }
   $("l-mov").addEventListener("click", (e) => { const b = e.target.closest("[data-mov]"); if (b) { L.mov = b.dataset.mov; atualizarLancar(); } });
@@ -1104,6 +1183,12 @@ h2 { margin: 0; font-size: 17px; font-weight: 700; letter-spacing: -0.01em; }
     if (!(q > 0)) { toast("A quantidade precisa ser 1 ou mais.", true); $("l-qtd").focus(); return; }
     const raw = $("l-valor").value.trim(), v = parseValor(raw);
     const venda = L.mov === "venda";
+    const antigo = L.editId ? S.movs.find(x => x.id === L.editId) : null;
+    if (L.mov === "loja") {
+      if (!$("l-quem").value.trim()) { toast("Coloque o nome da loja.", true); $("l-quem").focus(); return; }
+      const acertadas = antigo && antigo.mov === "loja" ? antigo.qtd - restLoja(antigo) : 0;
+      if (q < acertadas) { toast(`Já foram acertadas ${acertadas} placas desta loja. A quantidade não pode ser menor.`, true); return; }
+    }
     if (venda && !(v >= 0)) { toast("Coloque o preço de cada placa, por exemplo 35,00.", true); $("l-valor").focus(); return; }
     if (raw && !(v >= 0)) { toast("Esse valor não parece um número. Use o formato 35,00.", true); return; }
     const reg = {
@@ -1119,22 +1204,100 @@ h2 { margin: 0; font-size: 17px; font-weight: 700; letter-spacing: -0.01em; }
         if (Math.abs(soma - reg.valor) >= 0.005) { toast(`Os pagamentos somam ${brl.format(soma)}, mas a venda é de ${brl.format(reg.valor)}. Ajuste os valores.`, true); return; }
         reg.pagamentos = L.pagSel.map(f => ({ forma: f, valor: Math.round((parseValor(L.pagVal[f]) || 0) * 100) / 100 }));
       } else reg.pagamentos = L.pagSel.map(f => ({ forma: f, valor: reg.valor }));
+      if (antigo && antigo.consigId) reg.consigId = antigo.consigId;
       if (reg.pagamentos.some(p => p.forma === "Cartão")) {
-        const antigo = L.editId ? S.movs.find(x => x.id === L.editId) : null;
         reg.taxa = antigo && antigo.taxa >= 0 ? antigo.taxa : (S.cfg.taxaCartao || 0);
       }
+    } else if (L.mov === "loja") {
+      reg.preco = v > 0 ? Math.round(v * 100) / 100 : 0;
+      reg.acertos = antigo && antigo.mov === "loja" ? antigo.acertos || [] : [];
     } else reg.valor = v > 0 ? Math.round(v * 100) / 100 : 0;
     if (L.editId) S.movs = S.movs.map(x => x.id === L.editId ? reg : x); else S.movs.push(reg);
     if (!salvar()) return;
     fecharFolha();
     const nome = tipoDe(reg.tipo).nome;
-    toast(L.editId ? "Alterações salvas" : venda ? `Venda salva: ${plural(q, "placa", "placas")} ${nome} por ${brl.format(reg.valor)}` : `Entrada salva: +${q} ${nome}`);
+    toast(L.editId ? "Alterações salvas" : venda ? `Venda salva: ${plural(q, "placa", "placas")} ${nome} por ${brl.format(reg.valor)}` : L.mov === "loja" ? `${plural(q, "placa", "placas")} ${nome} na ${reg.quem}` : `Entrada salva: +${q} ${nome}`);
     if (navigator.vibrate) navigator.vibrate(12);
     render();
   });
   $("l-del").addEventListener("click", () => { $("l-del").hidden = true; $("l-del-confirm").hidden = false; });
   $("l-del-no").addEventListener("click", () => { $("l-del").hidden = false; $("l-del-confirm").hidden = true; });
   $("l-del-yes").addEventListener("click", () => { S.movs = S.movs.filter(x => x.id !== L.editId); if (salvar()) { fecharFolha(); toast("Registro apagado"); render(); } });
+
+  // ── lojas (consignado) ─────────────────────────────
+  function abrirLojas() {
+    const abertas = S.movs.filter(m => m.mov === "loja" && restLoja(m) > 0).sort((a, b) => (a.data || "").localeCompare(b.data || ""));
+    if (!abertas.length) { if (folhaAberta) fecharFolha(); return; }
+    const tot = abertas.reduce((s, m) => s + restLoja(m), 0);
+    $("lj-resumo").textContent = `${plural(tot, "placa", "placas")} fora do seu estoque. Quando passar na loja, toque em Acertar.`;
+    $("lj-lista").innerHTML = abertas.map(m => {
+      const dias = diasDesde(m.data), t = tipoDe(m.tipo), r = restLoja(m);
+      const quando = dias === 0 ? "hoje" : dias === 1 ? "ontem" : `há ${dias} dias`;
+      return `<div class="due"><span class="who">${esc(m.quem || "Loja")}</span><span class="amt loja">${plural(r, "placa", "placas")}</span>
+        <span class="info">${esc(t.nome)} · deixadas ${fmtData(m.data)}, ${quando}${m.preco ? ` · ${brl.format(m.preco)} cada` : ""}</span>
+        <button type="button" data-acerto="${esc(m.id)}">Acertar</button></div>`;
+    }).join("");
+    abrirFolha("sh-lojas");
+  }
+  $("loja-card").addEventListener("click", () => abrirLojas());
+  $("lj-nova").addEventListener("click", () => abrirLancar({ mov: "loja" }));
+  $("lj-lista").addEventListener("click", (e) => { const b = e.target.closest("[data-acerto]"); if (b) abrirAcerto(b.dataset.acerto); });
+  $("l-acertar").addEventListener("click", () => abrirAcerto(L.editId));
+
+  let A = { id: null, forma: "Pix" };
+  function abrirAcerto(id) {
+    const m = S.movs.find(x => x.id === id); if (!m) return;
+    A = { id, forma: "Pix" };
+    $("a-title").textContent = `Acerto com ${m.quem || "a loja"}`;
+    $("a-na-loja").innerHTML = `<span>Estão na loja</span><b>${plural(restLoja(m), "placa", "placas")} ${esc(tipoDe(m.tipo).nome)}</b>`;
+    $("a-ven").value = 0; $("a-dev").value = 0;
+    $("a-preco").value = m.preco ? fmtValorInput(m.preco) : "";
+    $("a-data").value = hoje();
+    document.querySelectorAll("#a-forma [data-f]").forEach(b => b.setAttribute("aria-pressed", b.dataset.f === A.forma));
+    calcAcerto();
+    abrirFolha("sh-acerto");
+  }
+  function calcAcerto() {
+    const m = S.movs.find(x => x.id === A.id); if (!m) return;
+    const r = restLoja(m);
+    let ven = Math.max(0, Math.min(r, parseInt($("a-ven").value, 10) || 0));
+    let dev = Math.max(0, Math.min(r - ven, parseInt($("a-dev").value, 10) || 0));
+    if (String(ven) !== $("a-ven").value) $("a-ven").value = ven;
+    if (String(dev) !== $("a-dev").value) $("a-dev").value = dev;
+    const fica = r - ven - dev, preco = parseValor($("a-preco").value);
+    $("a-fica").textContent = fica ? `Continuam na loja: ${plural(fica, "placa", "placas")}.` : "Não fica nenhuma placa na loja.";
+    $("a-venda-f").hidden = !ven;
+    $("a-total").hidden = !(ven && preco > 0);
+    $("a-total").innerHTML = `<span>A loja te deve (${plural(ven, "placa", "placas")})</span><b>${brl.format((preco || 0) * ven)}</b>`;
+  }
+  $("a-form").addEventListener("click", (e) => {
+    const b = e.target.closest("[data-step]"); if (!b) return;
+    const [id, d] = b.dataset.step.split(":"); $(id).value = Math.max(0, (parseInt($(id).value, 10) || 0) + +d); calcAcerto();
+  });
+  ["a-ven", "a-dev", "a-preco"].forEach(id => $(id).addEventListener("input", calcAcerto));
+  $("a-forma").addEventListener("click", (e) => { const b = e.target.closest("[data-f]"); if (!b) return; A.forma = b.dataset.f; document.querySelectorAll("#a-forma [data-f]").forEach(x => x.setAttribute("aria-pressed", x === b)); });
+  $("a-form").addEventListener("submit", (e) => {
+    e.preventDefault();
+    const m = S.movs.find(x => x.id === A.id); if (!m) return;
+    calcAcerto();
+    const ven = parseInt($("a-ven").value, 10) || 0, dev = parseInt($("a-dev").value, 10) || 0;
+    if (!ven && !dev) { toast("Diga quantas a loja vendeu ou quantas voltaram.", true); return; }
+    const preco = parseValor($("a-preco").value), data = $("a-data").value || hoje();
+    if (ven && !(preco >= 0)) { toast("Coloque o preço de cada placa vendida.", true); $("a-preco").focus(); return; }
+    if (ven) {
+      const valor = Math.round(preco * ven * 100) / 100;
+      const venda = { id: uid(), mov: "venda", tipo: m.tipo, qtd: ven, preco: Math.round(preco * 100) / 100, valor, data, quem: m.quem, obs: "Vendida pela loja", consigId: m.id, pagamentos: [{ forma: A.forma, valor }], criadoEm: Date.now() };
+      if (A.forma === "Cartão") venda.taxa = S.cfg.taxaCartao || 0;
+      S.movs.push(venda);
+    }
+    if (dev) { m.acertos = (m.acertos || []).concat([{ data, devolvidas: dev }]); }
+    if (!salvar()) return;
+    const partes = [ven ? `${plural(ven, "vendida", "vendidas")}${A.forma === "A receber" ? " (a receber)" : ""}` : "", dev ? `${plural(dev, "voltou", "voltaram")} para o estoque` : ""].filter(Boolean).join(", ");
+    toast(`Acerto salvo: ${partes}`);
+    if (navigator.vibrate) navigator.vibrate(12);
+    render();
+    if (S.movs.some(x => x.mov === "loja" && restLoja(x) > 0)) abrirLojas(); else fecharFolha();
+  });
 
   // ── a receber ──────────────────────────────────────
   // Uma venda "A receber" guarda a parte pendente como um pagamento com forma "A receber".
@@ -1198,7 +1361,7 @@ h2 { margin: 0; font-size: 17px; font-weight: 700; letter-spacing: -0.01em; }
     $("t-plate").innerHTML = plateHTML(t, x, true).replace('class="plate"', 'class="plate" style="width:100%"');
     const up = ultimoPreco(id);
     const linhas = [
-      ["Em estoque", int.format(x.rec - x.ven)], ["Recebidas", int.format(x.rec)], ["Vendidas", int.format(x.ven)],
+      ["Em estoque", int.format(emEstoque(x))], ...(x.loja ? [["Nas lojas", int.format(x.loja)]] : []), ["Recebidas", int.format(x.rec)], ["Vendidas", int.format(x.ven)],
       ["Faturado", brl.format(x.fat)], ["Preço médio", x.ven ? brl.format(x.fat / x.ven) : "—"],
     ];
     if (up) linhas.push(["Último preço", brl.format(up)]);
@@ -1286,6 +1449,10 @@ h2 { margin: 0; font-size: 17px; font-weight: 700; letter-spacing: -0.01em; }
       const venda = m.mov === "venda", pg = {};
       (m.pagamentos || []).forEach(p => pg[p.forma] = (pg[p.forma] || 0) + (p.valor || 0));
       const lc = venda ? lucroVenda(m, cm) : null;
+      if (m.mov === "loja") {
+        linhas.push([m.data.split("-").reverse().join("/"), "Deixada na loja", tipoDe(m.tipo).nome, m.qtd, m.preco ? num(m.preco) : "", "", ...FORMAS.map(() => ""), "", "", m.quem, [m.obs, `restam ${restLoja(m)} na loja`].filter(Boolean).join(" · ")].map(c).join(";"));
+        return;
+      }
       linhas.push([m.data.split("-").reverse().join("/"), venda ? "Venda" : "Entrada", tipoDe(m.tipo).nome, m.qtd,
         m.qtd ? num(venda && m.preco >= 0 ? m.preco : (m.valor || 0) / m.qtd) : "", num(m.valor),
         ...FORMAS.map(f => pg[f] ? num(pg[f]) : ""), venda && taxaVenda(m) ? num(taxaVenda(m)) : "", lc != null ? num(lc) : "", m.quem, m.obs].map(c).join(";"));

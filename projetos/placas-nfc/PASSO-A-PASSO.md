@@ -45,6 +45,14 @@ Se a branch for juntada na `main` um dia, troque a branch do Pages para `main` c
 - **Taxa da maquininha** em Ajustes → Pagamentos (%). Fica gravada em cada venda no cartão (`taxa`), sai do lucro e aparece como "Taxas da maquininha" nos Resultados e numa coluna da planilha.
 - Limite conhecido: o dinheiro recebido depois conta no mês da VENDA, não no mês em que entrou.
 
+## Versão 1.3 (27/10/2026): placas deixadas nas lojas (consignado)
+
+- Novo tipo de lançamento **"Na loja"** (`mov: "loja"`): placa, quantidade, preço combinado, nome da loja (obrigatório). As placas saem do estoque e aparecem como "na loja" (Início, cartão da placa, detalhe).
+- **Acerto** (cartão azul "Placas deixadas nas lojas" → Acertar): quantas a loja vendeu, quantas voltaram, preço e como pagou (Pix, Dinheiro, Cartão ou "Ainda não pagou" = A receber).
+  - O vendido vira uma **venda comum** com `consigId` apontando para o registro da loja; o que voltou fica em `acertos: [{data, devolvidas}]`.
+  - O que ainda está na loja é calculado (`restLoja`): quantidade − vendas ligadas − devolvidas. Editar ou apagar a venda ligada atualiza a conta sozinho.
+- Histórico ganhou o filtro "Nas lojas"; a planilha mostra "Deixada na loja" com quantas restam.
+
 ## Como atualizar o app
 
 Editar `docs/index.html`, subir a versão em `VERSAO_APP` e o nome do cache em `docs/sw.js` (`placas-nfc-v1` → `v2`), depois commit e push. O app pega a versão nova na próxima vez que abrir com internet.
