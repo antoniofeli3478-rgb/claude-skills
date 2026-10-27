@@ -53,6 +53,12 @@ Se a branch for juntada na `main` um dia, troque a branch do Pages para `main` c
   - O que ainda está na loja é calculado (`restLoja`): quantidade − vendas ligadas − devolvidas. Editar ou apagar a venda ligada atualiza a conta sozinho.
 - Histórico ganhou o filtro "Nas lojas"; a planilha mostra "Deixada na loja" com quantas restam.
 
+## 27/10/2026: ligado ao app Finanças
+
+- O Plaquinhas NFC continua um app separado, com a mesma tela da 1.3. O app **Finanças** (repositório `Finan-as`) lê os dados dele (chave `placas-nfc:v1`) na aba **Meus negócios**, só leitura.
+- **Não mudar o formato dos dados** sem atualizar o conversor do Finanças (`src/integracoes/nfc.ts` no repositório Finan-as).
+- `docs/sw.js` (cache v6) ignora a pasta `financeiro/`, que hoje é só um redirecionamento para o Finanças.
+
 ## Como atualizar o app
 
 Editar `docs/index.html`, subir a versão em `VERSAO_APP` e o nome do cache em `docs/sw.js` (`placas-nfc-v1` → `v2`), depois commit e push. O app pega a versão nova na próxima vez que abrir com internet.
