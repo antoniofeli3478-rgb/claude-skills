@@ -37,6 +37,14 @@ Se a branch for juntada na `main` um dia, troque a branch do Pages para `main` c
 - Registros da 1.0 são convertidos sozinhos ao abrir (`migrarMov`), inclusive ao restaurar uma cópia antiga.
 - No container, `pkill -f http.server` derruba o próprio shell (saída 144): pare o servidor de teste pelo PID.
 
+## Versão 1.2 (27/10/2026): forma de pagamento que serve para alguma coisa
+
+- **A receber (fiado):** cartão laranja no Início com o total devido e quantos clientes. Abre a lista (mais antigos primeiro, em vermelho depois de 30 dias) com o botão "Recebi": escolhe Pix/Dinheiro/Cartão e o valor (pode ser parcial). A parte "A receber" da venda diminui e entra um pagamento com `recebidoEm`.
+- Ao marcar "A receber" sem nome de cliente, o app pede o nome.
+- **Filtro por pagamento no Histórico** (Pix, Dinheiro, Cartão, Devendo), com o total daquela forma no cabeçalho de cada mês. Tocar numa linha de "Como entrou o dinheiro" abre o histórico já filtrado.
+- **Taxa da maquininha** em Ajustes → Pagamentos (%). Fica gravada em cada venda no cartão (`taxa`), sai do lucro e aparece como "Taxas da maquininha" nos Resultados e numa coluna da planilha.
+- Limite conhecido: o dinheiro recebido depois conta no mês da VENDA, não no mês em que entrou.
+
 ## Como atualizar o app
 
 Editar `docs/index.html`, subir a versão em `VERSAO_APP` e o nome do cache em `docs/sw.js` (`placas-nfc-v1` → `v2`), depois commit e push. O app pega a versão nova na próxima vez que abrir com internet.

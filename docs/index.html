@@ -255,8 +255,26 @@ h2 { margin: 0; font-size: 17px; font-weight: 700; letter-spacing: -0.01em; }
 .pays div { display: flex; justify-content: space-between; gap: 10px; }
 .pays span { color: var(--muted); }
 .pays b { font-variant-numeric: tabular-nums; }
-.pays .due b { color: var(--warn); }
+.pays .pend b, .pays .pend span { color: var(--warn); }
 .item .v .lucro { color: var(--good); font-weight: 600; }
+.item .v .falta { color: var(--warn); font-weight: 700; }
+.pays .go { border: 0; background: none; padding: 2px 0; width: 100%; text-align: left; font-size: 14px; color: inherit; cursor: pointer; }
+.pays .go span::after { content: " ›"; color: var(--muted); }
+.pays .fee b { color: var(--bad); }
+.due-card { display: flex; align-items: center; gap: 12px; width: 100%; border: 0; text-align: left; background: var(--warn-soft); color: var(--warn); border-radius: var(--r-md); padding: 12px 14px; }
+.due-card .grow { flex: 1; min-width: 0; }
+.due-card b { display: block; font-size: 20px; font-variant-numeric: tabular-nums; }
+.due-card small { display: block; font-size: 13px; font-weight: 600; opacity: .85; }
+.due-card .chev { font-size: 22px; }
+.dues { display: flex; flex-direction: column; gap: 10px; }
+.due { background: var(--surface-2); border-radius: var(--r-md); padding: 12px 14px; display: grid; grid-template-columns: 1fr auto; gap: 4px 12px; align-items: center; }
+.due .who { font-weight: 700; font-size: 16px; min-width: 0; overflow-wrap: anywhere; }
+.due .amt { font-weight: 700; font-size: 17px; color: var(--warn); text-align: right; font-variant-numeric: tabular-nums; }
+.due .info { font-size: 13px; color: var(--muted); }
+.due .late { color: var(--bad); font-weight: 600; }
+.due button { border: 0; border-radius: 10px; background: var(--accent); color: var(--accent-ink); font-weight: 700; font-size: 14px; padding: 8px 14px; justify-self: end; }
+.rowinput { width: 96px; text-align: right; background: var(--surface-2); border: 1.5px solid transparent; border-radius: 10px; padding: 8px 10px; font-size: 16px; font-weight: 600; }
+.rowinput:focus { border-color: var(--accent); outline: none; }
 .quick { border: 0; background: var(--accent-soft); color: var(--accent); border-radius: 10px; padding: 8px 12px; font-size: 14px; font-weight: 600; align-self: flex-start; }
 .helper { margin: 0; font-size: 14px; color: var(--muted); }
 .warnbox { background: var(--warn-soft); color: var(--warn); border-radius: 12px; padding: 10px 12px; font-size: 14px; font-weight: 500; }
@@ -342,6 +360,7 @@ h2 { margin: 0; font-size: 17px; font-weight: 700; letter-spacing: -0.01em; }
         <div class="mini"><span id="h-fat-l">Faturado este mês</span><b class="n" id="h-fat">R$ 0,00</b><small id="h-fat-s">nenhuma venda ainda</small></div>
         <div class="mini"><span>Vendidas este mês</span><b class="n" id="h-ven">0</b><small id="h-ven-s">placas</small></div>
       </div>
+      <button type="button" class="due-card" id="due-card" hidden><span class="grow"><small>A receber dos clientes</small><b id="due-total">R$ 0,00</b><small id="due-sub"></small></span><span class="chev">›</span></button>
       <div class="alerts" id="alerts" hidden></div>
     </div>
 
@@ -384,6 +403,7 @@ h2 { margin: 0; font-size: 17px; font-weight: 700; letter-spacing: -0.01em; }
       <button type="button" class="fchip" data-f="entrada" aria-pressed="false">Entradas</button>
     </div>
     <div class="filters" id="f-tipo"></div>
+    <div class="filters" id="f-pag"></div>
     <div id="hist"></div>
   </section>
 
@@ -392,6 +412,14 @@ h2 { margin: 0; font-size: 17px; font-weight: 700; letter-spacing: -0.01em; }
     <div class="sec">
       <div class="sec-head"><h2>Tipos de placa</h2></div>
       <div class="rows" id="tipos-list"></div>
+    </div>
+
+    <div class="sec">
+      <div class="sec-head"><h2>Pagamentos</h2></div>
+      <div class="rows">
+        <label class="row" for="cfg-taxa"><span class="grow">Taxa da maquininha (%)<small>Descontada do lucro nas vendas no cartão</small></span><input class="rowinput" id="cfg-taxa" type="text" inputmode="decimal" placeholder="0,00" autocomplete="off"></label>
+      </div>
+      <p class="note" id="taxa-note">Exemplo: se a maquininha cobra 3,99% no crédito, coloque 3,99. Deixe vazio se não usa cartão.</p>
     </div>
 
     <div class="sec">
@@ -553,6 +581,35 @@ h2 { margin: 0; font-size: 17px; font-weight: 700; letter-spacing: -0.01em; }
   </div>
 </div>
 
+<!-- Folha: a receber -->
+<div class="sheet" id="sh-receber" role="dialog" aria-modal="true" aria-labelledby="r-title">
+  <div class="grab"></div>
+  <div class="sheet-head"><h2 id="r-title">A receber</h2><button type="button" class="close" data-close aria-label="Fechar">✕</button></div>
+  <div class="form">
+    <p class="helper" id="r-resumo"></p>
+    <div class="dues" id="r-lista"></div>
+  </div>
+</div>
+
+<!-- Folha: registrar recebimento -->
+<div class="sheet" id="sh-recebi" role="dialog" aria-modal="true" aria-labelledby="rr-title">
+  <div class="grab"></div>
+  <div class="sheet-head"><h2 id="rr-title">Recebi</h2><button type="button" class="close" data-close aria-label="Fechar">✕</button></div>
+  <form class="form" id="rr-form" novalidate>
+    <div class="totalbox" id="rr-falta"></div>
+    <div class="field"><span>Como pagou</span>
+      <div class="chips" id="rr-forma">
+        <button type="button" class="chip" data-f="Pix" aria-pressed="true">Pix</button>
+        <button type="button" class="chip" data-f="Dinheiro" aria-pressed="false">Dinheiro</button>
+        <button type="button" class="chip" data-f="Cartão" aria-pressed="false">Cartão</button>
+      </div>
+    </div>
+    <div class="field"><span>Quanto recebeu</span><div class="money"><input id="rr-valor" type="text" inputmode="decimal" autocomplete="off"></div></div>
+    <p class="helper" id="rr-msg"></p>
+    <button type="submit" class="btn" id="rr-save">Confirmar recebimento</button>
+  </form>
+</div>
+
 <!-- Folha: confirmar -->
 <div class="sheet" id="sh-confirm" role="dialog" aria-modal="true" aria-labelledby="c-title">
   <div class="grab"></div>
@@ -568,7 +625,7 @@ h2 { margin: 0; font-size: 17px; font-weight: 700; letter-spacing: -0.01em; }
 <script>
 (() => {
   "use strict";
-  const VERSAO_APP = "1.1";
+  const VERSAO_APP = "1.2";
   const KEY = "placas-nfc:v1";
   const NFC_SVG = '<svg class="plate-nfc" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M6 8.5a5 5 0 0 1 0 7"/><path d="M9.5 6a9 9 0 0 1 0 12"/><path d="M13 3.5a13 13 0 0 1 0 17"/></svg>';
 
@@ -602,7 +659,7 @@ h2 { margin: 0; font-size: 17px; font-weight: 700; letter-spacing: -0.01em; }
 
   // ── estado ─────────────────────────────────────────
   let S = carregar();
-  function novoEstado() { return { versao: 1, tipos: PADRAO.map(t => ({ ...t })), movs: [], cfg: { tema: "auto", pinHash: null, ultimoBackup: null, semAvisoInstalar: false } }; }
+  function novoEstado() { return { versao: 1, tipos: PADRAO.map(t => ({ ...t })), movs: [], cfg: { tema: "auto", pinHash: null, ultimoBackup: null, semAvisoInstalar: false, taxaCartao: 0 } }; }
   function carregar() {
     try {
       const raw = localStorage.getItem(KEY);
@@ -618,7 +675,7 @@ h2 { margin: 0; font-size: 17px; font-weight: 700; letter-spacing: -0.01em; }
     return m;
   }
   const FORMAS = ["Pix", "Dinheiro", "Cartão", "A receber"];
-  const nomesPag = (m) => (m.pagamentos || []).map(p => p.forma).join(" + ");
+  const nomesPag = (m) => [...new Set((m.pagamentos || []).map(p => p.forma))].map(f => f === "A receber" ? "Fiado" : f).join(" + ");
   function salvar() {
     try { localStorage.setItem(KEY, JSON.stringify(S)); return true; }
     catch (e) { toast("Não deu para salvar: o armazenamento do celular está cheio ou bloqueado.", true); return false; }
@@ -653,7 +710,13 @@ h2 { margin: 0; font-size: 17px; font-weight: 700; letter-spacing: -0.01em; }
     S.movs.forEach(m => { if (m.mov === "entrada" && m.valor > 0 && m.qtd > 0) { c[m.tipo] = c[m.tipo] || { v: 0, q: 0 }; c[m.tipo].v += m.valor; c[m.tipo].q += m.qtd; } });
     const r = {}; Object.keys(c).forEach(k => r[k] = c[k].v / c[k].q); return r;
   }
-  function lucroVenda(m, cm) { cm = cm || custosMedios(); const u = cm[m.tipo]; return u == null ? null : (m.valor || 0) - m.qtd * u; }
+  // Quanto o cliente ainda deve nesta venda (a parte marcada como "A receber")
+  const pendente = (m) => (m.pagamentos || []).filter(p => p.forma === "A receber").reduce((s, p) => s + (p.valor || 0), 0);
+  // Taxa da maquininha: vale a que estava configurada quando a venda foi salva
+  const taxaDe = (m) => (m.taxa >= 0 ? m.taxa : (S.cfg.taxaCartao || 0));
+  const taxaVenda = (m) => Math.round((m.pagamentos || []).filter(p => p.forma === "Cartão").reduce((s, p) => s + (p.valor || 0), 0) * taxaDe(m)) / 100;
+  function lucroVenda(m, cm) { cm = cm || custosMedios(); const u = cm[m.tipo]; return u == null ? null : (m.valor || 0) - m.qtd * u - taxaVenda(m); }
+  const somaPorForma = (m) => { const r = {}; (m.pagamentos || []).forEach(p => r[p.forma] = Math.round(((r[p.forma] || 0) + (p.valor || 0)) * 100) / 100); return r; };
   const vazio = () => ({ rec: 0, ven: 0, fat: 0, custo: 0, lucro: 0, fatComCusto: 0, semCusto: 0 });
   function porTipo(per) {
     const r = {}, cm = custosMedios();
@@ -677,7 +740,7 @@ h2 { margin: 0; font-size: 17px; font-weight: 700; letter-spacing: -0.01em; }
   const ordem = (a, b) => (b.data || "").localeCompare(a.data || "") || (b.criadoEm || 0) - (a.criadoEm || 0);
 
   // ── navegação ──────────────────────────────────────
-  let aba = "inicio", periodo = "mes", filtroMov = "", filtroTipo = "";
+  let aba = "inicio", periodo = "mes", filtroMov = "", filtroTipo = "", filtroPag = "";
   function irPara(nova) {
     aba = nova;
     ["inicio", "historico", "ajustes"].forEach(v => $("v-" + v).hidden = v !== nova);
@@ -720,6 +783,13 @@ h2 { margin: 0; font-size: 17px; font-weight: 700; letter-spacing: -0.01em; }
       else if (e <= BAIXO) al.push(`<button type="button" class="alert" data-tipo="${esc(t.id)}">${esc(t.nome)}: só ${e}</button>`);
     });
     $("alerts").hidden = !al.length; $("alerts").innerHTML = al.join("");
+
+    const pend = S.movs.filter(m => m.mov === "venda" && pendente(m) > 0.004);
+    const totPend = pend.reduce((s, m) => s + pendente(m), 0);
+    const clientes = new Set(pend.map(m => (m.quem || "").trim().toLowerCase() || "#" + m.id));
+    $("due-card").hidden = !pend.length;
+    $("due-total").textContent = brl.format(totPend);
+    $("due-sub").textContent = `${plural(clientes.size, "cliente", "clientes")} · toque para registrar quando pagarem`;
 
     $("plates").innerHTML = S.tipos.map(t => plateHTML(t, tot[t.id])).join("") +
       `<button type="button" class="plate add" id="plate-add"><span style="font-size:26px;line-height:1">+</span>Novo tipo</button>`;
@@ -764,9 +834,10 @@ h2 { margin: 0; font-size: 17px; font-weight: 700; letter-spacing: -0.01em; }
     $("stats").innerHTML = cards.map(c => `<div class="mini"><span>${c[0]}</span><b class="n">${c[1]}</b><small>${c[2]}</small></div>`).join("");
 
     // Quanto entrou por forma de pagamento
-    const porForma = {}; let semForma = 0;
-    vendasPer.forEach(m => { if (!(m.pagamentos || []).length) semForma += m.valor || 0; (m.pagamentos || []).forEach(p => porForma[p.forma] = (porForma[p.forma] || 0) + (p.valor || 0)); });
-    const linhasPag = FORMAS.filter(f => porForma[f]).map(f => `<div class="${f === "A receber" ? "due" : ""}"><span>${f === "A receber" ? "Ainda a receber" : f}</span><b>${brl.format(porForma[f])}</b></div>`);
+    const porForma = {}; let semForma = 0, taxas = 0;
+    vendasPer.forEach(m => { if (!(m.pagamentos || []).length) semForma += m.valor || 0; (m.pagamentos || []).forEach(p => porForma[p.forma] = (porForma[p.forma] || 0) + (p.valor || 0)); taxas += taxaVenda(m); });
+    const linhasPag = FORMAS.filter(f => porForma[f] > 0.004).map(f => `<div class="${f === "A receber" ? "pend" : ""}"><button type="button" class="go" data-forma="${f}" style="display:flex;justify-content:space-between;gap:10px"><span>${f === "A receber" ? "Ainda a receber" : f}</span><b>${brl.format(porForma[f])}</b></button></div>`);
+    if (taxas > 0) linhasPag.push(`<div class="fee"><span>Taxas da maquininha</span><b>−${brl.format(taxas)}</b></div>`);
     if (semForma) linhasPag.push(`<div><span>Sem forma informada</span><b>${brl.format(semForma)}</b></div>`);
     $("pays-wrap").hidden = !linhasPag.length;
     $("pays").innerHTML = linhasPag.join("");
@@ -803,11 +874,15 @@ h2 { margin: 0; font-size: 17px; font-weight: 700; letter-spacing: -0.01em; }
     $("f-tipo").innerHTML = [`<button type="button" class="fchip" data-t="" aria-pressed="${filtroTipo === ""}">Todas as placas</button>`]
       .concat(S.tipos.map(t => `<button type="button" class="fchip" data-t="${esc(t.id)}" aria-pressed="${filtroTipo === t.id}"><span class="sw" style="background:${visualTipo(t).bg};box-shadow:inset 0 0 0 1px rgba(0,0,0,.1)"></span>${esc(t.nome)}</button>`)).join("");
 
+    $("f-pag").innerHTML = [`<button type="button" class="fchip" data-p="" aria-pressed="${filtroPag === ""}">Qualquer pagamento</button>`]
+      .concat(FORMAS.map(f => `<button type="button" class="fchip" data-p="${f}" aria-pressed="${filtroPag === f}">${f === "A receber" ? "Devendo" : f}</button>`)).join("");
+
     if (!S.movs.length) {
       $("hist").innerHTML = `<div class="list"><div class="empty"><b>Nada lançado ainda</b>Toque no + para registrar as placas que chegaram. Depois, cada venda desconta do estoque.</div></div>`;
       return;
     }
-    const rows = S.movs.filter(m => (!filtroMov || m.mov === filtroMov) && (!filtroTipo || m.tipo === filtroTipo)).sort(ordem);
+    const passaPag = (m) => !filtroPag || (m.mov === "venda" && (filtroPag === "A receber" ? pendente(m) > 0.004 : (somaPorForma(m)[filtroPag] || 0) > 0));
+    const rows = S.movs.filter(m => (!filtroMov || m.mov === filtroMov) && (!filtroTipo || m.tipo === filtroTipo) && passaPag(m)).sort(ordem);
     if (!rows.length) { $("hist").innerHTML = `<div class="list"><div class="empty">Nenhum registro com esse filtro.</div></div>`; return; }
     const grupos = new Map();
     rows.forEach(m => { const k = (m.data || "").slice(0, 7); if (!grupos.has(k)) grupos.set(k, []); grupos.get(k).push(m); });
@@ -817,14 +892,16 @@ h2 { margin: 0; font-size: 17px; font-weight: 700; letter-spacing: -0.01em; }
       const fat = lista.filter(m => m.mov === "venda").reduce((s, m) => s + (m.valor || 0), 0);
       const ven = lista.filter(m => m.mov === "venda").reduce((s, m) => s + m.qtd, 0);
       const rec = lista.filter(m => m.mov === "entrada").reduce((s, m) => s + m.qtd, 0);
-      const resumo = [ven ? `${plural(ven, "vendida", "vendidas")} · ${brl.format(fat)}` : "", rec ? `${plural(rec, "recebida", "recebidas")}` : ""].filter(Boolean).join(" · ");
+      let resumo = [ven ? `${plural(ven, "vendida", "vendidas")} · ${brl.format(fat)}` : "", rec ? `${plural(rec, "recebida", "recebidas")}` : ""].filter(Boolean).join(" · ");
+      if (filtroPag) resumo = `${filtroPag === "A receber" ? "Devendo" : filtroPag}: ${brl.format(lista.reduce((s, m) => s + (somaPorForma(m)[filtroPag] || 0), 0))}`;
       html += `<div class="month"><div class="month-head"><h3>${MESES[+mm - 1]} ${y}</h3><span class="n">${resumo}</span></div><div class="list">`;
       const cm = custosMedios();
       html += lista.map(m => {
         const t = tipoDe(m.tipo), venda = m.mov === "venda";
         const det = [fmtData(m.data), m.quem, venda ? nomesPag(m) : "", m.obs].filter(Boolean).map(esc).join(" · ");
         const lc = venda ? lucroVenda(m, cm) : null;
-        const val = venda ? `${brl.format(m.valor || 0)}<small>${m.qtd > 1 ? brl.format(m.preco >= 0 ? m.preco : (m.valor || 0) / m.qtd) + " cada" : "1 placa"}</small>${lc != null ? `<small class="lucro">lucro ${brl.format(lc)}</small>` : ""}` : `+${int.format(m.qtd)}<small>${m.valor ? "custo " + brl.format(m.valor) : "no estoque"}</small>`;
+        const pd = venda ? pendente(m) : 0;
+        const val = venda ? `${brl.format(m.valor || 0)}${pd > 0.004 ? `<small class="falta">falta ${brl.format(pd)}</small>` : ""}<small>${m.qtd > 1 ? brl.format(m.preco >= 0 ? m.preco : (m.valor || 0) / m.qtd) + " cada" : "1 placa"}</small>${lc != null ? `<small class="lucro">lucro ${brl.format(lc)}</small>` : ""}` : `+${int.format(m.qtd)}<small>${m.valor ? "custo " + brl.format(m.valor) : "no estoque"}</small>`;
         return `<button type="button" class="item" data-id="${esc(m.id)}">
           <span class="ico n" style="${styleTipo(t)}">${venda ? "−" : "+"}${m.qtd}</span>
           <span style="min-width:0"><span class="t" style="display:block">${venda ? "Venda" : "Entrada"} · ${esc(t.nome)}</span><span class="d" style="display:block">${det}</span></span>
@@ -841,6 +918,7 @@ h2 { margin: 0; font-size: 17px; font-weight: 700; letter-spacing: -0.01em; }
       const x = tot[t.id] || { rec: 0, ven: 0 };
       return `<button type="button" class="row" data-edtipo="${esc(t.id)}"><span class="ico" style="${styleTipo(t)};width:34px;height:34px;border-radius:10px"></span><span class="grow">${esc(t.nome)}<small>${int.format(x.rec - x.ven)} em estoque</small></span><span class="chev">›</span></button>`;
     }).join("") + `<button type="button" class="row" data-edtipo=""><span class="ico" style="--p-bg:var(--surface-2);--p-ink:var(--accent);width:34px;height:34px;border-radius:10px;font-size:20px">+</span><span class="grow" style="color:var(--accent);font-weight:600">Adicionar tipo</span></button>`;
+    if (document.activeElement !== $("cfg-taxa")) $("cfg-taxa").value = S.cfg.taxaCartao ? fmtValorInput(S.cfg.taxaCartao) : "";
     $("pin-switch").setAttribute("aria-checked", !!S.cfg.pinHash);
     $("pin-change").hidden = !S.cfg.pinHash;
     $("bk-last").textContent = S.cfg.ultimoBackup ? "Última cópia: " + new Date(S.cfg.ultimoBackup).toLocaleDateString("pt-BR", { day: "numeric", month: "long", year: "numeric" }) : "Nenhuma cópia ainda";
@@ -859,6 +937,19 @@ h2 { margin: 0; font-size: 17px; font-weight: 700; letter-spacing: -0.01em; }
   $("go-tipos").addEventListener("click", () => irPara("ajustes"));
   $("f-mov").addEventListener("click", (e) => { const b = e.target.closest("[data-f]"); if (b) { filtroMov = b.dataset.f; renderHist(); } });
   $("f-tipo").addEventListener("click", (e) => { const b = e.target.closest("[data-t]"); if (b) { filtroTipo = b.dataset.t; renderHist(); } });
+  $("f-pag").addEventListener("click", (e) => { const b = e.target.closest("[data-p]"); if (b) { filtroPag = b.dataset.p; if (filtroPag) filtroMov = ""; renderHist(); } });
+  $("pays").addEventListener("click", (e) => {
+    const b = e.target.closest("[data-forma]"); if (!b) return;
+    if (b.dataset.forma === "A receber") { abrirReceber(); return; }
+    filtroPag = b.dataset.forma; filtroMov = ""; filtroTipo = ""; irPara("historico");
+  });
+  $("due-card").addEventListener("click", () => abrirReceber());
+  $("cfg-taxa").addEventListener("change", () => {
+    const raw = $("cfg-taxa").value.trim(), v = raw ? parseValor(raw) : 0;
+    if (!(v >= 0 && v < 100)) { toast("Coloque a taxa em porcentagem, por exemplo 3,99.", true); return; }
+    S.cfg.taxaCartao = Math.round(v * 100) / 100;
+    if (salvar()) { toast(v ? `Taxa de ${fmtValorInput(S.cfg.taxaCartao)}% salva` : "Taxa removida"); renderAjustes(); }
+  });
   $("hist").addEventListener("click", (e) => { const b = e.target.closest("[data-id]"); if (b) abrirLancar({ editId: b.dataset.id }); });
   $("tipos-list").addEventListener("click", (e) => { const b = e.target.closest("[data-edtipo]"); if (b) abrirEdTipo(b.dataset.edtipo); });
   document.querySelectorAll("[data-tema]").forEach(b => b.addEventListener("click", () => { S.cfg.tema = b.dataset.tema; salvar(); aplicarTema(); renderAjustes(); }));
@@ -899,7 +990,9 @@ h2 { margin: 0; font-size: 17px; font-weight: 700; letter-spacing: -0.01em; }
     L = { mov: m ? m.mov : (mov || "venda"), tipo: m ? m.tipo : (tipo || L.tipo || (S.tipos[0] && S.tipos[0].id)), editId: m ? m.id : null, pagSel: [], pagVal: {}, pagManual: {} };
     if (!S.tipos.some(t => t.id === L.tipo) && S.tipos[0] && !m) L.tipo = S.tipos[0].id;
     if (m && m.mov === "venda") {
-      (m.pagamentos || []).forEach(p => { L.pagSel.push(p.forma); L.pagVal[p.forma] = fmtValorInput(p.valor || 0); L.pagManual[p.forma] = true; });
+      const pf = somaPorForma(m);
+      L.pagSel = FORMAS.filter(f => pf[f] > 0 || (m.pagamentos || []).some(p => p.forma === f));
+      L.pagSel.forEach(f => { L.pagVal[f] = fmtValorInput(pf[f] || 0); L.pagManual[f] = true; });
     }
     $("l-qtd").value = m ? m.qtd : 1;
     $("l-valor").value = !m ? "" : m.mov === "venda" ? fmtValorInput(m.preco >= 0 ? m.preco : (m.valor || 0) / m.qtd) : (m.valor ? fmtValorInput(m.valor) : "");
@@ -964,6 +1057,10 @@ h2 { margin: 0; font-size: 17px; font-weight: 700; letter-spacing: -0.01em; }
         if (Math.abs(dif) < 0.005) { msg.className = "helper ok"; msg.textContent = "Os pagamentos fecham com o total."; }
         else { msg.className = "helper bad"; msg.textContent = dif > 0 ? `Falta ${brl.format(dif)} para fechar o total.` : `Passou ${brl.format(-dif)} do total.`; }
       } else msg.hidden = true;
+      if (L.pagSel.includes("A receber") && !$("l-quem").value.trim()) {
+        msg.hidden = false; msg.className = "helper bad";
+        msg.textContent = (L.pagSel.length >= 2 && total > 0 ? msg.textContent + " " : "") + "Coloque o nome do cliente para saber quem está devendo.";
+      }
     } else {
       $("l-total").hidden = true; $("l-split-msg").hidden = true;
       $("l-unit").hidden = !(q > 1 && v > 0);
@@ -997,6 +1094,7 @@ h2 { margin: 0; font-size: 17px; font-weight: 700; letter-spacing: -0.01em; }
   $("q-menos").addEventListener("click", () => { $("l-qtd").value = Math.max(1, (parseInt($("l-qtd").value, 10) || 1) - 1); calcLancar(); });
   $("q-mais").addEventListener("click", () => { $("l-qtd").value = (parseInt($("l-qtd").value, 10) || 0) + 1; calcLancar(); });
   $("l-qtd").addEventListener("input", calcLancar);
+  $("l-quem").addEventListener("input", calcLancar);
   $("l-valor").addEventListener("input", calcLancar);
   $("l-quick").addEventListener("click", () => { const up = ultimoPreco(L.tipo); if (up) { $("l-valor").value = fmtValorInput(up); calcLancar(); } });
   $("l-form").addEventListener("submit", (e) => {
@@ -1021,6 +1119,10 @@ h2 { margin: 0; font-size: 17px; font-weight: 700; letter-spacing: -0.01em; }
         if (Math.abs(soma - reg.valor) >= 0.005) { toast(`Os pagamentos somam ${brl.format(soma)}, mas a venda é de ${brl.format(reg.valor)}. Ajuste os valores.`, true); return; }
         reg.pagamentos = L.pagSel.map(f => ({ forma: f, valor: Math.round((parseValor(L.pagVal[f]) || 0) * 100) / 100 }));
       } else reg.pagamentos = L.pagSel.map(f => ({ forma: f, valor: reg.valor }));
+      if (reg.pagamentos.some(p => p.forma === "Cartão")) {
+        const antigo = L.editId ? S.movs.find(x => x.id === L.editId) : null;
+        reg.taxa = antigo && antigo.taxa >= 0 ? antigo.taxa : (S.cfg.taxaCartao || 0);
+      }
     } else reg.valor = v > 0 ? Math.round(v * 100) / 100 : 0;
     if (L.editId) S.movs = S.movs.map(x => x.id === L.editId ? reg : x); else S.movs.push(reg);
     if (!salvar()) return;
@@ -1033,6 +1135,59 @@ h2 { margin: 0; font-size: 17px; font-weight: 700; letter-spacing: -0.01em; }
   $("l-del").addEventListener("click", () => { $("l-del").hidden = true; $("l-del-confirm").hidden = false; });
   $("l-del-no").addEventListener("click", () => { $("l-del").hidden = false; $("l-del-confirm").hidden = true; });
   $("l-del-yes").addEventListener("click", () => { S.movs = S.movs.filter(x => x.id !== L.editId); if (salvar()) { fecharFolha(); toast("Registro apagado"); render(); } });
+
+  // ── a receber ──────────────────────────────────────
+  // Uma venda "A receber" guarda a parte pendente como um pagamento com forma "A receber".
+  // Quando o cliente paga, essa parte diminui e entra um pagamento novo (Pix, Dinheiro ou Cartão).
+  const diasDesde = (d) => Math.max(0, Math.round((new Date(hoje()) - new Date(d)) / 86400000));
+  function abrirReceber() {
+    const pend = S.movs.filter(m => m.mov === "venda" && pendente(m) > 0.004).sort((a, b) => (a.data || "").localeCompare(b.data || ""));
+    if (!pend.length) { if (folhaAberta) fecharFolha(); toast("Ninguém está devendo"); return; }
+    const tot = pend.reduce((s, m) => s + pendente(m), 0);
+    $("r-resumo").textContent = `${brl.format(tot)} no total, das vendas mais antigas para as mais novas.`;
+    $("r-lista").innerHTML = pend.map(m => {
+      const dias = diasDesde(m.data), t = tipoDe(m.tipo);
+      const quando = dias === 0 ? "hoje" : dias === 1 ? "ontem" : `há ${dias} dias`;
+      return `<div class="due"><span class="who">${esc(m.quem || "Cliente sem nome")}</span><span class="amt">${brl.format(pendente(m))}</span>
+        <span class="info">${plural(m.qtd, "placa", "placas")} ${esc(t.nome)} · ${fmtData(m.data)} · <span class="${dias > 30 ? "late" : ""}">${quando}</span></span>
+        <button type="button" data-receber="${esc(m.id)}">Recebi</button></div>`;
+    }).join("");
+    abrirFolha("sh-receber");
+  }
+  $("r-lista").addEventListener("click", (e) => { const b = e.target.closest("[data-receber]"); if (b) abrirRecebi(b.dataset.receber); });
+  let R = { id: null, forma: "Pix" };
+  function abrirRecebi(id) {
+    const m = S.movs.find(x => x.id === id); if (!m) return;
+    R = { id, forma: "Pix" };
+    $("rr-title").textContent = `Receber de ${m.quem || "cliente sem nome"}`;
+    $("rr-falta").innerHTML = `<span>Falta receber</span><b>${brl.format(pendente(m))}</b>`;
+    $("rr-valor").value = fmtValorInput(pendente(m));
+    document.querySelectorAll("#rr-forma [data-f]").forEach(b => b.setAttribute("aria-pressed", b.dataset.f === R.forma));
+    $("rr-msg").textContent = "Se ele pagou só uma parte, mude o valor. O resto continua em aberto.";
+    abrirFolha("sh-recebi");
+  }
+  $("rr-forma").addEventListener("click", (e) => { const b = e.target.closest("[data-f]"); if (!b) return; R.forma = b.dataset.f; document.querySelectorAll("#rr-forma [data-f]").forEach(x => x.setAttribute("aria-pressed", x === b)); });
+  $("rr-form").addEventListener("submit", (e) => {
+    e.preventDefault();
+    const m = S.movs.find(x => x.id === R.id); if (!m) return;
+    const falta = Math.round(pendente(m) * 100) / 100, v = Math.round((parseValor($("rr-valor").value) || 0) * 100) / 100;
+    if (!(v > 0)) { toast("Coloque quanto o cliente pagou.", true); return; }
+    if (v > falta + 0.004) { toast(`O cliente deve só ${brl.format(falta)} nesta venda.`, true); return; }
+    let resto = v;
+    m.pagamentos = (m.pagamentos || []).map(p => {
+      if (p.forma !== "A receber" || resto <= 0) return p;
+      const tira = Math.min(p.valor || 0, resto); resto -= tira;
+      return { ...p, valor: Math.round(((p.valor || 0) - tira) * 100) / 100 };
+    }).filter(p => !(p.forma === "A receber" && p.valor <= 0.004));
+    m.pagamentos.push({ forma: R.forma, valor: v, recebidoEm: hoje() });
+    if (R.forma === "Cartão" && !(m.taxa >= 0)) m.taxa = S.cfg.taxaCartao || 0;
+    if (!salvar()) return;
+    const quitou = pendente(m) <= 0.004;
+    toast(quitou ? `${m.quem || "Cliente"} quitou: ${brl.format(v)} no ${R.forma}` : `Recebido ${brl.format(v)}. Ainda falta ${brl.format(pendente(m))}`);
+    if (navigator.vibrate) navigator.vibrate(12);
+    render();
+    if (S.movs.some(x => x.mov === "venda" && pendente(x) > 0.004)) abrirReceber(); else fecharFolha();
+  });
 
   // ── detalhe da placa ───────────────────────────────
   let tipoAberto = null;
@@ -1126,14 +1281,14 @@ h2 { margin: 0; font-size: 17px; font-weight: 700; letter-spacing: -0.01em; }
     const c = (s) => `"${String(s ?? "").replace(/"/g, '""')}"`;
     const num = (v) => (v || 0).toFixed(2).replace(".", ",");
     const cm = custosMedios();
-    const linhas = [["Data", "Movimento", "Placa", "Quantidade", "Valor por placa (R$)", "Valor total (R$)", ...FORMAS.map(f => f + " (R$)"), "Lucro (R$)", "Cliente/Fornecedor", "Observação"].map(c).join(";")];
+    const linhas = [["Data", "Movimento", "Placa", "Quantidade", "Valor por placa (R$)", "Valor total (R$)", ...FORMAS.map(f => f + " (R$)"), "Taxa do cartão (R$)", "Lucro (R$)", "Cliente/Fornecedor", "Observação"].map(c).join(";")];
     S.movs.slice().sort(ordem).reverse().forEach(m => {
       const venda = m.mov === "venda", pg = {};
       (m.pagamentos || []).forEach(p => pg[p.forma] = (pg[p.forma] || 0) + (p.valor || 0));
       const lc = venda ? lucroVenda(m, cm) : null;
       linhas.push([m.data.split("-").reverse().join("/"), venda ? "Venda" : "Entrada", tipoDe(m.tipo).nome, m.qtd,
         m.qtd ? num(venda && m.preco >= 0 ? m.preco : (m.valor || 0) / m.qtd) : "", num(m.valor),
-        ...FORMAS.map(f => pg[f] ? num(pg[f]) : ""), lc != null ? num(lc) : "", m.quem, m.obs].map(c).join(";"));
+        ...FORMAS.map(f => pg[f] ? num(pg[f]) : ""), venda && taxaVenda(m) ? num(taxaVenda(m)) : "", lc != null ? num(lc) : "", m.quem, m.obs].map(c).join(";"));
     });
     await entregarArquivo(`placas-nfc-${hoje()}.csv`, "﻿" + linhas.join("\r\n"), "text/csv");
   });
