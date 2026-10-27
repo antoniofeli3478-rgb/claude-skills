@@ -1,11 +1,11 @@
 # Minhas Finanças: passo a passo
 
-App de finanças pessoais que roda no computador do Daniel, sem internet e sem instalar pacotes (só o Python 3).
+App de finanças pessoais que roda no computador do Daniel: abre com dois cliques no `index.html`, sem instalar nada e sem internet.
 
 ## Onde está o código
 
 - Cópia de segurança: branch `ccr-6d4f3f42-u1lz3q` deste repositório, pasta `app-minhas-financas/`.
-- Destino final: repositório próprio `minhas-financas` no GitHub do Daniel. Em 27/10/2026 o Claude **não conseguiu criar o repositório** (o app do GitHub não tem permissão de criar repositórios: erro 403). O Daniel precisa criar um repositório vazio com esse nome e adicioná-lo à sessão; aí é só copiar a pasta e dar push.
+- Destino final: repositório próprio `minhas-financas` no GitHub do Daniel. Em 27/10/2026 o Claude **não conseguiu criar o repositório** (o app do GitHub não tem permissão de criar repositórios: erro 403). O Daniel cria um repositório vazio em https://github.com/new?name=minhas-financas e o adiciona à sessão; aí é só dar push do repositório local (`/home/user/minhas-financas`, 2 commits) ou copiar a pasta.
 
 ## O que foi feito (27/10/2026)
 
@@ -15,7 +15,13 @@ App de finanças pessoais que roda no computador do Daniel, sem internet e sem i
 3. **Funções:** painel (cartões, rosca por categoria, barras de 6 meses, saldo das contas, orçamento), lançamentos (despesa, receita, transferência, repetir todo mês, parcelado, pendente), orçamento por categoria, metas, contas e categorias editáveis, tema claro/escuro, backup JSON, exportar/importar CSV, dados de exemplo, atalhos de teclado.
 4. **Teste:** Playwright (Chromium do container) no computador (1280 px) e no celular (390 px): sem erros no console, sem rolagem lateral, parcelas somando o valor certo (1000,00 em 3x = 333,34 + 333,33 + 333,33).
 
-## Comandos
+## Mudança (27/10/2026, pedido do Daniel)
+
+O Daniel não quis Python ("é só um aplicativo pra rodar local"). Removido o `financas.py` e os atalhos `.bat`/`.sh`; a interface foi para a raiz (`index.html`, `style.css`, `app.js`, `vendor/`). Os dados ficam no localStorage do navegador, com lembrete de backup a cada 15 dias (`config.ultimoBackup`). Testado abrindo por `file://`: salva, recarrega e baixa o backup sem erros.
+
+**Aprendizado:** para app pessoal "local" do Daniel, o padrão é **HTML puro que abre com dois cliques**, sem servidor nem instalação.
+
+## Comandos (versão antiga, com Python; não usar mais)
 
 ```bash
 python3 financas.py                 # abre o app em http://127.0.0.1:8765
