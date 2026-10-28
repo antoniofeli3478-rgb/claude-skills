@@ -32,7 +32,7 @@ Virou **PWA** (site instalável), hospedado grátis no **GitHub Pages**: https:/
 
 **Aprendizados:**
 - "Baixar no celular" para o Daniel = PWA no GitHub Pages; não é preciso APK nem loja.
-- Para ver por que o Pages falhou: `actions_list` (run "pages build and deployment") e depois `get_job_logs`. Para um usuário leigo, guarde o app em `docs/` desde o começo: funciona com as duas opções do Pages mais prováveis de serem escolhidas.
+- Para ver por que o Pages falhou: `actions_list` (run "pages build and deployment") e depois `get_job_logs`. Ao pedir para ligar o Pages, diga a pasta exata e confira o build logo depois: a pasta escolhida no Pages precisa ser a pasta onde está o `index.html`.
 - `pkill -f` matou o shell **de novo**: usar `kill $(pgrep -f "padrao[x]")` (o colchete impede que o padrão case com o próprio comando).
 
 ## Comandos (versão antiga, com Python; não usar mais)
