@@ -4,8 +4,8 @@ App de finanças pessoais que roda no computador do Daniel: abre com dois clique
 
 ## Onde está o código
 
-- Cópia de segurança: branch `ccr-6d4f3f42-u1lz3q` deste repositório, pasta `app-minhas-financas/`.
-- Destino final: repositório próprio `minhas-financas` no GitHub do Daniel. Em 27/10/2026 o Claude **não conseguiu criar o repositório** (o app do GitHub não tem permissão de criar repositórios: erro 403). O Daniel cria um repositório vazio em https://github.com/new?name=minhas-financas e o adiciona à sessão; aí é só dar push do repositório local (`/home/user/minhas-financas`, 2 commits) ou copiar a pasta.
+- Repositório próprio: https://github.com/antoniofeli3478-rgb/minha-financa (branch `main`, público). Criado pelo Daniel em 28/10/2026, porque o app do GitHub do Claude não tem permissão para criar repositórios (erro 403); o Claude só enviou o código.
+- O Daniel também tem o repositório `Minhasfinancas`, de 27/10/2026, que **não foi mexido**. Ele pode ser o app parecido que fez antes.
 
 ## O que foi feito (27/10/2026)
 
@@ -42,5 +42,4 @@ python3 financas.py --porta 8800 --sem-navegador
 
 ## Próximo passo
 
-- Criar o repositório `minhas-financas` e publicar lá.
 - Ideias se o Daniel quiser: cartão de crédito com fatura e fechamento, relatório anual, senha para abrir, versão para celular (PWA).
