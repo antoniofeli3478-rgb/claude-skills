@@ -21,6 +21,19 @@ O Daniel não quis Python ("é só um aplicativo pra rodar local"). Removido o `
 
 **Aprendizado:** para app pessoal "local" do Daniel, o padrão é **HTML puro que abre com dois cliques**, sem servidor nem instalação.
 
+## App de celular (28/10/2026, pedido do Daniel: "baixar no celular e ir pra tela inicial")
+
+Virou **PWA** (site instalável), hospedado grátis no **GitHub Pages**: https://antoniofeli3478-rgb.github.io/minha-financa/
+- `manifest.webmanifest` + ícones em `icons/` (gerados pelo Playwright a partir de um SVG: normal, maskable e apple-touch-icon) + `sw.js` (offline, rede primeiro e cache como reserva; **aumentar `VERSION` a cada mudança**) + `.nojekyll`.
+- No celular (até 640 px): barra de abas embaixo com ícones, botão "+" flutuante com menu (despesa, receita, transferência), lista de lançamentos empilhada no lugar da tabela, formulário abrindo de baixo, campos com 16 px (o iPhone não dá zoom), safe-area do iPhone.
+- O backup no celular abre o menu de compartilhar (Drive, WhatsApp); `navigator.storage.persist()` pede para o sistema não apagar os dados.
+- Testado com Playwright emulando um Pixel 7: instalação do service worker, uso offline, sem erros e sem rolagem lateral.
+- **O GitHub Pages precisa ser ligado pelo Daniel** (o Claude não tem ferramenta para isso): Settings → Pages → Branch `main`, `/ (root)` → Save.
+
+**Aprendizados:**
+- "Baixar no celular" para o Daniel = PWA no GitHub Pages; não é preciso APK nem loja.
+- `pkill -f` matou o shell **de novo**: usar `kill $(pgrep -f "padrao[x]")` (o colchete impede que o padrão case com o próprio comando).
+
 ## Comandos (versão antiga, com Python; não usar mais)
 
 ```bash
