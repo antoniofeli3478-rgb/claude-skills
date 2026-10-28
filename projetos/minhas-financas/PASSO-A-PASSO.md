@@ -28,10 +28,11 @@ Virou **PWA** (site instalável), hospedado grátis no **GitHub Pages**: https:/
 - No celular (até 640 px): barra de abas embaixo com ícones, botão "+" flutuante com menu (despesa, receita, transferência), lista de lançamentos empilhada no lugar da tabela, formulário abrindo de baixo, campos com 16 px (o iPhone não dá zoom), safe-area do iPhone.
 - O backup no celular abre o menu de compartilhar (Drive, WhatsApp); `navigator.storage.persist()` pede para o sistema não apagar os dados.
 - Testado com Playwright emulando um Pixel 7: instalação do service worker, uso offline, sem erros e sem rolagem lateral.
-- **O GitHub Pages precisa ser ligado pelo Daniel** (o Claude não tem ferramenta para isso): Settings → Pages → Branch `main`, `/ (root)` → Save.
+- O GitHub Pages foi ligado pelo Daniel (o Claude não tem ferramenta para isso). Ele escolheu a pasta **/docs**, e o build falhou (`No such file or directory ... /docs`). Solução: o app foi movido para `docs/`. **O app agora fica em `docs/`** (no computador: `docs/index.html`). No ar e testado no endereço público em 28/10/2026, inclusive sem internet.
 
 **Aprendizados:**
 - "Baixar no celular" para o Daniel = PWA no GitHub Pages; não é preciso APK nem loja.
+- Para ver por que o Pages falhou: `actions_list` (run "pages build and deployment") e depois `get_job_logs`. Para um usuário leigo, guarde o app em `docs/` desde o começo: funciona com as duas opções do Pages mais prováveis de serem escolhidas.
 - `pkill -f` matou o shell **de novo**: usar `kill $(pgrep -f "padrao[x]")` (o colchete impede que o padrão case com o próprio comando).
 
 ## Comandos (versão antiga, com Python; não usar mais)
