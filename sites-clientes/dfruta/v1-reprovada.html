@@ -1,0 +1,566 @@
+<title>D'Fruta Picoleteria</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<meta name="description" content="Picolés de fruta na Rua Goiás, 1734, em Ribeirão Preto. Pertinho do Teatro Municipal e do Jardim Japonês.">
+<meta property="og:title" content="D'Fruta Picoleteria · Ribeirão Preto">
+<meta property="og:description" content="Picolé feito de fruta, na Rua Goiás, 1734. Nota 4,7 no Google.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Figtree:wght@400;500;600;700&display=swap">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"IceCreamShop","name":"D' Fruta Picoleteria","address":{"@type":"PostalAddress","streetAddress":"Rua Goiás, 1734","addressLocality":"Ribeirão Preto","addressRegion":"SP","addressCountry":"BR"},"telephone":"+55 16 3612-2370","openingHours":"Mo-Su 10:00-22:00"}
+</script>
+<style>
+/* Layout: a freezer showcase. Icy ground, popsicles standing in rows, fruit colours flood the page as you move through it. */
+:root{
+  --bg:#F2F7F3;          /* frost */
+  --bg-2:#E4EFE7;
+  --ink:#10301D;         /* leaf green, our near-black */
+  --ink-soft:#4A6455;
+  --card:#FFFFFF;
+  --line:#CFE0D4;
+  --berry:#E3344F;       /* main accent */
+  --berry-ink:#FFFFFF;
+  --mango:#FFB320;
+  --mango-ink:#3A2300;
+  --lime:#7BC043;
+  --night:#10301D;       /* deep band */
+  --night-ink:#F2F7F3;
+  --shadow:16 48 29;
+  --display:"Bricolage Grotesque", "Arial Black", system-ui, sans-serif;
+  --body:"Figtree", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --ease:cubic-bezier(.2,.8,.2,1);
+  --spring:cubic-bezier(.34,1.56,.64,1);
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#0D1A12; --bg-2:#132419; --ink:#E8F3EA; --ink-soft:#9DB8A6; --card:#18291E; --line:#25402E;
+  --berry:#FF5A72; --berry-ink:#1A0408; --mango:#FFC04A; --mango-ink:#2A1900; --lime:#93D65A;
+  --night:#07110B; --night-ink:#E8F3EA; --shadow:0 0 0; color-scheme:dark;
+}}
+:root[data-theme="dark"]{
+  --bg:#0D1A12; --bg-2:#132419; --ink:#E8F3EA; --ink-soft:#9DB8A6; --card:#18291E; --line:#25402E;
+  --berry:#FF5A72; --berry-ink:#1A0408; --mango:#FFC04A; --mango-ink:#2A1900; --lime:#93D65A;
+  --night:#07110B; --night-ink:#E8F3EA; --shadow:0 0 0; color-scheme:dark;
+}
+
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;overflow-x:clip}
+body{background:var(--bg);color:var(--ink);font-family:var(--body);font-size:17px;line-height:1.6;overflow-x:hidden;transition:background-color .6s var(--ease)}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:60;background:var(--bg)}
+h1,h2,h3{font-family:var(--display);line-height:.95;letter-spacing:-.02em;margin:0;text-wrap:balance}
+p{margin:0}
+a{color:inherit}
+:focus-visible{outline:3px solid var(--berry);outline-offset:3px;border-radius:6px}
+.wrap{max-width:1180px;margin:0 auto;padding-left:max(20px,env(safe-area-inset-left,0px));padding-right:max(20px,env(safe-area-inset-right,0px))}
+.eyebrow{font-weight:700;font-size:.8rem;letter-spacing:.14em;text-transform:uppercase;color:var(--berry)}
+
+/* progress drip */
+.progress{position:fixed;top:env(safe-area-inset-top,0px);left:0;height:4px;width:100%;transform-origin:0 50%;transform:scaleX(0);background:linear-gradient(90deg,var(--berry),var(--mango),var(--lime));z-index:70;border-radius:0 4px 4px 0}
+
+/* header */
+.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:50;transition:transform .45s var(--ease),background-color .3s,box-shadow .3s}
+.top.hide{transform:translateY(-110%)}
+.top.solid{background:color-mix(in srgb,var(--bg) 86%,transparent);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);box-shadow:0 1px 0 var(--line)}
+.top .wrap{display:flex;align-items:center;justify-content:space-between;gap:16px;padding-block:14px}
+.logo{font-family:var(--display);font-weight:800;font-size:1.6rem;text-decoration:none;letter-spacing:-.03em;display:inline-flex;align-items:center;gap:8px}
+.logo .drop{color:var(--berry);display:inline-block;transition:transform .5s var(--spring)}
+.logo:hover .drop{transform:translateY(4px) scale(1.25)}
+.logo small{font-family:var(--body);font-weight:600;font-size:.7rem;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-soft);margin-left:2px}
+.nav{display:flex;gap:6px;align-items:center}
+.nav a{text-decoration:none;font-weight:600;font-size:.95rem;padding:8px 12px;border-radius:999px;position:relative;transition:background-color .25s,transform .3s var(--spring)}
+.nav a:not(.btn):hover{background:var(--bg-2);transform:translateY(-2px)}
+@media (max-width:720px){.nav a:not(.btn){display:none}.logo small{display:none}}
+
+/* buttons */
+.btn{display:inline-flex;align-items:center;gap:10px;font-weight:700;text-decoration:none;border:0;cursor:pointer;font:inherit;font-weight:700;padding:14px 22px;border-radius:999px;background:var(--berry);color:var(--berry-ink);box-shadow:0 6px 0 color-mix(in srgb,var(--berry) 55%,#000);transition:transform .35s var(--spring),box-shadow .35s var(--spring),background-color .2s}
+.btn:hover{transform:translateY(-4px) scale(1.03);box-shadow:0 10px 0 color-mix(in srgb,var(--berry) 55%,#000),0 18px 30px -10px rgb(var(--shadow)/.35)}
+.btn:active{transform:translateY(3px);box-shadow:0 2px 0 color-mix(in srgb,var(--berry) 55%,#000)}
+.btn.ghost{background:transparent;color:var(--ink);box-shadow:inset 0 0 0 2px var(--ink)}
+.btn.ghost:hover{background:var(--ink);color:var(--bg);box-shadow:inset 0 0 0 2px var(--ink),0 16px 28px -12px rgb(var(--shadow)/.4)}
+.btn.small{padding:10px 16px;font-size:.92rem;box-shadow:0 4px 0 color-mix(in srgb,var(--berry) 55%,#000)}
+.btn svg{width:18px;height:18px;flex:none;transition:transform .4s var(--spring)}
+.btn:hover svg{transform:rotate(-12deg) scale(1.15)}
+
+/* hero */
+.hero{position:relative;padding-block:28px 72px;overflow:hidden}
+.hero .wrap{display:grid;grid-template-columns:1.05fr .95fr;gap:32px;align-items:center}
+.hero h1{font-size:clamp(3rem,8.4vw,6.6rem);font-weight:800}
+.hero h1 .fruit{color:var(--berry);display:inline-block}
+.hero h1 .line{display:block}
+.hero h1 .line2{font-size:.52em;font-weight:700;color:var(--ink-soft);margin-top:.35em;letter-spacing:-.01em}
+.hero p.lead{font-size:1.18rem;max-width:34ch;margin-top:22px;color:var(--ink-soft)}
+.hero .actions{display:flex;flex-wrap:wrap;gap:14px;margin-top:30px}
+.rating{display:inline-flex;align-items:center;gap:10px;margin-top:28px;padding:8px 14px 8px 10px;border-radius:999px;background:var(--card);box-shadow:0 1px 0 var(--line),0 10px 24px -14px rgb(var(--shadow)/.4);font-weight:600;font-size:.95rem;text-decoration:none;transition:transform .35s var(--spring),box-shadow .35s}
+.rating:hover{transform:translateY(-3px) scale(1.03);box-shadow:0 1px 0 var(--line),0 16px 30px -14px rgb(var(--shadow)/.5)}
+.rating .stars{color:var(--mango);letter-spacing:1px}
+.rating b{font-family:var(--display);font-size:1.15rem}
+.stage{position:relative;height:clamp(380px,48vw,560px)}
+.stage .blob{position:absolute;border-radius:50%;filter:blur(2px)}
+.stage .b1{width:68%;aspect-ratio:1;left:14%;top:8%;background:color-mix(in srgb,var(--mango) 55%,var(--bg))}
+.stage .b2{width:30%;aspect-ratio:1;right:2%;top:2%;background:color-mix(in srgb,var(--berry) 30%,var(--bg))}
+.stage .b3{width:22%;aspect-ratio:1;left:4%;bottom:10%;background:color-mix(in srgb,var(--lime) 40%,var(--bg))}
+.pop{position:absolute;width:30%;max-width:170px;transform-origin:50% 90%;will-change:transform}
+.pop svg{width:100%;height:auto;display:block;filter:drop-shadow(0 24px 22px rgb(var(--shadow)/.28))}
+.pop.p1{left:12%;top:16%;--r:-14deg}
+.pop.p2{left:37%;top:4%;--r:3deg;width:34%;max-width:190px;z-index:2}
+.pop.p3{left:63%;top:18%;--r:15deg}
+.pop .inner{transform:rotate(var(--r));animation:bob 5s ease-in-out infinite;transition:transform .5s var(--spring)}
+.pop.p2 .inner{animation-delay:-1.6s}
+.pop.p3 .inner{animation-delay:-3.1s}
+.pop:hover .inner{transform:rotate(calc(var(--r) * .3)) scale(1.08) translateY(-10px)}
+@keyframes bob{0%,100%{translate:0 0}50%{translate:0 -14px}}
+.seed-fly{position:absolute;width:14px;height:14px;border-radius:50%;opacity:.9}
+@media (max-width:860px){
+  .hero .wrap{grid-template-columns:1fr}
+  .stage{height:340px;order:-1;margin-top:4px}
+  .hero p.lead{max-width:none}
+}
+
+/* marquee */
+.mq-wrap{overflow:hidden;padding-block:14px;margin-bottom:24px}
+.marquee{background:var(--ink);color:var(--bg);overflow:hidden;padding-block:16px;transform:rotate(-1.6deg);margin-block:0;width:104%;margin-left:-2%}
+.marquee .track{display:flex;gap:28px;width:max-content;animation:slide 32s linear infinite;font-family:var(--display);font-weight:700;font-size:1.5rem;white-space:nowrap}
+.marquee:hover .track{animation-play-state:paused}
+.marquee span{display:inline-flex;align-items:center;gap:28px}
+.marquee i{width:12px;height:12px;border-radius:50%;display:inline-block;background:var(--c)}
+@keyframes slide{to{transform:translateX(-50%)}}
+
+/* sections */
+section{scroll-margin-top:80px}
+.sec{padding-block:88px}
+.sec-head{display:grid;grid-template-columns:1fr 1fr;gap:24px;align-items:end;margin-bottom:44px}
+.sec-head h2{font-size:clamp(2.4rem,5.4vw,4.2rem);font-weight:800}
+.sec-head > p{color:var(--ink-soft);max-width:44ch;justify-self:end}
+@media (max-width:760px){.sec-head{grid-template-columns:1fr}.sec-head > p{justify-self:start}}
+
+/* showcase */
+.showcase{position:relative;transition:background-color .5s var(--ease)}
+.freezer{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:18px}
+@media (max-width:1000px){.freezer{grid-template-columns:repeat(4,minmax(0,1fr))}}
+@media (max-width:760px){.freezer{grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}}
+.flavor{position:relative;background:var(--card);border-radius:26px;padding:18px 16px 18px;text-align:center;cursor:default;outline:none;box-shadow:0 1px 0 var(--line);transition:transform .5s var(--spring),box-shadow .5s var(--ease),background-color .4s var(--ease);isolation:isolate;overflow:visible}
+.flavor::before{content:"";position:absolute;inset:0;border-radius:inherit;background:var(--tint);opacity:0;transition:opacity .45s var(--ease);z-index:-1}
+.flavor .pic{height:170px;display:flex;align-items:flex-end;justify-content:center;margin-top:-6px}
+.flavor .pic svg{height:100%;width:auto;transition:transform .55s var(--spring),filter .4s;transform-origin:50% 95%;filter:drop-shadow(0 10px 10px rgb(var(--shadow)/.18))}
+.flavor h3{font-size:1.35rem;font-weight:700;margin-top:14px}
+.flavor .tag{display:inline-block;margin-top:8px;font-size:.78rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:4px 10px;border-radius:999px;background:var(--bg-2);color:var(--ink-soft);transition:background-color .4s,color .4s}
+.flavor:hover,.flavor:focus-visible,.flavor.on{transform:translateY(-10px) scale(1.04);box-shadow:0 26px 40px -22px rgb(var(--shadow)/.45),0 1px 0 var(--line);z-index:2}
+.flavor:hover::before,.flavor:focus-visible::before,.flavor.on::before{opacity:1}
+.flavor:hover .pic svg,.flavor:focus-visible .pic svg,.flavor.on .pic svg{transform:translateY(-22px) rotate(-7deg) scale(1.1);filter:drop-shadow(0 26px 18px rgb(var(--shadow)/.28))}
+.flavor:hover .tag,.flavor:focus-visible .tag,.flavor.on .tag{background:var(--c);color:var(--on)}
+.note{margin-top:28px;font-size:.92rem;color:var(--ink-soft)}
+
+/* heat band */
+.heat{background:var(--mango);color:var(--mango-ink);position:relative;overflow:hidden}
+.heat .wrap{display:grid;grid-template-columns:auto 1fr;gap:56px;align-items:center;padding-block:96px}
+.heat h2{font-size:clamp(2.6rem,6.4vw,5.4rem);font-weight:800}
+.heat p{font-size:1.2rem;max-width:40ch;margin-top:20px}
+.thermo{width:clamp(90px,12vw,130px)}
+.thermo .merc{transform-origin:50% 100%;transform:scaleY(.25);transition:transform 1.8s var(--ease)}
+.thermo.go .merc{transform:scaleY(1)}
+.sun{position:absolute;right:-120px;top:-120px;width:380px;height:380px;border-radius:50%;background:radial-gradient(circle,color-mix(in srgb,#fff 45%,var(--mango)) 0 40%,transparent 41%);animation:spin 40s linear infinite}
+.sun::after{content:"";position:absolute;inset:0;border-radius:50%;background:repeating-conic-gradient(color-mix(in srgb,#fff 35%,var(--mango)) 0 6deg,transparent 6deg 18deg);mask:radial-gradient(circle,transparent 0 46%,#000 47% 70%,transparent 71%);-webkit-mask:radial-gradient(circle,transparent 0 46%,#000 47% 70%,transparent 71%)}
+@keyframes spin{to{transform:rotate(360deg)}}
+@media (max-width:760px){.heat .wrap{grid-template-columns:1fr;gap:28px;padding-block:72px}.sun{width:260px;height:260px;right:-90px;top:-90px}}
+
+/* nearby */
+.near{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:20px}
+@media (max-width:860px){.near{grid-template-columns:1fr}}
+.spot{background:var(--card);border-radius:28px;padding:28px;box-shadow:0 1px 0 var(--line);transition:transform .5s var(--spring),box-shadow .5s var(--ease)}
+.spot:hover{transform:translateY(-8px) rotate(-.6deg);box-shadow:0 30px 44px -26px rgb(var(--shadow)/.45),0 1px 0 var(--line)}
+.spot .ico{width:58px;height:58px;border-radius:18px;display:grid;place-items:center;background:var(--c);transition:transform .5s var(--spring)}
+.spot:hover .ico{transform:rotate(-10deg) scale(1.12)}
+.spot .ico svg{width:30px;height:30px}
+.spot h3{font-size:1.5rem;font-weight:700;margin-top:20px}
+.spot p{color:var(--ink-soft);margin-top:8px}
+
+/* rating band */
+.score{display:grid;grid-template-columns:auto 1fr;gap:40px;align-items:center;background:var(--card);border-radius:36px;padding:44px clamp(24px,5vw,56px);box-shadow:0 1px 0 var(--line)}
+.score .big{font-family:var(--display);font-weight:800;font-size:clamp(5rem,13vw,9rem);line-height:.8;letter-spacing:-.04em;color:var(--berry)}
+.score .stars{font-size:1.8rem;color:var(--mango);letter-spacing:4px}
+.score h3{font-size:clamp(1.6rem,3vw,2.2rem);font-weight:700;margin-top:6px}
+.score p{color:var(--ink-soft);margin-top:10px;max-width:46ch}
+.score .btn{margin-top:22px}
+.star{display:inline-block;transition:transform .5s var(--spring)}
+.score:hover .star{transform:translateY(-4px) rotate(-12deg)}
+.score:hover .star:nth-child(2){transition-delay:.04s}.score:hover .star:nth-child(3){transition-delay:.08s}.score:hover .star:nth-child(4){transition-delay:.12s}.score:hover .star:nth-child(5){transition-delay:.16s}
+@media (max-width:640px){.score{grid-template-columns:1fr;gap:16px}}
+
+/* visit */
+.visit{background:var(--night);color:var(--night-ink)}
+.visit .eyebrow{color:var(--mango)}
+.visit .sec-head > p{color:color-mix(in srgb,var(--night-ink) 70%,transparent)}
+.visit-grid{display:grid;grid-template-columns:1fr 1.1fr;gap:28px;align-items:stretch}
+@media (max-width:860px){.visit-grid{grid-template-columns:1fr}}
+.info{display:grid;gap:14px;align-content:start}
+.row{display:grid;grid-template-columns:48px 1fr;gap:16px;align-items:center;padding:18px 20px;border-radius:22px;background:color-mix(in srgb,var(--night-ink) 7%,transparent);transition:background-color .3s,transform .45s var(--spring)}
+.row:hover{background:color-mix(in srgb,var(--night-ink) 12%,transparent);transform:translateX(6px)}
+.row .i{width:48px;height:48px;border-radius:14px;display:grid;place-items:center;background:var(--c)}
+.row .i svg{width:24px;height:24px}
+.row small{display:block;font-size:.78rem;letter-spacing:.12em;text-transform:uppercase;font-weight:700;color:color-mix(in srgb,var(--night-ink) 60%,transparent)}
+.row strong{font-size:1.12rem;font-weight:600}
+.row .copy{margin-left:10px;font:inherit;font-size:.8rem;font-weight:700;border:0;cursor:pointer;padding:5px 11px;border-radius:999px;background:var(--night-ink);color:var(--night);transition:transform .3s var(--spring)}
+.row .copy:hover{transform:scale(1.08)}
+.visit .actions{display:flex;flex-wrap:wrap;gap:14px;margin-top:10px}
+.visit .btn.ghost{color:var(--night-ink);box-shadow:inset 0 0 0 2px var(--night-ink)}
+.visit .btn.ghost:hover{background:var(--night-ink);color:var(--night)}
+.map{position:relative;border-radius:30px;overflow:hidden;background:#E9EFE8;min-height:340px;text-decoration:none;display:block;transition:transform .5s var(--spring),box-shadow .5s}
+.map:hover{transform:scale(1.015);box-shadow:0 30px 60px -30px #000}
+.map svg{width:100%;height:100%;display:block}
+.map .hint{position:absolute;left:16px;bottom:16px;background:#10301D;color:#F2F7F3;font-weight:700;font-size:.9rem;padding:9px 14px;border-radius:999px;transition:transform .4s var(--spring)}
+.map:hover .hint{transform:translateY(-4px)}
+.pin{animation:pin 2.4s var(--ease) infinite;transform-box:fill-box;transform-origin:50% 100%}
+@keyframes pin{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
+
+/* footer */
+footer{background:var(--night);color:color-mix(in srgb,var(--night-ink) 70%,transparent);border-top:1px solid color-mix(in srgb,var(--night-ink) 12%,transparent)}
+footer .wrap{display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px;padding-block:28px;font-size:.92rem}
+footer .logo{color:var(--night-ink);font-size:1.3rem}
+
+/* floating directions */
+.float{position:fixed;right:calc(18px + env(safe-area-inset-right,0px));bottom:calc(18px + env(safe-area-inset-bottom,0px));z-index:40;transform:translateY(140%);transition:transform .5s var(--spring)}
+.float.show{transform:none}
+
+/* reveal: only elements below the fold at load are hidden, so the first frame is always complete */
+.rv{transition:opacity .8s var(--ease),transform .9s var(--ease);transition-delay:var(--d,0s)}
+.rv.wait{opacity:0;transform:translateY(42px) scale(.98)}
+
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation:none!important;transition:none!important;scroll-behavior:auto!important}
+  .rv.wait{opacity:1;transform:none}
+  .thermo .merc{transform:none}
+}
+</style>
+
+<div class="progress" id="progress" aria-hidden="true"></div>
+
+<header class="top" id="top">
+  <div class="wrap">
+    <a class="logo" href="#inicio" aria-label="D'Fruta Picoleteria, início"><span>D<span class="drop">'</span>Fruta</span><small>Picoleteria</small></a>
+    <nav class="nav" aria-label="Seções">
+      <a href="#sabores">Sabores</a>
+      <a href="#vizinhanca">Vizinhança</a>
+      <a href="#visite">Onde estamos</a>
+      <a class="btn small" href="https://www.google.com/maps/dir/?api=1&destination=D%27+Fruta+Picoleteria%2C+Rua+Goi%C3%A1s%2C+1734%2C+Ribeir%C3%A3o+Preto" target="_blank" rel="noopener">Como chegar</a>
+    </nav>
+  </div>
+</header>
+
+<main id="inicio">
+  <section class="hero">
+    <div class="wrap">
+      <div>
+        <p class="eyebrow rv">Rua Goiás, 1734 · Ribeirão Preto</p>
+        <h1 class="rv" style="--d:.08s">
+          <span class="line">Picolé feito</span>
+          <span class="line">de <span class="fruit">fruta.</span></span>
+          <span class="line line2">Gelado, no palito, do jeito que o calor de Ribeirão pede.</span>
+        </h1>
+        <p class="lead rv" style="--d:.16s">A D'Fruta é aquela parada que todo mundo da região conhece: escolhe a cor, escolhe a fruta e sai refrescado.</p>
+        <div class="actions rv" style="--d:.24s">
+          <a class="btn" href="#sabores">Ver os sabores
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5v14M5 12l7 7 7-7"/></svg>
+          </a>
+          <a class="btn ghost" href="#visite">Onde estamos</a>
+        </div>
+        <a class="rating rv" style="--d:.3s" href="https://www.google.com/maps/search/?api=1&query=D%27+Fruta+Picoleteria+Rua+Goi%C3%A1s+1734+Ribeir%C3%A3o+Preto" target="_blank" rel="noopener">
+          <span class="stars" aria-hidden="true">★★★★★</span><b>4,7</b> no Google
+        </a>
+      </div>
+      <div class="stage" id="stage" aria-hidden="true">
+        <div class="blob b1"></div><div class="blob b2"></div><div class="blob b3"></div>
+        <div class="pop p1" data-depth="18"><div class="inner" data-flavor="limao"></div></div>
+        <div class="pop p2" data-depth="30"><div class="inner" data-flavor="morango"></div></div>
+        <div class="pop p3" data-depth="14"><div class="inner" data-flavor="manga"></div></div>
+      </div>
+    </div>
+  </section>
+
+  <div class="mq-wrap"><div class="marquee" aria-hidden="true"><div class="track" id="marquee"></div></div></div>
+
+  <section class="sec showcase" id="sabores">
+    <div class="wrap">
+      <div class="sec-head">
+        <div>
+          <p class="eyebrow rv">A vitrine</p>
+          <h2 class="rv" style="--d:.06s">Escolha pela cor.<br>Acerte pelo sabor.</h2>
+        </div>
+        <p class="rv" style="--d:.12s">Cada picolé tem a cor da fruta de que é feito. Passe o mouse (ou toque) e tire o seu do freezer.</p>
+      </div>
+      <div class="freezer" id="freezer"></div>
+      <p class="note rv">Os sabores mudam com a época da fruta. Pergunte no balcão o que saiu hoje.</p>
+    </div>
+  </section>
+
+  <section class="heat" aria-labelledby="heat-t">
+    <div class="sun" aria-hidden="true"></div>
+    <div class="wrap">
+      <svg class="thermo rv" id="thermo" viewBox="0 0 80 220" aria-hidden="true">
+        <rect x="26" y="8" width="28" height="160" rx="14" fill="#fff" opacity=".9"/>
+        <circle cx="40" cy="182" r="30" fill="#fff" opacity=".9"/>
+        <g class="merc"><rect x="33" y="30" width="14" height="150" rx="7" fill="#E3344F"/></g>
+        <circle cx="40" cy="182" r="22" fill="#E3344F"/>
+        <g stroke="#3A2300" stroke-width="3" stroke-linecap="round" opacity=".5"><path d="M58 40h10M58 70h10M58 100h10M58 130h10"/></g>
+      </svg>
+      <div>
+        <h2 id="heat-t" class="rv">Em Ribeirão, o calor não tira folga.</h2>
+        <p class="rv" style="--d:.1s">A cidade é conhecida pelo sol forte o ano inteiro. Por isso o picolé aqui não é sobremesa de fim de semana: é parte do dia. Na saída do trabalho, depois da escola, no caminho pro teatro.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec" id="vizinhanca">
+    <div class="wrap">
+      <div class="sec-head">
+        <div>
+          <p class="eyebrow rv">A vizinhança</p>
+          <h2 class="rv" style="--d:.06s">Pega o picolé.<br>Escolhe o destino.</h2>
+        </div>
+        <p class="rv" style="--d:.12s">A D'Fruta fica num dos cantos mais bonitos da cidade. Dá pra sair com o picolé na mão e chegar a pé em lugares assim:</p>
+      </div>
+      <div class="near">
+        <article class="spot rv" style="--c:color-mix(in srgb,var(--lime) 35%,var(--card))">
+          <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 9h18M5 9l1-4h12l1 4M7 9v11M17 9v11M4 20h16"/></svg></div>
+          <h3>Jardim Japonês</h3>
+          <p>Lago, pontes e sombra. O lugar certo para terminar o picolé com calma.</p>
+        </article>
+        <article class="spot rv" style="--d:.08s;--c:color-mix(in srgb,var(--berry) 25%,var(--card))">
+          <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 21V10l8-6 8 6v11M9 21v-6h6v6M4 21h16"/></svg></div>
+          <h3>Teatro Municipal</h3>
+          <p>Chegou cedo para o espetáculo? Dá tempo de passar aqui antes.</p>
+        </article>
+        <article class="spot rv" style="--d:.16s;--c:color-mix(in srgb,var(--mango) 40%,var(--card))">
+          <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 20h20M6 20V8l6-4 6 4v12M10 20v-5h4v5"/></svg></div>
+          <h3>Rua Capitão Salomão</h3>
+          <p>A uma quadra daqui. Para quem vem de ônibus ou está só de passagem.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec" style="padding-top:0">
+    <div class="wrap">
+      <div class="score rv">
+        <div>
+          <div class="big">4,7</div>
+        </div>
+        <div>
+          <div class="stars" aria-label="4,7 de 5 estrelas"><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span></div>
+          <h3>Nota de quem já passou por aqui</h3>
+          <p>Essa é a média das avaliações da D'Fruta no Google. Quer saber o que o pessoal fala de cada sabor? Leia lá.</p>
+          <a class="btn ghost" href="https://www.google.com/maps/search/?api=1&query=D%27+Fruta+Picoleteria+Rua+Goi%C3%A1s+1734+Ribeir%C3%A3o+Preto" target="_blank" rel="noopener">Ler as avaliações</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec visit" id="visite">
+    <div class="wrap">
+      <div class="sec-head">
+        <div>
+          <p class="eyebrow rv">Onde estamos</p>
+          <h2 class="rv" style="--d:.06s">Rua Goiás, 1734.<br>O freezer está ligado.</h2>
+        </div>
+        <p class="rv" style="--d:.12s">Pertinho do Teatro Municipal e do Jardim Japonês, em Ribeirão Preto.</p>
+      </div>
+      <div class="visit-grid">
+        <div class="info">
+          <div class="row rv" style="--c:var(--berry)">
+            <div class="i"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21s-7-6.2-7-11.5a7 7 0 0 1 14 0C19 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></svg></div>
+            <div><small>Endereço</small><strong>Rua Goiás, 1734 · Ribeirão Preto, SP</strong></div>
+          </div>
+          <div class="row rv" style="--d:.06s;--c:var(--mango)">
+            <div class="i"><svg viewBox="0 0 24 24" fill="none" stroke="#3A2300" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></div>
+            <div><small>Horário</small><strong>Todos os dias, das 10h às 22h</strong></div>
+          </div>
+          <div class="row rv" style="--d:.12s;--c:var(--lime)">
+            <div class="i"><svg viewBox="0 0 24 24" fill="none" stroke="#10301D" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2"/></svg></div>
+            <div><small>Telefone</small><strong id="phone">(16) 3612-2370</strong><button class="copy" id="copy" type="button">Copiar</button></div>
+          </div>
+          <div class="actions rv" style="--d:.18s">
+            <a class="btn" href="https://www.google.com/maps/dir/?api=1&destination=D%27+Fruta+Picoleteria%2C+Rua+Goi%C3%A1s%2C+1734%2C+Ribeir%C3%A3o+Preto" target="_blank" rel="noopener">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 11l18-8-8 18-2-8z"/></svg>
+              Como chegar
+            </a>
+            <a class="btn ghost" href="tel:+551636122370">Ligar</a>
+          </div>
+        </div>
+        <a class="map rv" style="--d:.1s" href="https://www.google.com/maps/search/?api=1&query=D%27+Fruta+Picoleteria+Rua+Goi%C3%A1s+1734+Ribeir%C3%A3o+Preto" target="_blank" rel="noopener" aria-label="Abrir a D'Fruta no Google Maps">
+          <svg viewBox="0 0 400 320" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+            <rect width="400" height="320" fill="#E9EFE8"/>
+            <path d="M0 230 C60 215 110 240 160 262 L200 320 L0 320Z" fill="#BFE3B4"/>
+            <ellipse cx="78" cy="276" rx="34" ry="16" fill="#9FD3E6"/>
+            <g stroke="#FFFFFF" stroke-linecap="round" fill="none">
+              <path d="M-10 18 L240 168" stroke-width="16"/>
+              <path d="M40 -10 L410 82" stroke-width="12"/>
+              <path d="M110 160 L420 330" stroke-width="18"/>
+              <path d="M150 -10 L60 150" stroke-width="10"/>
+              <path d="M300 -10 L210 150" stroke-width="10"/>
+              <path d="M230 40 L330 220" stroke-width="9"/>
+              <path d="M330 40 L410 190" stroke-width="9"/>
+            </g>
+            <rect x="214" y="196" width="70" height="44" rx="6" fill="#D9C7E8" transform="rotate(28 249 218)"/>
+            <g font-family="Figtree, system-ui, sans-serif" font-weight="700" fill="#4A6455">
+              <text x="34" y="54" font-size="12" transform="rotate(31 34 54)">R. Goiás</text>
+              <text x="250" y="66" font-size="11" transform="rotate(14 250 66)">R. João Bim</text>
+              <text x="282" y="268" font-size="11" transform="rotate(29 282 268)">R. Capitão Salomão</text>
+              <text x="212" y="250" font-size="11" fill="#6B4C86">Teatro Municipal</text>
+              <text x="40" y="306" font-size="11" fill="#2F6B2A">Jardim Japonês</text>
+            </g>
+            <g class="pin">
+              <path d="M178 126 c-15 0 -26 11 -26 25 c0 19 26 41 26 41 s26 -22 26 -41 c0 -14 -11 -25 -26 -25z" fill="#E3344F"/>
+              <circle cx="178" cy="151" r="9" fill="#fff"/>
+            </g>
+            <g>
+              <rect x="112" y="92" width="132" height="28" rx="14" fill="#10301D"/>
+              <text x="178" y="111" text-anchor="middle" font-family="Bricolage Grotesque, Arial Black, sans-serif" font-weight="800" font-size="14" fill="#F2F7F3">D'Fruta · nº 1734</text>
+            </g>
+          </svg>
+          <span class="hint">Abrir no Google Maps ↗</span>
+        </a>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <span class="logo"><span>D<span class="drop">'</span>Fruta</span></span>
+    <span>Picoleteria · Rua Goiás, 1734 · Ribeirão Preto, SP</span>
+  </div>
+</footer>
+
+<a class="btn float" id="float" href="https://www.google.com/maps/dir/?api=1&destination=D%27+Fruta+Picoleteria%2C+Rua+Goi%C3%A1s%2C+1734%2C+Ribeir%C3%A3o+Preto" target="_blank" rel="noopener">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21s-7-6.2-7-11.5a7 7 0 0 1 14 0C19 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></svg>
+  Como chegar
+</a>
+
+<script>
+(() => {
+  // Flavours. c = body colour, d = deeper shade, p = texture.
+  const FLAVORS = {
+    morango:  {n:"Morango",            t:"o clássico",    c:"#E8384F", d:"#B91F37", p:"seeds"},
+    manga:    {n:"Manga",              t:"bem madura",    c:"#FFB21C", d:"#E58A00", p:"chunks"},
+    limao:    {n:"Limão",              t:"azedinho",      c:"#9BD350", d:"#5FA126", p:"rings"},
+    maracuja: {n:"Maracujá",           t:"com semente",   c:"#FFD23F", d:"#E0A800", p:"black"},
+    uva:      {n:"Uva",                t:"roxinho",       c:"#7A3E9D", d:"#552270", p:"chunks"},
+    coco:     {n:"Coco",               t:"cremoso",       c:"#F6F1E7", d:"#D9CFBD", p:"flakes"},
+    abacaxi:  {n:"Abacaxi c/ hortelã", t:"refrescante",   c:"#F7E35A", d:"#C9B21E", p:"mint"},
+    melancia: {n:"Melancia",           t:"leve",          c:"#FF5C6C", d:"#2E8B3E", p:"melon"},
+    kiwi:     {n:"Kiwi",               t:"diferentão",    c:"#7DBB3C", d:"#4E8A1C", p:"black"},
+    acai:     {n:"Açaí",               t:"encorpado",     c:"#4B1F4F", d:"#2E0F31", p:"none"}
+  };
+
+  let uid = 0;
+  function popsicle(f){
+    const id = "p" + (uid++);
+    const body = "M14 70 C14 34 34 12 60 12 C86 12 106 34 106 70 L106 178 C106 186 100 192 92 192 L28 192 C20 192 14 186 14 178 Z";
+    let tex = "";
+    const rnd = (s => () => (s = (s * 9301 + 49297) % 233280) / 233280)(f.n.length * 97);
+    if (f.p === "seeds" || f.p === "black"){
+      const col = f.p === "seeds" ? "#FFE7A3" : "#1B1B1B";
+      for (let i=0;i<22;i++){ const x=24+rnd()*72, y=30+rnd()*150; tex += `<ellipse cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" rx="2.2" ry="3.4" fill="${col}" opacity=".85" transform="rotate(${(rnd()*60-30).toFixed(0)} ${x.toFixed(1)} ${y.toFixed(1)})"/>`; }
+    } else if (f.p === "chunks"){
+      for (let i=0;i<9;i++){ const x=26+rnd()*68, y=34+rnd()*140; tex += `<rect x="${x.toFixed(1)}" y="${y.toFixed(1)}" width="${(8+rnd()*8).toFixed(1)}" height="${(7+rnd()*7).toFixed(1)}" rx="3" fill="${f.d}" opacity=".55"/>`; }
+    } else if (f.p === "rings"){
+      tex = `<circle cx="60" cy="110" r="30" fill="none" stroke="#E9F7D6" stroke-width="5" opacity=".7"/><g stroke="#E9F7D6" stroke-width="3" opacity=".6">${[0,45,90,135].map(a=>`<path d="M60 110 L${(60+28*Math.cos(a*Math.PI/180)).toFixed(1)} ${(110+28*Math.sin(a*Math.PI/180)).toFixed(1)} M60 110 L${(60-28*Math.cos(a*Math.PI/180)).toFixed(1)} ${(110-28*Math.sin(a*Math.PI/180)).toFixed(1)}"/>`).join("")}</g>`;
+    } else if (f.p === "flakes"){
+      for (let i=0;i<14;i++){ const x=24+rnd()*70, y=30+rnd()*150; tex += `<rect x="${x.toFixed(1)}" y="${y.toFixed(1)}" width="9" height="3" rx="1.5" fill="#C9B998" opacity=".7" transform="rotate(${(rnd()*180).toFixed(0)} ${x.toFixed(1)} ${y.toFixed(1)})"/>`; }
+    } else if (f.p === "mint"){
+      for (let i=0;i<7;i++){ const x=26+rnd()*66, y=34+rnd()*140; tex += `<path d="M${x.toFixed(1)} ${y.toFixed(1)} q6 -9 12 0 q-6 9 -12 0z" fill="#3F9B4A" opacity=".8"/>`; }
+      for (let i=0;i<6;i++){ const x=26+rnd()*66, y=34+rnd()*140; tex += `<rect x="${x.toFixed(1)}" y="${y.toFixed(1)}" width="10" height="8" rx="3" fill="${f.d}" opacity=".5"/>`; }
+    } else if (f.p === "melon"){
+      tex = `<rect x="0" y="168" width="120" height="30" fill="#F4FFE9"/><rect x="0" y="176" width="120" height="30" fill="${f.d}"/>`;
+      for (let i=0;i<12;i++){ const x=26+rnd()*68, y=34+rnd()*120; tex += `<ellipse cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" rx="2.2" ry="3.6" fill="#1B1B1B" opacity=".85"/>`; }
+    }
+    return `<svg viewBox="0 0 120 262" role="img" aria-label="Picolé de ${f.n}">
+      <defs><clipPath id="${id}"><path d="${body}"/></clipPath>
+      <linearGradient id="${id}g" x1="0" x2="1"><stop offset="0" stop-color="#fff" stop-opacity=".0"/><stop offset=".18" stop-color="#fff" stop-opacity=".38"/><stop offset=".32" stop-color="#fff" stop-opacity="0"/></linearGradient></defs>
+      <rect x="49" y="170" width="22" height="84" rx="11" fill="#E8C792"/>
+      <rect x="49" y="170" width="7" height="84" rx="3.5" fill="#F6E1BC"/>
+      <g clip-path="url(#${id})"><rect width="120" height="200" fill="${f.c}"/>${tex}<rect width="120" height="200" fill="url(#${id}g)"/>
+      <path d="M14 178 h92 v14 h-92z" fill="${f.d}" opacity=".25"/></g>
+      <path d="M34 192 q0 10 5 10 q5 0 5 -10z" fill="${f.p==='melon'?f.d:f.c}"/>
+      <path d="M78 192 q0 15 6 15 q6 0 6 -15z" fill="${f.p==='melon'?f.d:f.c}"/>
+    </svg>`;
+  }
+  const tint = c => `color-mix(in srgb, ${c} 26%, var(--card))`;
+  const onColor = c => { const n=parseInt(c.slice(1),16), r=n>>16, g=n>>8&255, b=n&255; return (r*299+g*587+b*114)/1000 > 150 ? "#1B1B1B" : "#FFFFFF"; };
+
+  document.querySelectorAll("[data-flavor]").forEach(el => el.innerHTML = popsicle(FLAVORS[el.dataset.flavor]));
+
+  const freezer = document.getElementById("freezer");
+  const showcase = document.getElementById("sabores");
+  Object.values(FLAVORS).forEach((f, i) => {
+    const card = document.createElement("article");
+    card.className = "flavor rv";
+    card.tabIndex = 0;
+    card.style.setProperty("--d", (i % 5) * 0.07 + "s");
+    card.style.setProperty("--tint", tint(f.c));
+    card.style.setProperty("--c", f.c);
+    card.style.setProperty("--on", onColor(f.c));
+    card.innerHTML = `<div class="pic">${popsicle(f)}</div><h3>${f.n}</h3><span class="tag">${f.t}</span>`;
+    const on = () => { showcase.style.backgroundColor = `color-mix(in srgb, ${f.c} 12%, var(--bg))`; };
+    const off = () => { showcase.style.backgroundColor = ""; };
+    card.addEventListener("mouseenter", on); card.addEventListener("mouseleave", off);
+    card.addEventListener("focus", on); card.addEventListener("blur", off);
+    card.addEventListener("click", () => { const was = card.classList.contains("on"); freezer.querySelectorAll(".on").forEach(c=>c.classList.remove("on")); if(!was){card.classList.add("on"); on();} else off(); });
+    freezer.appendChild(card);
+  });
+
+  // Marquee (doubled for a seamless loop)
+  const mq = document.getElementById("marquee");
+  const items = Object.values(FLAVORS).map(f => `<span>${f.n}<i style="--c:${f.c}"></i></span>`).join("");
+  mq.innerHTML = items + items;
+
+  const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  // Reveal on scroll: hide only what starts below the fold.
+  const rv = [...document.querySelectorAll(".rv")];
+  if ("IntersectionObserver" in window && !reduce){
+    const io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting){ e.target.classList.remove("wait"); io.unobserve(e.target); } }), {rootMargin:"0px 0px -8% 0px"});
+    rv.forEach(el => { if (el.getBoundingClientRect().top > innerHeight * 0.92){ el.classList.add("wait"); io.observe(el); } });
+    setTimeout(() => rv.forEach(el => { if (el.getBoundingClientRect().top < innerHeight) el.classList.remove("wait"); }), 2500);
+  }
+
+  // Thermometer fills when it comes into view
+  const th = document.getElementById("thermo");
+  if ("IntersectionObserver" in window){
+    new IntersectionObserver((es, o) => es.forEach(e => { if (e.isIntersecting){ th.classList.add("go"); o.disconnect(); } }), {threshold:.4}).observe(th);
+  } else th.classList.add("go");
+
+  // Header hides on the way down, returns on the way up. Progress bar. Floating button.
+  const top = document.getElementById("top"), bar = document.getElementById("progress"), fl = document.getElementById("float");
+  let last = scrollY, ticking = false;
+  function onScroll(){
+    const y = scrollY, max = document.documentElement.scrollHeight - innerHeight;
+    top.classList.toggle("solid", y > 10);
+    top.classList.toggle("hide", y > last && y > 240);
+    bar.style.transform = `scaleX(${max > 0 ? y / max : 0})`;
+    const visit = document.getElementById("visite").getBoundingClientRect();
+    fl.classList.toggle("show", y > innerHeight * .8 && visit.top > innerHeight * .6);
+    last = y; ticking = false;
+  }
+  addEventListener("scroll", () => { if (!ticking){ requestAnimationFrame(onScroll); ticking = true; } }, {passive:true});
+  onScroll();
+
+  // Hero popsicles lean toward the cursor
+  const stage = document.getElementById("stage");
+  if (!reduce && matchMedia("(pointer:fine)").matches){
+    const pops = [...stage.querySelectorAll(".pop")];
+    addEventListener("pointermove", e => {
+      const x = e.clientX / innerWidth - .5, y = e.clientY / innerHeight - .5;
+      pops.forEach(p => { const d = +p.dataset.depth; p.style.transform = `translate(${(-x*d).toFixed(1)}px, ${(-y*d).toFixed(1)}px) rotate(${(x*d*.25).toFixed(1)}deg)`; });
+    }, {passive:true});
+    pops.forEach(p => p.style.transition = "transform .6s cubic-bezier(.2,.8,.2,1)");
+  }
+
+  // Copy phone number
+  const btn = document.getElementById("copy");
+  btn.addEventListener("click", () => {
+    const txt = document.getElementById("phone").textContent;
+    const done = () => { btn.textContent = "Copiado"; setTimeout(() => btn.textContent = "Copiar", 1800); };
+    try { navigator.clipboard.writeText(txt).then(done, () => { selectPhone(); }); } catch(e){ selectPhone(); }
+  });
+  function selectPhone(){ const r = document.createRange(); r.selectNodeContents(document.getElementById("phone")); const s = getSelection(); s.removeAllRanges(); s.addRange(r); btn.textContent = "Selecionado"; }
+})();
+</script>
