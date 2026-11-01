@@ -42,3 +42,9 @@ Adendos datados. O mais novo fica embaixo.
 - **Efeitos:** 96, todos em `src/v3/sons.ts` com os quadros da animação. Novo: o "plim" de notificação = `chime` com `n1 1760, n2 2349,3, gap 0,05, dur 0,35`, ganho 0,1.
 - **Resultado:** −14,0 LUFS e −1,6 dBTP no vídeo final; voz no mínimo 12,8 dB acima do fundo (mediana 17,1 dB). A transcrição do áudio final (95,6%) ficou acima da voz sozinha (93,4%): a trilha não cobre a fala.
 - Detalhes: `projetos/rotina/PASSO-A-PASSO.md` (item 6) e `reports/Vídeo Rotina v3, skills e combos usados (2026-10-12).md`.
+
+## 01/11/2026: música da internet para post orgânico (Pipoca Irmãos Bombom)
+
+- **Mixkit** dá para baixar direto daqui: a página de tag (`mixkit.co/free-stock-music/tag/<tag>/`) traz os links `assets.mixkit.co/music/<id>/<id>.mp3`. Licença grátis, sem crédito obrigatório.
+- **Achar a virada da faixa sem ouvir:** RMS por batida com librosa; o salto de energia (0,16 → 0,23 em "Mi Gente", 20,5 s) marca a nova seção. Corte o trecho para essa virada cair no corte principal do vídeo.
+- **`mixar_com_efeitos.py` sem voz:** passe um WAV de silêncio em `--voz` e use `--musica-db 0`.

@@ -96,3 +96,10 @@ O Daniel é editor de vídeo profissional (motion). Ele revisou o v2 do Rotina e
 
 - O caminho `chromium_headless_shell-1194/chrome-linux/headless_shell` não existe mais em containers novos (deu erro "browserExecutable ... doesn't exist"). Em 01/11/2026 era `/opt/pw-browsers/chromium_headless_shell-1243/chrome-headless-shell-linux64/chrome-headless-shell`.
 - Para não quebrar de novo, ache o caminho na hora: `B=$(find /opt/pw-browsers -maxdepth 3 -name chrome-headless-shell -o -maxdepth 3 -name headless_shell -type f | head -1)` e passe `--browser-executable=$B`.
+
+## 01/11/2026: vídeo da Pipoca Irmãos Bombom (vídeo real + animação)
+
+- **Mola passando do ponto quebra a regra 1:** letras subindo com `{260, 15}` passaram por cima da placa; o botão do telefone com `{260, 20}` encostou no texto de cima. Perto de outro texto, use amortecimento ζ ≥ 0,75 (ex.: `{260, 25–30}`).
+- **Transição "onda" do tema:** uma faixa de pipocas (objetos do próprio tema) subindo e cobrindo 100% do quadro no corte. Não é máscara e esconde o corte entre animação e vídeo real.
+- **Vídeo de celular com `rotation=-90`:** pré-processe com ffmpeg (`fps=30,scale=1080:1920`, cor e `-g 10`) antes do `OffthreadVideo`; a busca fica rápida e a rotação já vem certa.
+- Detalhes: `projetos/pipoca-irmaos-bombom/PASSO-A-PASSO.md`.
