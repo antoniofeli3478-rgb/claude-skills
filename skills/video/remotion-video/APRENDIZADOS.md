@@ -91,3 +91,8 @@ O Daniel é editor de vídeo profissional (motion). Ele revisou o v2 do Rotina e
 - **Gráfico que se desenha sem máscara:** a área sob a linha é um polígono calculado até a ponta da linha a cada quadro, no lugar do `clipPath`.
 - **`Atras` com elemento largo:** se o elemento for mais largo que o celular, ele começa vazando pela lateral. Use `Entra` pela borda do quadro (ex.: o botão do CTA desce do topo).
 - **Textos saindo e entrando no mesmo lugar:** confira se o que sai e o que entra não se cruzam no meio do movimento (no v4, o botão do CTA cruzava o texto que saía; resolvido saindo antes). Detalhes: `projetos/rotina/PASSO-A-PASSO.md` (item 7).
+
+## 01/11/2026: navegador do container mudou de versão
+
+- O caminho `chromium_headless_shell-1194/chrome-linux/headless_shell` não existe mais em containers novos (deu erro "browserExecutable ... doesn't exist"). Em 01/11/2026 era `/opt/pw-browsers/chromium_headless_shell-1243/chrome-headless-shell-linux64/chrome-headless-shell`.
+- Para não quebrar de novo, ache o caminho na hora: `B=$(find /opt/pw-browsers -maxdepth 3 -name chrome-headless-shell -o -maxdepth 3 -name headless_shell -type f | head -1)` e passe `--browser-executable=$B`.

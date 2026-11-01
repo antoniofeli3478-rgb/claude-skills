@@ -74,7 +74,7 @@ Este repositório existe para o Claude usar e ir melhorando. Ele guarda as habil
 ## Notas do ambiente (container da nuvem, sem GPU)
 
 - **Remotion:** versão 4.0.534. Mantenha todos os pacotes `@remotion/*` na mesma versão exata.
-  - Renderize com `--browser-executable=/opt/pw-browsers/chromium_headless_shell-1194/chrome-linux/headless_shell`.
+  - Renderize com `--browser-executable=$(find /opt/pw-browsers -maxdepth 3 -name chrome-headless-shell -o -maxdepth 3 -name headless_shell -type f | head -1)` (o número da versão muda com o container: em 01/11/2026 era `chromium_headless_shell-1243/chrome-headless-shell-linux64/chrome-headless-shell`; antes, `-1194/chrome-linux/headless_shell`).
   - Para 3D, acrescente `--gl=swangle`.
 - **Kit motion-video:** veja `skills/video/motion-video/APRENDIZADOS.md`. Ele precisa de um script que roda o Chrome com `--no-sandbox`, porque o container roda como root.
 - **Proxy:** o HTTPS de saída passa por um proxy que intercepta TLS, então ferramentas em Python podem precisar do certificado em `/root/.ccr/ca-bundle.crt`.

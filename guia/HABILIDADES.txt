@@ -79,6 +79,7 @@ notas: scroll-vídeo sem travar, CANCELADO a pedido do Daniel; material guardado
 relatório: pendências e porcentagem de pesquisa de tudo o que está incompleto (12/10/2026) | reports/Pendências e porcentagem de pesquisa (2026-10-12).md
 relatório: vídeo Rotina v3 (12/10/2026): cada skill e combo usado, como foi usado, e as propostas de skills e combos novos (esperam aprovação) | reports/Vídeo Rotina v3, skills e combos usados (2026-10-12).md
 notas: Rotina v3: mapa das 39 skills para um vídeo (o que cada uma faz, conflitos, receita de design e animação, checklist de revisão), briefing e roteiro (copy → humanizado) | research_notes/Rotina v3 2026-10/ (comece pelo MAPA-SKILLS.md)
+notas: repositórios de edição de vídeo baixados (video-edit-skill, video-use, claude-motion-design e o código do Rotina): para que serve cada um, onde ficam no container e como baixar/instalar de novo (01/11/2026; nenhum virou skill ainda) | research_notes/Edição de vídeo 2026-11/repositorios-baixados.md
 notas: kit motion-video e dicas (Google AI Studio) | research_notes/Motion design 3D e voz IA/motion_video_kit_e_dicas.md
 notas: Framer Motion / Motion 14 (versão atual, novidades, skill e MCP oficiais, teste de compatibilidade) | research_notes/Framer Motion 2026/notas.md
 amostras de voz (Kokoro, Piper, Chatterbox, Gemini, edge) e legendas alinhadas | research_notes/Motion design 3D e voz IA/samples/

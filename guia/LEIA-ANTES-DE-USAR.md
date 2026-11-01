@@ -385,7 +385,7 @@ São obrigatórias em todo vídeo e animação. O detalhe e o código estão em 
 
 - **Máquina:** 4 CPUs e sem placa de vídeo. Rode um render pesado por vez.
 - **Remotion 4.0.534,** com todos os pacotes `@remotion/*` na mesma versão exata.
-  - Navegador para renderizar: `--browser-executable=/opt/pw-browsers/chromium_headless_shell-1194/chrome-linux/headless_shell`.
+  - Navegador para renderizar: `--browser-executable=$(find /opt/pw-browsers -maxdepth 3 -name chrome-headless-shell -o -maxdepth 3 -name headless_shell -type f | head -1)` (o número da versão muda com o container: em 01/11/2026 era `chromium_headless_shell-1243/chrome-headless-shell-linux64/chrome-headless-shell`; antes, `-1194/chrome-linux/headless_shell`).
   - Para 3D, acrescente `--gl=swangle`.
 - **Proxy:** o HTTPS de saída passa por um proxy. Ferramentas em Python podem precisar do certificado `/root/.ccr/ca-bundle.crt`.
 - **Arquivos temporários** vão no scratchpad da sessão. Arquivo que importa vai para o repositório antes de a sessão acabar.
