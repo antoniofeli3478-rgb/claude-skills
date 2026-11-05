@@ -76,7 +76,7 @@ object R {
 private data class Tab(val route: String, val label: String, val icon: androidx.compose.ui.graphics.vector.ImageVector)
 private val tabs = listOf(
     Tab(R.HOME, "Início", AppIcons.Home),
-    Tab(R.TXNS, "Movimentos", AppIcons.List),
+    Tab(R.TXNS, "Extrato", AppIcons.List),
     Tab(R.INCOME, "Rendas", AppIcons.Work),
     Tab(R.CARD, "Cartão", AppIcons.Card),
     Tab(R.MORE, "Mais", AppIcons.More),

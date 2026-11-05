@@ -71,7 +71,7 @@ class AppLaunchTest {
 
     @Test fun everyMainScreenOpensWithoutCrashing() {
         waitText("Saldo total disponível")
-        for (tab in listOf("Movimentos", "Rendas", "Cartão", "Mais")) {
+        for (tab in listOf("Extrato", "Rendas", "Cartão", "Mais")) {
             rule.onAllNodesWithText(tab).onFirst().performClick()
             rule.waitForIdle()
         }
@@ -122,5 +122,16 @@ class PersistenceTest {
         assertEquals(20000L, FinanceCalc(l2, 20000).totalAvailable())
         assertEquals(3, l2.moves.size)
         db2.close()
+    }
+}
+
+/** Opens the app on the oldest supported Android (8.0), Android 11 and Android 15 (target). */
+@RunWith(AndroidJUnit4::class)
+@Config(sdk = [26, 30, 35], qualifiers = "w411dp-h891dp-xxhdpi")
+class AppLaunchAcrossAndroidVersionsTest {
+    @get:Rule val rule = createAndroidComposeRule<MainActivity>()
+    @Test fun opens() {
+        rule.waitUntil(15_000) { rule.onAllNodesWithText("Saldo total disponível").fetchSemanticsNodes().isNotEmpty() }
+        rule.onNodeWithText("Nova despesa").assertIsDisplayed()
     }
 }

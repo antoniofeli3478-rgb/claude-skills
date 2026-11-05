@@ -44,7 +44,7 @@ fun TransactionsScreen(s: AppState) {
     val items = all.filter { (filter == "Tudo" || it.kind == filter) && (q.isEmpty() || QuickEntryParser.normalize(it.title + " " + it.subtitle).contains(q)) }
     val grouped = items.groupBy { it.date }
 
-    ScreenScaffold("Movimentações") { pad ->
+    ScreenScaffold("Extrato") { pad ->
         LazyColumn(Modifier.fillMaxSize().padding(pad), contentPadding = PaddingValues(start = 16.dp, end = 16.dp, bottom = 24.dp), verticalArrangement = Arrangement.spacedBy(2.dp)) {
             item {
                 OutlinedTextField(query, { query = it }, label = { Text("Buscar") }, singleLine = true, modifier = Modifier.fillMaxWidth(), shape = MaterialTheme.shapes.large)

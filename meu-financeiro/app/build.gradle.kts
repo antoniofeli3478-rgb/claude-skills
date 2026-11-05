@@ -81,6 +81,7 @@ android {
         unitTests.all {
             it.maxHeapSize = "2g"
             // Maven Central rate-limits this container; Robolectric downloads android-all from the Google mirror.
+            it.systemProperty("screens", System.getProperty("screens") ?: "false")
             it.systemProperty("robolectric.dependency.repo.url", "https://maven-central.storage-download.googleapis.com/maven2")
         }
     }

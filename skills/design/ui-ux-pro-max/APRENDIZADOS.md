@@ -36,3 +36,9 @@ Adendos datados. O mais novo fica embaixo. O `SKILL.md` já incorpora os aprendi
 ## 13/10/2026: arquétipo do vídeo do Rotina
 
 - O "Palco escuro" (um fundo escuro o vídeo todo) deixou o v3 monótono. No v4 voltou o sistema do v2: papel com grade, vermelho e tinta alternando por seção, com o vermelho da marca como acento e como fundo nas viradas. Para vídeo, a variação de fundo entre seções conta mais que a paleta mínima. Detalhes: `projetos/rotina/PASSO-A-PASSO.md` (item 7).
+
+## 05/11/2026: app Android nativo (Meu Financeiro, Jetpack Compose)
+- As regras de "Operar" valeram igual em app nativo: números grandes em cima, ações grandes ao alcance do polegar, barra inferior com 5 itens e rótulos curtos (com 5 abas, "Movimentos" foi cortado; trocado por "Extrato").
+- Tema claro e escuro: defina tokens próprios (FinColors) além do Material 3, para que entrada/saída tenham a mesma semântica nos dois temas.
+- Gráficos: cores validadas com o script da skill `dataviz`. Verde × vermelho reprova no daltonismo, então as saídas ganham textura listrada.
+- Revisão visual sem celular: prints via Robolectric (`decorView.draw` num Bitmap com `@GraphicsMode(NATIVE)`). Detalhes em `projetos/meu-financeiro/PASSO-A-PASSO.md`.

@@ -213,7 +213,7 @@ fun BoxesScreen(s: AppState) {
             if (un < 0) Banner("As caixinhas somam ${Money.format(-un)} a mais do que você tem nas contas (descontada a fatura). Confira os saldos das contas.", fin.warn)
             Row(horizontalArrangement = Arrangement.spacedBy(10.dp)) {
                 OutlinedButton(onClick = { distribute = true }, modifier = Modifier.weight(1f)) { Text("Distribuir") }
-                OutlinedButton(onClick = { transfer = true }, modifier = Modifier.weight(1f)) { Text("Transferir entre caixinhas") }
+                OutlinedButton(onClick = { transfer = true }, modifier = Modifier.weight(1f)) { Text("Transferir") }
             }
             c.activeBoxes.forEach { b ->
                 val g = c.goal(b)

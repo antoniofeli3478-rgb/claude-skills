@@ -119,7 +119,7 @@ fun HomeScreen(s: AppState) {
                     Text(if (hideValues) "••••" else Money.format(free), style = MaterialTheme.typography.titleMedium, color = if (free < 0) fin.expense else fin.income)
                 }
                 Column(Modifier.weight(1f)) {
-                    Label("Patrimônio (contas − cartão)")
+                    Label("Patrimônio")
                     Text(if (hideValues) "••••" else Money.format(c.netWorth()), style = MaterialTheme.typography.titleMedium)
                 }
             }
@@ -163,7 +163,7 @@ fun HomeScreen(s: AppState) {
         Row(horizontalArrangement = Arrangement.spacedBy(10.dp)) {
             SmallAction("Minhas caixinhas", AppIcons.Box, Modifier.weight(1f)) { s.go(R.BOXES) }
             SmallAction("Cartão de crédito", AppIcons.Card, Modifier.weight(1f)) { s.go(R.CARD) }
-            SmallAction("Transferir", AppIcons.Swap, Modifier.weight(1f)) { s.go(R.TRANSFER) }
+            SmallAction("Transferir entre contas", AppIcons.Swap, Modifier.weight(1f)) { s.go(R.TRANSFER) }
         }
 
         // Week / month
@@ -280,7 +280,7 @@ private fun BigAction(label: String, icon: ImageVector, color: Color, modifier: 
 private fun SmallAction(label: String, icon: ImageVector, modifier: Modifier, onClick: () -> Unit) {
     val fin = LocalFin.current
     Surface(
-        modifier = modifier.heightIn(min = 84.dp).clip(MaterialTheme.shapes.large).clickable(onClick = onClick),
+        modifier = modifier.height(100.dp).clip(MaterialTheme.shapes.large).clickable(onClick = onClick),
         shape = MaterialTheme.shapes.large, color = MaterialTheme.colorScheme.surfaceContainer, border = BorderStroke(1.dp, fin.cardBorder),
     ) {
         Column(Modifier.padding(12.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
