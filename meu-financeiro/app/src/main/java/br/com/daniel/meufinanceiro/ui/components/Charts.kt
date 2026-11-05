@@ -148,7 +148,7 @@ fun IncomeExpenseChart(data: List<Triple<String, Long, Long>>, modifier: Modifie
 
 /** Horizontal magnitude bars with direct labels (one hue: label carries identity). */
 @Composable
-fun HBarList(items: List<Pair<String, Long>>, color: Color, modifier: Modifier = Modifier, total: Long? = null, maxItems: Int = 7) {
+fun HBarList(items: List<Pair<String, Long>>, color: Color, modifier: Modifier = Modifier, total: Long? = null, maxItems: Int = 7, showShare: Boolean = true) {
     val fin = LocalFin.current
     val shown = if (items.size > maxItems) items.take(maxItems - 1) + ("Outros" to items.drop(maxItems - 1).sumOf { it.second }) else items
     val max = (shown.maxOfOrNull { it.second } ?: 0L).coerceAtLeast(1L)
@@ -160,7 +160,7 @@ fun HBarList(items: List<Pair<String, Long>>, color: Color, modifier: Modifier =
             Column {
                 Row(verticalAlignment = Alignment.CenterVertically) {
                     Text(label, style = MaterialTheme.typography.bodyMedium, modifier = Modifier.weight(1f), maxLines = 1, overflow = TextOverflow.Ellipsis)
-                    if (sum > 0) Text("${v * 100 / sum}%  ", style = MaterialTheme.typography.bodySmall, color = fin.muted)
+                    if (showShare && sum > 0) Text("${v * 100 / sum}%  ", style = MaterialTheme.typography.bodySmall, color = fin.muted)
                     Text(Money.format(v), style = MaterialTheme.typography.titleSmall)
                 }
                 Spacer(Modifier.height(4.dp))

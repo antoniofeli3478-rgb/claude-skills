@@ -120,7 +120,7 @@ fun IncomeScreen(s: AppState) {
             val perHour = profit.filter { it.netPerHourCents != null && it.hours > 0 }
             if (perHour.size >= 2) {
                 SectionTitle("Lucro por hora")
-                FinCard { HBarList(perHour.sortedByDescending { it.netPerHourCents }.map { it.name to it.netPerHourCents!! }, fin.chartIncome) }
+                FinCard { HBarList(perHour.sortedByDescending { it.netPerHourCents }.map { it.name to it.netPerHourCents!! }, fin.chartIncome, showShare = false) }
                 Label("Já descontados os custos ligados a cada trabalho. Mostra o que realmente compensa o seu tempo.")
             }
             if (rep.otherInCents > 0 || l.loans.isNotEmpty()) {

@@ -219,7 +219,8 @@ Regras obrigatórias:
         val p = c.position()
         if (Regex("quanto (eu )?posso gastar|saldo livre|quanto (eu )?tenho (livre|pra gastar|para gastar)|posso gastar|disponivel").containsMatchIn(n)) {
             return buildString {
-                append("Você pode gastar ${Money.format(p.freeAfterBillsCents)}")
+                if (p.freeAfterBillsCents <= 0) append("Agora você não tem dinheiro livre para gastar: seu saldo livre é ${Money.format(p.freeAfterBillsCents)}")
+                else append("Você pode gastar ${Money.format(p.freeAfterBillsCents)}")
                 if (p.unpaidBillsCents > 0) append(" depois de pagar as contas do mês (${Money.format(p.unpaidBillsCents)}). Livre agora: ${Money.format(p.freeCents)}")
                 append(".\n")
                 append("- Dinheiro nas contas: ${Money.format(p.accountsCents)}\n")

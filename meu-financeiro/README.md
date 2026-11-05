@@ -1,13 +1,13 @@
 # Meu Financeiro
 
-App Android privado de gestão financeira do Daniel. Feito do zero em Kotlin + Jetpack Compose + Room. Funciona sem internet e não envia dados para lugar nenhum (a única exceção é a análise opcional com o Claude, que você liga e dispara manualmente).
+App Android privado de gestão financeira do Antônio Felipe. Feito do zero em Kotlin + Jetpack Compose + Room. Funciona sem internet e não envia dados para lugar nenhum (a única exceção é a análise opcional com o Claude, que você liga e dispara manualmente).
 
 ## Como instalar no celular (S23 FE ou qualquer Android 8 ou mais novo)
 
-1. Baixe o arquivo `apk/MeuFinanceiro-1.0.0.apk` (18,7 MB).
+1. Baixe o arquivo `apk/MeuFinanceiro-1.1.0.apk` (19 MB).
 2. **Confira se o download veio inteiro.** Este é o ponto que dava problema nos apps antigos:
-   - o arquivo precisa ter **18.734.928 bytes** (o celular mostra 18,7 MB ou 17,9 MB, dependendo do app que exibe o tamanho);
-   - se quiser conferir de verdade, o SHA-256 está em `apk/MeuFinanceiro-1.0.0.apk.sha256`;
+   - o arquivo precisa ter **19.048.993 bytes** (o celular mostra 19,0 MB ou 18,2 MB, dependendo do app que exibe o tamanho);
+   - se quiser conferir de verdade, o SHA-256 está em `apk/MeuFinanceiro-1.1.0.apk.sha256`;
    - se o tamanho for menor, apague o arquivo e baixe de novo (de preferência no Wi-Fi).
 3. Toque no arquivo. Se o Android pedir, permita "Instalar apps desconhecidos" para o app que você usou para abrir o arquivo (Meus Arquivos ou o navegador).
 4. Toque em **Instalar** e depois em **Abrir**.
@@ -16,6 +16,12 @@ O app tem um identificador próprio (`br.com.daniel.meufinanceiro`). Ele não co
 
 ### Se aparecer "app não instalado" ou "conflito de pacote"
 Só acontece se já existir um Meu Financeiro instalado com **outra assinatura** (por exemplo, uma versão de teste). Desinstale o antigo e instale de novo. Versões futuras assinadas com a mesma chave atualizam por cima, sem perder os dados.
+
+## Atualizar da 1.0.0 para a 1.1.0 (sem perder dados)
+1. **Antes**, por segurança extra: no app atual, vá em Configurações → Backup e exportação → **Fazer backup agora** e salve o arquivo fora do celular (Drive ou e-mail).
+2. Instale o `MeuFinanceiro-1.1.0.apk` **por cima** (não desinstale o app antigo!). O Android vai mostrar "Atualizar".
+3. Ao abrir, o app copia o banco antigo para uma pasta de segurança interna e migra o banco: **só acrescenta** colunas e tabelas, sem apagar nem alterar nenhum valor.
+4. Na tela Início aparece "Confira seus saldos": veja se o saldo de cada banco e das caixinhas bate com a realidade. O saldo de cada conta é o **total no banco, incluindo as caixinhas**. Se não bater, use "Corrigir saldos" → "Atualizar saldo" → "Informar saldo em conta".
 
 ## Primeiros passos dentro do app
 1. **Configurações → Contas e saldos → Atualizar saldo** em cada conta (Nubank, Inter, dinheiro). O valor entra como "dinheiro sem caixinha".
@@ -27,6 +33,6 @@ Só acontece se já existir um Meu Financeiro instalado com **outra assinatura**
 
 ## Para desenvolvedor
 - Build: `./gradlew assembleRelease` (precisa do Android SDK 35 e do `keystore.properties`, que **não** fica no repositório).
-- Testes: `./gradlew testDebugUnitTest` (48 testes: cálculos, banco de dados, abertura do app no Android 8, 11, 14 e 15, navegação por todas as telas e persistência).
+- Testes: `./gradlew testDebugUnitTest` (77 testes: cálculos, migração do banco 1→2 com dados da 1.0, os 6 cenários obrigatórios da 1.1, assistente, lançamento rápido, abertura do app no Android 8, 11, 14 e 15, navegação por todas as telas e persistência).
 - Prints das telas: `./gradlew testDebugUnitTest --tests '*ScreenshotTest*' -Dscreens=true` (os PNGs vão para `app/build/screens/`).
 - A arquitetura e as regras de cálculo estão em `../projetos/meu-financeiro/PASSO-A-PASSO.md`.

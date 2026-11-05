@@ -1,9 +1,9 @@
 # Meu Financeiro: passo a passo
 
-App Android privado de gestão financeira pessoal do Daniel, feito **do zero**. Nenhum código, tela ou banco dos apps financeiros antigos do GitHub dele foi aberto, copiado ou usado (minha-financa, Minhasfinancas e Finan-as ficaram intocados, a pedido dele).
+App Android privado de gestão financeira pessoal do **Antônio Felipe** (nome correto do usuário; a 1.0 dizia "Daniel" por engano), feito **do zero**. Nenhum código, tela ou banco dos apps financeiros antigos do GitHub dele foi aberto, copiado ou usado (minha-financa, Minhasfinancas e Finan-as ficaram intocados, a pedido dele).
 
 - **Onde está o código:** pasta `meu-financeiro/` na branch `ccr-ed0fdef6-j49nzi` (não vai para a `main`).
-- **APK pronto:** `meu-financeiro/apk/MeuFinanceiro-1.0.0.apk` (com o SHA-256 ao lado).
+- **APK pronto:** `meu-financeiro/apk/MeuFinanceiro-1.1.0.apk` (com o SHA-256 ao lado). A 1.0.0 está no histórico do git (commit `f9744da`).
 - **Guia de instalação para o Daniel:** `meu-financeiro/README.md`.
 
 ## 1. Situação (05/11/2026): versão 1.0.0 entregue
@@ -89,3 +89,48 @@ aapt2 dump badging app/build/outputs/apk/release/app-release.apk
 - `claude-api` (plataforma): integração com o Claude (SDK Java, modelo, erros).
 - `skills/design/ui-ux-pro-max/SKILL.md`: princípios de app "Operar" (leitura em cima, ação embaixo, alvos de toque de 48dp, barra inferior com até 5 itens).
 - Avaliada, mas **não adicionada** (precisa de aprovação): `impeccable` (fork no GitHub do Daniel), skill de design de interface que também cobre telas Android nativas.
+
+---
+
+## 9. Versão 1.1.0 (05/11/2026): atualização pedida depois do uso real
+
+A 1.0.0 instalou e abriu no S23 FE. A 1.1.0 foi feita **sobre** a 1.0 (sem reconstruir) e **instala por cima**: mesmo `applicationId` e mesma chave (SHA-256 do certificado `41535a7e…`), com `versionCode` 2.
+
+### Proteção dos dados (prioridade máxima)
+- Banco v1 → v2 com `MIGRATION_1_2` que **só acrescenta**: `income_sources.isEarned` (padrão 1), `boxes.accountId`, `transactions.loanId`, `card_purchases.workId/sourceId` e as tabelas `loans`, `chat_messages` e `assistant_actions`. Nenhuma linha é alterada ou apagada.
+- Antes de abrir o banco, o app copia os arquivos brutos (`.db`, `-wal`, `-shm`) para `files/backups/banco-antes-da-v1.1/` (uma vez).
+- `Seed.upgrade` (idempotente, marcado por `data_version=2`): cria as fontes "não renda" (família, empréstimo, ajuda, reembolso), as categorias de material NFC e o nome, e liga as caixinhas sem banco ao Nubank. Mostra o card "Confira seus saldos" em vez de corrigir algo sozinho.
+- Testes: `MigrationTest` cria um banco com o **esquema v1** e dados reais, migra, valida o esquema e confere que todas as linhas e todos os saldos são idênticos. Também testa a cópia bruta.
+
+### Correção crítica: saldo livre × reservado × patrimônio
+- **Causa do erro na 1.0:** a tela inicial mostrava "Saldo total disponível" = soma das contas, e as caixinhas eram envelopes virtuais nunca descontados.
+- **Agora (`FinanceCalc.position()`)**, uma única fonte de verdade, usada no Início, nos relatórios, nos alertas e na assistente:
+  - livre = contas − caixinhas (cada uma no mínimo 0) − cartão comprometido;
+  - reservado = caixinhas;
+  - patrimônio = contas − cartão − empréstimos.
+- O saldo da conta é o **total no banco, incluindo as caixinhas**. Cada caixinha diz em qual banco fica (`accountId`), e a tela de contas mostra "em caixinhas / fora delas".
+- A antiga caixinha "Gastos pessoais" virou o próprio saldo livre: os 50% ficam livres, sem movimento de caixinha, e as despesas pessoais não saem de caixinha. Os movimentos antigos dela continuam no banco, só são ignorados.
+
+### Lucro real e rentabilidade
+- Despesas e compras no cartão podem ser **custo de um trabalho** (`workId`/`sourceId`). `profitability(period)` calcula, por fonte, faturamento, custos, lucro, margem, horas, lucro por hora e o que falta receber.
+- NFC: lucro = faturamento − custo das unidades vendidas − custos extras (o material entra pelo custo médio dos lotes).
+- Entradas de família, empréstimo, ajuda e reembolso **não são renda**: não entram no lucro nem na divisão 50/25/25. Empréstimos têm controle de devolução (`LOAN_PAYMENT`, que não é despesa).
+
+### Assistente com ferramentas (`assistant/`)
+- `AssistantTools`: 22 ferramentas reais. Consultas rodam direto. Registros simples só rodam direto se "registros simples sem confirmação" estiver ligado. Edição, exclusão, metas, limites, nome e empréstimo **sempre** pedem confirmação, mostrando o valor anterior e o novo. Tudo fica em `assistant_actions`, com dados para **desfazer**.
+- `Assistant`: com a chave da API, usa o Claude (`claude-opus-5-5`, tool calling, até 8 rodadas por mensagem). Sem chave, usa o **modo offline**, com as mesmas ferramentas e regras. A conversa fica salva (`chat_messages`).
+- Alertas (`domain/Alerts.kt`): 9 tipos, cada um pode ser desligado. Os que comparam com a média exigem histórico mínimo. Notificação no celular opcional (WorkManager a cada 12 h, no máximo 1 por dia).
+
+### Testes da 1.1 (77 no total, todos passando)
+- Os **6 cenários pedidos**: caixinhas 42/170/212, Tio Rex 80−15−5 = 60, plaquinha 89,90−14 = 75,90, empréstimo de 30 da mãe, compra de 100 no crédito, e "Quanto posso gastar?" na assistente.
+- Migração (3), assistente (11: confirmação, desfazer, ambiguidade, custo ligado ao trabalho), lançamento rápido v2 (9) e abertura do app em 4 versões do Android com navegação por todas as telas.
+
+### O que NÃO foi testado
+- Instalação real por cima da 1.0 no celular (não há emulador aqui). A migração foi testada com um banco no formato v1.
+- Chamada real ao Claude (não havia chave). A montagem das ferramentas para a API foi testada sem enviar.
+
+### Aprendizados novos
+- `MigrationTestHelper` no Robolectric só acha os JSON do esquema se estiverem nos assets do **debug** (`sourceSets["debug"].assets.srcDir("schemas")`).
+- `@ColumnInfo(defaultValue = "1")` é obrigatório quando a migração usa `DEFAULT 1`, senão a validação do Room falha.
+- SDK Java da Anthropic: `jsonMapper()` fica em `com.anthropic.core` (função de topo), e `params.addMessage(response)` devolve a resposta inteira ao histórico do loop de ferramentas.
+- Push de tag é recusado pelo proxy do container: use o histórico da branch como marco.

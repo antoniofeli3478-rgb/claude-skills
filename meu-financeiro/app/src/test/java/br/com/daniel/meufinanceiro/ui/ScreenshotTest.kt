@@ -34,10 +34,11 @@ class ScreenshotTest {
 
     @Test fun screens() {
         if (System.getProperty("screens") != "true") return
-        rule.waitUntil(15_000) { rule.onAllNodesWithText("Saldo total disponível").fetchSemanticsNodes().isNotEmpty() }
+        rule.waitUntil(15_000) { rule.onAllNodesWithText("Saldo livre para gastar").fetchSemanticsNodes().isNotEmpty() }
         val vm = ViewModelProvider(rule.activity)[MainViewModel::class.java]
         val t = Dates.today()
         runBlocking {
+            vm.repo.setSetting("review_balances", null)
             val r = vm.repo
             val l = r.snapshot()
             val inter = l.accounts.first { it.isDaily }.id
@@ -48,7 +49,10 @@ class ScreenshotTest {
             r.adjustBalance(nu, 0, 85000, t - 40)
             r.boxDeposit(l.boxOfKind(BoxKind.COMPUTER)!!.id, 60000, t - 40)
             r.boxDeposit(l.boxOfKind(BoxKind.EMERGENCY)!!.id, 25000, t - 40)
-            for (i in 0..8) r.saveWork(WorkEntry(sourceId = src(SourceType.TIO_REX), date = t - i * 4, hours = 4.0, myShareCents = 8000), 8000, inter)
+            val tr = cat("Transporte")
+            for (i in 0..8) r.saveWork(WorkEntry(sourceId = src(SourceType.TIO_REX), date = t - i * 4, hours = 4.0, myShareCents = 8000), 8000, inter,
+                costs = listOf(FinanceRepository.ExpenseInput(1500, t - i * 4, "Uber ida", tr, PayMethod.PIX, inter), FinanceRepository.ExpenseInput(500, t - i * 4, "Ônibus volta", tr, PayMethod.PIX, inter)))
+            r.addLoan("Mãe", 3000, t - 1, inter)
             r.saveWork(WorkEntry(sourceId = src(SourceType.RECREACAO), date = t - 6, title = "Festa infantil", hours = 4.0, myShareCents = 12000), 12000, inter)
             r.saveWork(WorkEntry(sourceId = src(SourceType.PIPOCA), date = t - 2, title = "Festa junina", hours = 5.0, grossCents = 60000, costsCents = 2000, myShareCents = 12000), 0, null)
             r.saveBatch(NfcBatch(date = t - 30, quantity = 30, totalCostCents = 35000), PayMethod.PIX, nu)
@@ -59,6 +63,8 @@ class ScreenshotTest {
             r.addExpense(FinanceRepository.ExpenseInput(30000, t - 3, "Tênis", cat("Compras pessoais"), PayMethod.CREDIT, null, l.mainCard!!.id, 3))
             r.addExpense(FinanceRepository.ExpenseInput(16000, t - 8, "Academia", cat("Academia"), PayMethod.CREDIT, null, l.mainCard!!.id))
         }
+        runBlocking { vm.assistant.send("Quanto posso gastar?"); vm.assistant.send("Mude meu limite mínimo de saldo para 50") }
+        vm.refreshChat()
         rule.waitForIdle()
         val out = File("build/screens").apply { mkdirs() }
         fun shot(name: String) {
@@ -77,7 +83,7 @@ class ScreenshotTest {
             rule.waitForIdle()
             rule.runOnUiThread { navForTest?.navigate(R.HOME) }
             shot("$theme-home")
-            for ((n, route) in listOf("card" to R.CARD, "boxes" to R.BOXES, "nfc" to R.NFC, "income" to R.INCOME, "reports" to R.REPORTS, "analyst" to R.ANALYST, "expense" to R.expense(), "txns" to R.TXNS, "bills" to R.BILLS)) {
+            for ((n, route) in listOf("card" to R.CARD, "boxes" to R.BOXES, "income" to R.INCOME, "reports" to R.REPORTS, "assistant" to R.ASSISTANT, "work" to R.work(), "alerts" to R.ALERTS, "txns" to R.TXNS)) {
                 rule.runOnUiThread { navForTest?.navigate(route) }
                 shot("$theme-$n")
             }
