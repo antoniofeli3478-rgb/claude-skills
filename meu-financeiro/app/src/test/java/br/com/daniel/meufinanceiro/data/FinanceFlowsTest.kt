@@ -47,9 +47,9 @@ class FinanceFlowsTest {
         repo.seedIfEmpty() // second call must not duplicate
         val l = ledger()
         assertEquals(3, l.accounts.size)
-        assertEquals(13, l.categories.size)
+        assertEquals(17, l.categories.size) // 13 + 4 NFC material categories (v2)
         assertEquals(6, l.boxes.size)
-        assertEquals(5, l.sources.size)
+        assertEquals(9, l.sources.size)     // 5 work/sales + família, empréstimo, ajuda, reembolso (v2)
         assertEquals(10000, l.rules.sumOf { it.basisPoints })
         assertTrue(l.bills.none { it.active })
         assertNull(l.mainCard!!.dueDay)
@@ -60,17 +60,18 @@ class FinanceFlowsTest {
         val l = ledger()
         repo.addIncome(20000, today, "Tio Rex", l.acc("Banco Inter").id, l.src(SourceType.TIO_REX).id)
         val c = calc()
-        assertEquals(10000L, c.boxBalance(l.boxK(BoxKind.SPENDING).id))
+        assertEquals(0L, c.boxBalance(l.boxK(BoxKind.SPENDING).id)) // v2: the 50% stays as free money
         assertEquals(5000L, c.boxBalance(l.boxK(BoxKind.EMERGENCY).id))
         assertEquals(5000L, c.boxBalance(l.boxK(BoxKind.ABROAD).id))
         assertEquals(20000L, c.accountBalance(l.acc("Banco Inter").id))
-        assertEquals(0L, c.unallocated())
+        assertEquals(10000L, c.position().freeCents)
+        assertEquals(10000L, c.position().reservedCents)
     }
 
     @Test fun incomeExcludedFromSplitStaysUnallocated() = runBlocking {
         val l = ledger()
         repo.addIncome(5000, today, "Presente", l.acc("Nubank").id, null, Split.None)
-        assertEquals(5000L, calc().unallocated())
+        assertEquals(5000L, calc().position().freeCents)
         assertEquals(0L, calc().totalInBoxes())
     }
 
@@ -88,9 +89,8 @@ class FinanceFlowsTest {
         repo.addExpense(FinanceRepository.ExpenseInput(2500, today, "Almoço", l.cat("Alimentação").id, PayMethod.PIX, inter))
         val c = calc()
         assertEquals(17500L, c.accountBalance(inter))
-        assertEquals(7500L, c.boxBalance(l.boxK(BoxKind.SPENDING).id))
+        assertEquals(7500L, c.position().freeCents)
         assertEquals(2500L, c.report(Period.of(PeriodKind.MONTH, today)).expenseCents)
-        assertEquals(0L, c.unallocated())
     }
 
     @Test fun creditPurchaseGoesToInvoiceNotToBankBalance() = runBlocking {
@@ -104,8 +104,7 @@ class FinanceFlowsTest {
         assertEquals(5000L, inv.totalCents)
         assertEquals(5000L, c.cardDebt())
         assertEquals(5000L, c.report(Period.of(PeriodKind.MONTH, today)).expenseCents)
-        assertEquals(5000L, c.boxBalance(l.boxK(BoxKind.SPENDING).id)) // 10000 - 5000
-        assertEquals(0L, c.unallocated())
+        assertEquals(5000L, c.position().freeCents) // 200 - 100 reserved - 50 committed on the card
     }
 
     @Test fun payingTheInvoiceDoesNotDuplicateExpenses() = runBlocking {
@@ -123,8 +122,7 @@ class FinanceFlowsTest {
         val month = Period.of(PeriodKind.MONTH, today)
         assertEquals(5000L, c.report(month).expenseCents) // still one expense of 50, not 100
         assertEquals(20000L, c.report(month).incomeCents)
-        assertEquals(5000L, c.boxBalance(l.boxK(BoxKind.SPENDING).id)) // box not charged twice
-        assertEquals(0L, c.unallocated())
+        assertEquals(5000L, c.position().freeCents) // paying the invoice does not reduce free money again
     }
 
     @Test fun installments300In3xBecomeThreeInvoicesOf100() = runBlocking {
@@ -155,15 +153,17 @@ class FinanceFlowsTest {
         assertEquals(10000L, c.totalAvailable())
         val r = c.report(Period.of(PeriodKind.MONTH, today))
         assertEquals(10000L, r.incomeCents); assertEquals(0L, r.expenseCents)
-        assertEquals(0L, c.unallocated())
+        assertEquals(5000L, c.position().freeCents)
     }
 
     @Test fun boxTransfersDoNotCreateMoney() = runBlocking {
         val l = ledger()
         repo.addIncome(20000, today, "x", l.acc("Nubank").id, null)
-        repo.boxTransfer(l.boxK(BoxKind.SPENDING).id, l.boxK(BoxKind.COMPUTER).id, 3000, today)
+        val free0 = calc().position().freeCents
+        repo.boxTransfer(l.boxK(BoxKind.EMERGENCY).id, l.boxK(BoxKind.COMPUTER).id, 3000, today)
         val c = calc()
-        assertEquals(20000L, c.totalInBoxes())
+        assertEquals(10000L, c.position().reservedCents)
+        assertEquals(free0, c.position().freeCents)
         assertEquals(3000L, c.boxBalance(l.boxK(BoxKind.COMPUTER).id))
         assertEquals(20000L, c.report(Period.of(PeriodKind.MONTH, today)).incomeCents)
     }
@@ -206,8 +206,8 @@ class FinanceFlowsTest {
         val stockBox = l.boxK(BoxKind.NFC_STOCK).id
         // Stock box: -350 (batch) + 23,32 (cost of 2 units back)
         assertEquals(-35000L + 2332L, c.boxBalance(stockBox))
-        // Profit 136,48 split 50/25/25 -> 68,24 for personal spending
-        assertEquals(6824L, c.boxBalance(l.boxK(BoxKind.SPENDING).id))
+        // Profit 136,48 split 50/25/25 -> 34,12 to the emergency reserve, 68,24 stays free
+        assertEquals(3412L, c.boxBalance(l.boxK(BoxKind.EMERGENCY).id))
         val s = c.nfcSummary(null)
         assertEquals(15980L, s.revenueCents); assertEquals(2332L, s.costCents); assertEquals(15980L - 2332L, s.grossProfitCents)
         assertEquals(28, c.nfcStock())
@@ -232,10 +232,10 @@ class FinanceFlowsTest {
     @Test fun lowBalanceAlert() = runBlocking {
         val l = ledger()
         val inter = l.acc("Banco Inter").id
-        repo.addIncome(5000, today, "x", inter, null)
-        assertNotNull(calc().lowBalanceWarning(inter, -2500)) // 50 - 25 = 25 < 30
+        repo.addIncome(5000, today, "x", inter, null, Split.None)
+        assertNotNull(calc().lowBalanceWarning(inter, -2500)) // free 50 - 25 = 25 < 30
         assertNull(calc().lowBalanceWarning(inter, -1000))    // 40 >= 30
-        assertNull(calc().lowBalanceWarning(l.acc("Nubank").id, -100000)) // not the daily account
+        assertNotNull(calc().lowBalanceWarning(l.acc("Nubank").id, -100000)) // v2: any account, the FREE balance matters
     }
 
     @Test fun adjustmentIsNotIncome() = runBlocking {
@@ -245,7 +245,7 @@ class FinanceFlowsTest {
         val c = calc()
         assertEquals(150000L, c.accountBalance(nu))
         assertEquals(0L, c.report(Period.of(PeriodKind.MONTH, today)).incomeCents)
-        assertEquals(150000L, c.unallocated())
+        assertEquals(150000L, c.position().freeCents)
     }
 
     @Test fun deletingAPurchaseRemovesInstallmentsAndRefundsTheBox() = runBlocking {

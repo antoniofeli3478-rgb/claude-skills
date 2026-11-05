@@ -120,7 +120,7 @@ class PersistenceTest {
         val l2 = FinanceRepository(db2).snapshot()
         assertEquals(1, l2.txns.size)
         assertEquals(20000L, FinanceCalc(l2, 20000).totalAvailable())
-        assertEquals(3, l2.moves.size)
+        assertEquals(2, l2.moves.size) // v2: the free 50% has no box movement
         db2.close()
     }
 }
