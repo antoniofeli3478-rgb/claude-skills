@@ -42,16 +42,19 @@ class BackupManager(private val context: Context, private val repo: FinanceRepos
     /** Daily automatic copy inside the app (keeps the last 10). Protects against mistakes, not against uninstalling. */
     suspend fun autoSnapshot(force: Boolean = false, tag: String = "auto"): File? {
         val today = Dates.today()
-        val files = autoDir.listFiles()?.sortedBy { it.name } ?: emptyList()
+        val files = jsonFiles()
         if (!force && files.any { it.name.startsWith("auto-" + Dates.format(today).replace('/', '-')) }) return null
         val stamp = LocalDateTime.now().format(DateTimeFormatter.ofPattern("dd-MM-yyyy_HH-mm"))
         val f = File(autoDir, "$tag-$stamp.json")
         f.writeText(exportJson())
-        (autoDir.listFiles()?.sortedByDescending { it.lastModified() } ?: emptyList()).drop(10).forEach { it.delete() }
+        // Keeps the 10 newest daily copies. Copies taken before a restore/upgrade and folders are never deleted here.
+        jsonFiles().filter { it.name.startsWith("auto-") }.sortedByDescending { it.lastModified() }.drop(10).forEach { it.delete() }
         return f
     }
 
-    fun snapshots(): List<File> = autoDir.listFiles()?.sortedByDescending { it.lastModified() } ?: emptyList()
+    private fun jsonFiles(): List<File> = autoDir.listFiles()?.filter { it.isFile && it.name.endsWith(".json") } ?: emptyList()
+
+    fun snapshots(): List<File> = jsonFiles().sortedByDescending { it.lastModified() }
 
     /** Semicolon CSV with comma decimals, opens correctly in Excel / Google Sheets in Portuguese. */
     fun csv(l: Ledger): String {

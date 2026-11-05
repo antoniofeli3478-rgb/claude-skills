@@ -20,13 +20,15 @@ import java.util.UUID
 @Serializable
 data class BackupData(
     val app: String = "MeuFinanceiro",
-    val schema: Int = 1,
+    val schema: Int = 2,
     val exportedAt: Long = System.currentTimeMillis(),
     val accounts: List<Account>, val cards: List<CreditCard>, val categories: List<Category>,
     val sources: List<IncomeSource>, val boxes: List<Box>, val rules: List<DistributionRule>,
     val txns: List<Txn>, val moves: List<BoxMovement>, val purchases: List<CardPurchase>,
     val installments: List<CardInstallment>, val works: List<WorkEntry>, val batches: List<NfcBatch>,
     val customers: List<NfcCustomer>, val sales: List<NfcSale>, val bills: List<Bill>, val settings: List<Setting>,
+    /** v2 (missing in v1 backups -> empty). */
+    val loans: List<Loan> = emptyList(),
 )
 
 /** How an income is split between boxes. */
@@ -46,7 +48,7 @@ class FinanceRepository(private val db: AppDatabase) {
     private val allTables = arrayOf(
         "accounts", "cards", "categories", "income_sources", "boxes", "distribution_rules", "transactions",
         "box_movements", "card_purchases", "card_installments", "work_entries", "nfc_batches", "nfc_customers",
-        "nfc_sales", "bills", "settings",
+        "nfc_sales", "bills", "settings", "loans",
     )
 
     /** Emits a fresh, consistent snapshot every time anything changes. */
@@ -64,7 +66,7 @@ class FinanceRepository(private val db: AppDatabase) {
         Ledger(
             dao.accounts(), dao.cards(), dao.categories(), dao.sources(), dao.boxes(), dao.rules(), dao.txns(),
             dao.moves(), dao.purchases(), dao.installments(), dao.works(), dao.batches(), dao.customers(),
-            dao.sales(), dao.bills(), dao.settings().associate { it.key to it.value },
+            dao.sales(), dao.bills(), dao.settings().associate { it.key to it.value }, dao.loans(),
         )
     }
 
@@ -91,13 +93,16 @@ class FinanceRepository(private val db: AppDatabase) {
                 val rules = dao.rules().filter { boxes[it.boxId]?.archived == false }
                     .sortedBy { boxes[it.boxId]?.sortOrder ?: 0 }.map { it.boxId to it.basisPoints }
                 Distribution.split(personal, rules).forEach { (box, v) ->
-                    moves += BoxMovement(boxId = box, amountCents = v, date = date, kind = MoveKind.DISTRIBUTION, txnId = txnId)
+                    // v2: the "Gastos pessoais" share simply stays as FREE money (no box movement).
+                    if (boxes[box]?.kind != BoxKind.SPENDING)
+                        moves += BoxMovement(boxId = box, amountCents = v, date = date, kind = MoveKind.DISTRIBUTION, txnId = txnId)
                 }
             }
             is Split.Custom -> {
                 require(split.parts.all { it.second >= 0 }) { "Valores negativos na divisão" }
                 require(split.parts.sumOf { it.second } <= personal) { "A divisão passa do valor da entrada" }
-                split.parts.filter { it.second > 0 }.forEach { (box, v) ->
+                val boxes = dao.boxes().associateBy { it.id }
+                split.parts.filter { it.second > 0 && boxes[it.first]?.kind != BoxKind.SPENDING }.forEach { (box, v) ->
                     moves += BoxMovement(boxId = box, amountCents = v, date = date, kind = MoveKind.DISTRIBUTION, txnId = txnId)
                 }
             }
@@ -110,14 +115,39 @@ class FinanceRepository(private val db: AppDatabase) {
     /** Money received. Splits it between the boxes. */
     suspend fun addIncome(
         amountCents: Long, date: Long, description: String, accountId: Long, sourceId: Long?, split: Split = Split.Default,
-        workId: Long? = null, saleId: Long? = null, notes: String = "",
+        workId: Long? = null, saleId: Long? = null, notes: String = "", loanId: Long? = null,
     ): Long = db.withTransaction {
         require(amountCents > 0) { "Valor precisa ser maior que zero" }
+        // Money from family / loans / help / refunds is not earned income: not split by default.
+        val src = sourceId?.let { id -> dao.sources().firstOrNull { it.id == id } }
+        val notEarned = loanId != null || (src != null && (!src.isEarned || src.type in SourceType.notEarned))
+        val effSplit = if (notEarned && split == Split.Default) Split.None else split
         val id = dao.insertTxn(Txn(type = TxnType.INCOME, amountCents = amountCents, date = date, description = description.trim(),
-            accountId = accountId, sourceId = sourceId, workId = workId, nfcSaleId = saleId, distMode = split.mode(), notes = notes))
-        dao.insertMoves(boxMovesForIncome(id, amountCents, date, split, saleId))
+            accountId = accountId, sourceId = sourceId, workId = workId, nfcSaleId = saleId, distMode = effSplit.mode(), notes = notes, loanId = loanId))
+        dao.insertMoves(boxMovesForIncome(id, amountCents, date, effSplit, saleId))
         id
     }
+
+    /* ================= Loans (v2) ================= */
+
+    /** Borrowed money: enters the account, is NOT income, and stays as a debt until repaid. */
+    suspend fun addLoan(person: String, amountCents: Long, date: Long, accountId: Long, dueDate: Long? = null, notes: String = ""): Long = db.withTransaction {
+        require(amountCents > 0) { "Valor precisa ser maior que zero" }
+        val loanId = dao.upsertLoan(Loan(person = person.trim().ifBlank { "Empréstimo" }, principalCents = amountCents, date = date, dueDate = dueDate, notes = notes))
+        val src = dao.sources().firstOrNull { it.type == SourceType.LOAN }
+        addIncome(amountCents, date, "Empréstimo de ${person.trim().ifBlank { "alguém" }}", accountId, src?.id, Split.None, loanId = loanId)
+        loanId
+    }
+
+    /** Paying back a loan: money leaves the account but it is not an expense. */
+    suspend fun repayLoan(loanId: Long, amountCents: Long, accountId: Long, date: Long): Long = db.withTransaction {
+        require(amountCents > 0) { "Valor precisa ser maior que zero" }
+        val loan = dao.loans().firstOrNull { it.id == loanId } ?: error("Empréstimo não encontrado")
+        dao.insertTxn(Txn(type = TxnType.LOAN_PAYMENT, amountCents = amountCents, date = date, description = "Devolução para ${loan.person}",
+            accountId = accountId, loanId = loanId, method = PayMethod.PIX, distMode = DistMode.NONE))
+    }
+
+    suspend fun deleteLoan(id: Long) = db.withTransaction { dao.deleteTxnsOfLoan(id); dao.deleteLoan(id) }
 
     /* ================= Expenses ================= */
 
@@ -126,6 +156,8 @@ class FinanceRepository(private val db: AppDatabase) {
         val accountId: Long?, val cardId: Long? = null, val installments: Int = 1, val boxId: Long? = null,
         val recurring: Boolean = false, val notes: String = "", val billId: Long? = null, val billMonth: Int? = null,
         val nfcBatchId: Long? = null,
+        /** v2: links the expense to a job / income source as a work cost (rentabilidade). */
+        val workId: Long? = null, val sourceId: Long? = null,
     )
 
     /** Returns the Txn id (debit/pix/cash...) or the CardPurchase id (credit) — see [ExpenseResult]. */
@@ -139,7 +171,7 @@ class FinanceRepository(private val db: AppDatabase) {
             val card = ledger.card(e.cardId) ?: ledger.mainCard ?: error("Cadastre um cartão de crédito")
             val pid = dao.insertPurchase(CardPurchase(cardId = card.id, description = e.description.trim(), totalCents = e.amountCents,
                 installments = e.installments.coerceIn(1, 48), date = e.date, categoryId = e.categoryId, boxId = box, billId = e.billId,
-                billMonth = e.billMonth, nfcBatchId = e.nfcBatchId, recurring = e.recurring, notes = e.notes))
+                billMonth = e.billMonth, nfcBatchId = e.nfcBatchId, recurring = e.recurring, notes = e.notes, workId = e.workId, sourceId = e.sourceId))
             val inst = CardBilling.installments(e.amountCents, e.installments, Dates.day(e.date), card)
                 .map { (n, v, key) -> CardInstallment(purchaseId = pid, number = n, amountCents = v, invoiceKey = key) }
             dao.insertInstallments(inst)
@@ -150,7 +182,7 @@ class FinanceRepository(private val db: AppDatabase) {
             val acc = e.accountId ?: (if (e.method == PayMethod.CASH) ledger.cashAccount?.id else ledger.dailyAccount?.id) ?: error("Escolha a conta")
             val id = dao.insertTxn(Txn(type = TxnType.EXPENSE, amountCents = e.amountCents, date = e.date, description = e.description.trim(),
                 accountId = acc, categoryId = e.categoryId, method = e.method, billId = e.billId, billMonth = e.billMonth,
-                nfcBatchId = e.nfcBatchId, boxId = box, recurring = e.recurring, notes = e.notes))
+                nfcBatchId = e.nfcBatchId, boxId = box, recurring = e.recurring, notes = e.notes, workId = e.workId, sourceId = e.sourceId))
             if (box != null) dao.insertMove(BoxMovement(boxId = box, amountCents = -e.amountCents, date = e.date, kind = MoveKind.SPEND, txnId = id, note = e.description.trim()))
             ExpenseResult(id, null)
         }
@@ -230,9 +262,14 @@ class FinanceRepository(private val db: AppDatabase) {
 
     /* ================= Work (Tio Rex, recreação, pipoca, outros) ================= */
 
-    suspend fun saveWork(w: WorkEntry, receivedNowCents: Long = 0, accountId: Long? = null, split: Split = Split.Default, date: Long = w.date): Long = db.withTransaction {
+    suspend fun saveWork(
+        w: WorkEntry, receivedNowCents: Long = 0, accountId: Long? = null, split: Split = Split.Default, date: Long = w.date,
+        costs: List<ExpenseInput> = emptyList(),
+    ): Long = db.withTransaction {
         require(w.myShareCents >= 0)
         val id = dao.upsertWork(w).let { if (w.id != 0L) w.id else it }
+        // Uber, ônibus, lanche... registered as real expenses linked to this job.
+        costs.filter { it.amountCents > 0 }.forEach { addExpense(it.copy(workId = id, sourceId = w.sourceId)) }
         if (receivedNowCents > 0 && accountId != null) {
             val src = dao.sources().firstOrNull { it.id == w.sourceId }
             addIncome(receivedNowCents, date, w.title.ifBlank { src?.name ?: "Trabalho" }, accountId, w.sourceId, split, workId = id)
@@ -297,7 +334,7 @@ class FinanceRepository(private val db: AppDatabase) {
             accounts = dao.accounts(), cards = dao.cards(), categories = dao.categories(), sources = dao.sources(),
             boxes = dao.boxes(), rules = dao.rules(), txns = dao.txns(), moves = dao.moves(), purchases = dao.purchases(),
             installments = dao.installments(), works = dao.works(), batches = dao.batches(), customers = dao.customers(),
-            sales = dao.sales(), bills = dao.bills(),
+            sales = dao.sales(), bills = dao.bills(), loans = dao.loans(),
             // Security settings (PIN) are device-specific and never exported.
             settings = dao.settings().filter { it.key !in setOf(Keys.PIN_HASH, Keys.PIN_SALT, Keys.BIOMETRIC) },
         )
@@ -306,14 +343,28 @@ class FinanceRepository(private val db: AppDatabase) {
     /** Replaces ALL data with the backup, atomically. If anything fails, nothing changes. */
     suspend fun restoreAll(b: BackupData) = db.withTransaction {
         require(b.app == "MeuFinanceiro") { "Este arquivo não é um backup do Meu Financeiro" }
-        require(b.schema <= 1) { "Backup de uma versão mais nova do app" }
+        require(b.schema <= 2) { "Backup de uma versão mais nova do app" }
         dao.wipeMoves(); dao.wipeInstallments(); dao.wipeTxns(); dao.wipePurchases(); dao.wipeWorks(); dao.wipeSales()
         dao.wipeBatches(); dao.wipeCustomers(); dao.wipeBills(); dao.wipeRules(); dao.wipeBoxes(); dao.wipeSources()
-        dao.wipeCategories(); dao.wipeCards(); dao.wipeAccounts(); dao.wipeDataSettings()
+        dao.wipeCategories(); dao.wipeCards(); dao.wipeAccounts(); dao.wipeDataSettings(); dao.wipeLoans()
         dao.insertAccounts(b.accounts); dao.insertCards(b.cards); dao.insertCategories(b.categories); dao.insertSources(b.sources)
         dao.insertBoxes(b.boxes); dao.insertRules(b.rules); dao.insertTxns(b.txns); dao.insertPurchases(b.purchases)
         dao.insertInstallments(b.installments); dao.insertMoves(b.moves); dao.insertWorks(b.works); dao.insertBatches(b.batches)
-        dao.insertCustomers(b.customers); dao.insertSales(b.sales); dao.insertBills(b.bills)
+        dao.insertCustomers(b.customers); dao.insertSales(b.sales); dao.insertBills(b.bills); dao.insertLoans(b.loans)
         dao.upsertSettings(b.settings.filter { it.key !in setOf(Keys.PIN_HASH, Keys.PIN_SALT, Keys.BIOMETRIC) })
+        // A v1 backup restored into v2 gets the same safe additions as an upgrade.
+        Seed.upgrade(dao)
     }
+
+    /* ================= Assistant (v2) ================= */
+
+    suspend fun chat(): List<ChatMessage> = dao.chat()
+    suspend fun addChat(m: ChatMessage): Long = dao.insertChat(m)
+    suspend fun clearChat() = dao.clearChat()
+    suspend fun actions(): List<AssistantAction> = dao.actions()
+    suspend fun action(id: Long): AssistantAction? = dao.action(id)
+    suspend fun saveAction(a: AssistantAction): Long = dao.upsertAction(a).let { if (a.id != 0L) a.id else it }
+    suspend fun deleteCategory(id: Long) = dao.deleteCategory(id)
+    suspend fun txn(id: Long) = dao.txn(id)
+    suspend fun purchase(id: Long) = dao.purchase(id)
 }

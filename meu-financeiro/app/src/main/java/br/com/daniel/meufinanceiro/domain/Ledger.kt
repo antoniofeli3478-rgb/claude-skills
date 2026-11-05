@@ -11,6 +11,7 @@ import br.com.daniel.meufinanceiro.data.Category
 import br.com.daniel.meufinanceiro.data.CreditCard
 import br.com.daniel.meufinanceiro.data.DistributionRule
 import br.com.daniel.meufinanceiro.data.IncomeSource
+import br.com.daniel.meufinanceiro.data.Loan
 import br.com.daniel.meufinanceiro.data.NfcBatch
 import br.com.daniel.meufinanceiro.data.NfcCustomer
 import br.com.daniel.meufinanceiro.data.NfcSale
@@ -36,6 +37,14 @@ object Keys {
     const val AI_ENABLED = "ai_enabled"
     const val ONBOARDED = "onboarded"
     const val LAST_AUTO_BACKUP = "last_auto_backup_day"
+    // v2
+    const val DATA_VERSION = "data_version"
+    const val USER_NAME = "user_name"
+    const val REVIEW_BALANCES = "review_balances"
+    const val ASSISTANT_AUTO_SIMPLE = "assistant_auto_simple"
+    const val ALERTS_OFF = "alerts_off"            // comma-separated alert ids turned off
+    const val ALERT_NOTIFY = "alert_notify"        // "true" = Android notifications (max 1/day)
+    const val ALERT_LAST_NOTIFIED = "alert_last_notified"
 }
 
 /** Immutable snapshot of the whole database. All numbers in the app are derived from it. */
@@ -56,7 +65,11 @@ data class Ledger(
     val sales: List<NfcSale> = emptyList(),
     val bills: List<Bill> = emptyList(),
     val settings: Map<String, String> = emptyMap(),
+    val loans: List<Loan> = emptyList(),
 ) {
+    val userName: String get() = settings[Keys.USER_NAME]?.takeIf { it.isNotBlank() } ?: "Antônio Felipe"
+    fun loan(id: Long?) = loans.firstOrNull { it.id == id }
+    fun isEarnedSource(id: Long?): Boolean = source(id)?.let { it.isEarned && it.type !in SourceType.notEarned } ?: true
     fun setting(key: String): String? = settings[key]
     fun settingLong(key: String, default: Long): Long = settings[key]?.toLongOrNull() ?: default
     fun settingInt(key: String, default: Int): Int = settings[key]?.toIntOrNull() ?: default
@@ -78,10 +91,13 @@ data class Ledger(
     val cashAccount: Account? get() = accounts.firstOrNull { it.kind == "CASH" && !it.archived }
     val mainCard: CreditCard? get() = cards.firstOrNull { !it.archived }
 
-    /** Box that pays an expense of [categoryId] when none is chosen explicitly. */
+    /**
+     * Box that pays an expense of [categoryId] when none is chosen explicitly.
+     * v2: personal spending comes from the FREE balance (no box); NFC stock comes from the Estoque NFC box.
+     */
     fun defaultBoxForCategory(categoryId: Long?): Box? {
         val cat = category(categoryId)
-        return if (cat?.isNfcStock == true) boxOfKind(BoxKind.NFC_STOCK) else boxOfKind(BoxKind.SPENDING)
+        return if (cat?.isNfcStock == true) boxOfKind(BoxKind.NFC_STOCK) else null
     }
 }
 
@@ -90,7 +106,43 @@ data class Ledger(
 data class ExpenseEvent(
     val date: Long, val amountCents: Long, val categoryId: Long?, val description: String,
     val viaCard: Boolean, val isNfcStock: Boolean, val txnId: Long? = null, val purchaseId: Long? = null,
-)
+    /** v2: cost of a job (work entry) or of an income source. */
+    val workId: Long? = null, val sourceId: Long? = null,
+) {
+    val isWorkCost: Boolean get() = workId != null || sourceId != null
+}
+
+/** Rentabilidade de uma fonte de renda num período. */
+data class SourceProfit(
+    val sourceId: Long, val name: String, val revenueCents: Long, val costsCents: Long, val hours: Double,
+    val receivedCents: Long, val pendingCents: Long, val jobs: Int,
+) {
+    val netCents: Long get() = revenueCents - costsCents
+    /** Margem em % (0..100), null sem faturamento. */
+    val marginPct: Long? get() = if (revenueCents > 0) netCents * 100 / revenueCents else null
+    val netPerHourCents: Long? get() = if (hours > 0) (netCents / hours).toLong() else null
+}
+
+/** Os três números que nunca podem se misturar. */
+data class MoneyPosition(
+    /** Todo o dinheiro nas contas (inclui o que está guardado em caixinhas do banco). */
+    val accountsCents: Long,
+    /** Dinheiro das caixinhas (reserva, sair do Brasil, computador, estoque NFC, metas). */
+    val reservedCents: Long,
+    /** Fatura do cartão ainda não paga (todas as parcelas). */
+    val cardDebtCents: Long,
+    /** Empréstimos recebidos que ainda faltam devolver. */
+    val loansCents: Long,
+    /** Contas fixas do mês ainda não pagas. */
+    val unpaidBillsCents: Long,
+) {
+    /** Dinheiro livre agora = contas − caixinhas − cartão já comprometido. */
+    val freeCents: Long get() = accountsCents - reservedCents - cardDebtCents
+    /** Livre depois de pagar as contas fixas do mês que ainda faltam. */
+    val freeAfterBillsCents: Long get() = freeCents - unpaidBillsCents
+    /** Patrimônio total = tudo que você tem − o que deve (cartão e empréstimos), sem contar nada duas vezes. */
+    val patrimonyCents: Long get() = accountsCents - cardDebtCents - loansCents
+}
 
 data class IncomeEvent(val date: Long, val amountCents: Long, val sourceId: Long?, val description: String, val txnId: Long)
 
@@ -141,8 +193,19 @@ data class Report(
     val workIncomeBySource: Map<Long, Long>,
     val expenseEvents: List<ExpenseEvent>,
     val incomeEvents: List<IncomeEvent>,
+    /** v2: money in that is NOT earned (família, empréstimo, ajuda, reembolso). Not in incomeCents. */
+    val otherInCents: Long = 0,
+    /** v2: expenses linked to a job/source (Uber para trabalhar, etc.). Included in personalExpenseCents. */
+    val workCostsCents: Long = 0,
+    val transportCents: Long = 0,
+    val profit: List<SourceProfit> = emptyList(),
 ) {
     val balanceCents: Long get() = incomeCents - expenseCents
+    /** Gastos com você mesmo (sem custos de trabalho e sem estoque NFC). */
+    val ownExpenseCents: Long get() = personalExpenseCents - workCostsCents
+    val grossRevenueCents: Long get() = profit.sumOf { it.revenueCents }
+    val profitCostsCents: Long get() = profit.sumOf { it.costsCents }
+    val netProfitCents: Long get() = profit.sumOf { it.netCents }
 }
 
 data class GoalInfo(
@@ -182,6 +245,7 @@ class FinanceCalc(val ledger: Ledger, val today: Long = Dates.today()) {
             TxnType.EXPENSE -> if (t.accountId == accountId && t.method != PayMethod.CREDIT) v -= t.amountCents
             TxnType.CARD_PAYMENT -> if (t.accountId == accountId) v -= t.amountCents
             TxnType.ADJUSTMENT -> if (t.accountId == accountId) v += t.amountCents
+            TxnType.LOAN_PAYMENT -> if (t.accountId == accountId) v -= t.amountCents
             TxnType.TRANSFER -> {
                 if (t.accountId == accountId) v -= t.amountCents
                 if (t.toAccountId == accountId) v += t.amountCents
@@ -251,17 +315,52 @@ class FinanceCalc(val ledger: Ledger, val today: Long = Dates.today()) {
     /** Saved boxes = all except the spending box and the NFC stock box. */
     fun totalSaved(): Long = activeBoxes.filter { it.kind != BoxKind.SPENDING && it.kind != BoxKind.NFC_STOCK }.sumOf { boxBalance(it.id) }
 
+    /** v2: every box except the legacy "Gastos pessoais" is protected (reserved) money. */
+    fun isReserved(box: br.com.daniel.meufinanceiro.data.Box) = box.kind != BoxKind.SPENDING
+
+    /** Boxes the user sees as caixinhas (the old "Gastos pessoais" envelope is now just the free balance). */
+    val reserveBoxes: List<br.com.daniel.meufinanceiro.data.Box> get() = activeBoxes.filter { isReserved(it) }
+
     /**
-     * Money that exists in the accounts but isn't in any box yet (initial balances, adjustments,
-     * entries excluded from the split). Accounts − card debt − boxes.
+     * Reserved (protected) money. A box that went negative (spent more than it had) counts as 0:
+     * the extra came out of the free money, so it must not inflate the free balance.
      */
-    fun unallocated(): Long = totalAvailable() - cardDebt() - ledger.boxes.sumOf { boxBalance(it.id) }
+    fun reserved(upTo: Long? = null): Long = ledger.boxes.filter { isReserved(it) }.sumOf { boxBalance(it.id, upTo).coerceAtLeast(0) }
+
+    fun loansOutstanding(upTo: Long? = null): Long = ledger.loans.filter { upTo == null || it.date <= upTo }.sumOf { loanOutstanding(it.id, upTo) }
+
+    fun loanOutstanding(loanId: Long, upTo: Long? = null): Long {
+        val loan = ledger.loan(loanId) ?: return 0
+        val paid = ledger.txns.filter { it.type == TxnType.LOAN_PAYMENT && it.loanId == loanId && (upTo == null || it.date <= upTo) }.sumOf { it.amountCents }
+        return (loan.principalCents - paid).coerceAtLeast(0)
+    }
+
+    /** THE single source of truth for free / reserved / patrimony. Used by Home, reports, alerts and the assistant. */
+    fun position(): MoneyPosition = MoneyPosition(
+        accountsCents = totalAvailable(),
+        reservedCents = reserved(),
+        cardDebtCents = cardDebt(),
+        loansCents = loansOutstanding(),
+        unpaidBillsCents = billStatuses().filter { it.state != BillState.PAID && categoryById[it.bill.categoryId]?.isNfcStock != true }.sumOf { it.expectedCents },
+    )
+
+    /** Money in an account outside its caixinhas (negative = the boxes say more than the bank has). */
+    fun accountOutsideBoxes(accountId: Long): Long =
+        accountBalance(accountId) - ledger.boxes.filter { isReserved(it) && it.accountId == accountId }.sumOf { boxBalance(it.id).coerceAtLeast(0) }
+
+    fun boxesInAccount(accountId: Long): Long = ledger.boxes.filter { isReserved(it) && it.accountId == accountId }.sumOf { boxBalance(it.id).coerceAtLeast(0) }
+
+    /** Kept for compatibility: in v2 there is no "unallocated" pool; free money is simply what is not reserved. */
+    fun unallocated(): Long = position().freeCents
 
     /* ----- Income / receivables ----- */
 
     fun sourceOf(t: Txn): Long? = t.sourceId
         ?: t.workId?.let { workById[it]?.sourceId }
         ?: t.nfcSaleId?.let { nfcSourceId }
+
+    /** Earned income = work / sales. Family money, loans, help and refunds are NOT earned. */
+    fun isEarned(t: Txn): Boolean = t.type == TxnType.INCOME && t.loanId == null && ledger.isEarnedSource(sourceOf(t))
 
     fun workReceived(workId: Long): Long = ledger.txns.filter { it.type == TxnType.INCOME && it.workId == workId }.sumOf { it.amountCents }
     fun saleRevenue(s: NfcSale): Long = s.unitPriceCents * s.quantity
@@ -319,19 +418,61 @@ class FinanceCalc(val ledger: Ledger, val today: Long = Dates.today()) {
     /** Non-credit expenses on their date + each card installment on its month (purchase date + n-1 months). */
     fun expenseEvents(): List<ExpenseEvent> {
         val direct = ledger.txns.filter { it.type == TxnType.EXPENSE && it.method != PayMethod.CREDIT }.map {
-            ExpenseEvent(it.date, it.amountCents, it.categoryId, it.description, false, categoryById[it.categoryId]?.isNfcStock == true, txnId = it.id)
+            ExpenseEvent(it.date, it.amountCents, it.categoryId, it.description, false, categoryById[it.categoryId]?.isNfcStock == true, txnId = it.id,
+                workId = it.workId, sourceId = it.sourceId ?: it.workId?.let { w -> workById[w]?.sourceId })
         }
         val card = ledger.installments.mapNotNull { inst ->
             val p = purchaseById[inst.purchaseId] ?: return@mapNotNull null
             val date = Dates.day(p.date).plusMonths((inst.number - 1).toLong()).toEpochDay()
             val desc = if (p.installments > 1) "${p.description} (${inst.number}/${p.installments})" else p.description
-            ExpenseEvent(date, inst.amountCents, p.categoryId, desc, true, categoryById[p.categoryId]?.isNfcStock == true, purchaseId = p.id)
+            ExpenseEvent(date, inst.amountCents, p.categoryId, desc, true, categoryById[p.categoryId]?.isNfcStock == true, purchaseId = p.id,
+                workId = p.workId, sourceId = p.sourceId ?: p.workId?.let { w -> workById[w]?.sourceId })
         }
         return direct + card
     }
 
-    fun incomeEvents(): List<IncomeEvent> = ledger.txns.filter { it.type == TxnType.INCOME }
+    /** Earned income only (work and sales). */
+    fun incomeEvents(): List<IncomeEvent> = ledger.txns.filter { it.type == TxnType.INCOME && isEarned(it) }
         .map { IncomeEvent(it.date, it.amountCents, sourceOf(it), it.description, it.id) }
+
+    /** Money that came in but is not earned income (família, empréstimo, ajuda, reembolso). */
+    fun otherInEvents(): List<IncomeEvent> = ledger.txns.filter { it.type == TxnType.INCOME && !isEarned(it) }
+        .map { IncomeEvent(it.date, it.amountCents, sourceOf(it), it.description, it.id) }
+
+    /** Total cost linked to one job: inline costs + expenses linked to it. */
+    fun workCosts(workId: Long): Long {
+        val w = workById[workId] ?: return 0
+        return w.costsCents + expenseEvents().filter { it.workId == workId }.sumOf { it.amountCents }
+    }
+    fun workProfit(workId: Long): Long = (workById[workId]?.myShareCents ?: 0) - workCosts(workId)
+
+    /** Rentabilidade por fonte de renda (por competência: trabalhos pela data do trabalho, vendas pela data da venda). */
+    fun profitability(period: Period): List<SourceProfit> {
+        val exp = expenseEvents()
+        return ledger.sources.filter { it.isEarned && it.type !in SourceType.notEarned }.mapNotNull { src ->
+            val works = ledger.works.filter { it.sourceId == src.id && it.date in period }
+            val workIds = works.map { it.id }.toSet()
+            val direct = ledger.txns.filter { it.type == TxnType.INCOME && it.workId == null && it.nfcSaleId == null && it.loanId == null && it.sourceId == src.id && it.date in period }
+            val linkedToWorks = exp.filter { it.workId != null && it.workId in workIds && !it.isNfcStock }.sumOf { it.amountCents }
+            val linkedToSource = exp.filter { it.workId == null && it.sourceId == src.id && it.date in period && !it.isNfcStock }.sumOf { it.amountCents }
+            val received = ledger.txns.filter { it.type == TxnType.INCOME && it.date in period && sourceOf(it) == src.id && it.loanId == null }.sumOf { it.amountCents }
+            val sp = if (src.type == SourceType.NFC) {
+                val sales = ledger.sales.filter { it.date in period }
+                SourceProfit(src.id, src.name,
+                    revenueCents = sales.sumOf { saleRevenue(it) } + direct.sumOf { it.amountCents },
+                    costsCents = sales.sumOf { saleCost(it) + it.extraCostsCents } + linkedToSource,
+                    hours = 0.0, receivedCents = received,
+                    pendingCents = sales.sumOf { (saleRevenue(it) - saleReceived(it.id)).coerceAtLeast(0) }, jobs = sales.size)
+            } else {
+                SourceProfit(src.id, src.name,
+                    revenueCents = works.sumOf { it.myShareCents } + direct.sumOf { it.amountCents },
+                    costsCents = works.sumOf { it.costsCents } + linkedToWorks + linkedToSource,
+                    hours = works.sumOf { it.hours }, receivedCents = received,
+                    pendingCents = works.sumOf { (it.myShareCents - workReceived(it.id)).coerceAtLeast(0) }, jobs = works.size + direct.size)
+            }
+            sp.takeIf { it.revenueCents != 0L || it.costsCents != 0L || !src.archived }
+        }
+    }
 
     fun report(period: Period): Report {
         val inc = incomeEvents().filter { it.date in period }
@@ -350,6 +491,10 @@ class FinanceCalc(val ledger: Ledger, val today: Long = Dates.today()) {
             workIncomeBySource = works.groupBy { it.sourceId }.mapValues { (_, v) -> v.sumOf { it.myShareCents } },
             expenseEvents = exp.sortedByDescending { it.date },
             incomeEvents = inc.sortedByDescending { it.date },
+            otherInCents = otherInEvents().filter { it.date in period }.sumOf { it.amountCents },
+            workCostsCents = exp.filter { it.isWorkCost && !it.isNfcStock }.sumOf { it.amountCents },
+            transportCents = exp.filter { categoryById[it.categoryId]?.name?.let { n -> QuickEntryParser.normalize(n).startsWith("transporte") } == true }.sumOf { it.amountCents },
+            profit = profitability(period),
         )
     }
 
@@ -376,19 +521,15 @@ class FinanceCalc(val ledger: Ledger, val today: Long = Dates.today()) {
     /* ----- "Quanto posso gastar" ----- */
 
     /**
-     * Livre para gastar = saldo da caixinha Gastos pessoais − contas pessoais do mês ainda não pagas.
-     * (Compras no cartão já saíram da caixinha quando foram feitas, então a fatura não é descontada de novo.)
+     * Livre para gastar = contas − caixinhas − cartão comprometido − contas fixas do mês ainda não pagas.
+     * Dinheiro reservado NUNCA entra aqui.
      */
-    fun freeToSpend(): Long {
-        val spending = ledger.boxOfKind(BoxKind.SPENDING) ?: return 0
-        val unpaidPersonal = billStatuses().filter { it.state != BillState.PAID && categoryById[it.bill.categoryId]?.isNfcStock != true }.sumOf { it.expectedCents }
-        return boxBalance(spending.id) - unpaidPersonal
-    }
+    fun freeToSpend(): Long = position().freeAfterBillsCents
 
     /* ----- Net worth / series ----- */
 
-    /** Patrimônio financeiro = contas − dívida do cartão. */
-    fun netWorth(upTo: Long? = null): Long = totalAvailable(upTo) - cardDebt(upTo = upTo)
+    /** Patrimônio total = contas (incluindo caixinhas) − dívida do cartão − empréstimos a devolver. */
+    fun netWorth(upTo: Long? = null): Long = totalAvailable(upTo) - cardDebt(upTo = upTo) - loansOutstanding(upTo)
 
     /** Net worth at the end of each of the last [n] months (including the current one). */
     fun netWorthByMonth(n: Int = 6): List<Pair<Int, Long>> {
@@ -497,12 +638,18 @@ class FinanceCalc(val ledger: Ledger, val today: Long = Dates.today()) {
 
     fun minBalance(): Long = ledger.settingLong(Keys.MIN_BALANCE, 3000)
 
-    /** Returns a warning if moving [deltaCents] in [accountId] puts the daily account below the minimum. */
+    /**
+     * Warning when a movement leaves the FREE balance (never the reserved money) below the minimum,
+     * or the daily account itself below the minimum.
+     */
     fun lowBalanceWarning(accountId: Long?, deltaCents: Long): String? {
-        val daily = ledger.dailyAccount ?: return null
-        if (accountId != daily.id || deltaCents >= 0) return null
-        val after = accountBalance(daily.id) + deltaCents
+        if (deltaCents >= 0) return null
         val min = minBalance()
+        val freeAfter = position().freeCents + deltaCents
+        if (freeAfter < min) return "Com isso, seu saldo livre fica em ${Money.format(freeAfter)}, abaixo do mínimo de ${Money.format(min)}."
+        val daily = ledger.dailyAccount ?: return null
+        if (accountId != daily.id) return null
+        val after = accountBalance(daily.id) + deltaCents
         return if (after < min) "Com isso, o saldo de ${daily.name} fica em ${Money.format(after)}, abaixo do mínimo de ${Money.format(min)}." else null
     }
 }

@@ -1,5 +1,6 @@
 package br.com.daniel.meufinanceiro.data
 
+import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.ForeignKey
 import androidx.room.Index
@@ -71,6 +72,12 @@ object SourceType {
     const val PIPOCA = "PIPOCA"
     const val NFC = "NFC"
     const val OTHER = "OTHER"
+    // v2: money that is NOT earned income
+    const val FAMILY = "FAMILY"
+    const val LOAN = "LOAN"
+    const val HELP = "HELP"
+    const val REFUND = "REFUND"
+    val notEarned = setOf(FAMILY, LOAN, HELP, REFUND)
 }
 
 @Serializable
@@ -84,6 +91,8 @@ data class IncomeSource(
     val color: Long,
     val archived: Boolean = false,
     val sortOrder: Int = 0,
+    /** v2: true = renda de trabalho/venda (entra no lucro). false = família, empréstimo, ajuda, reembolso. */
+    @ColumnInfo(defaultValue = "1") val isEarned: Boolean = true,
 )
 
 object BoxKind {
@@ -112,6 +121,8 @@ data class Box(
     val note: String = "",
     val archived: Boolean = false,
     val sortOrder: Int = 0,
+    /** v2: banco onde o dinheiro desta caixinha fica guardado (ex.: caixinhas do Nubank). */
+    val accountId: Long? = null,
 )
 
 @Serializable
@@ -132,6 +143,8 @@ object TxnType {
     const val CARD_PAYMENT = "CARD_PAYMENT"
     /** Correção manual de saldo (não é receita nem despesa). amountCents pode ser negativo. */
     const val ADJUSTMENT = "ADJUSTMENT"
+    /** v2: devolução de empréstimo (sai dinheiro, mas não é despesa). */
+    const val LOAN_PAYMENT = "LOAN_PAYMENT"
 }
 
 object PayMethod {
@@ -192,6 +205,8 @@ data class Txn(
     val recurring: Boolean = false,
     val notes: String = "",
     val createdAt: Long = System.currentTimeMillis(),
+    /** v2: empréstimo ligado (entrada do empréstimo ou devolução). */
+    val loanId: Long? = null,
 )
 
 object MoveKind {
@@ -244,6 +259,9 @@ data class CardPurchase(
     val recurring: Boolean = false,
     val notes: String = "",
     val createdAt: Long = System.currentTimeMillis(),
+    /** v2: custo ligado a um trabalho / fonte de renda (entra na rentabilidade). */
+    val workId: Long? = null,
+    val sourceId: Long? = null,
 )
 
 @Serializable
@@ -338,3 +356,55 @@ data class Bill(
 @Serializable
 @Entity(tableName = "settings")
 data class Setting(@PrimaryKey val key: String, val value: String)
+
+/* ======================= v2 ======================= */
+
+/** Empréstimo recebido (dinheiro que precisa ser devolvido). */
+@Serializable
+@Entity(tableName = "loans")
+data class Loan(
+    @PrimaryKey(autoGenerate = true) val id: Long = 0,
+    val person: String,
+    val principalCents: Long,
+    val date: Long,
+    val dueDate: Long? = null,
+    val notes: String = "",
+    val createdAt: Long = System.currentTimeMillis(),
+)
+
+/** Conversa com a assistente (histórico persistente). */
+@Serializable
+@Entity(tableName = "chat_messages")
+data class ChatMessage(
+    @PrimaryKey(autoGenerate = true) val id: Long = 0,
+    /** user | assistant | system */
+    val role: String,
+    val text: String,
+    val createdAt: Long = System.currentTimeMillis(),
+    val actionId: Long? = null,
+)
+
+object ActionStatus {
+    const val PENDING = "PENDING"
+    const val DONE = "DONE"
+    const val CANCELLED = "CANCELLED"
+    const val UNDONE = "UNDONE"
+    const val FAILED = "FAILED"
+}
+
+/** Toda ação que a assistente propõe ou executa fica registrada aqui (com dados para desfazer). */
+@Serializable
+@Entity(tableName = "assistant_actions")
+data class AssistantAction(
+    @PrimaryKey(autoGenerate = true) val id: Long = 0,
+    val createdAt: Long = System.currentTimeMillis(),
+    val tool: String,
+    /** Texto em português mostrado ao usuário (o que vai mudar, valor anterior e novo). */
+    val summary: String,
+    val status: String,
+    /** JSON com os parâmetros da ação. */
+    val payload: String,
+    /** JSON com o necessário para desfazer (ids criados, valores anteriores). */
+    val undo: String? = null,
+    val result: String? = null,
+)

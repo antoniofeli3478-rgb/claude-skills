@@ -25,6 +25,10 @@ interface FinanceDao {
     @Query("SELECT * FROM nfc_sales ORDER BY date DESC, id DESC") suspend fun sales(): List<NfcSale>
     @Query("SELECT * FROM bills ORDER BY sortOrder, id") suspend fun bills(): List<Bill>
     @Query("SELECT * FROM settings") suspend fun settings(): List<Setting>
+    @Query("SELECT * FROM loans ORDER BY date DESC, id DESC") suspend fun loans(): List<Loan>
+    @Query("SELECT * FROM chat_messages ORDER BY id") suspend fun chat(): List<ChatMessage>
+    @Query("SELECT * FROM assistant_actions ORDER BY id DESC") suspend fun actions(): List<AssistantAction>
+    @Query("SELECT * FROM assistant_actions WHERE id = :id") suspend fun action(id: Long): AssistantAction?
 
     @Query("SELECT * FROM transactions WHERE id = :id") suspend fun txn(id: Long): Txn?
     @Query("SELECT * FROM card_purchases WHERE id = :id") suspend fun purchase(id: Long): CardPurchase?
@@ -68,6 +72,17 @@ interface FinanceDao {
     @Delete suspend fun deleteBill(b: Bill)
     @Query("UPDATE transactions SET billId = NULL WHERE billId = :id") suspend fun unlinkBillTxns(id: Long)
     @Query("UPDATE card_purchases SET billId = NULL WHERE billId = :id") suspend fun unlinkBillPurchases(id: Long)
+
+    @Upsert suspend fun upsertLoan(l: Loan): Long
+    @Query("DELETE FROM loans WHERE id = :id") suspend fun deleteLoan(id: Long)
+    @Query("DELETE FROM transactions WHERE loanId = :loanId") suspend fun deleteTxnsOfLoan(loanId: Long)
+    @Insert suspend fun insertChat(m: ChatMessage): Long
+    @Query("DELETE FROM chat_messages") suspend fun clearChat()
+    @Upsert suspend fun upsertAction(a: AssistantAction): Long
+    @Query("DELETE FROM work_entries WHERE id = :id") suspend fun deleteWorkOnly(id: Long)
+    @Query("DELETE FROM categories WHERE id = :id") suspend fun deleteCategory(id: Long)
+    @Insert suspend fun insertLoans(x: List<Loan>)
+    @Query("DELETE FROM loans") suspend fun wipeLoans()
 
     // ---- Full wipe (restore from backup) ----
     @Query("DELETE FROM box_movements") suspend fun wipeMoves()

@@ -5,8 +5,47 @@ import br.com.daniel.meufinanceiro.domain.Keys
 /** Initial data, created once on the first launch. Everything here is editable in the app. */
 object Seed {
 
+    /** Idempotent: first install creates everything; afterwards only [upgrade] runs. */
     suspend fun run(dao: FinanceDao) {
-        if (dao.accountCount() > 0) return
+        if (dao.accountCount() == 0) firstInstall(dao)
+        upgrade(dao)
+    }
+
+    /**
+     * Data additions for app 1.1 (data version 2). ONLY INSERTS missing things; never changes
+     * amounts, never deletes, never duplicates (checked by type/name before inserting).
+     */
+    suspend fun upgrade(dao: FinanceDao) {
+        val settings = dao.settings().associate { it.key to it.value }
+        if ((settings[Keys.DATA_VERSION]?.toIntOrNull() ?: 1) >= 2) return
+
+        val sources = dao.sources()
+        var order = (sources.maxOfOrNull { it.sortOrder } ?: 0) + 1
+        listOf(
+            Triple(SourceType.FAMILY, "Dinheiro da família", 0xFFA855F7),
+            Triple(SourceType.LOAN, "Empréstimo recebido", 0xFFF97316),
+            Triple(SourceType.HELP, "Ajuda financeira", 0xFF0EA5E9),
+            Triple(SourceType.REFUND, "Reembolso", 0xFF64748B),
+        ).forEach { (type, name, color) ->
+            if (sources.none { it.type == type }) dao.upsertSource(IncomeSource(name = name, type = type, color = color, sortOrder = order++, isEarned = false))
+        }
+
+        val cats = dao.categories()
+        var cOrder = (cats.maxOfOrNull { it.sortOrder } ?: 0) + 1
+        listOf("NFC: acrílicos", "NFC: etiquetas NFC", "NFC: impressão", "NFC: embalagens").forEach { name ->
+            if (cats.none { it.name.equals(name, ignoreCase = true) }) dao.upsertCategory(Category(name = name, color = 0xFF06B6D4, isNfcStock = true, sortOrder = cOrder++))
+        }
+
+        // Caixinhas live in the Nubank account (Antônio's setup). Only fills an EMPTY link; amounts untouched.
+        val nubank = dao.accounts().firstOrNull { it.name.contains("nubank", ignoreCase = true) && !it.archived }
+        if (nubank != null) dao.boxes().filter { it.accountId == null && it.kind != BoxKind.SPENDING }.forEach { dao.upsertBox(it.copy(accountId = nubank.id)) }
+
+        if (settings[Keys.USER_NAME] == null) dao.upsertSetting(Setting(Keys.USER_NAME, "Antônio Felipe"))
+        if (dao.txns().isNotEmpty() || dao.purchases().isNotEmpty()) dao.upsertSetting(Setting(Keys.REVIEW_BALANCES, "true"))
+        dao.upsertSetting(Setting(Keys.DATA_VERSION, "2"))
+    }
+
+    private suspend fun firstInstall(dao: FinanceDao) {
 
         val nubank = dao.upsertAccount(Account(name = "Nubank", note = "Caixinhas e organização do dinheiro", color = 0xFF8A5CF6, sortOrder = 0))
         val inter = dao.upsertAccount(Account(name = "Banco Inter", note = "Movimentações do dia a dia e cartão", isDaily = true, color = 0xFFFF7A00, sortOrder = 1))
