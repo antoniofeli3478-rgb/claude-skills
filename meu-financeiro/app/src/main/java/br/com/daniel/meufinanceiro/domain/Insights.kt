@@ -39,18 +39,16 @@ object Analyst {
                 "Pague o quanto antes para evitar juros e multa.")
         }
 
-        // 2. Daily account below minimum
-        l.dailyAccount?.let { acc ->
-            val bal = calc.accountBalance(acc.id)
-            if (bal < calc.minBalance()) out += Insight("lowbal", Level.ALERT, "Saldo abaixo do mínimo",
-                "${acc.name} está com ${Money.format(bal)}, abaixo do seu mínimo de ${Money.format(calc.minBalance())}.",
-                "Transfira um valor da caixinha Gastos pessoais ou adie gastos não essenciais.")
+        // 2. Free balance below minimum
+        calc.position().freeCents.let { free ->
+            if (free < calc.minBalance()) out += Insight("lowbal", Level.ALERT, "Saldo livre abaixo do mínimo",
+                "Seu saldo livre está em ${Money.format(free)}, abaixo do seu mínimo de ${Money.format(calc.minBalance())}.",
+                "Adie gastos não essenciais. Retirar de uma caixinha só se for realmente necessário.")
         }
 
         // 3. Card invoice vs spending money
         l.mainCard?.let { card ->
             val inv = calc.invoice(card, calc.currentInvoiceKey(card))
-            val spendingBox = l.boxOfKind(BoxKind.SPENDING)
             val accounts = calc.totalAvailable()
             if (inv.remainingCents > 0 && inv.remainingCents > accounts) {
                 out += Insight("card_cover", Level.ALERT, "Fatura maior que o saldo",
@@ -58,7 +56,7 @@ object Analyst {
                     "Evite novas compras no crédito até a fatura fechar.")
             }
             val income = r.incomeCents
-            if (income > 0 && inv.totalCents > income / 2 && spendingBox != null) {
+            if (income > 0 && inv.totalCents > income / 2) {
                 out += Insight("card_share", Level.WARN, "Cartão pesando no mês",
                     "A fatura atual (${Money.format(inv.totalCents)}) já passa da metade do que você recebeu este mês (${Money.format(income)}).")
             }
@@ -135,7 +133,7 @@ object Analyst {
         val recentWorks = l.works.filter { it.date >= since && it.hours > 0 }
         val perHour = recentWorks.groupBy { it.sourceId }.mapNotNull { (sid, ws) ->
             val h = ws.sumOf { it.hours }
-            if (h < 4) null else Triple(l.source(sid)?.name ?: "?", ws.sumOf { it.myShareCents - it.costsCents }, h)
+            if (h < 4) null else Triple(l.source(sid)?.name ?: "?", ws.sumOf { calc.workProfit(it.id) }, h)
         }.sortedByDescending { it.second / it.third }
         if (perHour.size >= 2) {
             val best = perHour.first()
@@ -218,14 +216,11 @@ object Analyst {
             }
         }
 
-        // 15. Unallocated money
-        val un = calc.unallocated()
-        if (un >= 2000) out += Insight("unallocated", Level.INFO, "Dinheiro sem caixinha",
-            "${Money.format(un)} nas suas contas ainda não está em nenhuma caixinha.",
-            "Vá em Caixinhas → Distribuir para dar um destino a esse dinheiro.")
-        else if (un <= -2000) out += Insight("unallocated_neg", Level.WARN, "Caixinhas acima do saldo real",
-            "As caixinhas somam ${Money.format(-un)} a mais do que o dinheiro nas contas (descontada a fatura). Talvez algum saldo de conta esteja desatualizado.",
-            "Use \"Ajustar saldo\" na conta para corrigir.")
+        // 15. Free vs reserved (v1.1: reserved money is never available to spend)
+        val pos = calc.position()
+        if (pos.freeCents < 0) out += Insight("free_negative", Level.ALERT, "Saldo livre negativo",
+            "Seu saldo livre está em ${Money.format(pos.freeCents)}: o dinheiro das contas não cobre as caixinhas e o cartão.",
+            "Evite gastar e confira se algum saldo de conta está desatualizado.")
 
         // 16. Savings rate this month
         if (r.incomeCents > 0 && dayOfMonth >= 10) {

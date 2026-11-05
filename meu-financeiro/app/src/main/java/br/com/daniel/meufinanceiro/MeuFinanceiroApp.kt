@@ -12,4 +12,9 @@ class MeuFinanceiroApp : Application() {
     val repo: FinanceRepository by lazy { FinanceRepository(db) }
     val backup: BackupManager by lazy { BackupManager(this, repo) }
     val secrets: SecretStore by lazy { SecretStore(this) }
+    val assistant: br.com.daniel.meufinanceiro.assistant.Assistant by lazy {
+        br.com.daniel.meufinanceiro.assistant.Assistant(repo, apiKey = { secrets.get("anthropic_key")?.takeIf { repoAiEnabled } })
+    }
+    /** Updated by the UI from the settings (avoids a DB read on every assistant message). */
+    @Volatile var repoAiEnabled: Boolean = false
 }

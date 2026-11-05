@@ -44,22 +44,26 @@ class AppLaunchTest {
     }
 
     @Test fun appOpensAndShowsDashboard() {
-        waitText("Saldo total disponível")
-        rule.onNodeWithText("Saldo total disponível").assertIsDisplayed()
-        rule.onNodeWithText("Nova despesa").assertIsDisplayed()
-        rule.onNodeWithText("Nova entrada").assertIsDisplayed()
+        waitText("Saldo livre para gastar")
+        rule.onNodeWithText("Saldo livre para gastar").assertIsDisplayed()
+        rule.onNodeWithText("Lucro líquido do mês").assertIsDisplayed()
+        rule.onNodeWithText("Gastos do mês").assertIsDisplayed()
+        rule.onNodeWithText("Fatura atual").assertIsDisplayed()
+        rule.onNodeWithText("Olá, Antônio Felipe").assertIsDisplayed()
+        rule.onNodeWithText("Despesa").assertIsDisplayed()
+        rule.onNodeWithText("Entrada").assertIsDisplayed()
         rule.onAllNodesWithText("Início").onFirst().assertIsDisplayed()
     }
 
     @Test fun quickExpenseIsSavedToTheDatabase() {
-        waitText("Nova despesa")
-        rule.onNodeWithText("Nova despesa").performClick()
+        waitText("Saldo livre para gastar")
+        rule.onNodeWithText("Despesa").performClick()
         waitText("Salvar despesa")
         rule.onNode(hasSetTextAction() and hasText("Valor")).performTextInput("25")
         rule.onNode(hasSetTextAction() and hasText("Descrição", substring = true)).performTextInput("Almoço")
         rule.onNodeWithText("Alimentação").performScrollTo().performClick()
         rule.onNodeWithText("Salvar despesa").performScrollTo().performClick()
-        waitText("Saldo total disponível")
+        waitText("Saldo livre para gastar")
         rule.waitForIdle()
         rule.waitUntil(5000) { runBlocking { vm().repo.snapshot() }.txns.isNotEmpty() }
         val l = runBlocking { vm().repo.snapshot() }
@@ -70,12 +74,12 @@ class AppLaunchTest {
     }
 
     @Test fun everyMainScreenOpensWithoutCrashing() {
-        waitText("Saldo total disponível")
-        for (tab in listOf("Extrato", "Rendas", "Cartão", "Mais")) {
+        waitText("Saldo livre para gastar")
+        for (tab in listOf("Extrato", "Trabalhos", "Cartão", "Mais")) {
             rule.onAllNodesWithText(tab).onFirst().performClick()
             rule.waitForIdle()
         }
-        val routes = listOf(R.BOXES, R.BILLS, R.REPORTS, R.ANALYST, R.NFC, R.SETTINGS, R.TRANSFER, R.RECEIVE, R.BATCH,
+        val routes = listOf(R.ASSISTANT, R.ALERTS, R.LOAN, R.LOANS, R.settings("name"), R.BOXES, R.BILLS, R.REPORTS, R.ANALYST, R.NFC, R.SETTINGS, R.TRANSFER, R.RECEIVE, R.BATCH,
             R.expense(), R.income(), R.work(), R.sale(), R.settings("accounts"), R.settings("card"), R.settings("split"),
             R.settings("categories"), R.settings("sources"), R.settings("nfc"), R.settings("security"), R.settings("backup"), R.settings("ai"))
         val l = runBlocking { vm().repo.snapshot() }
@@ -88,7 +92,7 @@ class AppLaunchTest {
     }
 
     @Test fun themeToggleSwitchesToLightAndBack() {
-        waitText("Saldo total disponível")
+        waitText("Saldo livre para gastar")
         val app = vm()
         rule.onNodeWithContentDescription("modo", substring = true).performClick()
         rule.waitForIdle()
@@ -131,7 +135,7 @@ class PersistenceTest {
 class AppLaunchAcrossAndroidVersionsTest {
     @get:Rule val rule = createAndroidComposeRule<MainActivity>()
     @Test fun opens() {
-        rule.waitUntil(15_000) { rule.onAllNodesWithText("Saldo total disponível").fetchSemanticsNodes().isNotEmpty() }
-        rule.onNodeWithText("Nova despesa").assertIsDisplayed()
+        rule.waitUntil(15_000) { rule.onAllNodesWithText("Saldo livre para gastar").fetchSemanticsNodes().isNotEmpty() }
+        rule.onNodeWithText("Despesa").assertIsDisplayed()
     }
 }

@@ -52,6 +52,40 @@ class MainViewModel(app: Application) : AndroidViewModel(app) {
 
     fun toast(msg: String) { _messages.tryEmit(msg) }
 
+    /* ---------------- Assistant ---------------- */
+    val assistant = container.assistant
+    val chat = MutableStateFlow<List<br.com.daniel.meufinanceiro.data.ChatMessage>>(emptyList())
+    val actions = MutableStateFlow<List<br.com.daniel.meufinanceiro.data.AssistantAction>>(emptyList())
+    val thinking = MutableStateFlow(false)
+
+    fun refreshChat() = viewModelScope.launch {
+        container.repoAiEnabled = ledger.value?.settingBool(Keys.AI_ENABLED) == true
+        chat.value = repo.chat(); actions.value = repo.actions()
+    }
+
+    private fun assistantOp(block: suspend () -> Unit) = viewModelScope.launch {
+        thinking.value = true
+        try {
+            container.repoAiEnabled = ledger.value?.settingBool(Keys.AI_ENABLED) == true
+            block()
+        } catch (e: Exception) {
+            repo.addChat(br.com.daniel.meufinanceiro.data.ChatMessage(role = "assistant", text = "Desculpe, algo deu errado: ${e.message}"))
+        } finally {
+            chat.value = repo.chat(); actions.value = repo.actions(); thinking.value = false
+        }
+    }
+
+    fun ask(text: String) = assistantOp { assistant.send(text) }
+    fun confirmAction(id: Long) = assistantOp { assistant.confirmFromUi(id) }
+    fun cancelAction(id: Long) = assistantOp { assistant.cancelFromUi(id) }
+    fun undoAction(id: Long) = assistantOp { assistant.undoFromUi(id) }
+    fun clearChat() = assistantOp { repo.clearChat() }
+
+    fun setAlertNotifications(on: Boolean) {
+        setSetting(Keys.ALERT_NOTIFY, if (on) "true" else null)
+        br.com.daniel.meufinanceiro.AlertWorker.schedule(getApplication(), on)
+    }
+
     /** Runs a write; reports success or the error message (never crashes the app). */
     fun run(success: String? = null, onDone: (() -> Unit)? = null, block: suspend FinanceRepository.() -> Unit) {
         viewModelScope.launch {

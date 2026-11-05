@@ -64,6 +64,7 @@ object R {
     const val HOME = "home"; const val TXNS = "txns"; const val INCOME = "income"; const val CARD = "card"; const val MORE = "more"
     const val BOXES = "boxes"; const val BILLS = "bills"; const val REPORTS = "reports"; const val ANALYST = "analyst"
     const val SETTINGS = "settings"; const val NFC = "nfc"; const val TRANSFER = "transfer"; const val RECEIVE = "receive"; const val BATCH = "batch"
+    const val ASSISTANT = "assistant"; const val ALERTS = "alerts"; const val LOAN = "loan"; const val LOANS = "loans"
     fun box(id: Long) = "box/$id"
     fun source(id: Long) = "source/$id"
     fun settings(section: String) = "settings/$section"
@@ -77,7 +78,7 @@ private data class Tab(val route: String, val label: String, val icon: androidx.
 private val tabs = listOf(
     Tab(R.HOME, "Início", AppIcons.Home),
     Tab(R.TXNS, "Extrato", AppIcons.List),
-    Tab(R.INCOME, "Rendas", AppIcons.Work),
+    Tab(R.INCOME, "Trabalhos", AppIcons.Work),
     Tab(R.CARD, "Cartão", AppIcons.Card),
     Tab(R.MORE, "Mais", AppIcons.More),
 )
@@ -148,6 +149,10 @@ fun AppRoot(vm: MainViewModel, ledger: Ledger, canUseBiometric: Boolean) {
                 composable(R.BILLS) { BillsScreen(state) }
                 composable(R.REPORTS) { ReportsScreen(state) }
                 composable(R.ANALYST) { AnalystScreen(state) }
+                composable(R.ASSISTANT) { br.com.daniel.meufinanceiro.ui.screens.AssistantScreen(state) }
+                composable(R.ALERTS) { br.com.daniel.meufinanceiro.ui.screens.AlertsScreen(state) }
+                composable(R.LOAN) { br.com.daniel.meufinanceiro.ui.screens.LoanForm(state) }
+                composable(R.LOANS) { br.com.daniel.meufinanceiro.ui.screens.LoansScreen(state) }
                 composable(R.NFC) { NfcScreen(state) }
                 composable("source/{id}", listOf(navArgument("id") { type = NavType.LongType })) { SourceScreen(state, it.arguments!!.getLong("id")) }
                 composable(R.SETTINGS) { SettingsScreen(state) }

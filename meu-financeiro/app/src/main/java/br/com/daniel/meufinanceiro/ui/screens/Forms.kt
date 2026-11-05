@@ -66,6 +66,9 @@ fun ExpenseForm(s: AppState, txnId: Long, purchaseId: Long, billId: Long) {
     var recurring by remember { mutableStateOf(oldTxn?.recurring ?: oldP?.recurring ?: (bill != null)) }
     var notes by remember { mutableStateOf(oldTxn?.notes ?: oldP?.notes ?: "") }
     var more by remember { mutableStateOf(editing) }
+    // v1.1: cost of a job
+    var workSrc by remember { mutableStateOf((oldTxn?.sourceId ?: oldP?.sourceId ?: (oldTxn?.workId ?: oldP?.workId)?.let { l.work(it)?.sourceId }) ?: 0L) }
+    var workId by remember { mutableStateOf(oldTxn?.workId ?: oldP?.workId) }
     var askDelete by remember { mutableStateOf(false) }
 
     val value = Money.parse(amount)
@@ -92,6 +95,14 @@ fun ExpenseForm(s: AppState, txnId: Long, purchaseId: Long, billId: Long) {
             }
             ChoiceChips("Categoria", categoryOptions(l), cat, { cat = it })
             DateField(date, { date = it })
+            ChoiceChips("É custo de algum trabalho?", listOf(0L to "Não (gasto pessoal)") + l.sources.filter { !it.archived && it.isEarned && it.type !in br.com.daniel.meufinanceiro.data.SourceType.notEarned }.map { it.id to it.name },
+                workSrc, { workSrc = it; workId = null })
+            if (workSrc != 0L) {
+                val jobs = l.works.filter { it.sourceId == workSrc }.sortedByDescending { it.date }.take(12)
+                if (jobs.isNotEmpty()) Dropdown("Qual trabalho (opcional)", listOf(0L to "Só a fonte, sem um trabalho específico") + jobs.map { it.id to (it.title.ifBlank { "Trabalho" } + " · " + Dates.formatShort(it.date)) },
+                    workId ?: 0L, { workId = it.takeIf { v -> v != 0L } })
+                Label("Vai entrar como custo no lucro de ${l.source(workSrc)?.name}.")
+            }
             warn?.let { Banner(it, fin.warn) }
 
             TextButton(onClick = { more = !more }) { Text(if (more) "Menos opções" else "Mais opções (caixinha, recorrente, observações)") }
@@ -109,6 +120,7 @@ fun ExpenseForm(s: AppState, txnId: Long, purchaseId: Long, billId: Long) {
                     boxId = box, recurring = recurring, notes = notes,
                     billId = bill?.id, billMonth = if (bill != null) (oldTxn?.billMonth ?: oldP?.billMonth ?: Dates.ym(date)) else null,
                     nfcBatchId = oldTxn?.nfcBatchId ?: oldP?.nfcBatchId,
+                    workId = workId.takeIf { workSrc != 0L }, sourceId = workSrc.takeIf { it != 0L },
                 )
                 s.vm.run(warn ?: if (editing) "Despesa atualizada" else "Despesa salva", onDone = s::back) {
                     if (editing) replaceExpense(oldTxn?.id, oldP?.id, input) else addExpense(input)

@@ -193,7 +193,7 @@ fun BoxesScreen(s: AppState) {
     val l = s.ledger
     val c = s.calc
     val fin = LocalFin.current
-    val un = c.unallocated()
+    val pos = c.position()
     var distribute by remember { mutableStateOf(false) }
     var transfer by remember { mutableStateOf(false) }
     var newBox by remember { mutableStateOf(false) }
@@ -201,21 +201,21 @@ fun BoxesScreen(s: AppState) {
     ScreenScaffold("Minhas Caixinhas", onBack = s::back, actions = { TextButton(onClick = { newBox = true }) { Text("Nova") } }) { pad ->
         ScrollColumn(pad) {
             FinCard {
-                Label("Total nas caixinhas")
-                Text(Money.format(c.totalInBoxes()), style = MoneyLarge)
+                Label("Dinheiro reservado")
+                Text(Money.format(pos.reservedCents), style = MoneyLarge)
                 Spacer(Modifier.height(6.dp))
                 Row {
-                    Column(Modifier.weight(1f)) { Label("Guardado (metas e reserva)"); MoneyText(c.totalSaved()) }
-                    Column(Modifier.weight(1f)) { Label("Sem caixinha"); MoneyText(un, color = if (un < 0) fin.expense else Color.Unspecified) }
+                    Column(Modifier.weight(1f)) { Label("Saldo livre"); MoneyText(pos.freeCents, color = if (pos.freeCents < 0) fin.expense else Color.Unspecified) }
+                    Column(Modifier.weight(1f)) { Label("Patrimônio total"); MoneyText(pos.patrimonyCents) }
                 }
+                Spacer(Modifier.height(6.dp))
+                Label("Dinheiro das caixinhas é protegido: não entra no saldo livre. Guardar diminui o livre; retirar aumenta. Nada disso é receita ou despesa.")
             }
-            if (un > 0) Banner("${Money.format(un)} ainda não tem caixinha. Toque para distribuir.", fin.info) { distribute = true }
-            if (un < 0) Banner("As caixinhas somam ${Money.format(-un)} a mais do que você tem nas contas (descontada a fatura). Confira os saldos das contas.", fin.warn)
             Row(horizontalArrangement = Arrangement.spacedBy(10.dp)) {
-                OutlinedButton(onClick = { distribute = true }, modifier = Modifier.weight(1f)) { Text("Distribuir") }
+                OutlinedButton(onClick = { distribute = true }, modifier = Modifier.weight(1f)) { Text("Guardar") }
                 OutlinedButton(onClick = { transfer = true }, modifier = Modifier.weight(1f)) { Text("Transferir") }
             }
-            c.activeBoxes.forEach { b ->
+            c.reserveBoxes.forEach { b ->
                 val g = c.goal(b)
                 FinCard(onClick = { s.go(R.box(b.id)) }) {
                     Row(verticalAlignment = Alignment.CenterVertically) {
@@ -230,10 +230,9 @@ fun BoxesScreen(s: AppState) {
                                 when {
                                     g.goalCents != null && g.missingCents == 0L -> "Meta atingida!"
                                     g.goalCents != null -> "Faltam ${Money.format(g.missingCents ?: 0)}" + (g.monthsToGoal?.let { " · ~${ceil(it).toInt()} mês(es)" } ?: "")
-                                    b.kind == BoxKind.SPENDING -> "Livre para gastar: ${Money.format(c.freeToSpend())}"
                                     b.kind == BoxKind.NFC_STOCK -> "Para repor estoque · ${c.nfcStock()} un. em estoque"
                                     else -> g.goalNote ?: "Sem meta definida"
-                                },
+                                } + (l.account(b.accountId)?.let { " · no ${it.name}" } ?: ""),
                                 style = MaterialTheme.typography.bodySmall, color = fin.muted,
                             )
                         }
@@ -246,9 +245,9 @@ fun BoxesScreen(s: AppState) {
     }
 
     if (distribute) {
-        var box by remember { mutableStateOf(c.activeBoxes.firstOrNull()?.id) }
-        MoneyDialog("Distribuir dinheiro sem caixinha", "Valor", un.coerceAtLeast(0), "Disponível sem caixinha: ${Money.format(un)}", "Guardar",
-            onConfirm = { v -> s.vm.run("Valor guardado na caixinha") { boxDeposit(box!!, v, c.today, "Distribuição manual") } }, onDismiss = { distribute = false }) {
+        var box by remember { mutableStateOf(c.reserveBoxes.firstOrNull()?.id) }
+        MoneyDialog("Guardar numa caixinha", "Valor", null, "Sai do saldo livre (${Money.format(pos.freeCents)}) e fica protegido.", "Guardar",
+            onConfirm = { v -> s.vm.run("Valor guardado na caixinha") { boxDeposit(box!!, v, c.today, "Guardado") } }, onDismiss = { distribute = false }) {
             Dropdown("Caixinha", boxOptions(l), box, { box = it })
         }
     }
@@ -259,8 +258,8 @@ fun BoxesScreen(s: AppState) {
 @Composable
 fun BoxTransferDialog(s: AppState, fromId: Long?, onDismiss: () -> Unit) {
     val l = s.ledger
-    var from by remember { mutableStateOf(fromId ?: s.calc.activeBoxes.firstOrNull()?.id) }
-    var to by remember { mutableStateOf(s.calc.activeBoxes.firstOrNull { it.id != from }?.id) }
+    var from by remember { mutableStateOf(fromId ?: s.calc.reserveBoxes.firstOrNull()?.id) }
+    var to by remember { mutableStateOf(s.calc.reserveBoxes.firstOrNull { it.id != from }?.id) }
     MoneyDialog("Transferir entre caixinhas", "Valor", null, "Não é receita nem despesa: só muda o destino do dinheiro.", "Transferir",
         onConfirm = { v -> if (from != to) s.vm.run("Transferência entre caixinhas feita") { boxTransfer(from!!, to!!, v, s.calc.today) } }, onDismiss = onDismiss) {
         Dropdown("De", boxOptions(l), from, { from = it })
@@ -276,6 +275,7 @@ fun BoxEditDialog(s: AppState, b: MoneyBox, onDismiss: () -> Unit) {
     var months by remember { mutableStateOf(b.emergencyMonths?.toString() ?: "") }
     var note by remember { mutableStateOf(b.note) }
     var archive by remember { mutableStateOf(false) }
+    var acc by remember { mutableStateOf(b.accountId ?: 0L) }
     AlertDialog(
         onDismissRequest = onDismiss,
         title = { Text(if (b.id == 0L) "Nova caixinha" else "Editar caixinha") },
@@ -286,6 +286,7 @@ fun BoxEditDialog(s: AppState, b: MoneyBox, onDismiss: () -> Unit) {
                 if (b.kind == BoxKind.COMPUTER || b.kind == BoxKind.OTHER || b.id == 0L) MoneyField(goalMax, { goalMax = it }, "Meta máxima (opcional, para faixa)")
                 if (b.kind == BoxKind.EMERGENCY) AppTextField(months, { months = it.filter(Char::isDigit).take(2) }, "Meta em meses de gastos (ex.: 6)", keyboardType = KeyboardType.Number,
                     supporting = "Usado quando não há meta fixa e já existem 2 meses de dados")
+                Dropdown("Onde o dinheiro fica guardado", listOf(0L to "Não informado") + accountOptions(s.ledger), acc, { acc = it })
                 AppTextField(note, { note = it }, "Anotação", singleLine = false)
                 if (b.id != 0L && b.kind != BoxKind.SPENDING && b.kind != BoxKind.NFC_STOCK) SwitchRow("Arquivar caixinha", archive, { archive = it }, "Some da lista; o histórico continua salvo")
             }
@@ -294,7 +295,8 @@ fun BoxEditDialog(s: AppState, b: MoneyBox, onDismiss: () -> Unit) {
             TextButton(enabled = name.isNotBlank(), onClick = {
                 s.vm.run("Caixinha salva") {
                     saveBox(b.copy(name = name.trim(), goalCents = Money.parse(goal)?.takeIf { it > 0 }, goalMaxCents = Money.parse(goalMax)?.takeIf { it > 0 },
-                        emergencyMonths = months.toIntOrNull()?.takeIf { it > 0 } ?: if (b.kind == BoxKind.EMERGENCY) null else b.emergencyMonths, note = note, archived = archive))
+                        emergencyMonths = months.toIntOrNull()?.takeIf { it > 0 } ?: if (b.kind == BoxKind.EMERGENCY) null else b.emergencyMonths, note = note, archived = archive,
+                        accountId = acc.takeIf { it != 0L }))
                 }
                 onDismiss()
             }) { Text("Salvar") }
@@ -377,7 +379,7 @@ fun BoxDetailScreen(s: AppState, boxId: Long) {
     }
     deposit?.let { sign ->
         MoneyDialog(if (sign > 0) "Guardar em ${b.name}" else "Retirar de ${b.name}", "Valor", null,
-            if (sign > 0) "Vem do dinheiro sem caixinha (${Money.format(c.unallocated())})." else "Volta para o dinheiro sem caixinha.", if (sign > 0) "Guardar" else "Retirar",
+            if (sign > 0) "Sai do saldo livre (${Money.format(c.position().freeCents)})." else "Volta para o saldo livre.", if (sign > 0) "Guardar" else "Retirar",
             onConfirm = { v -> s.vm.run(if (sign > 0) "Guardado" else "Retirado") { boxDeposit(b.id, v * sign, c.today) } }, onDismiss = { deposit = null })
     }
     if (transfer) BoxTransferDialog(s, b.id) { transfer = false }

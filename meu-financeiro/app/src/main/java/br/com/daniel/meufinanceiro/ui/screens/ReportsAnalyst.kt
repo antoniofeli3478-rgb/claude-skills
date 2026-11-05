@@ -81,10 +81,13 @@ fun MoreScreen(s: AppState) {
                         }
                     }
                 }
-            item("Minhas Caixinhas", "Guardado: ${Money.format(c.totalSaved())} · total ${Money.format(c.totalInBoxes())}", AppIcons.Box, R.BOXES)
+            item("Assistente financeira", "Pergunte, registre e altere dados conversando", AppIcons.Spark, R.ASSISTANT)
+            item("Minhas Caixinhas", "Reservado: ${Money.format(c.reserved())}", AppIcons.Box, R.BOXES)
             item("Contas a pagar", "Falta pagar no mês: ${Money.format(c.billsUnpaid())}", AppIcons.Bills, R.BILLS)
             item("Relatórios", "Para onde seu dinheiro está indo", AppIcons.Chart, R.REPORTS)
-            item("Analista financeiro (IA)", "Sugestões para gastar menos e lucrar mais", AppIcons.Spark, R.ANALYST)
+            item("Alertas", "${br.com.daniel.meufinanceiro.domain.Alerts.compute(c).size} aviso(s) agora", AppIcons.Bolt, R.ALERTS)
+            item("Análises e sugestões", "Onde gastar menos e lucrar mais", AppIcons.Chart, R.ANALYST)
+            item("Empréstimos", if (c.loansOutstanding() > 0) "A devolver: ${Money.format(c.loansOutstanding())}" else "Dinheiro emprestado e devoluções", AppIcons.Pay, R.LOANS)
             item("Plaquinhas NFC", "Estoque: ${c.nfcStock()} un. · lucro e vendas", AppIcons.Tag, R.NFC)
             item("Transferir entre contas", "Não conta como receita nem despesa", AppIcons.Swap, R.TRANSFER)
             item("Configurações", "Contas, cartão, categorias, percentuais, tema, PIN, backup", AppIcons.Settings, R.SETTINGS)
@@ -114,16 +117,28 @@ fun ReportsScreen(s: AppState) {
     ScreenScaffold("Relatórios", onBack = s::back) { pad ->
         ScrollColumn(pad) {
             PeriodSelector(period) { s.vm.period.value = it }
-            Row(horizontalArrangement = Arrangement.spacedBy(10.dp)) {
-                StatTile("Entradas", r.incomeCents, Modifier.weight(1f), fin.income, sub = delta(r.incomeCents, prev.incomeCents))
-                StatTile("Gastos pessoais", r.personalExpenseCents, Modifier.weight(1f), fin.expense, sub = delta(r.personalExpenseCents, prev.personalExpenseCents))
+            HealthCard(s)
+            FinCard {
+                Text("Resumo do período", style = MaterialTheme.typography.titleMedium)
+                Spacer(Modifier.height(6.dp))
+                val pos = c.position()
+                listOf(
+                    "Receitas brutas (trabalho e vendas)" to Money.format(r.incomeCents) + (delta(r.incomeCents, prev.incomeCents)?.let { "  ($it)" } ?: ""),
+                    "Faturamento dos trabalhos" to Money.format(r.grossRevenueCents),
+                    "Custos dos trabalhos" to Money.format(r.profitCostsCents),
+                    "Lucro líquido" to Money.format(r.netProfitCents),
+                    "Despesas pessoais" to Money.format(r.ownExpenseCents) + (delta(r.ownExpenseCents, prev.ownExpenseCents)?.let { "  ($it)" } ?: ""),
+                    "Gastos com transporte" to Money.format(r.transportCents),
+                    "Reinvestido em estoque NFC" to Money.format(r.nfcStockCents),
+                    "Entradas que não são renda" to Money.format(r.otherInCents),
+                    "Saldo livre (hoje)" to Money.format(pos.freeCents),
+                    "Dinheiro reservado (hoje)" to Money.format(pos.reservedCents),
+                    "Patrimônio total (hoje)" to Money.format(pos.patrimonyCents),
+                    "Fatura em aberto (hoje)" to Money.format(pos.cardDebtCents),
+                ).forEach { (a, b) -> Row(Modifier.padding(vertical = 3.dp)) { Text(a, Modifier.weight(1f), style = MaterialTheme.typography.bodyMedium); Text(b, style = MaterialTheme.typography.titleSmall) } }
+                Spacer(Modifier.height(4.dp))
+                Label("Transferências, caixinhas, pagamento de fatura, empréstimos e ajustes não contam como receita nem despesa. Comparação com ${period.previous().label}.")
             }
-            Row(horizontalArrangement = Arrangement.spacedBy(10.dp)) {
-                StatTile("Estoque NFC (reinvestimento)", r.nfcStockCents, Modifier.weight(1f))
-                StatTile("Saldo do período", r.balanceCents, Modifier.weight(1f), if (r.balanceCents >= 0) fin.income else fin.expense, sub = "entradas − todas as saídas")
-            }
-            Label("Comparação com o período anterior (${period.previous().label}). Transferências, pagamento de fatura e ajustes não entram aqui.")
-
             FinCard {
                 Text("Entradas × saídas", style = MaterialTheme.typography.titleMedium)
                 Spacer(Modifier.height(10.dp))
@@ -263,7 +278,7 @@ fun AnalystScreen(s: AppState) {
                     val key = s.vm.secrets.get("anthropic_key")
                     if (key == null) { s.vm.toast("Chave não encontrada. Cole de novo em Configurações."); loading = false; return@PrimaryButton }
                     scope.launch {
-                        when (val res = ClaudeAnalyst.analyze(key, ClaudeAnalyst.buildSummary(c), question)) {
+                        when (val res = ClaudeAnalyst.analyze(key, ClaudeAnalyst.buildSummary(c), question, l.userName)) {
                             is ClaudeAnalyst.Result.Ok -> answer = res.text
                             is ClaudeAnalyst.Result.Error -> s.vm.toast(res.message)
                         }
@@ -301,4 +316,24 @@ fun MarkdownText(md: String) {
 private fun bold(text: String) = buildAnnotatedString {
     val parts = text.split("**")
     parts.forEachIndexed { i, p -> if (i % 2 == 1) withStyle(SpanStyle(fontWeight = FontWeight.SemiBold)) { append(p) } else append(p) }
+}
+
+/** "Como estou financeiramente?" — objective summary from real data, plus optional deeper analysis with Claude. */
+@Composable
+fun HealthCard(s: AppState) {
+    val fin = LocalFin.current
+    val sections = remember(s.ledger) { br.com.daniel.meufinanceiro.domain.Health.summary(s.calc) }
+    FinCard {
+        Text("Como estou financeiramente?", style = MaterialTheme.typography.titleMedium)
+        sections.forEach { sec ->
+            Spacer(Modifier.height(8.dp))
+            Label(sec.title)
+            sec.lines.forEach { Text("• $it", style = MaterialTheme.typography.bodyMedium) }
+        }
+        Spacer(Modifier.height(8.dp))
+        TextButton(onClick = { s.vm.ask("Como estou financeiramente? Faça uma análise com sugestões."); s.go(R.ASSISTANT) }) {
+            Text(if (s.ledger.settingBool(Keys.AI_ENABLED)) "Pedir uma análise mais profunda à assistente" else "Perguntar à assistente")
+        }
+        Text("Baseado só nos seus lançamentos. Sem dados suficientes, o app diz que faltam dados.", style = MaterialTheme.typography.bodySmall, color = fin.muted)
+    }
 }

@@ -26,8 +26,8 @@ import java.time.Duration
 object ClaudeAnalyst {
     const val MODEL = "claude-opus-5-5"
 
-    private const val SYSTEM = """Você é o consultor financeiro pessoal do Daniel, dentro do app privado "Meu Financeiro".
-Contexto fixo do Daniel:
+    private fun system(name: String) = """Você é o consultor financeiro pessoal de $name, dentro do app privado "Meu Financeiro".
+Contexto fixo de $name:
 - Renda variável, sem salário fixo: recreador no Tio Rex Restaurante (turnos), recreação em festas/eventos, venda de pipoca e algodão-doce em eventos, e um pequeno negócio de plaquinhas NFC de acrílico para estabelecimentos.
 - Estratégia atual: dividir cada entrada em 50% gastos pessoais, 25% reserva de emergência e 25% para sair do Brasil (tem cidadania italiana, horizonte de 3 a 5 anos).
 - O dinheiro do estoque NFC é do negócio e não é lucro pessoal.
@@ -47,7 +47,9 @@ Como responder:
         sb.append("Data de hoje: ${Dates.format(c.today)}\n")
         sb.append("Saldo total nas contas: ${Money.format(c.totalAvailable())}\n")
         sb.append("Fatura do cartão em aberto (total devido, incluindo parcelas futuras): ${Money.format(c.cardDebt())}\n")
-        sb.append("Livre para gastar (caixinha gastos - contas do mês não pagas): ${Money.format(c.freeToSpend())}\n")
+        val p = c.position()
+        sb.append("Saldo livre (contas − caixinhas − cartão): ${Money.format(p.freeCents)}; depois das contas do mês: ${Money.format(p.freeAfterBillsCents)}\n")
+        sb.append("Dinheiro reservado nas caixinhas (NÃO disponível para gastar): ${Money.format(p.reservedCents)}; patrimônio total: ${Money.format(p.patrimonyCents)}\n")
         sb.append("Dinheiro a receber (pendente): ${Money.format(c.pendingTotal())}\n")
         sb.append("Saldo mínimo desejado na conta do dia a dia: ${Money.format(c.minBalance())}\n\nCaixinhas:\n")
         c.activeBoxes.forEach { b ->
@@ -60,7 +62,7 @@ Como responder:
             val ym = Dates.ymPlus(Dates.ym(c.today), -back.toLong())
             val r = c.report(Period.month(ym))
             sb.append("## ${Dates.monthLabel(ym)}" + (if (back == 0) " (mês atual, até hoje)" else "") + "\n")
-            sb.append("Entradas: ${Money.format(r.incomeCents)} | Gastos pessoais: ${Money.format(r.personalExpenseCents)} | Estoque NFC: ${Money.format(r.nfcStockCents)}\n")
+            sb.append("Receitas de trabalho/vendas: ${Money.format(r.incomeCents)} | Lucro líquido: ${Money.format(r.netProfitCents)} | Custos de trabalho: ${Money.format(r.workCostsCents)} | Gastos pessoais: ${Money.format(r.ownExpenseCents)} | Estoque NFC: ${Money.format(r.nfcStockCents)} | Entradas que não são renda: ${Money.format(r.otherInCents)}\n")
             r.incomeBySource.forEach { sb.append("  + ${l.source(it.first)?.name ?: "Outros"}: ${Money.format(it.second)}\n") }
             r.expenseByCategory.forEach { sb.append("  - ${l.category(it.first)?.name ?: "Sem categoria"}: ${Money.format(it.second)}\n") }
             r.hoursBySource.forEach { (sid, h) -> sb.append("  horas em ${l.source(sid)?.name}: ${"%.1f".format(h)}h\n") }
@@ -84,14 +86,14 @@ Como responder:
         data class Error(val message: String) : Result
     }
 
-    suspend fun analyze(apiKey: String, summary: String, question: String?): Result = withContext(Dispatchers.IO) {
+    suspend fun analyze(apiKey: String, summary: String, question: String?, name: String = "Antônio Felipe"): Result = withContext(Dispatchers.IO) {
         val client = AnthropicOkHttpClient.builder().apiKey(apiKey.trim()).timeout(Duration.ofMinutes(3)).build()
         val user = "Meus números:\n\n$summary\n\n" + (question?.takeIf { it.isNotBlank() }?.let { "Minha pergunta: $it" } ?: "Faça a análise completa.")
         fun params(withFallback: Boolean): MessageCreateParams {
             val b = MessageCreateParams.builder()
                 .model(MODEL)
                 .maxTokens(16000L)
-                .system(SYSTEM)
+                .system(system(name))
                 .addUserMessage(user)
                 .outputConfig(OutputConfig.builder().effort(OutputConfig.Effort.MEDIUM).build())
             if (withFallback) {

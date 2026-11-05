@@ -67,6 +67,10 @@ fun SettingsScreen(s: AppState) {
     val l = s.ledger
     ScreenScaffold("Configurações", onBack = s::back) { pad ->
         ScrollColumn(pad) {
+            SectionTitle("Você")
+            FinCard(padding = PaddingValues(horizontal = 12.dp, vertical = 4.dp)) {
+                ListRow("Nome", l.userName, onClick = { s.go(R.settings("name")) })
+            }
             SectionTitle("Aparência")
             ChoiceChips("Tema", listOf("system" to "Igual ao celular", "light" to "Claro", "dark" to "Escuro"), l.setting(Keys.THEME) ?: "system", { s.vm.setSetting(Keys.THEME, it) })
             SectionTitle("Dinheiro")
@@ -83,10 +87,11 @@ fun SettingsScreen(s: AppState) {
             FinCard(padding = PaddingValues(horizontal = 12.dp, vertical = 4.dp)) {
                 ListRow("PIN e biometria", if (l.setting(Keys.PIN_HASH) != null) "Ativado" else "Desativado", onClick = { s.go(R.settings("security")) }); Divider()
                 ListRow("Backup e exportação", "Copiar, restaurar, CSV", onClick = { s.go(R.settings("backup")) }); Divider()
-                ListRow("Inteligência artificial", if (l.settingBool(Keys.AI_ENABLED)) "Claude ativado" else "Só o analista local (sem internet)", onClick = { s.go(R.settings("ai")) })
+                ListRow("Assistente e inteligência artificial", if (l.settingBool(Keys.AI_ENABLED)) "Claude ativado" else "Modo offline (sem internet)", onClick = { s.go(R.settings("ai")) }); Divider()
+                ListRow("Alertas", "Quais avisos receber e notificações", onClick = { s.go(R.ALERTS) })
             }
             SectionTitle("Sobre")
-            Label("Meu Financeiro ${BuildConfig.VERSION_NAME} · app privado do Daniel · dados salvos só neste celular (banco local). Identificador: ${BuildConfig.APPLICATION_ID}")
+            Label("Meu Financeiro ${BuildConfig.VERSION_NAME} · app privado de ${l.userName} · dados salvos só neste celular (banco local). Identificador: ${BuildConfig.APPLICATION_ID}")
         }
     }
 }
@@ -103,6 +108,7 @@ fun SettingsSection(s: AppState, section: String) {
         "security" -> SecuritySettings(s)
         "backup" -> BackupSettings(s)
         "ai" -> AiSettings(s)
+        "name" -> NameSettings(s)
         else -> SettingsScreen(s)
     }
 }
@@ -118,13 +124,16 @@ private fun AccountsSettings(s: AppState) {
     var minDialog by remember { mutableStateOf(false) }
     ScreenScaffold("Contas e saldos", onBack = s::back, actions = { TextButton(onClick = { edit = Account(name = "", sortOrder = l.accounts.size) }) { Text("Nova") } }) { pad ->
         ScrollColumn(pad) {
-            Label("Os saldos não são sincronizados com o banco: o app calcula a partir do saldo inicial e dos seus lançamentos. Se algo divergir, use \"Atualizar saldo\".")
+            Label("Os saldos não são sincronizados com o banco. O saldo de cada conta é o TOTAL no banco, incluindo o dinheiro das caixinhas guardadas nele. Se algo divergir, use \"Atualizar saldo\".")
             l.accounts.filter { !it.archived }.forEach { a ->
                 FinCard {
                     Row {
                         Column(Modifier.weight(1f)) {
                             Text(a.name, style = MaterialTheme.typography.titleMedium)
-                            Label(listOfNotNull(if (a.kind == AccountKind.CASH) "Dinheiro físico" else "Conta bancária", "Dia a dia (alerta de saldo mínimo)".takeIf { a.isDaily }, a.note.takeIf { it.isNotBlank() }).joinToString(" · "))
+                            Label(listOfNotNull(if (a.kind == AccountKind.CASH) "Dinheiro físico" else "Conta bancária", "Dia a dia".takeIf { a.isDaily }, a.note.takeIf { it.isNotBlank() }).joinToString(" · "))
+                            val inBoxes = c.boxesInAccount(a.id)
+                            if (inBoxes > 0) Label("Em caixinhas: ${Money.format(inBoxes)} · fora delas: ${Money.format(c.accountOutsideBoxes(a.id))}",
+                                color = if (c.accountOutsideBoxes(a.id) < 0) LocalFin.current.expense else LocalFin.current.muted)
                         }
                         MoneyText(c.accountBalance(a.id))
                     }
@@ -136,16 +145,23 @@ private fun AccountsSettings(s: AppState) {
             }
             SectionTitle("Saldo mínimo")
             FinCard(onClick = { minDialog = true }) {
-                Text("Manter pelo menos ${Money.format(c.minBalance())}", style = MaterialTheme.typography.titleMedium)
-                Label("Na conta do dia a dia (${l.dailyAccount?.name ?: "nenhuma"}). O app avisa quando uma movimentação deixaria o saldo abaixo disso.")
+                Text("Manter pelo menos ${Money.format(c.minBalance())} livres", style = MaterialTheme.typography.titleMedium)
+                Label("O app avisa quando uma movimentação deixaria o seu saldo livre (sem contar caixinhas) abaixo disso.")
             }
         }
     }
     edit?.let { a -> AccountDialog(s, a) { edit = null } }
     adjust?.let { a ->
         val cur = c.accountBalance(a.id)
-        MoneyDialog("Atualizar saldo de ${a.name}", "Saldo real agora", cur, "Hoje o app calcula ${Money.format(cur)}. A diferença vira um ajuste (não é receita nem despesa) e fica como dinheiro sem caixinha.", "Atualizar",
-            onConfirm = { v -> s.vm.run("Saldo atualizado") { adjustBalance(a.id, cur, v, c.today) } }, onDismiss = { adjust = null })
+        val inBoxes = c.boxesInAccount(a.id)
+        var outsideMode by remember(a.id) { mutableStateOf(inBoxes > 0) }
+        androidx.compose.runtime.key(outsideMode) { MoneyDialog("Atualizar saldo de ${a.name}", if (outsideMode) "Saldo em conta (fora das caixinhas)" else "Total no banco (com caixinhas)",
+            if (outsideMode) c.accountOutsideBoxes(a.id) else cur,
+            "Hoje o app calcula ${Money.format(cur)} no total" + (if (inBoxes > 0) " (${Money.format(inBoxes)} em caixinhas deste banco)" else "") +
+                ". A diferença vira um ajuste: não é receita nem despesa.", "Atualizar",
+            onConfirm = { v -> val newTotal = if (outsideMode) v + inBoxes else v; s.vm.run("Saldo atualizado") { adjustBalance(a.id, cur, newTotal, c.today) } }, onDismiss = { adjust = null }) {
+            if (inBoxes > 0) ChoiceChips(null, listOf(true to "Informar saldo em conta", false to "Informar total com caixinhas"), outsideMode, { outsideMode = it })
+        } }
     }
     if (minDialog) MoneyDialog("Saldo mínimo", "Valor", c.minBalance(), null, "Salvar",
         onConfirm = { v -> s.vm.setSetting(Keys.MIN_BALANCE, v.toString()) }, onDismiss = { minDialog = false })
@@ -441,11 +457,13 @@ private fun AiSettings(s: AppState) {
                 Label("Roda no celular, sem internet. Analisa gastos, cartão, metas, NFC e renda por hora, e dá sugestões na tela Analista.")
             }
             FinCard {
-                Text("Claude (opcional, precisa de internet)", style = MaterialTheme.typography.titleMedium)
+                Text("Claude na assistente (opcional, precisa de internet)", style = MaterialTheme.typography.titleMedium)
                 Spacer(Modifier.height(4.dp))
-                Label("Quando você toca em \"Analisar com Claude\", o app envia à Anthropic um resumo com totais por mês, categoria, fonte, caixinhas e metas. Não envia nomes de clientes, descrições, observações nem o banco de dados. Você pode ver o texto exato antes de enviar. O uso da API é cobrado na sua conta da Anthropic (console.anthropic.com).")
+                Label("Sem a chave, a assistente funciona no modo offline (perguntas e pedidos comuns). Com a chave, você conversa livremente: o Claude consulta seus dados pelas ferramentas do app e pede confirmação antes de mudar qualquer coisa. Para responder, o app envia à Anthropic o que você escreve e os dados que o Claude consultar (movimentações, totais, caixinhas). O uso da API é cobrado na sua conta da Anthropic (console.anthropic.com).")
             }
-            SwitchRow("Ativar análise com Claude", l.settingBool(Keys.AI_ENABLED), { s.vm.setSetting(Keys.AI_ENABLED, if (it) "true" else null) })
+            SwitchRow("Ativar o Claude na assistente", l.settingBool(Keys.AI_ENABLED), { s.vm.setSetting(Keys.AI_ENABLED, if (it) "true" else null) })
+            SwitchRow("Registros simples sem confirmação", l.settingBool(Keys.ASSISTANT_AUTO_SIMPLE), { s.vm.setSetting(Keys.ASSISTANT_AUTO_SIMPLE, if (it) "true" else null) },
+                "Só para registrar despesas, entradas e trabalhos com dados claros. Edições, exclusões, metas e limites SEMPRE pedem confirmação.")
             AppTextField(key, { key = it.trim() }, if (hasKey) "Chave salva (cole outra para trocar)" else "Chave da API (sk-ant-...)", keyboardType = KeyboardType.Password,
                 supporting = "Fica criptografada no celular (Android Keystore). Não vai para backups.")
             Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
@@ -455,6 +473,17 @@ private fun AiSettings(s: AppState) {
                 if (hasKey) OutlinedButton(onClick = { s.vm.secrets.put("anthropic_key", null); s.vm.setSetting(Keys.AI_ENABLED, null); s.vm.toast("Chave removida") }, modifier = Modifier.weight(1f).height(54.dp)) { Text("Remover chave") }
             }
             Label("Modelo: ${br.com.daniel.meufinanceiro.ai.ClaudeAnalyst.MODEL}")
+        }
+    }
+}
+
+@Composable
+private fun NameSettings(s: AppState) {
+    var name by remember { mutableStateOf(s.ledger.userName) }
+    ScreenScaffold("Seu nome", onBack = s::back) { pad ->
+        ScrollColumn(pad) {
+            AppTextField(name, { name = it }, "Como o app deve te chamar", autoFocus = true)
+            PrimaryButton("Salvar", enabled = name.isNotBlank(), onClick = { s.vm.run("Nome salvo", onDone = s::back) { setSetting(Keys.USER_NAME, name.trim()) } })
         }
     }
 }
