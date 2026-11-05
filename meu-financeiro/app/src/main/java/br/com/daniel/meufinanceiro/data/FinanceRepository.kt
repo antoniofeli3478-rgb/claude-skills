@@ -224,10 +224,10 @@ class FinanceRepository(private val db: AppDatabase) {
         addIncome(amountCents, date, description, accountId, sourceId, split, old.workId, old.nfcSaleId, notes)
     }
 
-    suspend fun replaceSimple(t: Txn) = db.withTransaction {
-        require(t.type == TxnType.TRANSFER || t.type == TxnType.CARD_PAYMENT || t.type == TxnType.ADJUSTMENT)
-        dao.deleteTxn(t.id)
-        dao.insertTxn(t)
+    suspend fun replaceSimple(t: Txn): Long = db.withTransaction {
+        require(t.type == TxnType.TRANSFER || t.type == TxnType.CARD_PAYMENT || t.type == TxnType.ADJUSTMENT || t.type == TxnType.LOAN_PAYMENT)
+        if (t.id != 0L) dao.deleteTxn(t.id)
+        dao.insertTxn(t.copy(id = 0))
     }
 
     suspend fun deleteTxn(id: Long) = db.withTransaction { dao.deleteTxn(id) }
