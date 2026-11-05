@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Android 12+: never upload financial data to cloud backup.
+     Phone-to-phone transfer (e.g. Samsung Smart Switch, cable/Wi-Fi direct) is allowed,
+     so the data can follow Daniel to a new phone. The in-app backup file is the main safety net. -->
+<data-extraction-rules>
+    <cloud-backup>
+        <exclude domain="root" />
+        <exclude domain="database" />
+        <exclude domain="file" />
+        <exclude domain="sharedpref" />
+        <exclude domain="external" />
+    </cloud-backup>
+    <device-transfer>
+        <include domain="database" />
+        <include domain="file" />
+        <include domain="sharedpref" />
+    </device-transfer>
+</data-extraction-rules>
