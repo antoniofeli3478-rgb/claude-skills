@@ -84,10 +84,12 @@ notas: Framer Motion / Motion 14 (versão atual, novidades, skill e MCP oficiais
 amostras de voz (Kokoro, Piper, Chatterbox, Gemini, edge) e legendas alinhadas | research_notes/Motion design 3D e voz IA/samples/
 regras do repositório e do ambiente | CLAUDE.md
 manual de utilização do repositório (pastas, arquivos, receitas, GitHub, aprovação) | guia/LEIA-ANTES-DE-USAR.md
+relatório: Rô Salgaderia (Serrana-SP, de frente para a Praça Matriz): CNPJ, 2 unidades, WhatsApp, redes, iFood, avaliações, ideia de site (07/11/2026) | reports/Rô Salgaderia, pesquisa (2026-11-07).md (notas e fontes: research_notes/Rô Salgaderia 2026-11/notas.md)
 
 2b) PROJETOS (cada um tem só um PASSO-A-PASSO com o que foi feito e os caminhos das habilidades)
 --------------------------------------------------------------------------------------------------
 Rotina (vídeos do app: teaser 10 s, explicativo 60 s, promo v2/v2.1 30 s com celular 3D, promo v3 30 s com o celular todo no Blender e promo v4 30 s = celular do Blender + visual papel e tinta do v2) | projetos/rotina/PASSO-A-PASSO.md (código: branch rotina-video, pasta rotina-video/)
+Rô Salgaderia (pesquisa da salgaderia de Serrana-SP feita; site ainda não começou; 15 repositórios de site baixados e como baixar de novo) | projetos/ro-salgaderia/PASSO-A-PASSO.md
 
 3) HABILIDADES DA PLATAFORMA (não estão no repositório; chamar pelo nome com a ferramenta Skill)
 -------------------------------------------------------------------------------------------------
